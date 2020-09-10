@@ -1,0 +1,34 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    id:
+        label: ID
+        searchable: true
+
+    _first_name:
+        label: codalia.journal::lang.journal.categories
+        relation: profile
+        select: first_name
+        searchable: true
+        sortable: false
+
+    _last_name:
+        label: codalia.journal::lang.journal.categories
+        relation: profile
+        select: last_name
+        searchable: true
+        sortable: false
+
+    _email:
+        label: codalia.journal::lang.journal.categories
+        relation: user
+        select: email 
+        searchable: true
+        sortable: false
+
+    status:
+        label: codalia.journal::lang.journal.categories
+        searchable: true
+        sortable: false

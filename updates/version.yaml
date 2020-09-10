@@ -1,0 +1,4 @@
+1.0.1: First version of Membership
+1.0.2:
+  - Created members table
+  - create_members_table.php

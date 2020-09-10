@@ -1,0 +1,43 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    id:
+        label: ID
+        disabled: true
+
+secondaryTabs:
+    stretch: true
+    fields:
+
+        status:
+            tab: codalia.journal::lang.attribute.tab_manage
+            label: codalia.journal::lang.attribute.status
+            span: left
+            type: dropdown
+
+        profile[first_name]:
+            tab: User
+            label: First Name
+            span: left
+            type: text
+
+        profile[last_name]:
+            tab: User
+            label: Last Name
+            span: left
+            type: text
+
+        user[email]:
+            tab: User
+            label: Email
+            span: left
+            type: text
+
+        _edit_user:
+            tab: User
+            label: Edit user
+            span: left
+            type: partial
+            path: '$/codalia/membership/models/member/_edit_user.htm'

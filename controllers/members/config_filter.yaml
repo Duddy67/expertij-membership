@@ -1,0 +1,14 @@
+# ===================================
+# Filter Scope Definitions
+# ===================================
+
+scopes:
+
+    status:
+        label: codalia.journal::lang.articles.filter_status
+        type: group
+        conditions: status in (:filtered)
+        options:
+            published: codalia.journal::lang.status.published
+            unpublished: codalia.journal::lang.status.unpublished
+            pending: codalia.journal::lang.status.archived

@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Member
+
+# Model Form Field configuration
+form: $/codalia/membership/models/member/fields.yaml
+
+# Model Class name
+modelClass: Codalia\Membership\Models\Member
+
+# Default redirect location
+defaultRedirect: codalia/membership/members
+
+# Create page
+create:
+    title: Create Member
+    redirect: codalia/membership/members/update/:id
+    redirectClose: codalia/membership/members
+
+# Update page
+update:
+    title: Edit Member
+    redirect: codalia/membership/members
+    redirectClose: codalia/membership/members
+
+# Preview page
+preview:
+    title: Preview Member
