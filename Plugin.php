@@ -61,7 +61,7 @@ class Plugin extends PluginBase
 	});
 
 	// Ensures that the Codalia Profile plugin is installed and activated.
-	if (!ProfileModel::instance()->exists('Codalia.Profile')) {
+	if (!PluginManager::instance()->exists('Codalia.Profile')) {
 	    return;
 	}
 
