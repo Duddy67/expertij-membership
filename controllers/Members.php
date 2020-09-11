@@ -3,6 +3,7 @@
 use BackendMenu;
 use Backend\Classes\Controller;
 use Codalia\Membership\Models\Member;
+use Codalia\Membership\Helpers\MembershipHelper;
 use BackendAuth;
 use Lang;
 use Flash;
@@ -37,9 +38,42 @@ class Members extends Controller
         BackendMenu::setContext('Codalia.Membership', 'membership', 'members');
     }
 
+
+    public function index()
+    {
+	$this->addCss(url('plugins/codalia/membership/assets/css/extra.css'));
+	// Unlocks the checked out items of this user (if any).
+	MembershipHelper::instance()->checkIn((new Member)->getTable(), BackendAuth::getUser());
+	// Calls the parent method as an extension.
+        $this->asExtension('ListController')->index();
+    }
+
+    public function update($recordId = null, $context = null)
+    {
+      //file_put_contents('debog_file.txt', print_r($context, true), FILE_APPEND);
+	//$member = Member::find($recordId);
+	//$user = BackendAuth::getUser();
+
+	return $this->asExtension('FormController')->update($recordId, $context);
+    }
+
     public function listInjectRowClass($record, $definition = null)
     {
-      //file_put_contents('debog_file.txt', print_r($record->user->profile->first_name, true), FILE_APPEND);
+        $class = '';
+
+	if ($record->checked_out) {
+	    $class = 'safe disabled nolink';
+	}
+
+	return $class;
+    }
+
+    public function listOverrideColumnValue($record, $columnName, $definition = null)
+    {
+        //file_put_contents('debog_file.txt', print_r($columnName, true), FILE_APPEND);
+        if ($record->checked_out && $columnName == 'name') {
+	    return MembershipHelper::instance()->getCheckInHtml($record, BackendAuth::findUserById($record->checked_out));
+	}
     }
 
     public function update_onEditUser($recordId = null)
@@ -54,11 +88,35 @@ class Members extends Controller
 	    return;
 	}
 
-        file_put_contents('debog_file.txt', print_r($member->profile->first_name, true), FILE_APPEND);
+    }
+
+    public function index_onCheckIn()
+    {
+	// Needed for the status column partial.
+	//$this->vars['statusIcons'] = JournalHelper::instance()->getStatusIcons();
+
+	// Ensures one or more items are selected.
+	if (($checkedIds = post('checked')) && is_array($checkedIds) && count($checkedIds)) {
+	  $count = 0;
+	  foreach ($checkedIds as $recordId) {
+	      MembershipHelper::instance()->checkIn((new Member)->getTable(), null, $recordId);
+	      $count++;
+	  }
+
+	  Flash::success(Lang::get('codalia.journal::lang.action.check_in_success', ['count' => $count]));
+	}
+
+	return $this->listRefresh();
     }
 
     public function update_onSaveUser($recordId = null)
     {
         $member = Member::find($recordId);
+    }
+
+    public function loadScripts()
+    {
+        $this->addCss(url('plugins/codalia/membership/assets/css/extra.css'));
+	$this->addJs('/plugins/codalia/membership/assets/js/member.js');
     }
 }

@@ -7,6 +7,13 @@ columns:
         label: ID
         searchable: true
 
+    name:
+        label: codalia.journal::lang.journal.categories
+        relation: user
+        select: name
+        searchable: true
+        sortable: false
+
     _first_name:
         label: codalia.journal::lang.journal.categories
         relation: profile

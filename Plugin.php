@@ -6,7 +6,12 @@ use System\Classes\PluginManager;
 use RainLab\User\Models\User as UserModel;
 use Codalia\Profile\Models\Profile as ProfileModel;
 use Codalia\Membership\Models\Member as MemberModel;
+use Codalia\Membership\Controllers\Members as MembersController;
+use Codalia\Membership\Helpers\MembershipHelper;
+use BackendAuth;
 use Event;
+use Lang;
+use Flash;
 
 /**
  * Membership Plugin Information File
@@ -45,6 +50,28 @@ class Plugin extends PluginBase
      */
     public function boot()
     {
+	Event::listen('backend.page.beforeDisplay', function ($controller, $action, $params) {
+            // Only for the Members controller
+	    if (!$controller instanceof MembersController) {
+		return;
+	    } 
+
+	    if ($action == 'update') {
+		//$member = Member::find($params[0]);
+		$member = $controller->formFindModelObject($params[0]);
+		$user = BackendAuth::getUser();
+
+		// Checks for check out matching.
+		if ($member->checked_out && $user->id != $member->checked_out) {
+		    Flash::error(Lang::get('codalia.profile::lang.action.check_out_do_not_match'));
+		    return redirect('backend/codalia/membership/members');
+		}
+
+		// Locks the item for this user.
+		MembershipHelper::instance()->checkOut((new MemberModel)->getTable(), $user, $params[0]);
+	    }
+	});
+
 	// Ensures first that the RainLab User plugin is installed and activated.
 	if (!PluginManager::instance()->exists('RainLab.User')) {
 	    return;
@@ -118,7 +145,36 @@ class Plugin extends PluginBase
      */
     public function registerPermissions()
     {
-        return []; // Remove this line to activate
+
+	return [
+            'codalia.membership.manage_settings' => [
+                'tab' => 'codalia.membership::lang.membership.tab',
+                'label' => 'codalia.membership::lang.membership.manage_settings',
+		'order' => 200
+	      ],
+            'codalia.membership.access_members' => [
+                'tab' => 'codalia.membership::lang.membership.tab',
+                'label' => 'codalia.membership::lang.membership.access_articles',
+		'order' => 201
+            ],
+            'codalia.membership.access_categories' => [
+                'tab' => 'codalia.membership::lang.membership.tab',
+                'label' => 'codalia.membership::lang.membership.access_categories',
+		'order' => 202
+            ],
+            'codalia.membership.access_publish' => [
+                'tab' => 'codalia.membership::lang.membership.tab',
+                'label' => 'codalia.membership::lang.membership.access_publish'
+            ],
+            'codalia.membership.access_delete' => [
+                'tab' => 'codalia.membership::lang.membership.tab',
+                'label' => 'codalia.membership::lang.membership.access_delete'
+            ],
+            'codalia.membership.access_check_in' => [
+                'tab' => 'codalia.membership::lang.membership.tab',
+                'label' => 'codalia.membership::lang.membership.access_check_in'
+            ],
+		];
 
         return [
             'codalia.membership.some_permission' => [
@@ -146,7 +202,7 @@ class Plugin extends PluginBase
                 'order'       => 500,
 		'sideMenu' => [
 		    'new_article' => [
-			'label'       => 'codalia.journal::lang.articles.new_article',
+			'label'       => 'codalia.membership::lang.articles.new_article',
 			'icon'        => 'icon-plus',
 			'url'         => '#'
 		    ],
