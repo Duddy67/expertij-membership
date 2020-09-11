@@ -3,8 +3,10 @@
 # ===================================
 
 fields:
-    id:
-        label: ID
+    user[name]:
+        label: Name
+        span: left
+        type: text
         disabled: true
 
 secondaryTabs:
@@ -17,23 +19,32 @@ secondaryTabs:
             span: left
             type: dropdown
 
+        id:
+            tab: codalia.journal::lang.attribute.tab_manage
+            label: ID
+            span: left
+            disabled: true
+
         profile[first_name]:
             tab: User
             label: First Name
             span: left
             type: text
+            disabled: true
 
         profile[last_name]:
             tab: User
             label: Last Name
             span: left
             type: text
+            disabled: true
 
         user[email]:
             tab: User
             label: Email
             span: left
             type: text
+            disabled: true
 
         _edit_user:
             tab: User

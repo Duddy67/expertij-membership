@@ -23,11 +23,13 @@
 
 <button
     type="button"
-    data-request="onCancelEditing"
+    data-request="onCancelUserEditing"
     data-browser-validate
+    data-request-success="$.fn.testFunction(data);"
     data-request-data="close:1"
     data-hotkey="ctrl+enter, cmd+enter"
     data-load-indicator="Saving Member..."
     class="btn btn-default">
     Cancel
 </button>
+

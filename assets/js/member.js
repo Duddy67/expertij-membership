@@ -10,6 +10,9 @@
 
   });
 
+  $.fn.testFunction = function(data) {
+    alert(data.test);
+  }
 
 })(jQuery);
 

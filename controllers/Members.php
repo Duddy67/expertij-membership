@@ -3,7 +3,9 @@
 use BackendMenu;
 use Backend\Classes\Controller;
 use Codalia\Membership\Models\Member;
+use Codalia\Profile\Models\Profile;
 use Codalia\Membership\Helpers\MembershipHelper;
+use Codalia\Profile\Helpers\ProfileHelper;
 use BackendAuth;
 use Lang;
 use Flash;
@@ -76,20 +78,6 @@ class Members extends Controller
 	}
     }
 
-    public function update_onEditUser($recordId = null)
-    {
-        $user = BackendAuth::getUser();
-        $member = Member::find($recordId);
-
-	// Checks for check out matching.
-	if ($member->checked_out && $user->id != $member->checked_out) {
-	    Flash::error(Lang::get('codalia.journal::lang.action.check_out_do_not_match'));
-	    //return redirect('backend/codalia/journal/articles');
-	    return;
-	}
-
-    }
-
     public function index_onCheckIn()
     {
 	// Needed for the status column partial.
@@ -109,9 +97,31 @@ class Members extends Controller
 	return $this->listRefresh();
     }
 
+    public function update_onEditUser($recordId = null)
+    {
+        $user = BackendAuth::getUser();
+        $member = Member::find($recordId);
+
+	// Checks for profile check out matching.
+	if ($member->profile->checked_out && $user->id != $member->profile->checked_out) {
+	    Flash::error(Lang::get('codalia.journal::lang.action.check_out_do_not_match'));
+	    return;
+	}
+
+	// Locks the User plugin item for this user.
+	MembershipHelper::instance()->checkOut((new Profile)->getTable(), $user, $member->profile->id);
+    }
+
     public function update_onSaveUser($recordId = null)
     {
         $member = Member::find($recordId);
+    }
+
+    public function update_onCancelUserEditing($recordId = null)
+    {
+        $member = Member::find($recordId);
+	MembershipHelper::instance()->checkIn((new Profile)->getTable(), null, $member->profile->id);
+	return ['test' => 5];
     }
 
     public function loadScripts()
