@@ -10,6 +10,7 @@ use Codalia\Membership\Controllers\Members as MembersController;
 use Codalia\Membership\Helpers\MembershipHelper;
 use BackendAuth;
 use Event;
+use Input;
 use Lang;
 use Flash;
 
@@ -101,7 +102,13 @@ class Plugin extends PluginBase
 	
 	Event::listen('codalia.profile.registerMember', function($user, $profile, $data) {
 	    // Ensures that a member model always exists.
-	    MemberModel::getFromUser($user, $profile);
+	    $member = MemberModel::getFromUser($user, $profile);
+	    $member->siret = Input::file('siret');
+	    $member->save();
+	    //$name = Input::file('siret')->getClientOriginalName();
+	    //$file = Input::file('siret')->move('plugins/codalia/membership/documents', $name);
+	    //file_put_contents('debog_file_data.txt', print_r($data, true));
+	    //file_put_contents('debog_file_file.txt', print_r($file, true));
 	});
 
 
@@ -131,10 +138,10 @@ class Plugin extends PluginBase
      */
     public function registerComponents()
     {
-        return []; // Remove this line to activate
+        //return []; // Remove this line to activate
 
         return [
-            'Codalia\Membership\Components\MyComponent' => 'myComponent',
+            'Codalia\Membership\Components\Account' => 'account',
         ];
     }
 

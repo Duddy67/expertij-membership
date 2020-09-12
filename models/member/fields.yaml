@@ -25,6 +25,13 @@ secondaryTabs:
             span: left
             disabled: true
 
+        siret:
+            tab: codalia.journal::lang.attribute.tab_manage
+            label: Siret
+            span: left
+            type: fileupload
+            mode: file
+
         profile[first_name]:
             tab: User
             label: First Name
