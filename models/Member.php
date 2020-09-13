@@ -70,10 +70,10 @@ class Member extends Model
     public $morphTo = [];
     public $morphOne = [];
     public $morphMany = [];
-    public $attachOne = [
-        'siret' => 'System\Models\File'
+    public $attachOne = [];
+    public $attachMany = [
+        'attestations' => ['System\Models\File', 'delete' => true]
     ];
-    public $attachMany = [];
 
 
     public static function getFromUser($user, $profile)

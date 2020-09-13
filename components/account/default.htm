@@ -2,4 +2,15 @@
 
 <small>You can delete this file if you want</small>
 {{ member.profile.first_name }}
-{{ member.siret }}
+{{ member.attestations }}
+<p></p>
+<a class="btn btn-danger btn-lg" target="_blank" href="{{ member.attestations.first.path }}">
+<span class="glyphicon glyphicon-download"></span>Follow</a>
+
+<form>
+  <div class="form-group">
+    <label for="inputAttestation">Attestation</label>
+    <input type="file" name="attestation" class="form-control" id="inputAttestation">
+  </div>
+</form>
+

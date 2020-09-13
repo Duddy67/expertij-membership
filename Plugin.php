@@ -103,8 +103,12 @@ class Plugin extends PluginBase
 	Event::listen('codalia.profile.registerMember', function($user, $profile, $data) {
 	    // Ensures that a member model always exists.
 	    $member = MemberModel::getFromUser($user, $profile);
-	    $member->siret = Input::file('siret');
-	    $member->save();
+
+	    if (Input::hasFile('attestation')) {
+		$member->attestations = Input::file('attestation');
+		$member->save();
+	    }
+
 	    //$name = Input::file('siret')->getClientOriginalName();
 	    //$file = Input::file('siret')->move('plugins/codalia/membership/documents', $name);
 	    //file_put_contents('debog_file_data.txt', print_r($data, true));

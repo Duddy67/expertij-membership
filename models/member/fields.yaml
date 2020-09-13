@@ -25,12 +25,12 @@ secondaryTabs:
             span: left
             disabled: true
 
-        siret:
+        attestations:
             tab: codalia.journal::lang.attribute.tab_manage
-            label: Siret
+            label: Attestations
             span: left
             type: fileupload
-            mode: file
+            mode: file-multi
 
         profile[first_name]:
             tab: User
