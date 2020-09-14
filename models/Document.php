@@ -3,16 +3,16 @@
 use Model;
 
 /**
- * Member Model
+ * Document Model
  */
-class Member extends Model
+class Document extends Model
 {
     use \October\Rain\Database\Traits\Validation;
 
     /**
      * @var string The database table used by the model.
      */
-    public $table = 'codalia_membership_members';
+    public $table = 'codalia_membership_documents';
 
     /**
      * @var array Guarded fields
@@ -62,50 +62,11 @@ class Member extends Model
      */
     public $hasOne = [];
     public $hasMany = [];
-    public $belongsTo = [
-        'user' => ['RainLab\User\Models\User'],
-        'profile' => ['Codalia\Profile\Models\Profile']
-    ];
+    public $belongsTo = [];
     public $belongsToMany = [];
     public $morphTo = [];
     public $morphOne = [];
     public $morphMany = [];
     public $attachOne = [];
-    public $attachMany = [
-        'attestations' => ['System\Models\File', 'order' => 'created_at desc', 'delete' => true]
-    ];
-
-
-    public static function getFromUser($user, $profile)
-    {
-        if ($user->member) {
-	    return $user->member;
-	}
-
-	$member = new static;
-	$member->user = $user;
-	$member->profile = $profile;
-	$member->save();
-	$user->member = $member;
-	$profile->member = $member;
-
-	return $member;
-    }
-
-    public function getStatusOptions()
-    {
-	return array('unpublished' => 'codalia.journal::lang.status.unpublished',
-		     'published' => 'codalia.journal::lang.status.published',
-		     'pending' => 'pending');
-    }
-
-    /*public function getFirstNameAttribute()
-    {
-        return $this->user->profile->first_name;
-    }
-
-    public function getLastNameAttribute()
-    {
-        return $this->user->profile->last_name;
-    }*/
+    public $attachMany = [];
 }

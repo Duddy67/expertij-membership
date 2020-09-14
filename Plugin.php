@@ -208,17 +208,43 @@ class Plugin extends PluginBase
             'membership' => [
                 'label'       => 'Membership',
                 'url'         => Backend::url('codalia/membership/members'),
-                'icon'        => 'icon-leaf',
+                'icon'        => 'icon-address-card-o',
                 'permissions' => ['codalia.membership.*'],
                 'order'       => 500,
 		'sideMenu' => [
-		    'new_article' => [
-			'label'       => 'codalia.membership::lang.articles.new_article',
-			'icon'        => 'icon-plus',
-			'url'         => '#'
+		    'members' => [
+			'label'       => 'codalia.membership::lang.membership.members',
+			'icon'        => 'icon-users',
+			'url'         => Backend::url('codalia/membership/members'),
+		    ],
+		    'categories' => [
+			'label'       => 'codalia.membership::lang.membership.categories',
+			'icon'        => 'icon-sitemap',
+			'url'         => Backend::url('codalia/membership/categories'),
+		    ],
+		    'documents' => [
+			'label'       => 'codalia.membership::lang.membership.documents',
+			'icon'        => 'icon-files-o',
+			'url'         => Backend::url('codalia/membership/documents'),
 		    ],
 		]
             ],
         ];
+    }
+
+    public function registerSettings()
+    {
+	return [
+	    'membership' => [
+		'label'       => 'Journal',
+		'description' => 'A simple plugin to manage articles.',
+		'category'    => 'Journal',
+		'icon'        => 'icon-newspaper-o',
+		'class' => 'Codalia\Membership\Models\Settings',
+		'order'       => 500,
+		'keywords'    => 'geography place placement',
+		'permissions' => ['codalia.membership.manage_settings']
+	    ]
+	];
     }
 }

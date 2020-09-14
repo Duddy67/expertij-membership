@@ -3,16 +3,17 @@
 use Model;
 
 /**
- * Member Model
+ * Category Model
  */
-class Member extends Model
+class Category extends Model
 {
     use \October\Rain\Database\Traits\Validation;
+    use \October\Rain\Database\Traits\NestedTree;
 
     /**
      * @var string The database table used by the model.
      */
-    public $table = 'codalia_membership_members';
+    public $table = 'codalia_membership_categories';
 
     /**
      * @var array Guarded fields
@@ -62,50 +63,24 @@ class Member extends Model
      */
     public $hasOne = [];
     public $hasMany = [];
-    public $belongsTo = [
-        'user' => ['RainLab\User\Models\User'],
-        'profile' => ['Codalia\Profile\Models\Profile']
+    public $belongsTo = [];
+    public $belongsToMany = [
+	'members' => ['Codalia\Membership\Models\Member',
+	'table' => 'codalia_membership_cat_members',
+	'order' => 'created_at desc',
+      ],
     ];
-    public $belongsToMany = [];
     public $morphTo = [];
     public $morphOne = [];
     public $morphMany = [];
     public $attachOne = [];
-    public $attachMany = [
-        'attestations' => ['System\Models\File', 'order' => 'created_at desc', 'delete' => true]
-    ];
+    public $attachMany = [];
 
 
-    public static function getFromUser($user, $profile)
+    public function beforeCreate()
     {
-        if ($user->member) {
-	    return $user->member;
-	}
-
-	$member = new static;
-	$member->user = $user;
-	$member->profile = $profile;
-	$member->save();
-	$user->member = $member;
-	$profile->member = $member;
-
-	return $member;
+        // Ensure that the left and right columns are set from the start.
+	$this->setDefaultLeftAndRight();
     }
-
-    public function getStatusOptions()
-    {
-	return array('unpublished' => 'codalia.journal::lang.status.unpublished',
-		     'published' => 'codalia.journal::lang.status.published',
-		     'pending' => 'pending');
-    }
-
-    /*public function getFirstNameAttribute()
-    {
-        return $this->user->profile->first_name;
-    }
-
-    public function getLastNameAttribute()
-    {
-        return $this->user->profile->last_name;
-    }*/
 }
+

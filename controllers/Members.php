@@ -52,6 +52,7 @@ class Members extends Controller
 
     public function update($recordId = null, $context = null)
     {
+        $this->vars['myvalue'] = 5;
       //file_put_contents('debog_file.txt', print_r($context, true), FILE_APPEND);
 	//$member = Member::find($recordId);
 	//$user = BackendAuth::getUser();

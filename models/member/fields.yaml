@@ -29,8 +29,8 @@ secondaryTabs:
             tab: codalia.journal::lang.attribute.tab_manage
             label: Attestations
             span: left
-            type: fileupload
-            mode: file-multi
+            type: partial
+            path: ~/plugins/codalia/membership/models/member/_files.htm
 
         profile[first_name]:
             tab: User

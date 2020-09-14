@@ -3,6 +3,7 @@
 use Cms\Classes\ComponentBase;
 use Codalia\Membership\Models\Member as MemberItem;
 use Auth;
+use Input;
 
 class Account extends ComponentBase
 {
@@ -36,7 +37,19 @@ class Account extends ComponentBase
 	}
 
 	//var_dump($member->name);
-//file_put_contents('debog_file.txt', print_r($member->status, true));
 	return $member;
     }
+
+    public function onReplaceDocument()
+    {
+        $member = $this->loadMember();
+
+	if (Input::hasFile('attestation')) {
+	    $member->attestations = Input::file('attestation');
+	    $member->save();
+	}
+
+file_put_contents('debog_file.txt', print_r($member->profile, true));
+    }
+
 }
