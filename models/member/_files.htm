@@ -1,0 +1,11 @@
+
+<?php //dump($this->vars); ?>
+<?php $attestations = $this->vars['formModel']->attestations;
+  foreach ($attestations as $attestation) {
+?>
+    <a class="btn btn-danger btn-lg" target="_blank" href="<?php echo $attestation->getPath(); ?>">
+	<span class="glyphicon glyphicon-download"></span><?php echo $attestation->getFileName(); ?></a>
+    <br />
+<?php
+  }
+?>
