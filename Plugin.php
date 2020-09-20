@@ -236,10 +236,10 @@ class Plugin extends PluginBase
     {
 	return [
 	    'membership' => [
-		'label'       => 'Journal',
-		'description' => 'A simple plugin to manage articles.',
-		'category'    => 'Journal',
-		'icon'        => 'icon-newspaper-o',
+		'label'       => 'Membership',
+		'description' => 'A plugin to manage membership.',
+		'category'    => 'Membership',
+		'icon'        => 'icon-address-card-o',
 		'class' => 'Codalia\Membership\Models\Settings',
 		'order'       => 500,
 		'keywords'    => 'geography place placement',

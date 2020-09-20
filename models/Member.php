@@ -94,9 +94,11 @@ class Member extends Model
 
     public function getStatusOptions()
     {
-	return array('unpublished' => 'codalia.journal::lang.status.unpublished',
-		     'published' => 'codalia.journal::lang.status.published',
-		     'pending' => 'pending');
+	return array('pending' => 'codalia.membership::lang.status.pending',
+		     'refused' => 'codalia.membership::lang.status.refused',
+		     'pending_payment' => 'codalia.membership::lang.status.pending_payment',
+		     'discarded' => 'codalia.membership::lang.status.discarded',
+		     'accepted' => 'codalia.membership::lang.status.accepted');
     }
 
     /*public function getFirstNameAttribute()

@@ -1,0 +1,19 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+tabs:
+    fields:
+        renewal_day:
+            tab: codalia.journal::lang.global_settings.tab_general
+            span: left
+            label: codalia.journal::lang.global_settings.max_characters
+            comment: codalia.journal::lang.global_settings.max_characters_comment
+            type: dropdown
+
+        renewal_month:
+            tab: codalia.journal::lang.global_settings.tab_general
+            span: left
+            label: codalia.journal::lang.global_settings.max_characters
+            comment: codalia.journal::lang.global_settings.max_characters_comment
+            type: dropdown
