@@ -98,7 +98,7 @@ class Member extends Model
 		     'refused' => 'codalia.membership::lang.status.refused',
 		     'pending_payment' => 'codalia.membership::lang.status.pending_payment',
 		     'discarded' => 'codalia.membership::lang.status.discarded',
-		     'accepted' => 'codalia.membership::lang.status.accepted');
+		     'member' => 'codalia.membership::lang.status.member');
     }
 
     /*public function getFirstNameAttribute()

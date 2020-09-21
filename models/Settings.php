@@ -38,12 +38,25 @@ class Settings extends Model
 
     public function beforeSave()
     {
+      //file_put_contents('debog_file.txt', print_r($data, true));
+        if (!$this->checkRenewalDate()) {
+	    //throw new \ApplicationException(\Lang::get('codalia.journal::lang.settings.invalid_file_name'));
+	    throw new \ValidationException(['renewal_day' => \Lang::get('codalia.journal::lang.settings.invalid_file_name')]);
+	}
+    }
+
+    protected function checkRenewalDate()
+    {
         $data = post('Settings');
-      file_put_contents('debog_file.txt', print_r($data, true));
-        throw new \ApplicationException(\Lang::get('codalia.journal::lang.settings.invalid_file_name'));
-      //throw new \Exception("Invalid Model!");
-	/*if (!$user->isValid()) {
+	$months = ['01', '03', '05', '07', '08', '10', '12'];
+
+	if ($data['renewal_day'] == 31 && !in_array($data['renewal_month'], $months)) {
 	    return false;
-	  }*/
+	}
+	elseif ($data['renewal_day'] > 28 && $data['renewal_month'] == '02') {
+	    return false;
+	}
+
+	return true;
     }
 }

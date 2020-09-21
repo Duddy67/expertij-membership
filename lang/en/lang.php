@@ -51,7 +51,12 @@ return [
       'published' => 'Published',
       'unpublished' => 'Unpublished',
       'trashed' => 'Trashed',
-      'archived' => 'Archived'
+      'archived' => 'Archived',
+      'pending' => 'Pending',
+      'refused' => 'Refused',
+      'pending_payment' => 'Pending payment',
+      'member' => 'Member',
+      'discarded' => 'Discarded',
     ],
     'action' => [
       'new' => 'New Article',
@@ -84,5 +89,19 @@ return [
       'used_as_main_category' => 'The ":name" category cannot be deleted as it is used as main category in one or more articles.',
       'not_allowed_to_modify_item' => 'You are not allowed to modify the ":name" item.',
     ],
+    'settings' => [
+      'january' => 'January',
+      'february' => 'February',
+      'march' => 'March',
+      'april' => 'April',
+      'may' => 'May',
+      'june' => 'June',
+      'july' => 'July',
+      'august' => 'August',
+      'september' => 'September',
+      'october' => 'October',
+      'november' => 'November',
+      'december' => 'December',
+    ]
 ];
 
