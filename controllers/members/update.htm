@@ -46,6 +46,16 @@
                     or <a href="<?= Backend::url('codalia/membership/members') ?>">Cancel</a>
                 </span>
             </div>
+	    <button
+		type="button"
+		data-request="onSendEmailToMembers"
+		data-browser-validate
+		data-request-data="close:1"
+		data-hotkey="ctrl+enter, cmd+enter"
+		data-load-indicator="Saving Member..."
+		class="btn btn-default">
+		Send Email
+	    </button>
         </div>
 
     <?= Form::close() ?>

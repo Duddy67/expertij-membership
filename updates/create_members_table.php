@@ -14,7 +14,7 @@ class CreateMembersTable extends Migration
             $table->integer('user_id')->unsigned()->index();
             $table->integer('profile_id')->unsigned()->index()->nullable()->default(null);
 	    $table->char('status', 15)->default('pending');
-	    $table->boolean('candidate')->default(true);
+	    $table->date('member_since')->nullable();
 	    $table->integer('checked_out')->unsigned()->nullable()->index();
 	    $table->timestamp('checked_out_time')->nullable();
             $table->timestamps();
