@@ -3,6 +3,15 @@
 # ===================================
 
 columns:
+    name:
+        label: codalia.membership::lang.attribute.name
+        searchable: true
+
+    created_at:
+        label: codalia.membership::lang.attribute.created_at
+        type: datetime
+        sortable: true
+
     id:
         label: ID
         searchable: true

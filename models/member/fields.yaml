@@ -3,7 +3,7 @@
 # ===================================
 
 fields:
-    user[name]:
+    profile[user][name]:
         label: Name
         span: left
         type: text
@@ -14,23 +14,28 @@ secondaryTabs:
     fields:
 
         status:
-            tab: codalia.journal::lang.attribute.tab_manage
-            label: codalia.journal::lang.attribute.status
+            tab: codalia.membership::lang.attribute.tab_manage
+            label: codalia.membership::lang.attribute.status
             span: left
             type: dropdown
 
         id:
-            tab: codalia.journal::lang.attribute.tab_manage
+            tab: codalia.membership::lang.attribute.tab_manage
             label: ID
             span: left
             disabled: true
 
         attestations:
-            tab: codalia.journal::lang.attribute.tab_manage
+            tab: codalia.membership::lang.attribute.tab_manage
             label: Attestations
             span: left
             type: partial
             path: ~/plugins/codalia/membership/models/member/_files.htm
+
+        categories:
+            tab: codalia.membership::lang.article.tab_categories
+            span: left
+            type: relation
 
         profile[first_name]:
             tab: User
@@ -46,11 +51,10 @@ secondaryTabs:
             type: text
             disabled: true
 
-        user[email]:
+        profile[user][email]:
             tab: User
-            label: Email
+            label: Email 
             span: left
-            type: text
             disabled: true
 
         _edit_user:
@@ -59,3 +63,4 @@ secondaryTabs:
             span: left
             type: partial
             path: '$/codalia/membership/models/member/_edit_user.htm'
+

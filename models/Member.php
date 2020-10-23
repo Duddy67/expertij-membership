@@ -1,6 +1,7 @@
 <?php namespace Codalia\Membership\Models;
 
 use Model;
+use Codalia\Profile\Models\Profile as ProfileModel;
 
 /**
  * Member Model
@@ -63,30 +64,33 @@ class Member extends Model
     public $hasOne = [];
     public $hasMany = [];
     public $belongsTo = [
-        'user' => ['RainLab\User\Models\User'],
         'profile' => ['Codalia\Profile\Models\Profile']
     ];
-    public $belongsToMany = [];
+    public $belongsToMany = [
+	'categories' => ['Codalia\Membership\Models\Category',
+	'table' => 'codalia_membership_cat_members',
+	'order' => 'created_at desc',
+      ],
+    ];
     public $morphTo = [];
     public $morphOne = [];
     public $morphMany = [];
     public $attachOne = [];
     public $attachMany = [
+        // Deletes the linked files once a model is removed.
         'attestations' => ['System\Models\File', 'order' => 'created_at desc', 'delete' => true]
     ];
 
 
-    public static function getFromUser($user, $profile)
+    public static function getFromProfile($profile)
     {
-        if ($user->member) {
-	    return $user->member;
+        if ($profile->member) {
+	    return $profile->member;
 	}
 
 	$member = new static;
-	$member->user = $user;
 	$member->profile = $profile;
 	$member->save();
-	$user->member = $member;
 	$profile->member = $member;
 
 	return $member;
@@ -100,6 +104,11 @@ class Member extends Model
 		     'member' => 'codalia.membership::lang.status.member',
 		     'discarded' => 'codalia.membership::lang.status.discarded');
     }
+
+    /*public function getEmailFieldAttribute()
+    {
+        return $this->profile->user->email;
+    }*/
 
     /*public function getFirstNameAttribute()
     {

@@ -11,7 +11,6 @@ class CreateMembersTable extends Migration
         Schema::create('codalia_membership_members', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('user_id')->unsigned()->index();
             $table->integer('profile_id')->unsigned()->index()->nullable()->default(null);
 	    $table->char('status', 15)->default('pending');
 	    $table->date('member_since')->nullable();

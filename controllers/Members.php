@@ -11,6 +11,9 @@ use Mail;
 use Lang;
 use Flash;
 
+use October\Rain\Database\Models\DeferredBinding;
+
+
 /**
  * Members Back-end Controller
  */
@@ -49,12 +52,12 @@ class Members extends Controller
 	MembershipHelper::instance()->checkIn((new Member)->getTable(), BackendAuth::getUser());
 	// Calls the parent method as an extension.
         $this->asExtension('ListController')->index();
+	//DeferredBinding::cleanUp();
     }
 
     public function update($recordId = null, $context = null)
     {
-        $this->vars['myvalue'] = 5;
-      //file_put_contents('debog_file.txt', print_r($context, true), FILE_APPEND);
+        //$this->vars['myvalue'] = 5;
 	//$member = Member::find($recordId);
 	//$user = BackendAuth::getUser();
 
@@ -65,6 +68,7 @@ class Members extends Controller
     {
         $class = '';
 
+        //file_put_contents('debog_file.txt', print_r($record->checked_out_time, true), FILE_APPEND);
 	if ($record->checked_out) {
 	    $class = 'safe disabled nolink';
 	}
@@ -74,7 +78,6 @@ class Members extends Controller
 
     public function listOverrideColumnValue($record, $columnName, $definition = null)
     {
-        //file_put_contents('debog_file.txt', print_r($columnName, true), FILE_APPEND);
         if ($record->checked_out && $columnName == 'name') {
 	    return MembershipHelper::instance()->getCheckInHtml($record, BackendAuth::findUserById($record->checked_out));
 	}

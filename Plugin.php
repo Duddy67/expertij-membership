@@ -3,7 +3,6 @@
 use Backend;
 use System\Classes\PluginBase;
 use System\Classes\PluginManager;
-use RainLab\User\Models\User as UserModel;
 use Codalia\Profile\Models\Profile as ProfileModel;
 use Codalia\Membership\Models\Member as MemberModel;
 use Codalia\Membership\Controllers\Members as MembersController;
@@ -73,21 +72,6 @@ class Plugin extends PluginBase
 	    }
 	});
 
-	// Ensures first that the RainLab User plugin is installed and activated.
-	if (!PluginManager::instance()->exists('RainLab.User')) {
-	    return;
-	}
-
-        UserModel::extend(function($model) {
-	    // Sets the relationship.
-	    $model->hasOne['member'] = ['Codalia\Membership\Models\Member'];
-
-	    $model->bindEvent('model.afterDelete', function () use ($model) {
-		// Deletes the member model linked to the deleted user.
-		MemberModel::where('user_id', $model->id)->delete();
-	    });
-	});
-
 	// Ensures that the Codalia Profile plugin is installed and activated.
 	if (!PluginManager::instance()->exists('Codalia.Profile')) {
 	    return;
@@ -100,9 +84,9 @@ class Plugin extends PluginBase
 
 	// Events fired by the Profile plugin.
 	
-	Event::listen('codalia.profile.registerMember', function($user, $profile, $data) {
+	Event::listen('codalia.profile.registerMember', function($profile, $data) {
 	    // Ensures that a member model always exists.
-	    $member = MemberModel::getFromUser($user, $profile);
+	    $member = MemberModel::getFromProfile($profile);
 
 	    if (Input::hasFile('attestation')) {
 		$member->attestations = Input::file('attestation');
@@ -115,23 +99,11 @@ class Plugin extends PluginBase
 	    //file_put_contents('debog_file_file.txt', print_r($file, true));
 	});
 
-
-	// Events fired by the User plugin.
-	
-	Event::listen('rainlab.user.beforeRegister', function(&$data) {
-	    // 
-	});
-
-	Event::listen('rainlab.user.register', function($user, $data) {
-	});
-
-	Event::listen('rainlab.user.beforeAuthenticate', function($model, $credentials) {
-	    //
-	});
-
-	Event::listen('rainlab.user.logout', function($user) {
-	  //file_put_contents('debog_file.txt', print_r($_POST, true));
-	    //
+	// A user has been deleted.
+	Event::listen('codalia.profile.userDeletion', function($profileId) {
+	    // Delete the corresponding member.
+	    $member = MemberModel::where('profile_id', $profileId)->first();
+	    $member->delete();
 	});
     }
 

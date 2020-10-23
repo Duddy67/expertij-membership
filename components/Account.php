@@ -2,6 +2,7 @@
 
 use Cms\Classes\ComponentBase;
 use Codalia\Membership\Models\Member as MemberItem;
+use Codalia\Profile\Models\Profile;
 use Auth;
 use Input;
 
@@ -27,10 +28,12 @@ class Account extends ComponentBase
 
     protected function loadMember()
     {
+        // Gets the current user.
         $user = Auth::getUser();
+	// Loads the corresponding member through the profile_id attribute.
+	$profileId = Profile::where('user_id', $user->id)->pluck('id');
 	$member = new MemberItem;
-
-	$member = $member->where('user_id', $user->id);
+	$member = $member->where('profile_id', $profileId);
 
 	if (($member = $member->first()) === null) {
 	    return null;
