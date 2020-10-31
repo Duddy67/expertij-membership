@@ -1,5 +1,5 @@
 <p>This is the default markup for component Account</p>
-
+{{ member.profile.user.email }}
 <ul class="nav nav-tabs">
     <li class="nav-item">
         <a href="#profile" class="nav-link active" data-toggle="tab">Home</a>
@@ -16,14 +16,22 @@
 
   <div class="tab-pane fade show active" id="profile">
     {{ form_ajax('onUpdate') }}
+
+	<input name="name" type="hidden" id="accountName" value="{{ member.profile.user.name }}">
+
 	<div class="form-group col-sm-6">
-	    <label for="accountName">Full Name</label>
-	    <input name="name" type="text" class="form-control" id="accountName" value="{{ user.name }}">
+	  <label for="inputFirstname">First Name</label>
+	  <input type="text" name="first_name" class="form-control" id="inputFirstname" value="{{ member.profile.first_name }}">
+	</div>
+
+	<div class="form-group col-sm-6">
+	  <label for="inputLastname">Last Name</label>
+	  <input type="text" name="last_name" class="form-control" id="inputLastname" value="{{ member.profile.last_name }}">
 	</div>
 
 	<div class="form-group col-sm-6">
 	    <label for="accountEmail">Email</label>
-	    <input name="email" type="email" class="form-control" id="accountEmail" value="{{ user.email }}">
+	    <input name="email" type="email" class="form-control" id="accountEmail" value="{{ member.profile.user.email }}">
 	</div>
 
 	<div class="form-group col-sm-6">
@@ -45,33 +53,23 @@
 	{% endif %}
 
 	<div class="form-group col-sm-6">
-	  <label for="inputFirstname">First Name</label>
-	  <input type="text" name="first_name" class="form-control" id="inputFirstname" value="{{ user.profile.first_name }}">
-	</div>
-
-	<div class="form-group col-sm-6">
-	  <label for="inputLastname">Last Name</label>
-	  <input type="text" name="last_name" class="form-control" id="inputLastname" value="{{ user.profile.last_name }}">
-	</div>
-
-	<div class="form-group col-sm-6">
 	  <label for="inputStreet">Street</label>
-	  <input type="text" name="street" class="form-control" id="inputStreet" value="{{ user.profile.street }}">
+	  <input type="text" name="street" class="form-control" id="inputStreet" value="{{ member.profile.street }}">
 	</div>
 
 	<div class="form-group col-sm-6">
 	  <label for="inputPostcode">Postcode</label>
-	  <input type="text" name="postcode" class="form-control" id="inputPostcode" value="{{ user.profile.postcode }}">
+	  <input type="text" name="postcode" class="form-control" id="inputPostcode" value="{{ member.profile.postcode }}">
 	</div>
 
 	<div class="form-group col-sm-6">
 	  <label for="inputCity">City</label>
-	  <input type="text" name="city" class="form-control" id="inputCity" value="{{ user.profile.city }}">
+	  <input type="text" name="city" class="form-control" id="inputCity" value="{{ member.profile.city }}">
 	</div>
 
 	<div class="form-group col-sm-6">
 	  <label for="inputCountry">Country</label>
-	  <input type="text" name="country" class="form-control" id="inputCountry" value="{{ user.profile.country }}">
+	  <input type="text" name="country" class="form-control" id="inputCountry" value="{{ member.profile.country }}">
 	</div>
 
 	<button type="submit" class="btn btn-default">Save</button>

@@ -6,7 +6,7 @@ use Codalia\Profile\Models\Profile;
 use Auth;
 use Input;
 
-class Account extends ComponentBase
+class Account extends \Codalia\Profile\Components\Account
 {
     public function componentDetails()
     {
@@ -16,14 +16,14 @@ class Account extends ComponentBase
         ];
     }
 
-    public function defineProperties()
-    {
-        return [];
-    }
-
-    public function onRun()
+    /**
+     * Executed when this component is initialized
+     */
+    public function prepareVars()
     {
 	$this->member = $this->page['member'] = $this->loadMember();
+
+        parent::prepareVars();
     }
 
     protected function loadMember()
@@ -52,7 +52,7 @@ class Account extends ComponentBase
 	    $member->save();
 	}
 
-file_put_contents('debog_file.txt', print_r($member->profile, true));
+//file_put_contents('debog_file.txt', print_r($member->profile, true));
     }
 
 }
