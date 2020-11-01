@@ -84,6 +84,7 @@ class Plugin extends PluginBase
 
 	// Events fired by the Profile plugin.
 	
+	// A user has been registered as member.
 	Event::listen('codalia.profile.registerMember', function($profile, $data) {
 	    // Ensures that a member model always exists.
 	    $member = MemberModel::getFromProfile($profile);
@@ -92,18 +93,22 @@ class Plugin extends PluginBase
 		$member->attestations = Input::file('attestation');
 		$member->save();
 	    }
+	});
 
-	    //$name = Input::file('siret')->getClientOriginalName();
-	    //$file = Input::file('siret')->move('plugins/codalia/membership/documents', $name);
-	    //file_put_contents('debog_file_data.txt', print_r($data, true));
-	    //file_put_contents('debog_file_file.txt', print_r($file, true));
+	// After sending the update member form, the user is updated first then the corresponding
+	// member is updated afterward.
+	Event::listen('codalia.profile.updateMember', function($profileId, $data) {
+	   Flash::success(Lang::get('codalia.profile::lang.action.check_in_success'));
 	});
 
 	// A user has been deleted.
 	Event::listen('codalia.profile.userDeletion', function($profileId) {
-	    // Delete the corresponding member.
+	    // Checks for the corresponding member (if any).
 	    $member = MemberModel::where('profile_id', $profileId)->first();
-	    $member->delete();
+
+	    if ($member !== null) {
+		$member->delete();
+	    }
 	});
     }
 

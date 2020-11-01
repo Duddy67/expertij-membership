@@ -5,6 +5,12 @@ use Codalia\Membership\Models\Member as MemberItem;
 use Codalia\Profile\Models\Profile;
 use Auth;
 use Input;
+use Validator;
+use ValidationException;
+use Flash;
+use Redirect;
+use System\Models\File;
+
 
 class Account extends \Codalia\Profile\Components\Account
 {
@@ -52,7 +58,24 @@ class Account extends \Codalia\Profile\Components\Account
 	    $member->save();
 	}
 
-//file_put_contents('debog_file.txt', print_r($member->profile, true));
+
+        Flash::success(Lang::get('codalia.profile::lang.action.check_in_success'));
     }
 
+    public function onUploadDocument()
+    {
+        $input = Input::all();
+
+        $file = (new File())->fromPost($input['attestation']);
+
+        return[
+            '#newFile' => '<a class="btn btn-danger btn-lg" target="_blank" href="'.$file->getPath().'"><span class="glyphicon glyphicon-download"></span>Follow</a>'
+        ];
+
+    }
+
+    public function onUpdate()
+    {
+        parent::onUpdate();
+    }
 }

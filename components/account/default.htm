@@ -1,5 +1,5 @@
 <p>This is the default markup for component Account</p>
-{{ member.profile.user.email }}
+
 <ul class="nav nav-tabs">
     <li class="nav-item">
         <a href="#profile" class="nav-link active" data-toggle="tab">Home</a>
@@ -15,9 +15,7 @@
 <div class="tab-content">
 
   <div class="tab-pane fade show active" id="profile">
-    {{ form_ajax('onUpdate') }}
-
-	<input name="name" type="hidden" id="accountName" value="{{ member.profile.user.name }}">
+    {{ form_ajax('onUpdate', {flash: ''}) }}
 
 	<div class="form-group col-sm-6">
 	  <label for="inputFirstname">First Name</label>
@@ -72,26 +70,31 @@
 	  <input type="text" name="country" class="form-control" id="inputCountry" value="{{ member.profile.country }}">
 	</div>
 
-	<button type="submit" class="btn btn-default">Save</button>
+	<input name="name" type="hidden" id="accountName" value="{{ member.profile.user.name }}">
+	<input type="hidden" name="context" value="membership">
+
+	<button type="submit" class="btn btn-success">Save</button>
     {{ form_close() }}
   </div>
 
   <div class="tab-pane fade" id="documents">
-    <a class="btn btn-danger btn-lg" target="_blank" href="{{ member.attestations.first.path }}">
-    <span class="glyphicon glyphicon-download"></span>Follow</a>
+    <!--<form method="POST" action="{{ url('profile') }}" accept-charset="UTF8" enctype="multipart/form-data">-->
+    <form data-request="onReplaceDocument" data-request-files data-request-flash>
 
-    <form method="POST" action="{{ url('profile') }}" accept-charset="UTF8" enctype="multipart/form-data">
-
-        <input type="hidden" name="_handler" value="onReplaceDocument">
+      <!--<input type="hidden" name="_handler" value="onReplaceDocument">-->
 
 	{{ form_token() }}
 	{{ form_sessionKey }}
 
+      <div id="newFile" class="form-group col-sm-6">
+	<a class="btn btn-danger btn-lg" target="_blank" href="{{ member.attestations.first.path }}">
+	<span class="glyphicon glyphicon-download"></span>Follow</a>
+      </div>
       <div class="form-group col-sm-6">
 	<label for="inputAttestation">Attestation</label>
-	<input type="file" name="attestation" class="form-control" id="inputAttestation">
+	<input type="file" name="attestation" data-request="onUploadDocument" class="form-control" id="inputAttestation" data-request-files data-request-flash>
       </div>
-      <button type="submit" class="btn btn-default">Replace</button>
+      <button type="submit" class="btn btn-success">Replace</button>
     </form>
   </div>
 
