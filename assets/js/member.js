@@ -10,9 +10,18 @@
 
   });
 
-  $.fn.testFunction = function(data) {
-    alert(data.test);
-  }
+  $.fn.setUserEditFields = function(data) {
+    let fields = ['first_name', 'last_name', 'user-email'];
+    let value = true;
+
+    if(data.action == 'enable') {
+      value = false;
+    }
+
+    fields.forEach( function(field) {
+      $('#Form-field-Member-profile-'+field).prop('disabled', value);
+    });
+  };
 
 })(jQuery);
 

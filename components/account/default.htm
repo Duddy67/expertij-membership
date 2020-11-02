@@ -79,7 +79,8 @@
 
   <div class="tab-pane fade" id="documents">
     <!--<form method="POST" action="{{ url('profile') }}" accept-charset="UTF8" enctype="multipart/form-data">-->
-    <form data-request="onReplaceDocument" data-request-files data-request-flash>
+    <!--<form data-request="onReplaceDocument" data-request-files data-request-flash>-->
+    {{ form_ajax('onReplaceDocument', {files: 1, flash: ''}) }}
 
       <!--<input type="hidden" name="_handler" value="onReplaceDocument">-->
 
@@ -88,7 +89,7 @@
 
       <div id="newFile" class="form-group col-sm-6">
 	<a class="btn btn-danger btn-lg" target="_blank" href="{{ member.attestations.first.path }}">
-	<span class="glyphicon glyphicon-download"></span>Follow</a>
+	<span class="glyphicon glyphicon-download"></span>Download</a>
       </div>
       <div class="form-group col-sm-6">
 	<label for="inputAttestation">Attestation</label>

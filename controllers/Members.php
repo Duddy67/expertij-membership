@@ -68,7 +68,6 @@ class Members extends Controller
     {
         $class = '';
 
-        //file_put_contents('debog_file.txt', print_r($record->checked_out_time, true), FILE_APPEND);
 	if ($record->checked_out) {
 	    $class = 'safe disabled nolink';
 	}
@@ -110,23 +109,39 @@ class Members extends Controller
 	// Checks for profile check out matching.
 	if ($member->profile->checked_out && $user->id != $member->profile->checked_out) {
 	    Flash::error(Lang::get('codalia.journal::lang.action.check_out_do_not_match'));
-	    return;
+	    return ['action' => 'disable'];
 	}
 
 	// Locks the User plugin item for this user.
 	MembershipHelper::instance()->checkOut((new Profile)->getTable(), $user, $member->profile->id);
+
+	return ['action' => 'enable'];
     }
 
     public function update_onSaveUser($recordId = null)
     {
         $member = Member::find($recordId);
+	$data = post();
+        file_put_contents('debog_file.txt', print_r($data['Member']['profile'], true));
+
+	return ['action' => 'disable'];
     }
 
     public function update_onCancelUserEditing($recordId = null)
     {
         $member = Member::find($recordId);
 	MembershipHelper::instance()->checkIn((new Profile)->getTable(), null, $member->profile->id);
-	return ['test' => 5];
+
+	return ['action' => 'disable'];
+    }
+
+    public function update_onSave($recordId = null, $context = null)
+    {
+        parent::update_onSave($recordId, $context);
+
+        /*return[
+            '#Form-field-Member-id-group' => '<a class="btn btn-danger btn-lg" target="_blank" href="#"><span class="glyphicon glyphicon-download"></span>Download</a>'
+	];*/
     }
 
     public function loadScripts()

@@ -3,6 +3,7 @@
     type="button"
     data-request="onEditUser"
     data-browser-validate
+    data-request-success="$.fn.setUserEditFields(data);"
     data-request-data="close:1"
     data-hotkey="ctrl+enter, cmd+enter"
     data-load-indicator="Saving Member..."
@@ -14,6 +15,7 @@
     type="button"
     data-request="onSaveUser"
     data-browser-validate
+    data-request-success="$.fn.setUserEditFields(data);"
     data-request-data="close:1"
     data-hotkey="ctrl+enter, cmd+enter"
     data-load-indicator="Saving Member..."
@@ -25,7 +27,7 @@
     type="button"
     data-request="onCancelUserEditing"
     data-browser-validate
-    data-request-success="$.fn.testFunction(data);"
+    data-request-success="$.fn.setUserEditFields(data);"
     data-request-data="close:1"
     data-hotkey="ctrl+enter, cmd+enter"
     data-load-indicator="Saving Member..."

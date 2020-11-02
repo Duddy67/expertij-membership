@@ -8,6 +8,7 @@ use Input;
 use Validator;
 use ValidationException;
 use Flash;
+use Lang;
 use Redirect;
 use System\Models\File;
 
@@ -58,7 +59,6 @@ class Account extends \Codalia\Profile\Components\Account
 	    $member->save();
 	}
 
-
         Flash::success(Lang::get('codalia.profile::lang.action.check_in_success'));
     }
 
@@ -69,9 +69,8 @@ class Account extends \Codalia\Profile\Components\Account
         $file = (new File())->fromPost($input['attestation']);
 
         return[
-            '#newFile' => '<a class="btn btn-danger btn-lg" target="_blank" href="'.$file->getPath().'"><span class="glyphicon glyphicon-download"></span>Follow</a>'
+            '#newFile' => '<a class="btn btn-danger btn-lg" target="_blank" href="'.$file->getPath().'"><span class="glyphicon glyphicon-download"></span>Download</a>'
         ];
-
     }
 
     public function onUpdate()
