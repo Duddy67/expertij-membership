@@ -1,6 +1,7 @@
 
 <button
     type="button"
+    id="btn-edit-user"
     data-request="onEditUser"
     data-browser-validate
     data-request-success="$.fn.setUserEditFields(data);"
@@ -13,6 +14,8 @@
 
 <button
     type="button"
+    id="btn-save-user"
+    disabled=true
     data-request="onSaveUser"
     data-browser-validate
     data-request-success="$.fn.setUserEditFields(data);"
@@ -25,6 +28,7 @@
 
 <button
     type="button"
+    id="btn-cancel-edit-user"
     data-request="onCancelUserEditing"
     data-browser-validate
     data-request-success="$.fn.setUserEditFields(data);"

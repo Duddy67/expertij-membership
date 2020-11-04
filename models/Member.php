@@ -90,7 +90,9 @@ class Member extends Model
 
 	$member = new static;
 	$member->profile = $profile;
-	$member->save();
+	// Important: Creates a member without validation.
+	// NB. The validation has been performed earlier in the code.
+	$member->forceSave();
 	$profile->member = $member;
 
 	return $member;

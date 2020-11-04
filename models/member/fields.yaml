@@ -51,6 +51,34 @@ secondaryTabs:
             type: text
             disabled: true
 
+        profile[street]:
+            tab: User
+            label: Street
+            span: left
+            type: text
+            disabled: true
+
+        profile[city]:
+            tab: User
+            label: City
+            span: left
+            type: text
+            disabled: true
+
+        profile[postcode]:
+            tab: User
+            label: Postcode
+            span: left
+            type: text
+            disabled: true
+
+        profile[country]:
+            tab: User
+            label: Country
+            span: left
+            type: text
+            disabled: true
+
         profile[user][email]:
             tab: User
             label: Email 

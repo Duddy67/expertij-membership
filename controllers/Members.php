@@ -8,6 +8,9 @@ use Codalia\Membership\Helpers\MembershipHelper;
 use Codalia\Profile\Helpers\ProfileHelper;
 use BackendAuth;
 use Mail;
+use Validator;
+use Input;
+use ValidationException;
 use Lang;
 use Flash;
 
@@ -120,9 +123,18 @@ class Members extends Controller
 
     public function update_onSaveUser($recordId = null)
     {
-        $member = Member::find($recordId);
 	$data = post();
-        file_put_contents('debog_file.txt', print_r($data['Member']['profile'], true));
+        $rules = (new Profile)->rules;
+
+	$validation = Validator::make($data['Member']['profile'], $rules);
+	if ($validation->fails()) {
+	    throw new ValidationException($validation);
+	}
+
+        $member = Member::find($recordId);
+	$member->profile->update($data['Member']['profile']);
+
+	Flash::success(Lang::get('codalia.journal::lang.action.check_out_do_not_match'));
 
 	return ['action' => 'disable'];
     }
