@@ -7,6 +7,7 @@ use Codalia\Profile\Models\Profile as ProfileModel;
 use Codalia\Membership\Models\Member as MemberModel;
 use Codalia\Membership\Controllers\Members as MembersController;
 use Codalia\Membership\Helpers\MembershipHelper;
+use Codalia\Membership\Helpers\EmailHelper;
 use BackendAuth;
 use Event;
 use Input;
@@ -93,6 +94,8 @@ class Plugin extends PluginBase
 		$member->attestations = Input::file('attestation');
 		$member->save();
 	    }
+
+	    EmailHelper::instance()->afterRegistration($member);
 	});
 
 	// After sending the update member form, the user is updated first then the corresponding
@@ -222,6 +225,15 @@ class Plugin extends PluginBase
 		'keywords'    => 'geography place placement',
 		'permissions' => ['codalia.membership.manage_settings']
 	    ]
+	];
+    }
+
+    public function registerMailTemplates()
+    {
+	return [
+	    'codalia.membership::mail.alert_office',
+	    'codalia.membership::mail.alert_members',
+	    'codalia.membership::mail.candidate_application',
 	];
     }
 }

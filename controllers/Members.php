@@ -5,9 +5,9 @@ use Backend\Classes\Controller;
 use Codalia\Membership\Models\Member;
 use Codalia\Profile\Models\Profile;
 use Codalia\Membership\Helpers\MembershipHelper;
+use Codalia\Membership\Helpers\EmailHelper;
 use Codalia\Profile\Helpers\ProfileHelper;
 use BackendAuth;
-use Mail;
 use Validator;
 use Input;
 use ValidationException;
@@ -162,13 +162,8 @@ class Members extends Controller
 	$this->addJs('/plugins/codalia/membership/assets/js/member.js');
     }
 
-    public function update_onSendEmailToMembers()
+    public function update_onSendEmailToMembers($recordId = null)
     {
-        $vars = ['name' => 'John Doe', 'candidate' => 'Jane Smith'];
-
-	Mail::send('codalia.membership::mail.alert_members', $vars, function($message) {
-	    $message->to('lucas.sanner+member@gmail.com', 'Admin System');
-	    $message->subject('New candidate');
-	});
+	EmailHelper::instance()->alertMembers($recordId);
     }
 }
