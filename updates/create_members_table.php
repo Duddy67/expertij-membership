@@ -18,6 +18,16 @@ class CreateMembersTable extends Migration
 	    $table->timestamp('checked_out_time')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('codalia_membership_votes', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->increments('id');
+            $table->integer('member_id')->unsigned()->index()->nullable()->default(null);
+            $table->integer('user_id')->unsigned()->index()->nullable()->default(null);
+	    $table->char('vote', 3)->default(null);
+	    $table->text('note')->nullable();
+            $table->timestamps();
+        });
     }
 
     public function down()

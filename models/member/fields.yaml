@@ -92,3 +92,9 @@ secondaryTabs:
             type: partial
             path: '$/codalia/membership/models/member/_edit_user.htm'
 
+        _votes:
+            tab: Votes
+            label: Votes 
+            span: left
+            type: partial
+            path: '$/codalia/membership/models/member/_votes.htm'

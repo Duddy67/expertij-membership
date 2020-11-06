@@ -62,7 +62,9 @@ class Member extends Model
      * @var array Relations
      */
     public $hasOne = [];
-    public $hasMany = [];
+    public $hasMany = [
+        'votes' => ['Codalia\Membership\Models\Vote']
+    ];
     public $belongsTo = [
         'profile' => ['Codalia\Profile\Models\Profile']
     ];

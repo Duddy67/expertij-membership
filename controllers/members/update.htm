@@ -8,13 +8,13 @@
 <?php if (!$this->fatalError): ?>
 
     <?= Form::open(['class' => 'layout']) ?>
-
         <div class="layout-row">
             <?= $this->formRender() ?>
         </div>
 
         <div class="form-buttons">
             <div class="loading-indicator-container">
+	    <?php if($this->user->role->code != 'member') : // No access for members. ?>
                 <button
                     type="submit"
                     data-request="onSave"
@@ -42,19 +42,20 @@
                     data-load-indicator="Deleting Member..."
                     data-request-confirm="Delete this member?">
                 </button>
+		<button
+		    type="button"
+		    data-request="onSendEmailToMembers"
+		    data-browser-validate
+		    data-hotkey="ctrl+enter, cmd+enter"
+		    data-load-indicator="Saving Member..."
+		    class="btn btn-default">
+		    Send Email
+		</button>
+	     <?php endif; ?>	
                 <span class="btn-text">
                     or <a href="<?= Backend::url('codalia/membership/members') ?>">Cancel</a>
                 </span>
             </div>
-	    <button
-		type="button"
-		data-request="onSendEmailToMembers"
-		data-browser-validate
-		data-hotkey="ctrl+enter, cmd+enter"
-		data-load-indicator="Saving Member..."
-		class="btn btn-default">
-		Send Email
-	    </button>
         </div>
 
     <?= Form::close() ?>

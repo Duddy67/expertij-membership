@@ -32,5 +32,7 @@
     });
   };
 
+  $.fn.vote = function(data) {
+  };
 })(jQuery);
 

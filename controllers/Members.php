@@ -3,6 +3,7 @@
 use BackendMenu;
 use Backend\Classes\Controller;
 use Codalia\Membership\Models\Member;
+use Codalia\Membership\Models\Vote;
 use Codalia\Profile\Models\Profile;
 use Codalia\Membership\Helpers\MembershipHelper;
 use Codalia\Membership\Helpers\EmailHelper;
@@ -62,8 +63,6 @@ class Members extends Controller
     {
         //$this->vars['myvalue'] = 5;
 	//$member = Member::find($recordId);
-	//$user = BackendAuth::getUser();
-
 	return $this->asExtension('FormController')->update($recordId, $context);
     }
 
@@ -145,6 +144,15 @@ class Members extends Controller
 	MembershipHelper::instance()->checkIn((new Profile)->getTable(), null, $member->profile->id);
 
 	return ['action' => 'disable'];
+    }
+
+    public function update_onVote($recordId = null)
+    {
+	$data = post();
+	$vote = new Vote($data['Vote']);
+        $member = Member::find($recordId);
+	$member->votes()->save($vote);
+//file_put_contents('debog_file.txt', print_r($data['Vote'], true));
     }
 
     public function update_onSave($recordId = null, $context = null)

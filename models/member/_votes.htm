@@ -1,0 +1,25 @@
+<?php if($this->user->role->code == 'member') : ?>
+  <div><?php echo $this->user->first_name.' '.$this->user->last_name; ?></div>
+
+  <label for="Form-field-Vote-vote">Vote</label>
+  <select id="Form-field-Vote-vote" name="Vote[vote]" class="form-control custom-select select2-hidden-accessible" data-disposable="data-disposable" tabindex="-1" aria-hidden="true">
+    <option value="yes">Yes</option>
+    <option value="no">No</option>
+  </select>
+
+  <label for="Form-field-Vote-note">Note</label>
+  <textarea name="Vote[note]" id="Form-field-Vote-note" autocomplete="off" class="form-control field-textarea size-large" placeholder=""></textarea>
+  <input type="hidden" name="Vote[user_id]" value="<?php echo $this->user->id; ?>">
+
+  <button
+      type="button"
+      id="btn-vote"
+      data-request="onVote"
+      data-browser-validate
+      data-request-success="$.fn.vote(data);"
+      class="btn btn-default">
+      Validate
+  </button>
+<?php endif; ?>	
+
+
