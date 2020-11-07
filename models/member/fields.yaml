@@ -25,6 +25,22 @@ secondaryTabs:
             span: left
             disabled: true
 
+        created_at:
+            tab: codalia.membership::lang.attribute.tab_manage
+            label: codalia.bookend::lang.attribute.created_at
+            span: left
+            type: datepicker
+            mode: datetime
+            disabled: true
+
+        updated_at:
+            tab: codalia.membership::lang.attribute.tab_manage
+            label: codalia.bookend::lang.attribute.updated_at
+            span: left 
+            type: datepicker
+            mode: datetime
+            disabled: true
+
         attestations:
             tab: codalia.membership::lang.attribute.tab_manage
             label: Attestations
@@ -94,7 +110,8 @@ secondaryTabs:
 
         _votes:
             tab: Votes
-            label: Votes 
+            label: ' '
             span: left
             type: partial
             path: '$/codalia/membership/models/member/_votes.htm'
+

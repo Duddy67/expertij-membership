@@ -24,7 +24,7 @@ class CreateMembersTable extends Migration
             $table->increments('id');
             $table->integer('member_id')->unsigned()->index()->nullable()->default(null);
             $table->integer('user_id')->unsigned()->index()->nullable()->default(null);
-	    $table->char('vote', 3)->default(null);
+	    $table->char('choice', 3)->default(null);
 	    $table->text('note')->nullable();
             $table->timestamps();
         });
@@ -33,5 +33,6 @@ class CreateMembersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('codalia_membership_members');
+        Schema::dropIfExists('codalia_membership_votes');
     }
 }

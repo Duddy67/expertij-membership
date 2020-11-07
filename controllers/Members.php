@@ -61,8 +61,8 @@ class Members extends Controller
 
     public function update($recordId = null, $context = null)
     {
-        //$this->vars['myvalue'] = 5;
-	//$member = Member::find($recordId);
+        $this->prepareVotes($recordId);
+
 	return $this->asExtension('FormController')->update($recordId, $context);
     }
 
@@ -152,7 +152,8 @@ class Members extends Controller
 	$vote = new Vote($data['Vote']);
         $member = Member::find($recordId);
 	$member->votes()->save($vote);
-//file_put_contents('debog_file.txt', print_r($data['Vote'], true));
+
+	Flash::success(Lang::get('codalia.journal::lang.action.check_out_do_not_match'));
     }
 
     public function update_onSave($recordId = null, $context = null)
@@ -173,5 +174,32 @@ class Members extends Controller
     public function update_onSendEmailToMembers($recordId = null)
     {
 	EmailHelper::instance()->alertMembers($recordId);
+    }
+
+    protected function prepareVotes($recordId)
+    {
+        $this->vars['canVote'] = false;
+	$member = Member::find($recordId);
+
+        if ($member->status == 'pending' && $this->user->role->code == 'member') {
+	    $this->vars['canVote'] = true;
+	}
+
+	$this->vars['vote'] = $member->votes->first( function($item) {
+	    return $item->user_id == $this->user->id;
+	});
+
+        if ($this->user->role->code != 'member') {
+	    $votes = [];
+	    foreach ($member->votes as $vote) {
+		$user = BackendAuth::findUserById($vote->user_id);
+		$vote->first_name = $user->first_name;
+		$vote->last_name = $user->last_name;
+		$votes[] = $vote;
+	    }
+
+	    $this->vars['votes'] = $votes;
+	}
+//file_put_contents('debog_file.txt', print_r($vote->vote, true));
     }
 }

@@ -22,7 +22,7 @@ class Vote extends Model
     /**
      * @var array Fillable fields
      */
-    protected $fillable = ['vote', 'note', 'user_id'];
+    protected $fillable = ['choice', 'note', 'user_id'];
 
     /**
      * @var array Validation rules for attributes
