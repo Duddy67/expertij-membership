@@ -1,30 +1,39 @@
 <?php if ($this->vars['vote']) : // The user is a member and they have already voted. ?>
 
-    <label for="Form-field-Vote-vote">Vote</label>
-    <input type="text" name="_vote" class="form-control" disabled="disabled" value="<?php echo $this->vars['vote']->choice; ?>">
-    <label for="Form-field-Vote-note">Note</label>
-    <textarea name="_vote_note" id="Form-field-Vote-note" autocomplete="off" disabled="disabled" 
-	      class="form-control field-textarea size-small" placeholder=""><?php echo $this->vars['vote']->note; ?></textarea>
+	     <div class="form-group  text-field span-left">
+		  <label for="Form-field-Vote-vote">Vote</label>
+		  <input type="text" name="_vote" class="form-control" disabled="disabled" value="<?php echo $this->vars['vote']->choice; ?>">
+	     </div>
+	     <div class="form-group  text-field span-left">
+		  <label for="Form-field-Vote-note">Note</label>
+		  <textarea name="_vote_note" id="Form-field-Vote-note" autocomplete="off" disabled="disabled" 
+			    class="form-control field-textarea size-small" placeholder=""><?php echo $this->vars['vote']->note; ?></textarea>
+	     </div>
 <?php elseif ($this->user->role->code == 'member' && $this->vars['canVote']) : // The user is a member and they still allowed to vote. ?>	
-    <label for="Form-field-Vote-choice">Choice</label>
-    <select id="Form-field-Vote-choice" name="Vote[choice]" class="form-control custom-select select2-hidden-accessible" data-disposable="data-disposable" tabindex="-1" aria-hidden="true">
-	<option value="yes">Yes</option>
-	<option value="no">No</option>
-    </select>
-
-    <label for="Form-field-Vote-note">Note</label>
-    <textarea name="Vote[note]" id="Form-field-Vote-note" autocomplete="off" class="form-control field-textarea size-small" placeholder=""></textarea>
-    <input type="hidden" name="Vote[user_id]" value="<?php echo $this->user->id; ?>">
-
-    <button
-	type="button"
-	id="btn-vote"
-	data-request="onVote"
-	data-browser-validate
-	data-request-success="$.fn.vote(data);"
-	class="btn btn-default">
-	Validate
-    </button>
+	     <div class="form-group  text-field span-left">
+		  <label for="Form-field-Vote-choice">Choice</label>
+		  <select id="Form-field-Vote-choice" name="Vote[choice]" class="form-control custom-select select2-hidden-accessible" data-disposable="data-disposable" tabindex="-1" aria-hidden="true">
+		      <option value="yes">Yes</option>
+		      <option value="no">No</option>
+		  </select>
+	     </div>
+	     <div class="form-group  text-field span-left">
+		  <label for="Form-field-Vote-note">Note</label>
+		  <textarea name="Vote[note]" id="Form-field-Vote-note" autocomplete="off" class="form-control field-textarea size-small" placeholder=""></textarea>
+		  <input type="hidden" name="Vote[user_id]" value="<?php echo $this->user->id; ?>">
+	     </div>
+	     <div class="form-group  text-field span-left">
+		  <button
+		      type="button"
+		      id="btn-vote"
+		      data-request="onVote"
+		      data-browser-validate
+		      data-request-success="$.fn.disableVotingForm();"
+		      data-request-data="close:1"
+		      class="btn btn-default">
+		      Validate
+		  </button>
+	     </div>
 <?php elseif ($this->user->role->code != 'member') : // The user is an administrator.
           foreach ($this->vars['votes'] as $vote) : ?>	
 	     <div class="form-group  text-field span-left">

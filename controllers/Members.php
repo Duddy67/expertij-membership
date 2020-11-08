@@ -97,7 +97,7 @@ class Members extends Controller
 	      $count++;
 	  }
 
-	  Flash::success(Lang::get('codalia.journal::lang.action.check_in_success', ['count' => $count]));
+	  Flash::success(Lang::get('codalia.membership::lang.action.check_in_success', ['count' => $count]));
 	}
 
 	return $this->listRefresh();
@@ -110,7 +110,7 @@ class Members extends Controller
 
 	// Checks for profile check out matching.
 	if ($member->profile->checked_out && $user->id != $member->profile->checked_out) {
-	    Flash::error(Lang::get('codalia.journal::lang.action.check_out_do_not_match'));
+	    Flash::error(Lang::get('codalia.membership::lang.action.check_out_do_not_match'));
 	    return ['action' => 'disable'];
 	}
 
@@ -133,7 +133,7 @@ class Members extends Controller
         $member = Member::find($recordId);
 	$member->profile->update($data['Member']['profile']);
 
-	Flash::success(Lang::get('codalia.journal::lang.action.check_out_do_not_match'));
+	Flash::success(Lang::get('codalia.membership::lang.action.profile_update_success'));
 
 	return ['action' => 'disable'];
     }
@@ -153,7 +153,9 @@ class Members extends Controller
         $member = Member::find($recordId);
 	$member->votes()->save($vote);
 
-	Flash::success(Lang::get('codalia.journal::lang.action.check_out_do_not_match'));
+	Flash::success(Lang::get('codalia.membership::lang.action.vote_success'));
+
+	EmailHelper::instance()->alertVote($recordId);
     }
 
     public function update_onSave($recordId = null, $context = null)

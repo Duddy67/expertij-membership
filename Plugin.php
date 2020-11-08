@@ -64,7 +64,7 @@ class Plugin extends PluginBase
 
 		// Checks for check out matching.
 		if ($member->checked_out && $user->id != $member->checked_out) {
-		    Flash::error(Lang::get('codalia.profile::lang.action.check_out_do_not_match'));
+		    Flash::error(Lang::get('codalia.membership::lang.action.check_out_do_not_match'));
 		    return redirect('backend/codalia/membership/members');
 		}
 
@@ -101,7 +101,7 @@ class Plugin extends PluginBase
 	// After sending the update member form, the user is updated first then the corresponding
 	// member is updated afterward.
 	Event::listen('codalia.profile.updateMember', function($profileId, $data) {
-	   Flash::success(Lang::get('codalia.profile::lang.action.check_in_success'));
+	   Flash::success(Lang::get('codalia.membership::lang.action.update_success'));
 	});
 
 	// A user has been deleted.
@@ -233,6 +233,7 @@ class Plugin extends PluginBase
 	return [
 	    'codalia.membership::mail.alert_office',
 	    'codalia.membership::mail.alert_members',
+	    'codalia.membership::mail.alert_vote',
 	    'codalia.membership::mail.candidate_application',
 	];
     }

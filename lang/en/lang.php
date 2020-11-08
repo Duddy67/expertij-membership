@@ -10,6 +10,11 @@ return [
       'categories' => 'Categories',
       'documents' => 'Documents',
     ],
+    'member' => [
+      'tab_documents' => 'Documents',
+      'tab_profile' => 'Profile',
+      'tab_vote' => 'Vote',
+    ],
     'members' => [
     ],
     'categories' => [
@@ -36,6 +41,7 @@ return [
       'updated_by' => 'Updated by',
       'tab_edit' => 'Edit',
       'tab_manage' => 'Manage',
+      'tab_categories' => 'Categories',
       'status' => 'Status',
       'published_up' => 'Start publishing',
       'published_down' => 'Finish publishing',
@@ -78,6 +84,7 @@ return [
       'trash_success' => ':count item(s) successfully trashed.',
       'delete_success' => ':count item(s) successfully deleted.',
       'check_in_success' => ':count item(s) successfully checked-in.',
+      'update_success' => 'Data has been updated successfully.',
       'parent_item_unpublished' => 'Cannot publish this item as its parent item is unpublished.',
       'previous' => 'Previous',
       'next' => 'Next',
@@ -88,6 +95,14 @@ return [
       'editing_not_allowed' => 'You are not allowed to edit this item.',
       'used_as_main_category' => 'The ":name" category cannot be deleted as it is used as main category in one or more articles.',
       'not_allowed_to_modify_item' => 'You are not allowed to modify the ":name" item.',
+      'profile_update_success' => 'The member profile has been updated successfully.',
+      'vote_success' => 'Your vote has been taken into account successfully.',
+      'file_replace_success' => 'The file has been replaced successfully.',
+    ],
+    'email' => [
+      'your_application' => 'Your application',
+      'new_application' => 'New application',
+      'new_vote' => 'New vote',
     ],
     'settings' => [
       'january' => 'January',

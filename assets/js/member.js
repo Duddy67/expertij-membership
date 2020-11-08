@@ -8,6 +8,7 @@
     $('#layout-sidenav').prepend('<div class="disable-panel">&nbsp;</div>');
     $('.control-toolbar').attr('style', 'table-layout: auto !important');
 
+    $('#btn-vote').click( function(e) { $.fn.voteConfirmation(e); });
   });
 
   $.fn.setUserEditFields = function(data) {
@@ -32,7 +33,19 @@
     });
   };
 
-  $.fn.vote = function(data) {
+  $.fn.voteConfirmation = function(e) {
+    if(!confirm('Are you sure ?')) {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+  };
+
+  $.fn.disableVotingForm = function() {
+      $('#Form-field-Vote-choice').prop('disabled', true);
+      $('#Form-field-Vote-note').prop('disabled', true);
+      $('#btn-vote').css({'visibility':'hidden','display':'none'});
+
   };
 })(jQuery);
 

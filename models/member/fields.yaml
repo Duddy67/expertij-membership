@@ -27,7 +27,7 @@ secondaryTabs:
 
         created_at:
             tab: codalia.membership::lang.attribute.tab_manage
-            label: codalia.bookend::lang.attribute.created_at
+            label: codalia.membership::lang.attribute.created_at
             span: left
             type: datepicker
             mode: datetime
@@ -35,82 +35,80 @@ secondaryTabs:
 
         updated_at:
             tab: codalia.membership::lang.attribute.tab_manage
-            label: codalia.bookend::lang.attribute.updated_at
+            label: codalia.membership::lang.attribute.updated_at
             span: left 
             type: datepicker
             mode: datetime
             disabled: true
 
         attestations:
-            tab: codalia.membership::lang.attribute.tab_manage
-            label: Attestations
+            tab: codalia.membership::lang.member.tab_documents
             span: left
             type: partial
             path: ~/plugins/codalia/membership/models/member/_files.htm
 
         categories:
-            tab: codalia.membership::lang.article.tab_categories
+            tab: codalia.membership::lang.attribute.tab_categories
             span: left
             type: relation
 
         profile[first_name]:
-            tab: User
+            tab: codalia.membership::lang.member.tab_profile
             label: First Name
+            size: small
             span: left
             type: text
             disabled: true
 
         profile[last_name]:
-            tab: User
+            tab: codalia.membership::lang.member.tab_profile
             label: Last Name
             span: left
             type: text
             disabled: true
 
         profile[street]:
-            tab: User
+            tab: codalia.membership::lang.member.tab_profile
             label: Street
             span: left
             type: text
             disabled: true
 
         profile[city]:
-            tab: User
+            tab: codalia.membership::lang.member.tab_profile
             label: City
             span: left
             type: text
             disabled: true
 
         profile[postcode]:
-            tab: User
+            tab: codalia.membership::lang.member.tab_profile
             label: Postcode
             span: left
             type: text
             disabled: true
 
         profile[country]:
-            tab: User
+            tab: codalia.membership::lang.member.tab_profile
             label: Country
             span: left
             type: text
             disabled: true
 
         profile[user][email]:
-            tab: User
+            tab: codalia.membership::lang.member.tab_profile
             label: Email 
             span: left
             disabled: true
 
         _edit_user:
-            tab: User
-            label: Edit user
+            tab: codalia.membership::lang.member.tab_profile
             span: left
             type: partial
             path: '$/codalia/membership/models/member/_edit_user.htm'
 
         _votes:
-            tab: Votes
-            label: ' '
+            tab: codalia.membership::lang.member.tab_vote
             span: left
             type: partial
             path: '$/codalia/membership/models/member/_votes.htm'

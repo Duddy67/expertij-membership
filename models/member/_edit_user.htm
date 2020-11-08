@@ -1,43 +1,45 @@
 
 <?php if($this->user->role->code != 'member') : // No access for members. ?>
-  <button
-      type="button"
-      id="btn-edit-user"
-      data-request="onEditUser"
-      data-browser-validate
-      data-request-success="$.fn.setUserEditFields(data);"
-      data-request-data="close:1"
-      data-hotkey="ctrl+enter, cmd+enter"
-      data-load-indicator="Saving Member..."
-      class="btn btn-default">
-      Edit
-  </button>
+  <div class="edit-user-buttons">
+      <button
+	  type="button"
+	  id="btn-edit-user"
+	  data-request="onEditUser"
+	  data-browser-validate
+	  data-request-success="$.fn.setUserEditFields(data);"
+	  data-request-data="close:1"
+	  data-hotkey="ctrl+enter, cmd+enter"
+	  data-load-indicator="Saving Member..."
+	  class="btn btn-default">
+	  Edit
+      </button>
 
-  <button
-      type="button"
-      id="btn-save-user"
-      disabled=true
-      data-request="onSaveUser"
-      data-browser-validate
-      data-request-success="$.fn.setUserEditFields(data);"
-      data-request-data="close:1"
-      data-hotkey="ctrl+enter, cmd+enter"
-      data-load-indicator="Saving Member..."
-      class="btn btn-default">
-      Save
-  </button>
+      <button
+	  type="button"
+	  id="btn-save-user"
+	  disabled=true
+	  data-request="onSaveUser"
+	  data-browser-validate
+	  data-request-success="$.fn.setUserEditFields(data);"
+	  data-request-data="close:1"
+	  data-hotkey="ctrl+enter, cmd+enter"
+	  data-load-indicator="Saving Member..."
+	  class="btn btn-default">
+	  Save
+      </button>
 
-  <button
-      type="button"
-      id="btn-cancel-edit-user"
-      data-request="onCancelUserEditing"
-      data-browser-validate
-      data-request-success="$.fn.setUserEditFields(data);"
-      data-request-data="close:1"
-      data-hotkey="ctrl+enter, cmd+enter"
-      data-load-indicator="Saving Member..."
-      class="btn btn-default">
-      Cancel
-  </button>
+      <button
+	  type="button"
+	  id="btn-cancel-edit-user"
+	  data-request="onCancelUserEditing"
+	  data-browser-validate
+	  data-request-success="$.fn.setUserEditFields(data);"
+	  data-request-data="close:1"
+	  data-hotkey="ctrl+enter, cmd+enter"
+	  data-load-indicator="Saving Member..."
+	  class="btn btn-default">
+	  Cancel
+      </button>
+  </div>
 <?php endif; ?>	
 

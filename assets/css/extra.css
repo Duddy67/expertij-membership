@@ -155,3 +155,11 @@ div[class$='-even'] {
   border-radius: 5px;
 }
 
+.edit-user-buttons {
+  margin-top: 15px;
+  margin-bottom: 50px;
+}
+
+.edit-user-buttons button {
+  margin-right: 10px;
+}

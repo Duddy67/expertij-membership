@@ -50,7 +50,7 @@ class Account extends \Codalia\Profile\Components\Account
 	return $member;
     }
 
-    public function onReplaceDocument()
+    public function onReplaceFile()
     {
         $member = $this->loadMember();
 
@@ -59,7 +59,7 @@ class Account extends \Codalia\Profile\Components\Account
 	    $member->save();
 	}
 
-        Flash::success(Lang::get('codalia.profile::lang.action.check_in_success'));
+        Flash::success(Lang::get('codalia.membership::lang.action.file_replace_success'));
     }
 
     public function onUploadDocument()
