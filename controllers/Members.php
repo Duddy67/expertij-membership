@@ -162,6 +162,12 @@ class Members extends Controller
     {
         parent::update_onSave($recordId, $context);
 
+	$data = post();
+	// The status has changed.
+	if ($data['Member']['status'] != $data['_current_status']) {
+	  file_put_contents('debog_file.txt', print_r($data, true));
+	}
+
         /*return[
             '#Form-field-Member-id-group' => '<a class="btn btn-danger btn-lg" target="_blank" href="#"><span class="glyphicon glyphicon-download"></span>Download</a>'
 	];*/
@@ -203,5 +209,11 @@ class Members extends Controller
 	    $this->vars['votes'] = $votes;
 	}
 //file_put_contents('debog_file.txt', print_r($vote->vote, true));
+    }
+
+    public function statusManager($newStatus, $oldStatus)
+    {
+        switch ($newStatus) {
+	}
     }
 }

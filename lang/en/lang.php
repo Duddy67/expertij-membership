@@ -60,9 +60,11 @@ return [
       'archived' => 'Archived',
       'pending' => 'Pending',
       'refused' => 'Refused',
-      'pending_payment' => 'Pending payment',
+      'pending_subscription' => 'Pending subscription',
+      'canceled' => 'Canceled',
       'member' => 'Member',
-      'discarded' => 'Discarded',
+      'pending_renewal' => 'Pending renewal',
+      'revoked' => 'Revoked',
     ],
     'action' => [
       'new' => 'New Article',

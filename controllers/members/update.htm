@@ -16,47 +16,53 @@
             <div class="loading-indicator-container">
 	    <?php if($this->user->role->code != 'member') : // No access for members. ?>
                 <button
+		    id="on-save"
                     type="submit"
                     data-request="onSave"
-                    data-browser-validate
-                    data-request-data="redirect:0"
+                    data-request-data="redirect:1"
                     data-hotkey="ctrl+s, cmd+s"
                     data-load-indicator="Saving Member..."
                     class="btn btn-primary">
-                    <u>S</u>ave
+		    <?= e(trans('codalia.membership::lang.action.save')) ?>
                 </button>
                 <button
+		    id="on-save-close"
                     type="button"
                     data-request="onSave"
-                    data-browser-validate
                     data-request-data="close:1"
                     data-hotkey="ctrl+enter, cmd+enter"
                     data-load-indicator="Saving Member..."
                     class="btn btn-default">
-                    Save and Close
+		    <?= e(trans('codalia.membership::lang.action.save_and_close')) ?>
                 </button>
-                <button
-                    type="button"
-                    class="oc-icon-trash-o btn-icon danger pull-right"
-                    data-request="onDelete"
-                    data-load-indicator="Deleting Member..."
-                    data-request-confirm="Delete this member?">
-                </button>
-		<button
-		    type="button"
-		    data-request="onSendEmailToMembers"
-		    data-browser-validate
-		    data-hotkey="ctrl+enter, cmd+enter"
-		    data-load-indicator="Saving Member..."
-		    class="btn btn-default">
-		    Send Email
-		</button>
+		<?php if ($this->user->hasAccess('codalia.membership.access_delete')): ?>
+		    <button
+			type="button"
+			class="oc-icon-trash-o btn-icon danger pull-right"
+			data-request="onDelete"
+			data-load-indicator="Deleting Member..."
+			data-request-confirm="Delete this member?">
+		    </button>
+		<?php endif; ?>
+
+		<?php if ($this->vars['formModel']->status == 'pending'): ?>
+		    <button
+			type="button"
+			data-request="onSendEmailToMembers"
+			data-hotkey="ctrl+enter, cmd+enter"
+			data-load-indicator="Saving Member..."
+			class="btn btn-default">
+			Send Email
+		    </button>
+		<?php endif; ?>
 	     <?php endif; ?>	
                 <span class="btn-text">
                     or <a href="<?= Backend::url('codalia/membership/members') ?>">Cancel</a>
                 </span>
             </div>
         </div>
+
+	<input type="hidden" name="_current_status" id="current-status" value="<?php echo $this->vars['formModel']->status; ?>"> 
 
     <?= Form::close() ?>
 

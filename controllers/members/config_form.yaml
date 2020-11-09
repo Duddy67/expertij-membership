@@ -23,7 +23,7 @@ create:
 # Update page
 update:
     title: Edit Member
-    redirect: codalia/membership/members
+    redirect: codalia/membership/members/update/:id
     redirectClose: codalia/membership/members
 
 # Preview page

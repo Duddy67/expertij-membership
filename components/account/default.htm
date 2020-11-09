@@ -2,13 +2,13 @@
 
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a href="#profile" class="nav-link active" data-toggle="tab">Home</a>
+        <a href="#profile" class="nav-link active" data-toggle="tab">Profile</a>
     </li>
     <li class="nav-item">
-        <a href="#documents" class="nav-link" data-toggle="tab">Profile</a>
+        <a href="#documents" class="nav-link" data-toggle="tab">Documents</a>
     </li>
     <li class="nav-item">
-        <a href="#member" class="nav-link" data-toggle="tab">Messages</a>
+        <a href="#informations" class="nav-link" data-toggle="tab">Informations</a>
     </li>
 </ul>
 
@@ -97,6 +97,17 @@
       </div>
       <button type="submit" class="btn btn-success">Replace</button>
     </form>
+  </div>
+
+  <div class="tab-pane fade" id="informations">
+      <div class="form-group col-sm-6">
+	<label for="inputStatus">Status</label>
+	<input type="text" name="_status" disabled="disabled" class="form-control" id="inputStatus" value="{{ member.status }}">
+      </div>
+      <div class="form-group col-sm-6">
+	<label for="inputAppealCourt">Appeal Court</label>
+	<input type="text" name="_appeal_court" disabled="disabled" class="form-control" id="inputAppealCourt" value="{{ member.categories|first.name }}">
+      </div>
   </div>
 
 </div>

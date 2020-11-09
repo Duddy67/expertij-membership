@@ -104,9 +104,11 @@ class Member extends Model
     {
 	return array('pending' => 'codalia.membership::lang.status.pending',
 		     'refused' => 'codalia.membership::lang.status.refused',
-		     'pending_payment' => 'codalia.membership::lang.status.pending_payment',
+		     'pending_subscription' => 'codalia.membership::lang.status.pending_subscription',
+		     'canceled' => 'codalia.membership::lang.status.canceled',
 		     'member' => 'codalia.membership::lang.status.member',
-		     'discarded' => 'codalia.membership::lang.status.discarded');
+		     'pending_renewal' => 'codalia.membership::lang.status.pending_renewal',
+		     'revoked' => 'codalia.membership::lang.status.revoked');
     }
 
     /*public function getEmailFieldAttribute()

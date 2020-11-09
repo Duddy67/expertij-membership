@@ -9,7 +9,21 @@
     $('.control-toolbar').attr('style', 'table-layout: auto !important');
 
     $('#btn-vote').click( function(e) { $.fn.voteConfirmation(e); });
+    $('[id^="on-save"]').click( function(e) { $.fn.checkStatusChange(e); });
   });
+
+  $.fn.checkStatusChange = function(e) {
+    if($('#Form-field-Member-status').val() != $('#current-status').val()) {
+      if(!confirm('Are you sure ?')) {
+	e.preventDefault();
+	e.stopPropagation();
+	return false;
+      }
+      else {
+	//$('#current-status').val($('#Form-field-Member-status').val());
+      }
+    }
+  };
 
   $.fn.setUserEditFields = function(data) {
     let fields = ['first_name', 'last_name', 'street', 'city', 'postcode', 'country', 'user-email'];
