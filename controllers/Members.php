@@ -165,7 +165,8 @@ class Members extends Controller
 	$data = post();
 	// The status has changed.
 	if ($data['Member']['status'] != $data['_current_status']) {
-	  file_put_contents('debog_file.txt', print_r($data, true));
+	    //file_put_contents('debog_file.txt', print_r($data, true));
+	    EmailHelper::instance()->statusChange($recordId, $data['Member']['status'], $data['_current_status']);
 	}
 
         /*return[
@@ -209,11 +210,5 @@ class Members extends Controller
 	    $this->vars['votes'] = $votes;
 	}
 //file_put_contents('debog_file.txt', print_r($vote->vote, true));
-    }
-
-    public function statusManager($newStatus, $oldStatus)
-    {
-        switch ($newStatus) {
-	}
     }
 }

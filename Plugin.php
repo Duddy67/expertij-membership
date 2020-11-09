@@ -235,6 +235,12 @@ class Plugin extends PluginBase
 	    'codalia.membership::mail.alert_members',
 	    'codalia.membership::mail.alert_vote',
 	    'codalia.membership::mail.candidate_application',
+	    'codalia.membership::mail.new_member',
+	    'codalia.membership::mail.pending_renewal',
+	    'codalia.membership::mail.pending_subscription',
+	    'codalia.membership::mail.refused',
+	    'codalia.membership::mail.renewal_subscription',
+	    'codalia.membership::mail.revoked',
 	];
     }
 }

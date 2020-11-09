@@ -28,12 +28,12 @@ class Settings extends Model
 
     public function getRenewalMonthOptions()
     {
-      return array('01' => 'codalia.membership::lang.settings.january','02' => 'codalia.membership::lang.settings.february',
-		   '03' => 'codalia.membership::lang.settings.march','04' => 'codalia.membership::lang.settings.april',
-		   '05' => 'codalia.membership::lang.settings.may','06' => 'codalia.membership::lang.settings.june',
-		   '07' => 'codalia.membership::lang.settings.july','08' => 'codalia.membership::lang.settings.august',
-		   '09' => 'codalia.membership::lang.settings.september','10' => 'codalia.membership::lang.settings.october',
-		   '11' => 'codalia.membership::lang.settings.november','12' => 'codalia.membership::lang.settings.december');
+      return array('01' => 'codalia.membership::lang.global_settings.january','02' => 'codalia.membership::lang.global_settings.february',
+		   '03' => 'codalia.membership::lang.global_settings.march','04' => 'codalia.membership::lang.global_settings.april',
+		   '05' => 'codalia.membership::lang.global_settings.may','06' => 'codalia.membership::lang.global_settings.june',
+		   '07' => 'codalia.membership::lang.global_settings.july','08' => 'codalia.membership::lang.global_settings.august',
+		   '09' => 'codalia.membership::lang.global_settings.september','10' => 'codalia.membership::lang.global_settings.october',
+		   '11' => 'codalia.membership::lang.global_settings.november','12' => 'codalia.membership::lang.global_settings.december');
     }
 
     public function beforeSave()

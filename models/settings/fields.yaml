@@ -5,15 +5,22 @@
 tabs:
     fields:
         renewal_day:
-            tab: codalia.journal::lang.global_settings.tab_general
+            tab: codalia.membership::lang.global_settings.tab_general
             span: left
-            label: codalia.journal::lang.global_settings.max_characters
-            comment: codalia.journal::lang.global_settings.max_characters_comment
+            label: codalia.membership::lang.global_settings.renewal_day
+            comment: codalia.membership::lang.global_settings.renewal_day_comment
             type: dropdown
 
         renewal_month:
-            tab: codalia.journal::lang.global_settings.tab_general
+            tab: codalia.membership::lang.global_settings.tab_general
             span: left
-            label: codalia.journal::lang.global_settings.max_characters
-            comment: codalia.journal::lang.global_settings.max_characters_comment
+            label: codalia.membership::lang.global_settings.renewal_month
+            comment: codalia.membership::lang.global_settings.renewal_month_comment
             type: dropdown
+
+        subscription_fee:
+            tab: codalia.membership::lang.global_settings.tab_general
+            span: left
+            label: codalia.membership::lang.global_settings.subscription_fee
+            comment: codalia.membership::lang.global_settings.subscription_fee_comment
+            type: text 

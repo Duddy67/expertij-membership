@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use Backend;
 use BackendAuth;
 use Codalia\Membership\Models\Member;
+use Codalia\Membership\Models\Settings;
 use Backend\Models\UserGroup;
 use Mail;
 use Flash;
@@ -92,5 +93,29 @@ class EmailHelper
 		$message->subject(Lang::get('codalia.membership::lang.email.new_vote'));
 	    });
 	}
+    }
+
+    public function statusChange($memberId, $newStatus, $oldStatus)
+    {
+        $member = Member::find($memberId);
+	$vars = ['first_name' => $member->profile->first_name, 'last_name' => $member->profile->last_name, 'subscription_fee' => Settings::get('subscription_fee', 0)];
+
+	if ($newStatus != 'pending' && $newStatus != 'member') {
+	    $status = $newStatus;
+	}
+	elseif ($newStatus == 'member' && $oldStatus == 'pending_subscription') {
+	    $status = 'new_member';
+	}
+	elseif ($newStatus == 'member' && $oldStatus == 'pending_renewal') {
+	    $status = 'renewal_subscription';
+	}
+	else {
+	    return;
+	}
+
+	Mail::send('codalia.membership::mail.'.$status, $vars, function($message) use($member, $status) {
+	    $message->to($member->profile->user->email, 'Admin System');
+	    $message->subject(Lang::get('codalia.membership::lang.email.'.$status));
+	});
     }
 }
