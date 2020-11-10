@@ -1,0 +1,54 @@
+<?php	 if ($this->user->role->code == 'member' || !count($model->payments)) : ?> 
+	     <div class="card bg-dark text-white">
+		 <h5 class="card-title">Information</h5>
+		 <p class="card-text">There is no payment to display.</p>
+	     </div>
+<?php    else : ?>
+	    <table class="table">
+<?php           foreach ($model->payments as $payment) : ?>	
+		  <tr>
+		    <td>
+		      <select name="payment_status" id="payment-status" class="form-control">
+			<option value="pending" <?php echo ($payment->status == 'pending') ? 'selected="selected"' : ''; ?>>Pending</option>
+			<option value="completed" <?php echo ($payment->status == 'completed') ? 'selected="selected"' : ''; ?>>Completed</option>
+			<option value="canceled" <?php echo ($payment->status == 'canceled') ? 'selected="selected"' : ''; ?>>Canceled</option>
+		      </select>
+		    </td>
+		    <td>
+		      <?php echo $payment->mode; ?>
+		    </td>
+		    <td>
+		      <?php echo $payment->amount; ?>
+		    </td>
+		    <td>
+		      <?php echo $payment->created_at; ?>
+		    </td>
+		    <td>
+		      <?php echo $payment->item; ?>
+		    </td>
+		    <td>
+			<button
+			    type="button"
+			    id="btn-save-payment-<?php echo $payment->id; ?>"
+			    data-request="onSavePayment"
+			    data-browser-validate
+			    data-request-data="close:1"
+			    class="btn btn-default">
+			    Save
+			</button>
+		    </td>
+		    <td>
+			<button
+			    type="button"
+			    id="btn-delete-payment-<?php echo $payment->id; ?>"
+			    data-request="onDeletePayment"
+			    data-browser-validate
+			    data-request-data="close:1"
+			    class="btn btn-default">
+			    Delete
+			</button>
+		    </td>
+		  </tr>
+<?php           endforeach; ?>
+	    </table>
+<?php    endif; ?>	

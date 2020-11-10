@@ -55,7 +55,7 @@ class EmailHelper
     public function alertMembers($memberId)
     {
         $candidate = Member::find($memberId)->profile;
-	// Fetches the emails of the user belonging to the Member group.
+	// Fetches the emails of the users belonging to the Member group.
         $emails = UserGroup::where('code', 'member')->first()->users->pluck('email')->toArray();
 
 	//file_put_contents('debog_file.txt', print_r($emails, true));
@@ -81,7 +81,7 @@ class EmailHelper
     {
         $candidate = Member::find($memberId)->profile;
         $user = BackendAuth::getUser();
-	// Fetches the emails of the user belonging to the Member group.
+	// Fetches the emails of the users belonging to the Office group.
         $emails = UserGroup::where('code', 'office')->first()->users->pluck('email')->toArray();
 
 	if (!empty($emails)) {
@@ -117,5 +117,25 @@ class EmailHelper
 	    $message->to($member->profile->user->email, 'Admin System');
 	    $message->subject(Lang::get('codalia.membership::lang.email.'.$status));
 	});
+    }
+
+    public function chequePayment($member)
+    {
+	$vars = ['first_name' => $member->profile->first_name, 'last_name' => $member->profile->last_name, 'subscription_fee' => Settings::get('subscription_fee', 0)];
+
+	Mail::send('codalia.membership::mail.cheque_payment', $vars, function($message) use($member) {
+	    $message->to($member->profile->user->email, 'Admin System');
+	    $message->subject(Lang::get('codalia.membership::lang.email.cheque_payment'));
+	});
+
+	// Fetches the emails of the users belonging to the Office group.
+        $emails = UserGroup::where('code', 'office')->first()->users->pluck('email')->toArray();
+
+	if (!empty($emails)) {
+	    Mail::send('codalia.membership::mail.alert_cheque_payment', $vars, function($message) use($emails) {
+		$message->to($emails, 'Admin System');
+		$message->subject(Lang::get('codalia.membership::lang.email.alert_cheque_payment'));
+	    });
+	}
     }
 }

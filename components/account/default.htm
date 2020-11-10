@@ -10,6 +10,11 @@
     <li class="nav-item">
         <a href="#informations" class="nav-link" data-toggle="tab">Informations</a>
     </li>
+    {% if isPayment %}
+      <li class="nav-item">
+	  <a href="#payment" class="nav-link" data-toggle="tab">Payment</a>
+      </li>
+    {% endif %}
 </ul>
 
 <div class="tab-content">
@@ -96,7 +101,7 @@
 	<input type="file" name="attestation" data-request="onUploadDocument" class="form-control" id="inputAttestation" data-request-files data-request-flash>
       </div>
       <button type="submit" class="btn btn-success">Replace</button>
-    </form>
+    {{ form_close() }}
   </div>
 
   <div class="tab-pane fade" id="informations">
@@ -109,5 +114,34 @@
 	<input type="text" name="_appeal_court" disabled="disabled" class="form-control" id="inputAppealCourt" value="{{ member.categories|first.name }}">
       </div>
   </div>
+  {% if isPayment %}
+    <div class="tab-pane fade" id="payment">
+    {{ form_ajax('onPayment', {flash: ''}) }}
+      <table class="table">
+	<tr>
+	  <td>
+	    <input type="radio" id="cheque" name="payment_mode" value="cheque" checked>
+	    Cheque payment
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <input type="radio" id="paypal" name="payment_mode" value="paypal">
+	    Paypal
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <button type="submit" id="btn-payment" class="btn btn-success">Pay Now</button>
+	  </td>
+	</tr>
+      </table>
+    {{ form_close() }}
+    </div>
+  {% endif %}
 
 </div>
+{% put scripts %}
+    <script type="text/javascript" src="plugins/codalia/membership/assets/js/member-space.js"></script>
+{% endput %}
+

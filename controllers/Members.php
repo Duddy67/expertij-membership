@@ -209,6 +209,5 @@ class Members extends Controller
 
 	    $this->vars['votes'] = $votes;
 	}
-//file_put_contents('debog_file.txt', print_r($vote->vote, true));
     }
 }

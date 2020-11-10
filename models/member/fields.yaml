@@ -108,8 +108,14 @@ secondaryTabs:
             path: '$/codalia/membership/models/member/_edit_user.htm'
 
         _votes:
-            tab: codalia.membership::lang.member.tab_vote
+            tab: codalia.membership::lang.member.tab_votes
             span: left
             type: partial
             path: '$/codalia/membership/models/member/_votes.htm'
+
+        _payments:
+            tab: codalia.membership::lang.member.tab_payments
+            span: left
+            type: partial
+            path: '$/codalia/membership/models/member/_payments.htm'
 

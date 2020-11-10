@@ -63,7 +63,8 @@ class Member extends Model
      */
     public $hasOne = [];
     public $hasMany = [
-        'votes' => ['Codalia\Membership\Models\Vote']
+        'votes' => ['Codalia\Membership\Models\Vote'],
+        'payments' => ['Codalia\Membership\Models\Payment']
     ];
     public $belongsTo = [
         'profile' => ['Codalia\Profile\Models\Profile']

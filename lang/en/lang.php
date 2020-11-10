@@ -13,7 +13,8 @@ return [
     'member' => [
       'tab_documents' => 'Documents',
       'tab_profile' => 'Profile',
-      'tab_vote' => 'Vote',
+      'tab_votes' => 'Votes',
+      'tab_payments' => 'Payments',
     ],
     'members' => [
     ],
@@ -100,6 +101,7 @@ return [
       'profile_update_success' => 'The member profile has been updated successfully.',
       'vote_success' => 'Your vote has been taken into account successfully.',
       'file_replace_success' => 'The file has been replaced successfully.',
+      'cheque_payment_success' => 'Your cheque payment has been taken into account successfully.',
     ],
     'email' => [
       'your_application' => 'Your application',
@@ -112,6 +114,8 @@ return [
       'renewal_subscription' => 'Membership renewed',
       'revoked' => 'Membership revoked',
       'canceled' => 'Application canceled',
+      'cheque_payment' => 'Cheque payment confirmation',
+      'alert_cheque_payment' => 'Cheque payment notification',
     ],
     'global_settings' => [
       'tab_general' => 'General',
