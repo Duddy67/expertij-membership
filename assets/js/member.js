@@ -19,9 +19,15 @@
 	e.stopPropagation();
 	return false;
       }
-      else {
-	//$('#current-status').val($('#Form-field-Member-status').val());
-      }
+    }
+  };
+
+  $.fn.refreshForm = function() {
+    let memberStatus = $('#Form-field-Member-status').val();
+    $('#current-status').val(memberStatus);
+
+    if(memberStatus != 'pending') {
+      $('#btn-send-email').css({'visibility':'hidden','display':'none'});
     }
   };
 

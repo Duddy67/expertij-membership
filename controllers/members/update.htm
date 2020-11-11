@@ -22,6 +22,7 @@
                     data-request-data="redirect:1"
                     data-hotkey="ctrl+s, cmd+s"
                     data-load-indicator="Saving Member..."
+		    data-request-success="$.fn.refreshForm();"
                     class="btn btn-primary">
 		    <?= e(trans('codalia.membership::lang.action.save')) ?>
                 </button>
@@ -32,6 +33,7 @@
                     data-request-data="close:1"
                     data-hotkey="ctrl+enter, cmd+enter"
                     data-load-indicator="Saving Member..."
+		    data-request-success="$.fn.refreshForm();"
                     class="btn btn-default">
 		    <?= e(trans('codalia.membership::lang.action.save_and_close')) ?>
                 </button>
@@ -47,6 +49,7 @@
 
 		<?php if ($this->vars['formModel']->status == 'pending'): ?>
 		    <button
+		        id="btn-send-email"
 			type="button"
 			data-request="onSendEmailToMembers"
 			data-hotkey="ctrl+enter, cmd+enter"

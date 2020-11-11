@@ -165,7 +165,6 @@ class Members extends Controller
 	$data = post();
 	// The status has changed.
 	if ($data['Member']['status'] != $data['_current_status']) {
-	    //file_put_contents('debog_file.txt', print_r($data, true));
 	    EmailHelper::instance()->statusChange($recordId, $data['Member']['status'], $data['_current_status']);
 	}
 
@@ -209,5 +208,13 @@ class Members extends Controller
 
 	    $this->vars['votes'] = $votes;
 	}
+    }
+
+    public function update_onSavePayment($recordId = null)
+    {
+	$data = post();
+        $payment = Member::find($recordId)->payments()->where('id', $data['_payment_id'])->first();
+	$payment->update(['status' => $data['_payment_status']]);
+	Flash::success(Lang::get('codalia.membership::lang.action.payment_update_success'));
     }
 }

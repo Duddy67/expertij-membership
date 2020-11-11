@@ -138,4 +138,15 @@ class EmailHelper
 	    });
 	}
     }
+
+    public function member($memberId, $pattern)
+    {
+        $member = Member::find($memberId);
+	$vars = ['first_name' => $member->profile->first_name, 'last_name' => $member->profile->last_name];
+
+	Mail::send('codalia.membership::mail.'.$pattern, $vars, function($message) use($member, $pattern) {
+	    $message->to($member->profile->user->email, 'Admin System');
+	    $message->subject(Lang::get('codalia.membership::lang.email.'.$pattern));
+	});
+    }
 }

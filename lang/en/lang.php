@@ -102,6 +102,7 @@ return [
       'vote_success' => 'Your vote has been taken into account successfully.',
       'file_replace_success' => 'The file has been replaced successfully.',
       'cheque_payment_success' => 'Your cheque payment has been taken into account successfully.',
+      'payment_update_success' => 'The payment has been updated successfully.',
     ],
     'email' => [
       'your_application' => 'Your application',
