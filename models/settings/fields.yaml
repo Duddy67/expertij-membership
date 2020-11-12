@@ -18,6 +18,20 @@ tabs:
             comment: codalia.membership::lang.global_settings.renewal_month_comment
             type: dropdown
 
+        renewal_period:
+            tab: codalia.membership::lang.global_settings.tab_general
+            span: left
+            label: codalia.membership::lang.global_settings.renewal_period
+            comment: codalia.membership::lang.global_settings.renewal_period_comment
+            type: text
+
+        reminder_renewal:
+            tab: codalia.membership::lang.global_settings.tab_general
+            span: left
+            label: codalia.membership::lang.global_settings.reminder_renewal
+            comment: codalia.membership::lang.global_settings.reminder_renewal_comment
+            type: text
+
         subscription_fee:
             tab: codalia.membership::lang.global_settings.tab_general
             span: left

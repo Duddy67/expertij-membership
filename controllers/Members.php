@@ -103,6 +103,11 @@ class Members extends Controller
 	return $this->listRefresh();
     }
 
+    public function index_onCheckRenewal()
+    {
+	MembershipHelper::instance()->checkRenewal();
+    }
+
     public function update_onEditUser($recordId = null)
     {
         $user = BackendAuth::getUser();
