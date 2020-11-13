@@ -94,8 +94,11 @@ class MembershipHelper
 	@unlink($path.'/'.$jobName);
     }
 
-    public function setPendingStatus()
+    public function setRenewalPendingStatus()
     {
+	Db::table('codalia_membership_members')->where('status', 'member')
+					       ->update(['status' => 'pending_renewal',
+							 'updated_at' => Carbon::now()]);
     }
 
     public function checkRenewal()
@@ -111,35 +114,34 @@ class MembershipHelper
 
 	// First checks against the current year.
 	$renewal = new \DateTime(date('Y').'-'.$renewalMonth.'-'.$renewalDay);
+	$now = new \DateTime(date('Y-m-d'));
+
+	// The renewal period for the current year is passed.
+	if ($now > $renewal) {
+	    // Checks against the next year.
+	    $renewal->add(new \DateInterval('P1Y'));
+	}
+
 	$period = clone $renewal;
 	$reminder = clone $renewal;
 	// Subtracts x days to get the begining of the renewal period as well as the reminder sending.
 	$period->sub(new \DateInterval('P'.$daysPeriod.'D'));
 	$reminder->sub(new \DateInterval('P'.$daysReminder.'D'));
-	$now = new \DateTime(date('Y-m-d'));
 
-	// The renewal period is halfway between two years.
-	if ($now >= $renewal && $now <= $period) {
-	    // Adds one more year to the renewal date.
-	    $nextYear = date('Y') + 1;
-	    $renewal = new \DateTime($nextYear.'-'.$renewalMonth.'-'.$renewalDay);
-	}
-
-	// Renewal date is passed.
-	if ($now > $renewal) {
+	// Renewal period hasn't started yet.
+	if ($now < $period) {
+	    // Deletes jobs from the previous checking.
 	    self::deleteJob('renewal');
 	    self::deleteJob('reminder');
 	}
 	// The renewal time period has started.
-	elseif ($now >= $period && $now <= $renewal && !self::isJobDone('renewal')) {
+	elseif ($now >= $period && !self::isJobDone('renewal')) {
+	    self::setRenewalPendingStatus();
 	    self::jobDone('renewal');
-	    // Just in case.
-	    self::deleteJob('reminder');
 	}
 	// Now checks for the reminder sending.
-	elseif ($now >= $reminder && $now <= $renewal && !self::isJobDone('reminder')) {
+	elseif ($now >= $reminder && !self::isJobDone('reminder')) {
 	    self::jobDone('reminder');
 	}
-	//file_put_contents('debog_file.txt', print_r($renewal->format('Y-m-d'), true));
     }
 }

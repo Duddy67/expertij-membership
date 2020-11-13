@@ -104,6 +104,10 @@ class Account extends \Codalia\Profile\Components\Account
 	    Flash::success(Lang::get('codalia.membership::lang.action.cheque_payment_success'));
 
 	    EmailHelper::instance()->chequePayment($member);
+
+	    return[
+		'#payment-modes' => '<div class="panel panel-info"><div class="panel-heading">Information</div><div class="panel-body">There is no payment to display.</div></div>'
+	    ];
 	}
     }
 

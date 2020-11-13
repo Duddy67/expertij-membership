@@ -119,30 +119,9 @@ class Member extends Model
      */ 
     public function afterUpdate()
     {
-        $data = post();
         // It's a brand new member.
         if ($this->status == 'member' && $this->member_since === null) {
 	    Member::where('id', $this->id)->update(['member_since' => Carbon::now()]);
-	    EmailHelper::instance()->member($this->id, 'new_member');
-	}
-	elseif ($this->status == 'member' && $data['_current_status'] != 'member' && $this->member_since !== null) {
-	    EmailHelper::instance()->member($this->id, 'renewal_subscription');
-	//file_put_contents('debog_file.txt', print_r($data, true));
 	}
     }
-
-    /*public function getEmailFieldAttribute()
-    {
-        return $this->profile->user->email;
-    }*/
-
-    /*public function getFirstNameAttribute()
-    {
-        return $this->user->profile->first_name;
-    }
-
-    public function getLastNameAttribute()
-    {
-        return $this->user->profile->last_name;
-    }*/
 }

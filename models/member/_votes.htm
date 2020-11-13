@@ -35,6 +35,13 @@
 		  </button>
 	     </div>
 <?php elseif ($this->user->role->code != 'member') : // The user is an administrator.
+	  if (empty($this->vars['votes'])) : ?>
+	     <div class="panel panel-info">
+		 <div class="panel-heading">Information</div>
+		 <div class="panel-body">There is no vote to display.</div>
+	     </div>
+<?php     endif;
+
           foreach ($this->vars['votes'] as $vote) : ?>	
 	     <div class="form-group  text-field span-left">
 		<label for="Form-field-Vote-voter">Voter</label>
