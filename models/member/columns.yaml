@@ -8,26 +8,33 @@ columns:
         searchable: true
 
     _first_name:
-        label: codalia.journal::lang.journal.categories
+        label: codalia.membership::lang.member.first_name
         relation: profile
         select: first_name
         searchable: true
         sortable: false
 
     _last_name:
-        label: codalia.journal::lang.journal.categories
+        label: codalia.membership::lang.member.last_name
         relation: profile
         select: last_name
         searchable: true
         sortable: false
 
     _email:
-        label: codalia.journal::lang.journal.categories
+        label: codalia.membership::lang.member.email
         sortable: false
         type: partial
         path: ~/plugins/codalia/membership/models/member/_email_column.htm
 
     status:
-        label: codalia.journal::lang.journal.categories
+        label: codalia.membership::lang.attribute.status
+        searchable: true
+        sortable: false
+
+    _categories:
+        label: codalia.membership::lang.membership.categories
+        relation: categories
+        select: name
         searchable: true
         sortable: false

@@ -11,6 +11,10 @@ class CreateVotesTable extends Migration
         Schema::create('codalia_membership_votes', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->integer('member_id')->unsigned()->index()->nullable()->default(null);
+            $table->integer('user_id')->unsigned()->index()->nullable()->default(null);
+	    $table->char('choice', 3)->default(null);
+	    $table->text('note')->nullable();
             $table->timestamps();
         });
     }

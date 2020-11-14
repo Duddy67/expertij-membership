@@ -18,35 +18,10 @@ class CreateMembersTable extends Migration
 	    $table->timestamp('checked_out_time')->nullable();
             $table->timestamps();
         });
-
-        Schema::create('codalia_membership_votes', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('id');
-            $table->integer('member_id')->unsigned()->index()->nullable()->default(null);
-            $table->integer('user_id')->unsigned()->index()->nullable()->default(null);
-	    $table->char('choice', 3)->default(null);
-	    $table->text('note')->nullable();
-            $table->timestamps();
-        });
-
-        Schema::create('codalia_membership_payments', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('id');
-            $table->integer('member_id')->unsigned()->index()->nullable()->default(null);
-	    $table->char('status', 15)->default('pending');
-	    $table->char('mode', 15)->default(null);
-	    $table->char('item', 10)->default(null);
-            $table->decimal('amount', 5, 2)->unsigned()->nullable()->default(null);
-	    $table->text('note')->nullable();
-	    $table->text('data')->nullable();
-            $table->timestamps();
-        });
     }
 
     public function down()
     {
         Schema::dropIfExists('codalia_membership_members');
-        Schema::dropIfExists('codalia_membership_votes');
-        Schema::dropIfExists('codalia_membership_payments');
     }
 }

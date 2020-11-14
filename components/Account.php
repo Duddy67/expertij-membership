@@ -97,7 +97,7 @@ class Account extends \Codalia\Profile\Components\Account
 	$member = $this->loadMember();
 //file_put_contents('debog_file.txt', print_r($data, true));
         if ($data == 'cheque') {
-	    $data = ['mode' => 'cheque', 'item' => 'membership', 'amount' => Settings::get('subscription_fee', 0)];
+	    $data = ['mode' => 'cheque', 'item' => 'membership', 'amount' => Settings::get('subscription_fee', 0), 'last' => 1];
 	    $payment = new Payment ($data);
 	    $member->payments()->save($payment);
 
@@ -106,7 +106,7 @@ class Account extends \Codalia\Profile\Components\Account
 	    EmailHelper::instance()->chequePayment($member);
 
 	    return[
-		'#payment-modes' => '<div class="panel panel-info"><div class="panel-heading">Information</div><div class="panel-body">There is no payment to display.</div></div>'
+		'#payment-modes' => '<div class="card bg-light mb-3"><div class="card-header">Information</div><div class="card-body">There is no payment to display.</div></div>'
 	    ];
 	}
     }

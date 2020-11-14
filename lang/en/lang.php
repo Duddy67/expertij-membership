@@ -15,6 +15,9 @@ return [
       'tab_profile' => 'Profile',
       'tab_votes' => 'Votes',
       'tab_payments' => 'Payments',
+      'first_name' => 'First name',
+      'last_name' => 'Last name',
+      'email' => 'Email',
     ],
     'members' => [
     ],

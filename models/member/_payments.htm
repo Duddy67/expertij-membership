@@ -18,13 +18,13 @@
 <?php           foreach ($model->payments as $payment) : ?>	
 		  <tr>
 		    <td>
-		      <?php if ($payment->status == 'completed') : ?>
-			  <input type="text" name="_payment_status" id="payment-status" value="Completed" disabled="disabled" class="form-control">
+		      <?php if ($payment->status != 'pending') : ?>
+			  <input type="text" name="_payment_status" id="payment-status" value="<?php echo $payment->status; ?>" disabled="disabled" class="form-control">
 		      <?php else : ?>
 			  <select name="_payment_status" id="payment-status" class="form-control">
-			    <option value="pending" <?php echo ($payment->status == 'pending') ? 'selected="selected"' : ''; ?>>Pending</option>
-			    <option value="completed" <?php echo ($payment->status == 'completed') ? 'selected="selected"' : ''; ?>>Completed</option>
-			    <option value="canceled" <?php echo ($payment->status == 'canceled') ? 'selected="selected"' : ''; ?>>Canceled</option>
+			    <option value="pending" selected="selected">Pending</option>
+			    <option value="completed">Completed</option>
+			    <option value="canceled">Canceled</option>
 			  </select>
 			  <input type="hidden" name="_payment_id" value="<?php echo $payment->id; ?>">
 		      <?php endif; ?>
