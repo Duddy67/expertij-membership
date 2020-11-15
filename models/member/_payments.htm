@@ -21,12 +21,14 @@
 		      <?php if ($payment->status != 'pending') : ?>
 			  <input type="text" name="_payment_status" id="payment-status" value="<?php echo $payment->status; ?>" disabled="disabled" class="form-control">
 		      <?php else : ?>
+		        <div id="payment-status-select">
 			  <select name="_payment_status" id="payment-status" class="form-control">
 			    <option value="pending" selected="selected">Pending</option>
 			    <option value="completed">Completed</option>
 			    <option value="canceled">Canceled</option>
 			  </select>
 			  <input type="hidden" name="_payment_id" value="<?php echo $payment->id; ?>">
+			</div>
 		      <?php endif; ?>
 		    </td>
 		    <td>
@@ -42,15 +44,19 @@
 		      <?php echo $payment->item; ?>
 		    </td>
 		    <td>
-			<button
-			    type="button"
-			    id="btn-save-payment-<?php echo $payment->id; ?>"
-			    data-request="onSavePayment"
-			    data-browser-validate
-			    data-request-data="close:1"
-			    class="btn btn-default">
-			    Save
-			</button>
+		      <?php if ($payment->status == 'pending') : ?>
+		        <div id="save-payment-button">
+			  <button
+			      type="button"
+			      id="btn-save-payment"
+			      data-request="onSavePayment"
+			      data-browser-validate
+			      data-request-data="close:1"
+			      class="btn btn-default">
+			      Save
+			  </button>
+			</div>
+		      <?php endif; ?>
 		    </td>
 		  </tr>
 <?php           endforeach; ?>

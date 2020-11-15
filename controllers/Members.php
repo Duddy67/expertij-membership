@@ -218,8 +218,19 @@ class Members extends Controller
     public function update_onSavePayment($recordId = null)
     {
 	$data = post();
+
+	if ($data['_payment_status'] == 'pending') {
+	    return;
+	}
+
         $payment = Member::find($recordId)->payments()->where('id', $data['_payment_id'])->first();
 	$payment->update(['status' => $data['_payment_status']]);
+
 	Flash::success(Lang::get('codalia.membership::lang.action.payment_update_success'));
+
+	return [
+	    '#save-payment-button' => '',
+	    '#payment-status-select' => '<input type="text" name="_payment_status" id="payment-status" value="'.$data['_payment_status'].'" disabled="disabled" class="form-control">'
+	];
     }
 }

@@ -114,6 +114,22 @@ class Member extends Model
 		     'revoked' => 'codalia.membership::lang.status.revoked');
     }
 
+    /**
+     * Switch visibility of some fields.
+     *
+     * @param       $fields
+     * @param  null $context
+     * @return void
+     */
+    public function filterFields($fields, $context = null)
+    {
+        $disabled = ['member', 'refused', 'canceled', 'revoked'];
+
+	if ($context == 'update' && in_array($fields->status->value, $disabled)) {
+	    $fields->status->disabled = true;
+	}
+    }
+
     /*
      * N.B: Called only if one or more values have been modified.
      */ 

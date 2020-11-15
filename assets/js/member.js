@@ -10,7 +10,23 @@
 
     $('#btn-vote').click( function(e) { $.fn.voteConfirmation(e); });
     $('[id^="on-save"]').click( function(e) { $.fn.checkStatusChange(e); });
+    $('#btn-save-payment').click( function(e) { $.fn.paymentStatusConfirmation(e); });
+
+    $.fn.setStatuses();
   });
+
+  $.fn.setStatuses = function() {
+    let currentStatus = $('#Form-field-Member-status').val();
+    let disabled = {pending: ['canceled', 'pending_renewal', 'member', 'revoked'],
+                    pending_subscription: ['pending', 'refused', 'member', 'pending_renewal', 'revoked'],
+                    pending_renewal: ['pending', 'refused', 'member', 'pending_subscription', 'canceled']};
+
+    disabled[currentStatus].forEach( function(stat) {
+      $('#Form-field-Member-status option[value="'+stat+'"]').prop('disabled', true);
+    });
+
+    $('#Form-field-Member-status').select2().trigger('change');
+  };
 
   $.fn.checkStatusChange = function(e) {
     if($('#Form-field-Member-status').val() != $('#current-status').val()) {
@@ -19,6 +35,16 @@
 	e.stopPropagation();
 	return false;
       }
+    }
+  };
+
+  $.fn.paymentStatusConfirmation = function(e) {
+    //$('#Form-field-Member-status').val('member');
+    //$('#Form-field-Member-status').prop('disabled', true);
+    if(!confirm('Are you sure ?')) {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
     }
   };
 
