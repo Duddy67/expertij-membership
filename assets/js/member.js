@@ -15,17 +15,42 @@
     $.fn.setStatuses();
   });
 
+  /*
+   * Initializes the status dropdown list according to the current status.
+   */
   $.fn.setStatuses = function() {
     let currentStatus = $('#Form-field-Member-status').val();
-    let disabled = {pending: ['canceled', 'pending_renewal', 'member', 'revoked'],
-                    pending_subscription: ['pending', 'refused', 'member', 'pending_renewal', 'revoked'],
-                    pending_renewal: ['pending', 'refused', 'member', 'pending_subscription', 'canceled']};
 
-    disabled[currentStatus].forEach( function(stat) {
-      $('#Form-field-Member-status option[value="'+stat+'"]').prop('disabled', true);
-    });
+    // Disables the dropdown list.
+    if(currentStatus == 'member' || currentStatus == 'refused' || currentStatus == 'canceled' || currentStatus == 'revoked') {
+      $('#Form-field-Member-status').prop('disabled', true);
+    }
+    // Disables some options according to the pending status.
+    else {
+      let disabled = {pending: ['canceled', 'pending_renewal', 'member', 'revoked'],
+		      pending_subscription: ['pending', 'refused', 'member', 'pending_renewal', 'revoked'],
+		      pending_renewal: ['pending', 'refused', 'member', 'pending_subscription', 'canceled']};
 
+      disabled[currentStatus].forEach( function(stat) {
+	$('#Form-field-Member-status option[value="'+stat+'"]').prop('disabled', true);
+      });
+    }
+
+    // Refreshes the dropdown list.
     $('#Form-field-Member-status').select2().trigger('change');
+  };
+
+  $.fn.checkPaymentStatus = function() {
+    let currentStatus = $('#payment-status').val();
+
+    if(currentStatus == 'completed') {
+      // The candidate is now member.
+      $('#Form-field-Member-status').val('member');
+      $('#Form-field-Member-status').prop('disabled', true);
+      $('#Form-field-Member-status').select2().trigger('change');
+    }
+
+    $('#payment-status').prop('disabled', true);
   };
 
   $.fn.checkStatusChange = function(e) {
@@ -39,8 +64,6 @@
   };
 
   $.fn.paymentStatusConfirmation = function(e) {
-    //$('#Form-field-Member-status').val('member');
-    //$('#Form-field-Member-status').prop('disabled', true);
     if(!confirm('Are you sure ?')) {
       e.preventDefault();
       e.stopPropagation();

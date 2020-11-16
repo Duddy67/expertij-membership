@@ -62,33 +62,37 @@ class RenewalHelper
 
     public function setRenewalPendingStatus()
     {
-	Db::table('codalia_membership_members')->where('status', 'member')
-					       ->update(['status' => 'pending_renewal',
-							 'updated_at' => Carbon::now()]);
-
-	Db::table('codalia_membership_payments')->update(['last' => 0]);
+      Db::table('codalia_membership_members AS m')->join('codalia_membership_payments AS p', 'p.member_id', '=', 'm.id')
+						  ->where('m.status', 'member')
+						  ->update(['m.status' => 'pending_renewal',
+							    'm.updated_at' => Carbon::now(),
+							    'p.last' => 0]);
     }
 
-    public function checkRenewal()
+    public function getRenewalDate()
     {
         $renewalDay = Settings::get('renewal_day', null);
         $renewalMonth = Settings::get('renewal_month', null);
-        $daysPeriod = Settings::get('renewal_period', null);
-        $daysReminder = Settings::get('reminder_renewal', null);
 
-	if (!$renewalDay || !$renewalMonth || !$daysPeriod) {
-	    return;
-	}
-
-	// First checks against the current year.
+	// Checks against the current year.
 	$renewal = new \DateTime(date('Y').'-'.$renewalMonth.'-'.$renewalDay);
 	$now = new \DateTime(date('Y-m-d'));
 
 	// The renewal period for the current year is passed.
 	if ($now > $renewal) {
-	    // Checks against the next year.
+	    // Sets date to the next year.
 	    $renewal->add(new \DateInterval('P1Y'));
 	}
+
+	return $renewal;
+    }
+
+    public function checkRenewal()
+    {
+        $renewal = self::getRenewalDate();
+        $daysPeriod = Settings::get('renewal_period', null);
+        $daysReminder = Settings::get('reminder_renewal', null);
+	$now = new \DateTime(date('Y-m-d'));
 
 	$period = clone $renewal;
 	$reminder = clone $renewal;
@@ -106,10 +110,20 @@ class RenewalHelper
 	elseif ($now >= $period && !self::isJobDone('renewal')) {
 	    self::setRenewalPendingStatus();
 	    self::jobDone('renewal');
+	    // Informs the members.
+	    \Codalia\Membership\Helpers\EmailHelper::instance()->alertRenewal();
+
+	    return 'renewal';
 	}
 	// Now checks for the reminder sending.
 	elseif ($now >= $reminder && !self::isJobDone('reminder')) {
 	    self::jobDone('reminder');
+	    // Reminds the members.
+	    \Codalia\Membership\Helpers\EmailHelper::instance()->alertRenewal(true);
+
+	    return 'reminder';
 	}
+
+	return 'none';
     }
 }

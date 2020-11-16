@@ -113,6 +113,7 @@ return [
       'new_vote' => 'New vote',
       'new_member' => 'You are member !',
       'pending_renewal' => 'Subscription renewal',
+      'pending_renewal_reminder' => 'Subscription renewal reminder',
       'pending_subscription' => 'Application accepted',
       'refused' => 'Application refused',
       'renewal_subscription' => 'Membership renewed',

@@ -95,6 +95,22 @@ class EmailHelper
 	}
     }
 
+    public function alertRenewal($reminder = false)
+    {
+        $emails = Member::where('status', 'pending_renewal')->with('profile.user')->get()->pluck('profile.user.email')->toArray();
+
+	if (!empty($emails)) {
+	    $renewal = \Codalia\Membership\Helpers\RenewalHelper::instance()->getRenewalDate()->format('d/m/Y');
+	    $vars = ['renewal' => $renewal, 'subscription_fee' => Settings::get('subscription_fee', 0)];
+	    $pattern = ($reminder) ? 'pending_renewal_reminder' : 'pending_renewal';
+
+	    Mail::send('codalia.membership::mail.'.$pattern, $vars, function($message) use($emails, $pattern) {
+		$message->to($emails, 'Admin System');
+		$message->subject(Lang::get('codalia.membership::lang.email.'.$pattern));
+	    });
+	}
+    }
+
     public function statusChange($memberId, $newStatus, $oldStatus)
     {
         $member = Member::find($memberId);

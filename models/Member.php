@@ -20,12 +20,12 @@ class Member extends Model
     /**
      * @var array Guarded fields
      */
-    protected $guarded = ['*'];
+    protected $guarded = [];
 
     /**
      * @var array Fillable fields
      */
-    protected $fillable = [];
+    protected $fillable = ['status'];
 
     /**
      * @var array Validation rules for attributes
@@ -123,11 +123,6 @@ class Member extends Model
      */
     public function filterFields($fields, $context = null)
     {
-        $disabled = ['member', 'refused', 'canceled', 'revoked'];
-
-	if ($context == 'update' && in_array($fields->status->value, $disabled)) {
-	    $fields->status->disabled = true;
-	}
     }
 
     /*

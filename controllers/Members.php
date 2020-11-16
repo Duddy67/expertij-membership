@@ -7,6 +7,7 @@ use Codalia\Membership\Models\Vote;
 use Codalia\Profile\Models\Profile;
 use Codalia\Membership\Helpers\MembershipHelper;
 use Codalia\Membership\Helpers\EmailHelper;
+use Codalia\Membership\Helpers\RenewalHelper;
 use Codalia\Profile\Helpers\ProfileHelper;
 use BackendAuth;
 use Validator;
@@ -105,7 +106,8 @@ class Members extends Controller
 
     public function index_onCheckRenewal()
     {
-	MembershipHelper::instance()->checkRenewal();
+	$action = RenewalHelper::instance()->checkRenewal();
+	Flash::success(Lang::get('codalia.membership::lang.action.check_renewal_'.$action.'_success'));
     }
 
     public function update_onEditUser($recordId = null)
@@ -169,7 +171,7 @@ class Members extends Controller
 
 	$data = post();
 	// The status has changed.
-	if ($data['Member']['status'] != $data['_current_status']) {
+	if (isset($data['Member']['status']) && $data['Member']['status'] != $data['_current_status']) {
 	    EmailHelper::instance()->statusChange($recordId, $data['Member']['status'], $data['_current_status']);
 	}
 
@@ -228,9 +230,15 @@ class Members extends Controller
 
 	Flash::success(Lang::get('codalia.membership::lang.action.payment_update_success'));
 
+	if ($data['_payment_status'] == 'completed') {
+	    $member = Member::find($recordId);
+	    $member->update(['status' => 'member']);
+	    EmailHelper::instance()->statusChange($recordId, 'member', $data['Member']['status']);
+	}
+
 	return [
 	    '#save-payment-button' => '',
-	    '#payment-status-select' => '<input type="text" name="_payment_status" id="payment-status" value="'.$data['_payment_status'].'" disabled="disabled" class="form-control">'
+	    //'#payment-status-select' => '<input type="text" name="_payment_status" id="payment-status" value="'.$data['_payment_status'].'" disabled="disabled" class="form-control">'
 	];
     }
 }

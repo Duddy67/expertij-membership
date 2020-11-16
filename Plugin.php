@@ -238,6 +238,7 @@ class Plugin extends PluginBase
 	    'codalia.membership::mail.canceled',
 	    'codalia.membership::mail.new_member',
 	    'codalia.membership::mail.pending_renewal',
+	    'codalia.membership::mail.pending_renewal_reminder',
 	    'codalia.membership::mail.pending_subscription',
 	    'codalia.membership::mail.refused',
 	    'codalia.membership::mail.renewal_subscription',
