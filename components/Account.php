@@ -109,6 +109,9 @@ class Account extends \Codalia\Profile\Components\Account
 		'#payment-modes' => '<div class="card bg-light mb-3"><div class="card-header">Information</div><div class="card-body">There is no payment to display.</div></div>'
 	    ];
 	}
+	elseif ($data == 'paypal') {
+	    return Redirect::to('/paypal/subscription/pay-now');
+	}
     }
 
     public function onUpdate()
