@@ -6,3 +6,8 @@
   - create_categories_table.php
   - Created documents table
   - create_documents_table.php
+1.0.3:
+  - Created votes table
+  - create_votes_table.php
+  - Created payments table
+  - create_payments_table.php
