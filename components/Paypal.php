@@ -2,6 +2,9 @@
 
 use Cms\Classes\ComponentBase;
 use Codalia\Membership\Models\Settings;
+use Codalia\Profile\Models\Profile;
+use Codalia\Membership\Models\Member;
+use Codalia\Membership\Models\Payment;
 use Auth;
 
 
@@ -33,21 +36,27 @@ class Paypal extends ComponentBase
 	];
     }
 
-    public function init()
+    public function loadMember($userId)
     {
+	// Loads the corresponding member through the profile_id attribute.
+	$profileId = Profile::where('user_id', $userId)->pluck('id');
+	$member = new Member;
+	$member = $member->where('profile_id', $profileId);
+
+	return $member->first();
     }
 
     public function onRun()
     {
 	$path = explode('/', $this->currentPageUrl());
-	$product = $path[count($path) - 2];
+	$item = $path[count($path) - 2];
 	$action = end($path);
 
-	$this->page['product'] = $product; 
+	$this->page['item'] = $item; 
 	$this->page['action'] = $action; 
-	$this->page['paypal_id'] = $this->property('paypal_id'); 
-	$this->page['paypal_url'] = $this->property('paypal_url'); 
-	$this->page['subscription_fee'] = Settings::get('subscription_fee', 0);
+	$this->page['paypalId'] = $this->property('paypal_id'); 
+	$this->page['paypalUrl'] = $this->property('paypal_url'); 
+	$this->page['subscriptionFee'] = Settings::get('subscription_fee', 0);
 
 	if ($action == 'notify') {
 	    $this->onNotify();
@@ -55,12 +64,13 @@ class Paypal extends ComponentBase
 	else {
 	    // Gets the current user.
 	    $user = Auth::getUser();
-	    $this->page['user_id'] = $user->id;
+	    $this->page['userId'] = $user->id;
 	}
-
-      //$postData = $this->getPostData($product);
     }
 
+    /*
+     * Source: https://phppot.com/php/paypal-payment-gateway-integration-in-php
+     */
     public function onNotify()
     {
 	// CONFIG: Enable debug mode. This means we'll log requests into 'ipn.log' in the same directory.
@@ -69,13 +79,13 @@ class Paypal extends ComponentBase
 	define('DEBUG', 1);
 	// Set to 0 once you're ready to go live
 	define('LOG_FILE', 'ipn.log');
+	$separator = PHP_EOL.'###################################### INFORMATION ######################################'.PHP_EOL;
 
 	// Reading posted data directly from $_POST causes serialization
 	// issues with array data in POST. Reading raw POST data from input stream instead.
 	$raw_post_data = file_get_contents('php://input');
 	$raw_post_array = explode('&', $raw_post_data);
 	$myPost = array();
-file_put_contents('debog_file_notify.txt', print_r($raw_post_array, true));
 
 	foreach ($raw_post_array as $keyval) {
 	    $keyval = explode ('=', $keyval);
@@ -85,7 +95,7 @@ file_put_contents('debog_file_notify.txt', print_r($raw_post_array, true));
 	    }
 	}
 
-	error_log(date('[Y-m-d H:i e] '). "raw_post_data: $raw_post_data" . PHP_EOL, 3, LOG_FILE);
+	error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "raw_post_data: $raw_post_data" . PHP_EOL, 3, LOG_FILE);
 
 	// read the post from PayPal system and add 'cmd'
 	$req = 'cmd=_notify-validate';
@@ -108,7 +118,7 @@ file_put_contents('debog_file_notify.txt', print_r($raw_post_array, true));
 	// Post IPN data back to PayPal to validate the IPN data is genuine.
 	// Without this step anyone can fake IPN data.
 
-	$paypal_url = $this->page['paypal_url'];
+	$paypal_url = $this->page['paypalUrl'];
 
 	$ch = curl_init($paypal_url);
 
@@ -143,10 +153,9 @@ file_put_contents('debog_file_notify.txt', print_r($raw_post_array, true));
 	//curl_setopt($ch, CURLOPT_CAINFO, $cert);
 	$result = curl_exec($ch);
 
-file_put_contents('debog_file_result.txt', print_r($result, true));
 	if (curl_errno($ch) != 0) { // cURL error
 	    if (DEBUG == true) {
-		error_log(date('[Y-m-d H:i e] '). "Can't connect to PayPal to validate IPN message: " . curl_error($ch) . PHP_EOL, 3, LOG_FILE);
+		error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "Can't connect to PayPal to validate IPN message: " . curl_error($ch) . PHP_EOL, 3, LOG_FILE);
 	    }
 
 	    curl_close($ch);
@@ -156,87 +165,78 @@ file_put_contents('debog_file_result.txt', print_r($result, true));
 	else {
 	  // Log the entire HTTP response if debug is switched on.
 	  if (DEBUG == true) {
-	      error_log(date('[Y-m-d H:i e] '). "HTTP request of validation request:". curl_getinfo($ch, CURLINFO_HEADER_OUT) ." for IPN payload: $req" . PHP_EOL, 3, LOG_FILE);
-	      error_log(date('[Y-m-d H:i e] '). "HTTP response of validation request: $result" . PHP_EOL, 3, LOG_FILE);
+	      error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "HTTP request of validation request:". curl_getinfo($ch, CURLINFO_HEADER_OUT) ." for IPN payload: $req" . PHP_EOL, 3, LOG_FILE);
+	      error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "HTTP response of validation request: $result" . PHP_EOL, 3, LOG_FILE);
 	  }
 
 	  curl_close($ch);
+          // IMPORTANT: Send back an empty 200 response or PayPal will keep sending ipn to the application.
+	  header("HTTP/1.1 200 OK");
 	}
 
 	// Inspect IPN validation result and act accordingly
 	// Split response headers and payload, a better way for strcmp
 	$tokens = explode("\r\n\r\n", trim($result));
 	$result = trim(end($tokens));
+	$post = post();
+	$memberId = $post['custom'];
+	$vars = ['mode' => 'paypal', 'item' => $post['item_name'], 'amount' => $post['mc_gross'], 'currency' => $post['mc_currency'], 'last' => 1];
+	$message = '';
 
 	if(strcmp ($result, "VERIFIED") == 0) {
-	  // assign posted variables to local variables
-	  $item_name = $_POST['item_name'];
-	  $item_number = $_POST['item_number'];
-	  $payment_status = $_POST['payment_status'];
-	  $payment_amount = $_POST['mc_gross'];
-	  $payment_currency = $_POST['mc_currency'];
-	  $txn_id = $_POST['txn_id'];
-	  $receiver_email = $_POST['receiver_email'];
-	  $payer_email = $_POST['payer_email'];
-
-	  //include("DBController.php");
-	  //$db = new DBController();
-
-	  // check whether the payment_status is Completed
-	  $isPaymentCompleted = false;
-    file_put_contents('debog_file_verified.txt', print_r($_POST, true));
-	  if($payment_status == "Completed") {
-	    $isPaymentCompleted = true;
+	  // Check that txn_id has not been previously processed.
+	  if (!Payment::isUniqueTransactionId($post['txn_id'])) {
+	      $vars['status'] = 'error';
+	      $message = 'Transaction ID already exists ! ';
 	  }
-
-	  // check that txn_id has not been previously processed
-	  $isUniqueTxnId = false;
-	  //$param_type="s";
-	  //$param_value_array = array($txn_id);
-
-	  //$result = $db->runQuery("SELECT * FROM payment WHERE txn_id = ?",$param_type,$param_value_array);
-
-	  /*if(empty($result)) {
-	    $isUniqueTxnId = true;
-	  }*/
 
 	  // check that receiver_email is your PayPal email
-	  // check that payment_amount/payment_currency are correct
-	  if ($isPaymentCompleted) {
-
-	    //$param_type = "sssdss";
-	    //$param_value_array = array($item_number, $item_name, $payment_status, $payment_amount, $payment_currency, $txn_id);
-	    //$payment_id = $db->insert("INSERT INTO payment(item_number, item_name, payment_status, payment_amount, payment_currency, txn_id) VALUES(?, ?, ?, ?, ?, ?)", $param_type, $param_value_array);
+	  if ($post['receiver_email'] != $this->page['paypalId']) {
+	      $vars['status'] = 'error';
+	      $message .= 'Wrong receiver email ! ';
 	  }
+
+	  // check that payment_amount/payment_currency are correct
+	  if ($post['mc_currency'] != 'EUR') {
+	  }
+
+	  if ($post['payment_status'] == 'Completed') {
+	      if (!isset($vars['status'])) {
+		  $vars['status'] = 'completed';
+		  $message = 'The payment has been completed successfully !';
+	      }
+	  }
+	  else {
+	      // See: https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNandPDTVariables for the available options.
+	  }
+
+	  $vars['message'] = $message;
+	  $vars['data'] = 'Verified IPN: '.$req;
 
 	  // process payment and mark item as paid.
 
 	  if (DEBUG == true) {
-	      error_log(date('[Y-m-d H:i e] '). "Verified IPN: $req ". PHP_EOL, 3, LOG_FILE);
+	      error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "Verified IPN: $req ". PHP_EOL, 3, LOG_FILE);
 	  }
 	}
 	else if (strcmp($result, "INVALID") == 0) {
 	    // log for manual investigation
 	    // Add business logic here which deals with invalid IPN messages
+	    $vars['status'] = 'error';
+	    $vars['message'] = 'Invalid IPN !';
+	    $vars['data'] = 'Invalid IPN: '.$req;
+	    
 	    if (DEBUG == true) {
-		error_log(date('[Y-m-d H:i e] '). "Invalid IPN: $req" . PHP_EOL, 3, LOG_FILE);
+		error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "Invalid IPN: $req" . PHP_EOL, 3, LOG_FILE);
 	    }
 	}
+
+	$this->savePayment($memberId, $vars);
     }
 
-    public function getPostData($product)
+    public function savePayment($memberId, $vars)
     {
-	$postData = ['business' => $this->property('paypal_id'),
-		     'cmd' => '_xclick',
-		     'item_name' => $product,
-		     'item_number' => $product.'01',
-		     'amount' => Settings::get('subscription_fee', 0),
-		     'currency_code' => 'EUR',
-		     'notify_url' => url('/').'/paypal/'.$product.'/notify',
-		     'return' => url('/').'/paypal/'.$product.'/return',
-		     'cancel_return' => url('/').'/paypal/'.$product.'/cancel'
-	];
-
-	return $postData;
+	$member = $this->loadMember($memberId);
+    file_put_contents('debog_file_vars.txt', print_r($vars, true));
     }
 }

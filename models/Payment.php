@@ -71,4 +71,14 @@ class Payment extends Model
     public $morphMany = [];
     public $attachOne = [];
     public $attachMany = [];
+
+    /*
+     *  return  boolean    true if the transaction id exists, false otherwise.
+     */
+    public static function isUniqueTransactionId($transactionId)
+    {
+	$result = Payment::where('transaction_id', $transactionId)->pluck('id')->toArray();
+
+	return empty($result);
+    }
 }

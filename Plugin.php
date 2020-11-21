@@ -73,6 +73,22 @@ class Plugin extends PluginBase
 	    }
 	});
 
+	Event::listen('cms.page.beforeDisplay', function ($controller, $url, $page) {
+	    if (!$page || $url === '404' || $url === '403') {
+		return $page;
+	    }
+
+	    $paymentProcedures = ['paypal/subscription/notify', 'paypal/insurance/notify'];
+
+	    // The application is called by an external payment plateform.
+	    if (in_array($url, $paymentProcedures)) {
+	        // No layouts must be displayed as it prevents to reply with an empty 200 response. (ie: header("HTTP/1.1 200 OK");)
+		$page->layout = null;
+	    }
+
+	    return $page;
+	});
+
 	// Ensures that the Codalia Profile plugin is installed and activated.
 	if (!PluginManager::instance()->exists('Codalia.Profile')) {
 	    return;

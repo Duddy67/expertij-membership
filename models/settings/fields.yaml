@@ -38,3 +38,10 @@ tabs:
             label: codalia.membership::lang.global_settings.subscription_fee
             comment: codalia.membership::lang.global_settings.subscription_fee_comment
             type: text 
+
+        insurance_fee:
+            tab: codalia.membership::lang.global_settings.tab_general
+            span: left
+            label: codalia.membership::lang.global_settings.insurance_fee
+            comment: codalia.membership::lang.global_settings.insurance_fee_comment
+            type: text 

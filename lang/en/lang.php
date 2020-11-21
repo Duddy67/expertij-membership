@@ -134,6 +134,8 @@ return [
       'reminder_renewal_comment' => 'Sets a reminder (in days) before the renewal date',
       'subscription_fee' => 'Subscription fee',
       'subscription_fee_comment' => 'Currency: Euro',
+      'insurance_fee' => 'Insurance fee',
+      'insurance_fee_comment' => 'Currency: Euro',
       'january' => 'January',
       'january' => 'January',
       'february' => 'February',

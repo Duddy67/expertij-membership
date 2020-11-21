@@ -16,8 +16,10 @@ class CreatePaymentsTable extends Migration
 	    $table->char('mode', 15)->default(null);
 	    $table->char('item', 10)->default(null);
             $table->decimal('amount', 5, 2)->unsigned()->nullable()->default(null);
-	    $table->text('note')->nullable();
+	    $table->char('currency', 5)->default(null);
+	    $table->text('message')->nullable();
 	    $table->text('data')->nullable();
+	    $table->string('transaction_id', 255)->nullable();
 	    $table->boolean('last')->nullable();
             $table->timestamps();
         });
