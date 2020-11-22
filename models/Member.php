@@ -125,6 +125,20 @@ class Member extends Model
     {
     }
 
+    public function savePayment($data)
+    {
+        $payment = new Payment ($data);
+	$this->payments()->save($payment);
+
+	if ($data['status'] == 'completed') {
+	    EmailHelper::instance()->alertPayment($data);
+	}
+	// error
+	else {
+	    return;
+	}
+    }
+
     /*
      * N.B: Called only if one or more values have been modified.
      */ 

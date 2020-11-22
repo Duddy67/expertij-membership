@@ -17,12 +17,12 @@ class Payment extends Model
     /**
      * @var array Guarded fields
      */
-    protected $guarded = [];
+    protected $guarded = ['id', 'member_id', 'created_at', 'updated_at'];
 
     /**
      * @var array Fillable fields
      */
-    protected $fillable = ['status', 'mode', 'item', 'amount', 'note', 'data'];
+    protected $fillable = [];
 
     /**
      * @var array Validation rules for attributes
@@ -71,6 +71,7 @@ class Payment extends Model
     public $morphMany = [];
     public $attachOne = [];
     public $attachMany = [];
+
 
     /*
      *  return  boolean    true if the transaction id exists, false otherwise.

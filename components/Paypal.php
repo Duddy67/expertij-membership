@@ -65,6 +65,8 @@ class Paypal extends ComponentBase
 	    // Gets the current user.
 	    $user = Auth::getUser();
 	    $this->page['userId'] = $user->id;
+	    $member = $this->loadMember($user->id);
+	    $member->savePayment();
 	}
     }
 

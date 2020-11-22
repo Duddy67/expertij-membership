@@ -106,6 +106,7 @@ return [
       'file_replace_success' => 'The file has been replaced successfully.',
       'cheque_payment_success' => 'Your cheque payment has been taken into account successfully.',
       'payment_update_success' => 'The payment has been updated successfully.',
+      'status_changed_by_system' => 'The status as been changed by the system. You cannot save the form. Please refresh the page (F5 key) and save it again.',
     ],
     'email' => [
       'your_application' => 'Your application',

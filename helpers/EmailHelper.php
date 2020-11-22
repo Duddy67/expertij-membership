@@ -111,6 +111,21 @@ class EmailHelper
 	}
     }
 
+    /**
+     * 
+     *
+     * @param integer    $memberId
+     *
+     * @return void
+     */
+    public function alertPayment($memberId, $data)
+    {
+        $member = Member::find($memberId)->profile;
+	// Fetches the emails of the users belonging to the Office group.
+        $emails = UserGroup::where('code', 'office')->first()->users->pluck('email')->toArray();
+
+    }
+
     public function statusChange($memberId, $newStatus, $oldStatus)
     {
         $member = Member::find($memberId);

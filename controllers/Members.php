@@ -167,12 +167,27 @@ class Members extends Controller
 
     public function update_onSave($recordId = null, $context = null)
     {
+	$data = post();
+        $member = Member::find($recordId);
+	$originalStatus = $member->getOriginal('status');
+	// Use case 1: A member (or candidate) has paid the subscription fee and the system set their status to 'member'. 
+	//             Meanwhile an administrator is updating the data with a different status value.
+	if (isset($data['Member']['status']) && $data['Member']['status'] != 'member' && $originalStatus == 'member') {
+	    Flash::warning(Lang::get('codalia.membership::lang.action.status_changed_by_system'));
+	    return;
+	}
+	// Use case 2: The system has just set the member statuses to 'pending_renewal'. 
+	//             Meanwhile an administrator is updating the data while the form status value is still 'member'.
+	elseif (isset($data['Member']['status']) && $data['Member']['status'] == 'member' && $originalStatus == 'pending_renewal') {
+	    Flash::warning(Lang::get('codalia.membership::lang.action.status_changed_by_system'));
+	    return;
+	}
+
         parent::update_onSave($recordId, $context);
 
-	$data = post();
 	// The status has changed.
-	if (isset($data['Member']['status']) && $data['Member']['status'] != $data['_current_status']) {
-	    EmailHelper::instance()->statusChange($recordId, $data['Member']['status'], $data['_current_status']);
+	if (isset($data['Member']['status']) && $data['Member']['status'] != $originalStatus) {
+	    //EmailHelper::instance()->statusChange($recordId, $data['Member']['status'], $data['_current_status']);
 	}
 
         /*return[
