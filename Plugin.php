@@ -262,6 +262,8 @@ class Plugin extends PluginBase
 	    'codalia.membership::mail.revoked',
 	    'codalia.membership::mail.cheque_payment',
 	    'codalia.membership::mail.alert_cheque_payment',
+	    'codalia.membership::mail.payment_completed',
+	    'codalia.membership::mail.payment_error',
 	];
     }
 }

@@ -58,7 +58,6 @@ class EmailHelper
 	// Fetches the emails of the users belonging to the Member group.
         $emails = UserGroup::where('code', 'member')->first()->users->pluck('email')->toArray();
 
-	//file_put_contents('debog_file.txt', print_r($emails, true));
 
 	if (!empty($emails)) {
 	    $vars = ['first_name' => $candidate->first_name, 'last_name' => $candidate->last_name];
@@ -123,25 +122,40 @@ class EmailHelper
         $member = Member::find($memberId)->profile;
 	// Fetches the emails of the users belonging to the Office group.
         $emails = UserGroup::where('code', 'office')->first()->users->pluck('email')->toArray();
+	$vars = ['first_name' => $member->profile->first_name,
+		 'last_name' => $member->profile->last_name,
+		 'amount' => $data['amount'],
+		 'item' => $data['item'],
+		 'payment_mode' => $data['mode'],
+        ];
 
+	Mail::send('codalia.membership::mail.payment_'.$data['status'], $vars, function($message) use($member, $data) {
+	    $message->to($member->profile->user->email, 'Admin System');
+	    $message->subject(Lang::get('codalia.membership::lang.email.payment_'.$data['status']));
+	});
+
+	if (!empty($emails)) {
+	    Mail::send('codalia.membership::mail.payment_'.$data['status'].'_admin', $vars, function($message) use($emails, $data) {
+		$message->to($emails, 'Admin System');
+		$message->subject(Lang::get('codalia.membership::lang.email.payment_'.$data['status'].'_admin'));
+	    });
+	}
     }
 
-    public function statusChange($memberId, $newStatus, $oldStatus)
+    public function statusChange($memberId, $newStatus, $isNewMember = false)
     {
         $member = Member::find($memberId);
 	$vars = ['first_name' => $member->profile->first_name, 'last_name' => $member->profile->last_name, 'subscription_fee' => Settings::get('subscription_fee', 0)];
 
-	if ($newStatus != 'pending' && $newStatus != 'member') {
-	    $status = $newStatus;
-	}
-	elseif ($newStatus == 'member' && $oldStatus == 'pending_subscription') {
+	if ($newStatus == 'member' && $isNewMember) {
 	    $status = 'new_member';
 	}
-	elseif ($newStatus == 'member' && $oldStatus == 'pending_renewal') {
+	elseif ($newStatus == 'member' && !$isNewMember) {
 	    $status = 'renewal_subscription';
 	}
+	// refused, pending_subscription, canceled, revoked
 	else {
-	    return;
+	    $status = $newStatus;
 	}
 
 	Mail::send('codalia.membership::mail.'.$status, $vars, function($message) use($member, $status) {

@@ -14,7 +14,7 @@ class CreatePaymentsTable extends Migration
             $table->integer('member_id')->unsigned()->index()->nullable()->default(null);
 	    $table->char('status', 15)->default('pending');
 	    $table->char('mode', 15)->default(null);
-	    $table->char('item', 10)->default(null);
+	    $table->char('item', 15)->default(null);
             $table->decimal('amount', 5, 2)->unsigned()->nullable()->default(null);
 	    $table->char('currency', 5)->default(null);
 	    $table->text('message')->nullable();

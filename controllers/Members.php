@@ -170,24 +170,31 @@ class Members extends Controller
 	$data = post();
         $member = Member::find($recordId);
 	$originalStatus = $member->getOriginal('status');
+	// The status drop down list is sometimes disabled depending on its setting (member, canceled, etc...), therefore
+	// its value is not passed through the edit form. 
+	$newStatus = (isset($data['Member']['status'])) ? $data['Member']['status'] : $originalStatus;
+
 	// Use case 1: A member (or candidate) has paid the subscription fee and the system set their status to 'member'. 
-	//             Meanwhile an administrator is updating the data with a different status value.
-	if (isset($data['Member']['status']) && $data['Member']['status'] != 'member' && $originalStatus == 'member') {
+	//             Meanwhile an administrator is updating the data with a different status value which going to erase the status value set by the system. 
+	if ($newStatus != 'member' && $originalStatus == 'member') {
 	    Flash::warning(Lang::get('codalia.membership::lang.action.status_changed_by_system'));
 	    return;
 	}
+
 	// Use case 2: The system has just set the member statuses to 'pending_renewal'. 
-	//             Meanwhile an administrator is updating the data while the form status value is still 'member'.
-	elseif (isset($data['Member']['status']) && $data['Member']['status'] == 'member' && $originalStatus == 'pending_renewal') {
-	    Flash::warning(Lang::get('codalia.membership::lang.action.status_changed_by_system'));
-	    return;
-	}
+	//             Meanwhile an administrator is updating the data while the form status value is still set to 'member'.
+	//        N.B: As the status drop down list is disabled when set to 'member', the new status won't be erased as the drop down
+	//             list value is not passed. So no need to stop the workflow. 
 
         parent::update_onSave($recordId, $context);
 
+	// The possible changes.
+	$options = ['refused', 'pending_subscription', 'canceled', 'revoked'];
+
 	// The status has changed.
-	if (isset($data['Member']['status']) && $data['Member']['status'] != $originalStatus) {
-	    //EmailHelper::instance()->statusChange($recordId, $data['Member']['status'], $data['_current_status']);
+	if (in_array($newStatus, $options) && $newStatus != $originalStatus) {
+	    EmailHelper::instance()->statusChange($recordId, $newStatus);
+file_put_contents('debog_file_status_changed.txt', print_r($newStatus, true));
 	}
 
         /*return[

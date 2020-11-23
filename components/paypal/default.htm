@@ -4,7 +4,7 @@
   <form action="{{ paypalUrl }}" id="pay-now" method="post">
     <input type="hidden" name="business" value="{{ paypalId }}">
     <input type="hidden" name="cmd" value="_xclick">
-    <input type="hidden" name="item_name" value="'{{ item }}">
+    <input type="hidden" name="item_name" value="{{ item }}">
     <input type="hidden" name="item_number" value="{{ item }}01">
     <input type="hidden" name="amount" value="{{ subscriptionFee }}">
     <input type="hidden" name="currency_code" value="EUR">

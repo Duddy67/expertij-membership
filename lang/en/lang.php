@@ -106,7 +106,7 @@ return [
       'file_replace_success' => 'The file has been replaced successfully.',
       'cheque_payment_success' => 'Your cheque payment has been taken into account successfully.',
       'payment_update_success' => 'The payment has been updated successfully.',
-      'status_changed_by_system' => 'The status as been changed by the system. You cannot save the form. Please refresh the page (F5 key) and save it again.',
+      'status_changed_by_system' => 'The status as been changed by the system. You cannot save the form. Please refresh the page (F5 key) and then save it again.',
     ],
     'email' => [
       'your_application' => 'Your application',
@@ -122,6 +122,10 @@ return [
       'canceled' => 'Application canceled',
       'cheque_payment' => 'Cheque payment confirmation',
       'alert_cheque_payment' => 'Cheque payment notification',
+      'payment_completed' => 'Payment completed',
+      'payment_error' => 'Payment error',
+      'payment_completed_admin' => 'Payment completed',
+      'payment_error_admin' => 'Payment error',
     ],
     'global_settings' => [
       'tab_general' => 'General',

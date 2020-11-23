@@ -34,6 +34,10 @@
       disabled[currentStatus].forEach( function(stat) {
 	$('#Form-field-Member-status option[value="'+stat+'"]').prop('disabled', true);
       });
+
+      if(currentStatus == 'pending_subscription') {
+	$('#Form-field-Member-status option[value="canceled"]').prop('disabled', false);
+      }
     }
 
     // Refreshes the dropdown list.
@@ -71,6 +75,9 @@
     }
   };
 
+  /*
+   * Called through Ajax once all of the process is done.
+   */
   $.fn.refreshForm = function() {
     let memberStatus = $('#Form-field-Member-status').val();
     $('#current-status').val(memberStatus);
@@ -78,6 +85,8 @@
     if(memberStatus != 'pending') {
       $('#btn-send-email').css({'visibility':'hidden','display':'none'});
     }
+
+    $.fn.setStatuses();
   };
 
   $.fn.setUserEditFields = function(data) {

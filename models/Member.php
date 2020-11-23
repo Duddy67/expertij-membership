@@ -2,6 +2,7 @@
 
 use Model;
 use Codalia\Profile\Models\Profile as ProfileModel;
+use Codalia\Membership\Models\Payment;
 use Codalia\Membership\Helpers\EmailHelper;
 use Carbon\Carbon;
 
@@ -131,11 +132,19 @@ class Member extends Model
 	$this->payments()->save($payment);
 
 	if ($data['status'] == 'completed') {
-	    EmailHelper::instance()->alertPayment($data);
+	    if ($data['item'] == 'subscription') {
+		$isNewMember = ($this->member_since === null) ? true : false;
+		// Becomes member again or new member.
+		$this->update(['status' => 'member']);
+		// Informs the member about the status change.
+		EmailHelper::instance()->statusChange($this->id, 'member', $isNewMember);
+	    }
+
+	    EmailHelper::instance()->alertPayment($this->id, $data);
 	}
 	// error
 	else {
-	    return;
+	    EmailHelper::instance()->alertPayment($this->id, $data);
 	}
     }
 

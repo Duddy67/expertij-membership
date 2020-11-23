@@ -65,8 +65,6 @@ class Paypal extends ComponentBase
 	    // Gets the current user.
 	    $user = Auth::getUser();
 	    $this->page['userId'] = $user->id;
-	    $member = $this->loadMember($user->id);
-	    $member->savePayment();
 	}
     }
 
@@ -97,6 +95,7 @@ class Paypal extends ComponentBase
 	    }
 	}
 
+    file_put_contents('debog_file_vars.txt', print_r($myPost, true));
 	error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "raw_post_data: $raw_post_data" . PHP_EOL, 3, LOG_FILE);
 
 	// read the post from PayPal system and add 'cmd'
@@ -125,6 +124,7 @@ class Paypal extends ComponentBase
 	$ch = curl_init($paypal_url);
 
 	if ($ch == false) {
+	    error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "Can't connect to PayPal to validate IPN message: " . $paypal_url . PHP_EOL, 3, LOG_FILE);
 	    return false;
 	}
 
@@ -182,14 +182,20 @@ class Paypal extends ComponentBase
 	$result = trim(end($tokens));
 	$post = post();
 	$memberId = $post['custom'];
-	$vars = ['mode' => 'paypal', 'item' => $post['item_name'], 'amount' => $post['mc_gross'], 'currency' => $post['mc_currency'], 'last' => 1];
+	$vars = ['mode' => 'paypal', 'item' => $post['item_name'], 'amount' => $post['mc_gross'], 'currency' => $post['mc_currency'], 'transaction_id' => $post['txn_id'], 'last' => 1];
 	$message = '';
 
 	if(strcmp ($result, "VERIFIED") == 0) {
+
 	  // Check that txn_id has not been previously processed.
 	  if (!Payment::isUniqueTransactionId($post['txn_id'])) {
-	      $vars['status'] = 'error';
-	      $message = 'Transaction ID already exists ! ';
+	      // Paypal works like shit and keep sending ipn despite the empty 200 response sent after closing curl.
+	      // So no need to waste time by manage this as an error etc... Just send again an empty 200 response and quit the function. 
+
+	      error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] ').'Paypal keep sending ipn: '.$post['txn_id'].' - '.$req.PHP_EOL, 3, 'paypal_bug.log');
+	      header("HTTP/1.1 200 OK");
+
+	      return;
 	  }
 
 	  // check that receiver_email is your PayPal email
@@ -233,12 +239,7 @@ class Paypal extends ComponentBase
 	    }
 	}
 
-	$this->savePayment($memberId, $vars);
-    }
-
-    public function savePayment($memberId, $vars)
-    {
 	$member = $this->loadMember($memberId);
-    file_put_contents('debog_file_vars.txt', print_r($vars, true));
+	$member->savePayment($vars);
     }
 }
