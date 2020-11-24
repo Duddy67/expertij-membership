@@ -188,13 +188,12 @@ class Members extends Controller
 
         parent::update_onSave($recordId, $context);
 
-	// The possible changes.
+	// The possible (ie: authorized) changes.
 	$options = ['refused', 'pending_subscription', 'canceled', 'revoked'];
 
 	// The status has changed.
 	if (in_array($newStatus, $options) && $newStatus != $originalStatus) {
 	    EmailHelper::instance()->statusChange($recordId, $newStatus);
-file_put_contents('debog_file_status_changed.txt', print_r($newStatus, true));
 	}
 
         /*return[

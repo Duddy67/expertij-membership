@@ -60,6 +60,9 @@ class RenewalHelper
 	@unlink($path.'/'.$jobName);
     }
 
+    /*
+     * Resets all the member status to pending_renewal and the payment 'last' flag to zero. 
+     */
     public function setRenewalPendingStatus()
     {
       Db::table('codalia_membership_members AS m')->join('codalia_membership_payments AS p', 'p.member_id', '=', 'm.id')

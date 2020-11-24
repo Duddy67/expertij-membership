@@ -4,7 +4,7 @@
 		 <div class="panel-body">There is no payment to display.</div>
 	     </div>
 <?php    else : ?>
-	    <table class="table">
+	    <table class="table payment">
 	        <thead>
 		  <tr>
 		    <th>Status</th>
@@ -15,8 +15,8 @@
 		    <th></th>
 		  </tr>
 	        </thead>
-<?php           foreach ($model->payments as $payment) : ?>	
-		  <tr>
+		<?php foreach ($model->payments()->latest()->get() as $payment) : ?>	
+		<tr <?php echo ($payment->last) ? '' : 'class="history"'; ?>>
 		    <td>
 		      <?php $disabled = ($payment->status != 'pending') ? 'disabled' : ''; ?>
 			  <select name="_payment_status" id="payment-status" <?php echo $disabled; ?> class="form-control">

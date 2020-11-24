@@ -74,8 +74,8 @@ class Member extends Model
     ];
     public $belongsToMany = [
 	'categories' => ['Codalia\Membership\Models\Category',
-	'table' => 'codalia_membership_cat_members',
-	'order' => 'created_at desc',
+			 'table' => 'codalia_membership_cat_members',
+			 'order' => 'created_at desc',
       ],
     ];
     public $morphTo = [];
@@ -130,6 +130,10 @@ class Member extends Model
     {
         $payment = new Payment ($data);
 	$this->payments()->save($payment);
+	// Gets the latest payment.
+	$payment = $this->payments()->where('item', 'subscription')->latest()->first();
+	// Sets the 'last' flag of the older payments to zero.
+	$this->payments()->where([['id', '<>', $payment->id], ['item', '=', 'subscription']])->update(['last' => 0]);
 
 	if ($data['status'] == 'completed') {
 	    if ($data['item'] == 'subscription') {

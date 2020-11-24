@@ -80,6 +80,7 @@ class Paypal extends ComponentBase
 	// Set to 0 once you're ready to go live
 	define('LOG_FILE', 'ipn.log');
 	$separator = PHP_EOL.'###################################### INFORMATION ######################################'.PHP_EOL;
+	$end = PHP_EOL.'###################################### END OF THE PROCESS ######################################'.PHP_EOL;
 
 	// Reading posted data directly from $_POST causes serialization
 	// issues with array data in POST. Reading raw POST data from input stream instead.
@@ -95,7 +96,7 @@ class Paypal extends ComponentBase
 	    }
 	}
 
-    file_put_contents('debog_file_vars.txt', print_r($myPost, true));
+    file_put_contents('debog_file_post.txt', print_r($myPost, true), FILE_APPEND);
 	error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "raw_post_data: $raw_post_data" . PHP_EOL, 3, LOG_FILE);
 
 	// read the post from PayPal system and add 'cmd'
@@ -124,7 +125,7 @@ class Paypal extends ComponentBase
 	$ch = curl_init($paypal_url);
 
 	if ($ch == false) {
-	    error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "Can't connect to PayPal to validate IPN message: " . $paypal_url . PHP_EOL, 3, LOG_FILE);
+	    error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "Curl failed to init ! url: " . $paypal_url.PHP_EOL.$end, 3, LOG_FILE);
 	    return false;
 	}
 
@@ -157,7 +158,7 @@ class Paypal extends ComponentBase
 
 	if (curl_errno($ch) != 0) { // cURL error
 	    if (DEBUG == true) {
-		error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "Can't connect to PayPal to validate IPN message: " . curl_error($ch) . PHP_EOL, 3, LOG_FILE);
+		error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "Can't connect to PayPal to validate IPN message: ".curl_error($ch).PHP_EOL.$end, 3, LOG_FILE);
 	    }
 
 	    curl_close($ch);
@@ -190,9 +191,9 @@ class Paypal extends ComponentBase
 	  // Check that txn_id has not been previously processed.
 	  if (!Payment::isUniqueTransactionId($post['txn_id'])) {
 	      // Paypal works like shit and keep sending ipn despite the empty 200 response sent after closing curl.
-	      // So no need to waste time by manage this as an error etc... Just send again an empty 200 response and quit the function. 
+	      // So no need to waste time by manage this as an error etc... Just send again an empty 200 response (just in case) and quit the function. 
 
-	      error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] ').'Paypal keep sending ipn: '.$post['txn_id'].' - '.$req.PHP_EOL, 3, 'paypal_bug.log');
+	      error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] ').'Paypal keeps sending ipn: '.$post['txn_id'].' - '.$req.PHP_EOL, 3, 'paypal_bug.log');
 	      header("HTTP/1.1 200 OK");
 
 	      return;
@@ -224,7 +225,7 @@ class Paypal extends ComponentBase
 	  // process payment and mark item as paid.
 
 	  if (DEBUG == true) {
-	      error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "Verified IPN: $req ". PHP_EOL, 3, LOG_FILE);
+	      error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "Verified IPN: $req ". PHP_EOL.$end, 3, LOG_FILE);
 	  }
 	}
 	else if (strcmp($result, "INVALID") == 0) {
@@ -235,7 +236,7 @@ class Paypal extends ComponentBase
 	    $vars['data'] = 'Invalid IPN: '.$req;
 	    
 	    if (DEBUG == true) {
-		error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "Invalid IPN: $req" . PHP_EOL, 3, LOG_FILE);
+		error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "Invalid IPN: $req" . PHP_EOL.$end, 3, LOG_FILE);
 	    }
 	}
 

@@ -119,7 +119,7 @@ class EmailHelper
      */
     public function alertPayment($memberId, $data)
     {
-        $member = Member::find($memberId)->profile;
+        $member = Member::find($memberId);
 	// Fetches the emails of the users belonging to the Office group.
         $emails = UserGroup::where('code', 'office')->first()->users->pluck('email')->toArray();
 	$vars = ['first_name' => $member->profile->first_name,

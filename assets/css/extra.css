@@ -190,3 +190,11 @@ div[class$='-even'] {
   padding: 15px;
 }
 
+tr.history {
+  background-color: #f2f2f2;
+}
+
+tr.history td {
+  color: #999;
+}
+
