@@ -1,4 +1,4 @@
-<?php if ($this->vars['vote']) : // The user is a member and they have already voted. ?>
+<?php if ($this->vars['vote']) : // The user is a decision maker and they have already voted. ?>
 
 	     <div class="form-group  text-field span-left">
 		  <label for="Form-field-Vote-vote">Vote</label>
@@ -9,7 +9,7 @@
 		  <textarea name="_vote_note" id="Form-field-Vote-note" autocomplete="off" disabled="disabled" 
 			    class="form-control field-textarea size-small" placeholder=""><?php echo $this->vars['vote']->note; ?></textarea>
 	     </div>
-<?php elseif ($this->user->role->code == 'member' && $this->vars['canVote']) : // The user is a member and they still allowed to vote. ?>	
+<?php elseif ($this->user->role->code == 'decision-maker' && $this->vars['canVote']) : // The user is a decision maker and they still allowed to vote. ?>	
 	     <div class="form-group  text-field span-left">
 		  <label for="Form-field-Vote-choice">Choice</label>
 		  <select id="Form-field-Vote-choice" name="Vote[choice]" class="form-control custom-select select2-hidden-accessible" data-disposable="data-disposable" tabindex="-1" aria-hidden="true">
@@ -34,7 +34,7 @@
 		      Validate
 		  </button>
 	     </div>
-<?php elseif ($this->user->role->code != 'member') : // The user is an administrator.
+<?php elseif ($this->user->role->code != 'decision-maker') : // The user is an administrator.
 	  if (empty($this->vars['votes'])) : ?>
 	     <div class="panel panel-info">
 		 <div class="panel-heading">Information</div>

@@ -207,9 +207,9 @@ class Members extends Controller
 	$this->addJs('/plugins/codalia/membership/assets/js/member.js');
     }
 
-    public function update_onSendEmailToMembers($recordId = null)
+    public function update_onSendEmailToDecisionMakers($recordId = null)
     {
-	EmailHelper::instance()->alertMembers($recordId);
+	EmailHelper::instance()->alertDecisionMakers($recordId);
     }
 
     protected function prepareVotes($recordId)
@@ -217,7 +217,7 @@ class Members extends Controller
         $this->vars['canVote'] = false;
 	$member = Member::find($recordId);
 
-        if ($member->status == 'pending' && $this->user->role->code == 'member') {
+        if ($member->status == 'pending' && $this->user->role->code == 'decision-maker') {
 	    $this->vars['canVote'] = true;
 	}
 
@@ -225,7 +225,7 @@ class Members extends Controller
 	    return $item->user_id == $this->user->id;
 	});
 
-        if ($this->user->role->code != 'member') {
+        if ($this->user->role->code != 'decision-maker') {
 	    $votes = [];
 	    foreach ($member->votes as $vote) {
 		$user = BackendAuth::findUserById($vote->user_id);

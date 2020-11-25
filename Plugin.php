@@ -249,7 +249,7 @@ class Plugin extends PluginBase
     {
 	return [
 	    'codalia.membership::mail.alert_office',
-	    'codalia.membership::mail.alert_members',
+	    'codalia.membership::mail.alert_decision_makers',
 	    'codalia.membership::mail.alert_vote',
 	    'codalia.membership::mail.candidate_application',
 	    'codalia.membership::mail.canceled',

@@ -7,6 +7,8 @@ use BackendAuth;
 use Codalia\Membership\Models\Member;
 use Codalia\Membership\Models\Settings;
 use Backend\Models\UserGroup;
+use System\Classes\PluginManager;
+use Renatio\DynamicPDF\Classes\PDF; // import facade
 use Mail;
 use Flash;
 use Lang;
@@ -52,17 +54,17 @@ class EmailHelper
      *
      * @return void
      */
-    public function alertMembers($memberId)
+    public function alertDecisionMakers($memberId)
     {
         $candidate = Member::find($memberId)->profile;
-	// Fetches the emails of the users belonging to the Member group.
-        $emails = UserGroup::where('code', 'member')->first()->users->pluck('email')->toArray();
+	// Fetches the emails of the users belonging to the Decision Maker group.
+        $emails = UserGroup::where('code', 'decision-maker')->first()->users->pluck('email')->toArray();
 
 
 	if (!empty($emails)) {
 	    $vars = ['first_name' => $candidate->first_name, 'last_name' => $candidate->last_name];
 
-	    Mail::send('codalia.membership::mail.alert_members', $vars, function($message) use($emails) {
+	    Mail::send('codalia.membership::mail.alert_decision_makers', $vars, function($message) use($emails) {
 		$message->to($emails, 'Admin System');
 		$message->subject(Lang::get('codalia.membership::lang.email.new_application'));
 	    });
@@ -127,11 +129,20 @@ class EmailHelper
 		 'amount' => $data['amount'],
 		 'item' => $data['item'],
 		 'payment_mode' => $data['mode'],
+		 'reference' => 'xxxxxxxxxx',
         ];
+
+	//$temp_file = tempnam(sys_get_temp_dir(), 'inv');
+	//PDF::loadTemplate('renatio::invoice-membership', $vars)->save($temp_file);
 
 	Mail::send('codalia.membership::mail.payment_'.$data['status'], $vars, function($message) use($member, $data) {
 	    $message->to($member->profile->user->email, 'Admin System');
 	    $message->subject(Lang::get('codalia.membership::lang.email.payment_'.$data['status']));
+
+	    if (PluginManager::instance()->exists('Renatio.DynamicPDF')) {
+		//$message->attach($temp_file, ['as' => 'Your_Invoice.pdf']);
+
+	    }
 	});
 
 	if (!empty($emails)) {

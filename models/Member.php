@@ -3,6 +3,7 @@
 use Model;
 use Codalia\Profile\Models\Profile as ProfileModel;
 use Codalia\Membership\Models\Payment;
+use Codalia\Membership\Models\Insurance;
 use Codalia\Membership\Helpers\EmailHelper;
 use Carbon\Carbon;
 
@@ -64,7 +65,9 @@ class Member extends Model
     /**
      * @var array Relations
      */
-    public $hasOne = [];
+    public $hasOne = [
+        'insurance' => ['Codalia\Membership\Models\Insurance']
+    ];
     public $hasMany = [
         'votes' => ['Codalia\Membership\Models\Vote'],
         'payments' => ['Codalia\Membership\Models\Payment']
@@ -99,6 +102,11 @@ class Member extends Model
 	// Important: Creates a member without validation.
 	// NB. The validation has been performed earlier in the code.
 	$member->forceSave();
+
+	// Creates an empty insurance.
+	$insurance = new Insurance;
+	$member->insurance()->save($insurance);
+
 	$profile->member = $member;
 
 	return $member;

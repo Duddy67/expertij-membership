@@ -11,3 +11,6 @@
   - create_votes_table.php
   - Created payments table
   - create_payments_table.php
+1.0.4:
+  - Created insurance table
+  - create_insurances_table.php

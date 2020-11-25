@@ -48,6 +48,8 @@ class Account extends \Codalia\Profile\Components\Account
 
 	$this->page['isPayment'] = $isPayment;
 
+//$data = ['status' => 'completed', 'mode' => 'paypal', 'item' => 'subscription', 'amount' => '1.00'];    
+//EmailHelper::instance()->alertPayment(1, $data);
         parent::prepareVars();
     }
 
@@ -97,7 +99,7 @@ class Account extends \Codalia\Profile\Components\Account
 	$member = $this->loadMember();
 //file_put_contents('debog_file.txt', print_r($data, true));
         if ($data == 'cheque') {
-	    $data = ['mode' => 'cheque', 'item' => 'membership', 'amount' => Settings::get('subscription_fee', 0), 'last' => 1];
+	    $data = ['mode' => 'cheque', 'item' => 'subscription', 'amount' => Settings::get('subscription_fee', 0), 'last' => 1];
 	    $payment = new Payment ($data);
 	    $member->payments()->save($payment);
 
