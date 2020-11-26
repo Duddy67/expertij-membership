@@ -47,9 +47,10 @@ class Account extends \Codalia\Profile\Components\Account
 	}
 
 	$this->page['isPayment'] = $isPayment;
+	$this->page['isMember'] = ($this->member->status == 'member') ? true : false;
+	$this->page['isCandidate'] = ($this->member->member_since === null) ? true : false; 
+	$this->page['insurance'] = $this->member->insurance->status;
 
-//$data = ['status' => 'completed', 'mode' => 'paypal', 'item' => 'subscription', 'amount' => '1.00'];    
-//EmailHelper::instance()->alertPayment(1, $data);
         parent::prepareVars();
     }
 

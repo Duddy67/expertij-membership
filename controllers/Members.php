@@ -80,8 +80,8 @@ class Members extends Controller
 
     public function listOverrideColumnValue($record, $columnName, $definition = null)
     {
-        if ($record->checked_out && $columnName == 'name') {
-	    return MembershipHelper::instance()->getCheckInHtml($record, BackendAuth::findUserById($record->checked_out));
+        if ($record->checked_out && $columnName == '_first_name') {
+	    return MembershipHelper::instance()->getCheckInHtml($record, BackendAuth::findUserById($record->checked_out), $record->_first_name);
 	}
     }
 

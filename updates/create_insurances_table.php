@@ -12,7 +12,7 @@ class CreateInsurancesTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('member_id')->unsigned()->index()->nullable()->default(null);
-	    $table->boolean('running')->nullable();
+	    $table->char('status', 20)->default('disabled');
 	    $table->char('code', 3)->default(null);
             $table->timestamps();
         });

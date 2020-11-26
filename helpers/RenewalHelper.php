@@ -62,6 +62,7 @@ class RenewalHelper
 
     /*
      * Resets all the member status to pending_renewal and the payment 'last' flag to zero. 
+     * Resets all the running insurances as well.
      */
     public function setRenewalPendingStatus()
     {
@@ -70,6 +71,10 @@ class RenewalHelper
 						  ->update(['m.status' => 'pending_renewal',
 							    'm.updated_at' => Carbon::now(),
 							    'p.last' => 0]);
+
+      Db::table('codalia_membership_insurances')->where('status', 'running')
+						->update(['status' => 'pending_renewal',
+							  'updated_at' => Carbon::now()]);
     }
 
     public function getRenewalDate()

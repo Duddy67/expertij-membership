@@ -15,6 +15,12 @@
 	  <a href="#payment" class="nav-link" data-toggle="tab">Payment</a>
       </li>
     {% endif %}
+
+    {% if isMember and insurance != 'running' %}
+      <li class="nav-item">
+	  <a href="#insurance" class="nav-link" data-toggle="tab">Insurance</a>
+      </li>
+    {% endif %}
 </ul>
 
 <div class="tab-content">
@@ -114,11 +120,96 @@
 	<input type="text" name="_appeal_court" disabled="disabled" class="form-control" id="inputAppealCourt" value="{{ member.categories|first.name }}">
       </div>
   </div>
+
   {% if isPayment %}
     <div class="tab-pane fade" id="payment">
     {{ form_ajax('onPayment', {flash: ''}) }}
       <div id="payment-modes">
       <table class="table">
+      {% if not isCandidate %}
+	<tr>
+	  <td>
+	    Insurance description</br>
+	    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <input type="radio" id="f0" name="insurance" value="f0" checked>
+	    No Insurance
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <input type="radio" id="f1" name="insurance" value="f1">
+	    Insurance (Essential)
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <input type="radio" id="f2" name="insurance" value="f2">
+	    Insurance (Full)
+	  </td>
+	</tr>
+      {% endif %}
+	<tr>
+	  <td>
+	    Payment description<br />
+	    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <input type="radio" id="cheque" name="payment_mode" value="cheque" checked>
+	    Cheque payment
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <input type="radio" id="paypal" name="payment_mode" value="paypal">
+	    Paypal
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <button type="submit" id="btn-payment" class="btn btn-success">Pay Now</button>
+	  </td>
+	</tr>
+      </table>
+      </div>
+    {{ form_close() }}
+    </div>
+  {% endif %}
+
+  {% if isMember and insurance != 'running' %}
+    <div class="tab-pane fade" id="insurance">
+    {{ form_ajax('onPaymentInsurance', {flash: ''}) }}
+      <div id="payment-modes">
+      <table class="table">
+	<tr>
+	  <td>
+	    Insurance description</br>
+	    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <input type="radio" id="f1" name="insurance" value="f1" checked>
+	    Insurance (Essential)
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <input type="radio" id="f2" name="insurance" value="f2">
+	    Insurance (Full)
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    Payment description<br />
+	    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+	  </td>
+	</tr>
 	<tr>
 	  <td>
 	    <input type="radio" id="cheque" name="payment_mode" value="cheque" checked>

@@ -153,7 +153,6 @@ class Plugin extends PluginBase
      */
     public function registerPermissions()
     {
-
 	return [
             'codalia.membership.manage_settings' => [
                 'tab' => 'codalia.membership::lang.membership.tab',
@@ -183,13 +182,6 @@ class Plugin extends PluginBase
                 'label' => 'codalia.membership::lang.membership.access_check_in'
             ],
 		];
-
-        return [
-            'codalia.membership.some_permission' => [
-                'tab' => 'Membership',
-                'label' => 'Some permission'
-            ],
-        ];
     }
 
     /**
@@ -199,9 +191,7 @@ class Plugin extends PluginBase
      */
     public function registerNavigation()
     {
-        //return []; // Remove this line to activate
-
-        return [
+        $navigation = [
             'membership' => [
                 'label'       => 'Membership',
                 'url'         => Backend::url('codalia/membership/members'),
@@ -227,6 +217,16 @@ class Plugin extends PluginBase
 		]
             ],
         ];
+
+	$user = BackendAuth::getUser();
+
+	// Limited access for decision maker.
+	if ($user->role->code == 'decision-maker') {
+	    unset($navigation['membership']['sideMenu']['categories']);
+	    unset($navigation['membership']['sideMenu']['documents']);
+	}
+
+	return $navigation;
     }
 
     public function registerSettings()

@@ -132,16 +132,15 @@ class EmailHelper
 		 'reference' => 'xxxxxxxxxx',
         ];
 
-	//$temp_file = tempnam(sys_get_temp_dir(), 'inv');
-	//PDF::loadTemplate('renatio::invoice-membership', $vars)->save($temp_file);
-
-	Mail::send('codalia.membership::mail.payment_'.$data['status'], $vars, function($message) use($member, $data) {
+	Mail::send('codalia.membership::mail.payment_'.$data['status'], $vars, function($message) use($member, $data, $vars) {
 	    $message->to($member->profile->user->email, 'Admin System');
 	    $message->subject(Lang::get('codalia.membership::lang.email.payment_'.$data['status']));
 
 	    if (PluginManager::instance()->exists('Renatio.DynamicPDF')) {
-		//$message->attach($temp_file, ['as' => 'Your_Invoice.pdf']);
+		$tempFile = tempnam(sys_get_temp_dir(), 'inv');
+		PDF::loadTemplate('invoice-membership', $vars)->save($tempFile);
 
+		$message->attach($tempFile, ['as' => 'Your_Invoice.pdf']);
 	    }
 	});
 
