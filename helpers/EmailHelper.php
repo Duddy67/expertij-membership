@@ -174,7 +174,7 @@ class EmailHelper
 	});
     }
 
-    public function chequePayment($member)
+    public function alertChequePayment($member, $data)
     {
 	$vars = ['first_name' => $member->profile->first_name, 'last_name' => $member->profile->last_name, 'subscription_fee' => Settings::get('subscription_fee', 0)];
 

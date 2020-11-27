@@ -1,6 +1,7 @@
 <?php namespace Codalia\Membership\Models;
 
 use Model;
+use Codalia\Membership\Models\Settings;
 
 /**
  * Payment Model
@@ -81,5 +82,33 @@ class Payment extends Model
 	$result = Payment::where('transaction_id', $transactionId)->pluck('id')->toArray();
 
 	return empty($result);
+    }
+
+    /*
+     *  return  decimal		The amount for a given item code.
+     */
+    public static function getAmount($item)
+    {
+        $amount = 0;
+
+        switch ($item) {
+	    case 'subscription':
+	        $amount = Settings::get('subscription_fee', 0);
+	        break;
+	    case 'subscription-insurance-f1':
+	        $amount = Settings::get('subscription_fee', 0) + Settings::get('insurance_fee_f1', 0);
+	        break;
+	    case 'subscription-insurance-f2':
+	        $amount = Settings::get('subscription_fee', 0) + Settings::get('insurance_fee_f2', 0);
+	        break;
+	    case 'insurance-f1':
+	        $amount = Settings::get('insurance_fee_f1', 0);
+	        break;
+	    case 'insurance-f2':
+	        $amount = Settings::get('insurance_fee_f2', 0);
+	        break;
+	}
+
+	return $amount;
     }
 }

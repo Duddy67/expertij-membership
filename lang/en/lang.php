@@ -127,6 +127,13 @@ return [
       'payment_completed_admin' => 'Payment completed',
       'payment_error_admin' => 'Payment error',
     ],
+    'payment' => [
+      'subscription' => 'Subscription',
+      'subscription-insurance-f1' => 'Subscription + Insurance (Essential)',
+      'subscription-insurance-f2' => 'Subscription + Insurance (Full)',
+      'insurance-f1' => 'Insurance (Essential)',
+      'insurance-f2' => 'Insurance (Full)',
+    ],
     'global_settings' => [
       'tab_general' => 'General',
       'renewal_day' => 'Renewal day',

@@ -172,6 +172,7 @@
 	</tr>
 	<tr>
 	  <td>
+	    <input type="hidden" name="item" value="subscription">
 	    <button type="submit" id="btn-payment" class="btn btn-success">Pay Now</button>
 	  </td>
 	</tr>
@@ -183,7 +184,7 @@
 
   {% if isMember and insurance != 'running' %}
     <div class="tab-pane fade" id="insurance">
-    {{ form_ajax('onPaymentInsurance', {flash: ''}) }}
+    {{ form_ajax('onPayment', {flash: ''}) }}
       <div id="payment-modes">
       <table class="table">
 	<tr>
@@ -194,13 +195,13 @@
 	</tr>
 	<tr>
 	  <td>
-	    <input type="radio" id="f1" name="insurance" value="f1" checked>
+	    <input type="radio" id="f1" name="code" value="f1" checked>
 	    Insurance (Essential)
 	  </td>
 	</tr>
 	<tr>
 	  <td>
-	    <input type="radio" id="f2" name="insurance" value="f2">
+	    <input type="radio" id="f2" name="code" value="f2">
 	    Insurance (Full)
 	  </td>
 	</tr>
@@ -224,6 +225,7 @@
 	</tr>
 	<tr>
 	  <td>
+	    <input type="hidden" name="item" value="insurance">
 	    <button type="submit" id="btn-payment" class="btn btn-success">Pay Now</button>
 	  </td>
 	</tr>

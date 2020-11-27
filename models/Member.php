@@ -138,13 +138,19 @@ class Member extends Model
     {
         $payment = new Payment ($data);
 	$this->payments()->save($payment);
-	// Gets the latest payment.
-	$payment = $this->payments()->where('item', 'subscription')->latest()->first();
+	// Gets the latest payment (ie: the one which has just been created).
+	$payment = $this->payments()->where('item', $data['item'])->latest()->first();
 	// Sets the 'last' flag of the older payments to zero.
-	$this->payments()->where([['id', '<>', $payment->id], ['item', '=', 'subscription']])->update(['last' => 0]);
+	$this->payments()->where([['id', '<>', $payment->id], ['item', '=', $data['item']]])->update(['last' => 0]);
+
+	if ($data['mode'] == 'cheque') {
+	    EmailHelper::instance()->alertChequePayment($member, $data);
+
+	    return;
+	}
 
 	if ($data['status'] == 'completed') {
-	    if ($data['item'] == 'subscription') {
+	    if (substr($data['item'], 0, 12) === 'subscription') {
 		$isNewMember = ($this->member_since === null) ? true : false;
 		// Becomes member again or new member.
 		$this->update(['status' => 'member']);

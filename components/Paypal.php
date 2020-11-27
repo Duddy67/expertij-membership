@@ -6,6 +6,7 @@ use Codalia\Profile\Models\Profile;
 use Codalia\Membership\Models\Member;
 use Codalia\Membership\Models\Payment;
 use Auth;
+use Lang;
 
 
 class Paypal extends ComponentBase
@@ -56,7 +57,7 @@ class Paypal extends ComponentBase
 	$this->page['action'] = $action; 
 	$this->page['paypalId'] = $this->property('paypal_id'); 
 	$this->page['paypalUrl'] = $this->property('paypal_url'); 
-	$this->page['subscriptionFee'] = Settings::get('subscription_fee', 0);
+	$this->page['amount'] = Payment::getAmount($item);
 
 	if ($action == 'notify') {
 	    $this->onNotify();
@@ -65,6 +66,8 @@ class Paypal extends ComponentBase
 	    // Gets the current user.
 	    $user = Auth::getUser();
 	    $this->page['userId'] = $user->id;
+
+	    $this->page['itemName'] = Lang::get('codalia.membership::lang.payment.'.$item);
 	}
     }
 
@@ -182,8 +185,11 @@ class Paypal extends ComponentBase
 	$tokens = explode("\r\n\r\n", trim($result));
 	$result = trim(end($tokens));
 	$post = post();
-	$memberId = $post['custom'];
-	$vars = ['mode' => 'paypal', 'item' => $post['item_name'], 'amount' => $post['mc_gross'], 'currency' => $post['mc_currency'], 'transaction_id' => $post['txn_id'], 'last' => 1];
+	// Retrieves the member id and the item code from the custom string.
+	preg_match('#^([0-9]+)\-([a-z\-0-9]+)#', $post['custom'], $matches);
+	$memberId = $matches[1];
+	$item = $matches[2];
+	$vars = ['mode' => 'paypal', 'item' => $item, 'amount' => $post['mc_gross'], 'currency' => $post['mc_currency'], 'transaction_id' => $post['txn_id'], 'last' => 1];
 	$message = '';
 
 	if(strcmp ($result, "VERIFIED") == 0) {
