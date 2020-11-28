@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use Backend;
 use BackendAuth;
 use Codalia\Membership\Models\Member;
+use Codalia\Membership\Models\Payment;
 use Codalia\Membership\Models\Settings;
 use Backend\Models\UserGroup;
 use System\Classes\PluginManager;
@@ -124,13 +125,28 @@ class EmailHelper
         $member = Member::find($memberId);
 	// Fetches the emails of the users belonging to the Office group.
         $emails = UserGroup::where('code', 'office')->first()->users->pluck('email')->toArray();
+	// Prepares variables.
 	$vars = ['first_name' => $member->profile->first_name,
 		 'last_name' => $member->profile->last_name,
 		 'amount' => $data['amount'],
 		 'item' => $data['item'],
+		 'item_name' => Lang::get('codalia.membership::lang.payment.'.$data['item']),
 		 'payment_mode' => $data['mode'],
 		 'reference' => 'xxxxxxxxxx',
         ];
+
+	if (substr($data['item'], 0, 12) === 'subscription') {
+	    $vars['subscription_fee'] = Payment::getAmount('subscription');
+	}
+
+	// The user has paid only for insurance or for both subscription and insurance.
+	if (substr($data['item'], 0, 9) === 'insurance' || substr($data['item'], 0, 22) === 'subscription-insurance') {
+	    // Removes the 'subscription-' part from the item code.
+	    $insurance = (substr($data['item'], 0, 9) === 'insurance') ? $data['item'] : substr($data['item'], 13); 
+
+	    $vars['insurance_fee'] = Payment::getAmount($insurance);
+	    $vars['insurance_name'] = Lang::get('codalia.membership::lang.payment.'.$insurance);
+	}
 
 	Mail::send('codalia.membership::mail.payment_'.$data['status'], $vars, function($message) use($member, $data, $vars) {
 	    $message->to($member->profile->user->email, 'Admin System');

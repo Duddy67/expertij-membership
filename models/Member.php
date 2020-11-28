@@ -140,12 +140,18 @@ class Member extends Model
 	$this->payments()->save($payment);
 	// Gets the latest payment (ie: the one which has just been created).
 	$payment = $this->payments()->where('item', $data['item'])->latest()->first();
+
 	// Sets the 'last' flag of the older payments to zero.
-	$this->payments()->where([['id', '<>', $payment->id], ['item', '=', $data['item']]])->update(['last' => 0]);
+	$values = [['id', '<>', $payment->id]];
+	if (substr($data['item'], 0, 9) === 'insurance') {
+	    // Updates only the insurance payments.
+	    $values[] = ['item', 'like', 'insurance%'];
+	}
 
-	if ($data['mode'] == 'cheque') {
+	$this->payments()->where($values)->update(['last' => 0]);
+
+	if ($data['mode'] == 'cheque' && $data['status'] == 'pending') {
 	    EmailHelper::instance()->alertChequePayment($member, $data);
-
 	    return;
 	}
 
@@ -154,8 +160,15 @@ class Member extends Model
 		$isNewMember = ($this->member_since === null) ? true : false;
 		// Becomes member again or new member.
 		$this->update(['status' => 'member']);
-		// Informs the member about the status change.
+
+		// Informs the member (or candidate) about the status change.
 		EmailHelper::instance()->statusChange($this->id, 'member', $isNewMember);
+	    }
+            // Updates the insurance data.
+	    if (substr($data['item'], 0, 9) === 'insurance' || substr($data['item'], 0, 22) === 'subscription-insurance') {
+		// Removes the 'subscription-' part from the item code.
+		$insurance = (substr($data['item'], 0, 9) === 'insurance') ? $data['item'] : substr($data['item'], 13); 
+		$this->insurance()->update(['status' => 'running', 'code' => $insurance]);
 	    }
 
 	    EmailHelper::instance()->alertPayment($this->id, $data);

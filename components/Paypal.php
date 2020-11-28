@@ -99,7 +99,15 @@ class Paypal extends ComponentBase
 	    }
 	}
 
-    file_put_contents('debog_file_post.txt', print_r($myPost, true), FILE_APPEND);
+	// Checks that txn_id has not been previously processed.
+	if (!Payment::isUniqueTransactionId($myPost['txn_id'])) {
+	    // N.B: Paypal works like shit and keep sending ipn despite the empty 200 response sent after closing curl.
+	    //      So no need to waste time by manage this as an error etc... Just send again an empty 200 response (just in case) and quit the function. 
+	    header("HTTP/1.1 200 OK");
+
+	    return;
+	}
+
 	error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "raw_post_data: $raw_post_data" . PHP_EOL, 3, LOG_FILE);
 
 	// read the post from PayPal system and add 'cmd'
@@ -189,22 +197,11 @@ class Paypal extends ComponentBase
 	preg_match('#^([0-9]+)\-([a-z\-0-9]+)#', $post['custom'], $matches);
 	$memberId = $matches[1];
 	$item = $matches[2];
+	// Prepares variables.
 	$vars = ['mode' => 'paypal', 'item' => $item, 'amount' => $post['mc_gross'], 'currency' => $post['mc_currency'], 'transaction_id' => $post['txn_id'], 'last' => 1];
 	$message = '';
 
 	if(strcmp ($result, "VERIFIED") == 0) {
-
-	  // Check that txn_id has not been previously processed.
-	  if (!Payment::isUniqueTransactionId($post['txn_id'])) {
-	      // Paypal works like shit and keep sending ipn despite the empty 200 response sent after closing curl.
-	      // So no need to waste time by manage this as an error etc... Just send again an empty 200 response (just in case) and quit the function. 
-
-	      error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] ').'Paypal keeps sending ipn: '.$post['txn_id'].' - '.$req.PHP_EOL, 3, 'paypal_bug.log');
-	      header("HTTP/1.1 200 OK");
-
-	      return;
-	  }
-
 	  // check that receiver_email is your PayPal email
 	  if ($post['receiver_email'] != $this->page['paypalId']) {
 	      $vars['status'] = 'error';

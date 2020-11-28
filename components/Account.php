@@ -98,21 +98,20 @@ class Account extends \Codalia\Profile\Components\Account
     {
         $paymentMode = post('payment_mode');
         $item = post('item');
-        $insurance = post('insurance');
+        $insuranceCode = post('insurance_code');
 	$member = $this->loadMember();
 
 	// The user has added the insurance to the subscription fee.
-	if ($item == 'subscription' && $insurance && $insurance != 'f0') {
-	    $item = 'subscription-insurance-'.$insurance;
+	if ($item == 'subscription' && $insuranceCode && $insuranceCode != 'f0') {
+	    $item = 'subscription-insurance-'.$insuranceCode;
 	}
 	elseif ($item == 'insurance') {
 	    $item = 'insurance-'.post('code');
 	}
 //file_put_contents('debog_file.txt', print_r($data, true));
         if ($paymentMode == 'cheque') {
-	    $data = ['mode' => 'cheque', 'item' => $item, 'amount' => Payment::getAmount($item), 'last' => 1];
-	    $payment = new Payment ($data);
-	    $member->payments()->save($payment);
+	    $data = ['mode' => 'cheque', 'status' => 'pending', 'item' => $item, 'amount' => Payment::getAmount($item), 'last' => 1];
+	    $member->savePayment($data);
 
 	    Flash::success(Lang::get('codalia.membership::lang.action.cheque_payment_success'));
 
