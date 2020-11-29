@@ -134,6 +134,12 @@ class Member extends Model
     {
     }
 
+    /**
+     * Sets both member and insurance statuses according to the payment result. 
+     *
+     * @param  array	$data
+     * @return void
+     */
     public function savePayment($data)
     {
         $payment = new Payment ($data);
@@ -156,15 +162,19 @@ class Member extends Model
 	}
 
 	if ($data['status'] == 'completed') {
+	    // New subscription or renewal.
 	    if (substr($data['item'], 0, 12) === 'subscription') {
 		$isNewMember = ($this->member_since === null) ? true : false;
 		// Becomes member again or new member.
 		$this->update(['status' => 'member']);
+		// Reset the insurance status.
+		$this->insurance()->update(['status' => 'disabled']);
 
 		// Informs the member (or candidate) about the status change.
 		EmailHelper::instance()->statusChange($this->id, 'member', $isNewMember);
 	    }
-            // Updates the insurance data.
+
+            // Insurance only or insurance included with subscription.
 	    if (substr($data['item'], 0, 9) === 'insurance' || substr($data['item'], 0, 22) === 'subscription-insurance') {
 		// Removes the 'subscription-' part from the item code.
 		$insurance = (substr($data['item'], 0, 9) === 'insurance') ? $data['item'] : substr($data['item'], 13); 
@@ -177,6 +187,13 @@ class Member extends Model
 	else {
 	    EmailHelper::instance()->alertPayment($this->id, $data);
 	}
+    }
+
+    public function revokeMember()
+    {
+        $this->update(['status' => 'revoked']);
+	$this->insurance()->update(['status' => 'disabled']);
+	EmailHelper::instance()->statusChange($this->id, 'revoked');
     }
 
     /*

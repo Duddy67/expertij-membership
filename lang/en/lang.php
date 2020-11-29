@@ -136,6 +136,7 @@ return [
     ],
     'global_settings' => [
       'tab_general' => 'General',
+      'tab_prices' => 'Prices',
       'renewal_day' => 'Renewal day',
       'renewal_day_comment' => 'Renewal day',
       'renewal_month' => 'Renewal month',
@@ -144,6 +145,8 @@ return [
       'renewal_period_comment' => 'Sets a renewal period (in days) before the renewal date',
       'reminder_renewal' => 'Reminder renewal',
       'reminder_renewal_comment' => 'Sets a reminder (in days) before the renewal date',
+      'revocation' => 'Revocation',
+      'revocation_comment' => 'Sets a delay (in days) after the renewal date',
       'subscription_fee' => 'Subscription fee',
       'subscription_fee_comment' => 'Currency: Euro',
       'insurance_fee_f1' => 'Insurance fee (Formula 1)',

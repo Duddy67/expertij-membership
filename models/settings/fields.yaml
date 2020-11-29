@@ -32,22 +32,29 @@ tabs:
             comment: codalia.membership::lang.global_settings.reminder_renewal_comment
             type: text
 
-        subscription_fee:
+        revocation:
             tab: codalia.membership::lang.global_settings.tab_general
+            span: left
+            label: codalia.membership::lang.global_settings.revocation
+            comment: codalia.membership::lang.global_settings.revocation_comment
+            type: text
+
+        subscription_fee:
+            tab: codalia.membership::lang.global_settings.tab_prices
             span: left
             label: codalia.membership::lang.global_settings.subscription_fee
             comment: codalia.membership::lang.global_settings.subscription_fee_comment
             type: text 
 
         insurance_fee_f1:
-            tab: codalia.membership::lang.global_settings.tab_general
+            tab: codalia.membership::lang.global_settings.tab_prices
             span: left
             label: codalia.membership::lang.global_settings.insurance_fee_f1
             comment: codalia.membership::lang.global_settings.insurance_fee_f1_comment
             type: text 
 
         insurance_fee_f2:
-            tab: codalia.membership::lang.global_settings.tab_general
+            tab: codalia.membership::lang.global_settings.tab_prices
             span: left
             label: codalia.membership::lang.global_settings.insurance_fee_f2
             comment: codalia.membership::lang.global_settings.insurance_fee_f2_comment

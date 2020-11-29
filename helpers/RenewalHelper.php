@@ -2,6 +2,7 @@
 
 use October\Rain\Support\Traits\Singleton;
 use Codalia\Membership\Models\Settings;
+use Codalia\Membership\Models\Member;
 use Carbon\Carbon;
 use Backend;
 use Flash;
@@ -77,6 +78,16 @@ class RenewalHelper
 							  'updated_at' => Carbon::now()]);
     }
 
+    public function revokeMembers()
+    {
+        $ids = Member::where('status', 'pending_renewal')->get()->pluck('id')->toArray();
+
+	foreach ($ids as $id) {
+	    $member = Member::find($id);
+	    $member->revokeMember();
+	}
+    }
+
     public function getRenewalDate()
     {
         $renewalDay = Settings::get('renewal_day', null);
@@ -100,19 +111,24 @@ class RenewalHelper
         $renewal = self::getRenewalDate();
         $daysPeriod = Settings::get('renewal_period', null);
         $daysReminder = Settings::get('reminder_renewal', null);
+        $daysRevocation = Settings::get('revocation', null);
 	$now = new \DateTime(date('Y-m-d'));
 
 	$period = clone $renewal;
 	$reminder = clone $renewal;
+	$revocation = clone $renewal;
 	// Subtracts x days to get the begining of the renewal period as well as the reminder sending.
 	$period->sub(new \DateInterval('P'.$daysPeriod.'D'));
 	$reminder->sub(new \DateInterval('P'.$daysReminder.'D'));
+	// Adds x days to get the begining of the renewal period as well as the reminder sending.
+	$revocation->add(new \DateInterval('P'.$daysRevocation.'D'));
 
 	// Renewal period hasn't started yet.
 	if ($now < $period) {
 	    // Deletes jobs from the previous checking.
 	    self::deleteJob('renewal');
 	    self::deleteJob('reminder');
+	    self::deleteJob('lastreminder');
 	}
 	// The renewal time period has started.
 	elseif ($now >= $period && !self::isJobDone('renewal')) {
@@ -130,6 +146,12 @@ class RenewalHelper
 	    \Codalia\Membership\Helpers\EmailHelper::instance()->alertRenewal(true);
 
 	    return 'reminder';
+	}
+	elseif ($now >= $renewal && !self::isJobDone('lastreminder')) {
+	    self::jobDone('lastreminder');
+	}
+	elseif ($now >= $revocation) {
+	    self::revokeMembers();
 	}
 
 	return 'none';
