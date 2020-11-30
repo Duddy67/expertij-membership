@@ -22,7 +22,7 @@
 			  <select name="_payment_status" id="payment-status" <?php echo $disabled; ?> class="form-control">
 			    <option value="pending">Pending</option>
 			    <option value="completed" <?php echo ($payment->status == 'completed') ? 'selected="selected"' : ''; ?>>Completed</option>
-			    <option value="canceled" <?php echo ($payment->status == 'canceled') ? 'selected="selected"' : ''; ?>>Canceled</option>
+			    <option value="cancelled" <?php echo ($payment->status == 'cancelled') ? 'selected="selected"' : ''; ?>>Canceled</option>
 			    <option value="error" <?php echo ($payment->status == 'error') ? 'selected="selected"' : ''; ?>>Error</option>
 			  </select>
 			  <input type="hidden" name="_payment_id" value="<?php echo $payment->id; ?>">
@@ -40,7 +40,7 @@
 		      <?php echo $payment->item; ?>
 		    </td>
 		    <td>
-		      <?php if ($payment->status == 'pending') : ?>
+		      <?php if ($payment->status == 'pending' && $model->status != 'cancelled' && $model->status != 'revoked' && $model->status != 'cancellation') : ?>
 		        <div id="save-payment-button">
 			  <button
 			      type="button"

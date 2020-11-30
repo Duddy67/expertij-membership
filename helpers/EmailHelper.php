@@ -179,7 +179,7 @@ class EmailHelper
 	elseif ($newStatus == 'member' && !$isNewMember) {
 	    $status = 'renewal_subscription';
 	}
-	// refused, pending_subscription, canceled, revoked
+	// refused, pending_subscription, cancelled, revoked, cancellation
 	else {
 	    $status = $newStatus;
 	}
@@ -188,6 +188,19 @@ class EmailHelper
 	    $message->to($member->profile->user->email, 'Admin System');
 	    $message->subject(Lang::get('codalia.membership::lang.email.'.$status));
 	});
+
+	// Informs the admins about the member's cancellation.
+	if ($status == 'cancellation') {
+	    // Fetches the emails of the users belonging to the Office group.
+	    $emails = UserGroup::where('code', 'office')->first()->users->pluck('email')->toArray();
+
+	    if (!empty($emails)) {
+		Mail::send('codalia.membership::mail.cancellation_admin', $vars, function($message) use($emails) {
+		    $message->to($emails, 'Admin System');
+		    $message->subject(Lang::get('codalia.membership::lang.email.cancellation'));
+		});
+	    }
+	}
     }
 
     public function alertChequePayment($member, $data)

@@ -50,6 +50,7 @@ class Account extends \Codalia\Profile\Components\Account
 	$this->page['isMember'] = ($this->member->status == 'member') ? true : false;
 	$this->page['isCandidate'] = ($this->member->member_since === null) ? true : false; 
 	$this->page['insurance'] = $this->member->insurance->status;
+	$this->page['status'] = $this->member->status;
 
         parent::prepareVars();
     }
@@ -128,5 +129,18 @@ class Account extends \Codalia\Profile\Components\Account
     public function onUpdate()
     {
         parent::onUpdate();
+    }
+
+    public function onCancellation()
+    {
+	$member = $this->loadMember();
+	$member->cancelMembership('cancellation');
+
+	Flash::success(Lang::get('codalia.membership::lang.action.cancellation_success'));
+
+	return[
+	    '#member-space' => '<div class="card bg-light mb-3"><div class="card-header">Information</div><div class="card-body">Your membership has been cancelled.</div></div>'
+	];
+
     }
 }

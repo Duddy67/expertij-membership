@@ -1,0 +1,16 @@
+<?php	 if ($model->insurance->status == 'running') : ?> 
+	     <div class="panel panel-info">
+		 <div class="panel-heading">Information</div>
+		 <div class="panel-body">This member is running with the following insurance: </div>
+	     </div>
+<?php    elseif ($model->insurance->status == 'pending_renewal') : ?>
+	     <div class="panel panel-info">
+		 <div class="panel-heading">Information</div>
+		 <div class="panel-body">This member's insurance is about to come to an end: </div>
+	     </div>
+<?php    else : ?>
+	     <div class="panel panel-info">
+		 <div class="panel-heading">Information</div>
+		 <div class="panel-body">This member has no insurance yet or their insurance is no longer running.</div>
+	     </div>
+<?php    endif; ?>	

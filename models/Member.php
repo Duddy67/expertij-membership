@@ -117,10 +117,11 @@ class Member extends Model
 	return array('pending' => 'codalia.membership::lang.status.pending',
 		     'refused' => 'codalia.membership::lang.status.refused',
 		     'pending_subscription' => 'codalia.membership::lang.status.pending_subscription',
-		     'canceled' => 'codalia.membership::lang.status.canceled',
+		     'cancelled' => 'codalia.membership::lang.status.cancelled',
 		     'member' => 'codalia.membership::lang.status.member',
 		     'pending_renewal' => 'codalia.membership::lang.status.pending_renewal',
-		     'revoked' => 'codalia.membership::lang.status.revoked');
+		     'revoked' => 'codalia.membership::lang.status.revoked',
+		     'cancellation' => 'codalia.membership::lang.status.cancellation');
     }
 
     /**
@@ -189,11 +190,15 @@ class Member extends Model
 	}
     }
 
-    public function revokeMember()
+    public function cancelMembership($status)
     {
-        $this->update(['status' => 'revoked']);
+        if ($status != 'cancelled' && $status != 'revoked' && $status != 'cancellation') {
+	    return;
+	}
+
+        $this->update(['status' => $status]);
 	$this->insurance()->update(['status' => 'disabled']);
-	EmailHelper::instance()->statusChange($this->id, 'revoked');
+	EmailHelper::instance()->statusChange($this->id, $status);
     }
 
     /*

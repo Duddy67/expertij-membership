@@ -170,7 +170,7 @@ class Members extends Controller
 	$data = post();
         $member = Member::find($recordId);
 	$originalStatus = $member->getOriginal('status');
-	// The status drop down list is sometimes disabled depending on its setting (member, canceled, etc...), therefore
+	// The status drop down list is sometimes disabled depending on its setting (member, cancelled, etc...), therefore
 	// its value is not passed through the edit form. 
 	$newStatus = (isset($data['Member']['status'])) ? $data['Member']['status'] : $originalStatus;
 
@@ -189,7 +189,7 @@ class Members extends Controller
         parent::update_onSave($recordId, $context);
 
 	// The possible (ie: authorized) changes.
-	$options = ['refused', 'pending_subscription', 'canceled', 'revoked'];
+	$options = ['refused', 'pending_subscription', 'cancelled', 'revoked'];
 
 	// The status has changed.
 	if (in_array($newStatus, $options) && $newStatus != $originalStatus) {

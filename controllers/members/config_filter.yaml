@@ -12,7 +12,7 @@ scopes:
             pending: codalia.membership::lang.status.pending
             refused: codalia.membership::lang.status.refused
             pending_subscription: codalia.membership::lang.status.pending_subscription
-            canceled: codalia.membership::lang.status.canceled
+            cancelled: codalia.membership::lang.status.cancelled
             member: codalia.membership::lang.status.member
             pending_renewal: codalia.membership::lang.status.pending_renewal
             revoked: codalia.membership::lang.status.revoked

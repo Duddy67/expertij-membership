@@ -119,3 +119,8 @@ secondaryTabs:
             type: partial
             path: '$/codalia/membership/models/member/_payments.htm'
 
+        _insurance:
+            tab: codalia.membership::lang.member.tab_insurance
+            span: left
+            type: partial
+            path: '$/codalia/membership/models/member/_insurance.htm'

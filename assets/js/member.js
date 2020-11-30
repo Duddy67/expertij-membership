@@ -8,9 +8,9 @@
     $('#layout-sidenav').prepend('<div class="disable-panel">&nbsp;</div>');
     $('.control-toolbar').attr('style', 'table-layout: auto !important');
 
-    $('#btn-vote').click( function(e) { $.fn.voteConfirmation(e); });
+    $('#btn-vote').click( function(e) { $.fn.confirmation(e, 'vote'); });
     $('[id^="on-save"]').click( function(e) { $.fn.checkStatusChange(e); });
-    $('#btn-save-payment').click( function(e) { $.fn.paymentStatusConfirmation(e); });
+    $('#btn-save-payment').click( function(e) { $.fn.confirmation(e, 'payment'); });
 
     $.fn.setStatuses();
   });
@@ -22,21 +22,21 @@
     let currentStatus = $('#Form-field-Member-status').val();
 
     // Disables the dropdown list.
-    if(currentStatus == 'member' || currentStatus == 'refused' || currentStatus == 'canceled' || currentStatus == 'revoked') {
+    if(currentStatus == 'member' || currentStatus == 'refused' || currentStatus == 'cancelled' || currentStatus == 'revoked' || currentStatus == 'cancellation') {
       $('#Form-field-Member-status').prop('disabled', true);
     }
     // Disables some options according to the pending status.
     else {
-      let disabled = {pending: ['canceled', 'pending_renewal', 'member', 'revoked'],
-		      pending_subscription: ['pending', 'refused', 'member', 'pending_renewal', 'revoked'],
-		      pending_renewal: ['pending', 'refused', 'member', 'pending_subscription', 'canceled']};
+      let disabled = {pending: ['cancelled', 'pending_renewal', 'member', 'revoked', 'cancellation'],
+		      pending_subscription: ['pending', 'refused', 'member', 'pending_renewal', 'revoked', 'cancellation'],
+		      pending_renewal: ['pending', 'refused', 'member', 'pending_subscription', 'cancelled', 'cancellation']};
 
       disabled[currentStatus].forEach( function(stat) {
 	$('#Form-field-Member-status option[value="'+stat+'"]').prop('disabled', true);
       });
 
       if(currentStatus == 'pending_subscription') {
-	$('#Form-field-Member-status option[value="canceled"]').prop('disabled', false);
+	$('#Form-field-Member-status option[value="cancelled"]').prop('disabled', false);
       }
     }
 
@@ -64,14 +64,6 @@
 	e.stopPropagation();
 	return false;
       }
-    }
-  };
-
-  $.fn.paymentStatusConfirmation = function(e) {
-    if(!confirm('Are you sure ?')) {
-      e.preventDefault();
-      e.stopPropagation();
-      return false;
     }
   };
 
@@ -111,7 +103,7 @@
     });
   };
 
-  $.fn.voteConfirmation = function(e) {
+  $.fn.confirmation = function(e, action) {
     if(!confirm('Are you sure ?')) {
       e.preventDefault();
       e.stopPropagation();
