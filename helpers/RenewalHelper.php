@@ -84,17 +84,25 @@ class RenewalHelper
 
 	foreach ($ids as $id) {
 	    $member = Member::find($id);
-	    $member->revokeMember();
+	    $member->cancelMembership('revoked');
 	}
+
+	return count($ids);
     }
 
-    public function getRenewalDate()
+    public function getRenewalDate($extraDays = 0)
     {
         $renewalDay = Settings::get('renewal_day', null);
         $renewalMonth = Settings::get('renewal_month', null);
 
-	// Checks against the current year.
+	// Checks first against the current year.
 	$renewal = new \DateTime(date('Y').'-'.$renewalMonth.'-'.$renewalDay);
+
+	if ($extraDays) {
+	    // Adds x extra days to the renewal period.
+	    $renewal->add(new \DateInterval('P'.$extraDays.'D'));
+	}
+
 	$now = new \DateTime(date('Y-m-d'));
 
 	// The renewal period for the current year is passed.
@@ -111,27 +119,23 @@ class RenewalHelper
         $renewal = self::getRenewalDate();
         $daysPeriod = Settings::get('renewal_period', null);
         $daysReminder = Settings::get('reminder_renewal', null);
-        $daysRevocation = Settings::get('revocation', null);
 	$now = new \DateTime(date('Y-m-d'));
 
 	$period = clone $renewal;
 	$reminder = clone $renewal;
-	$revocation = clone $renewal;
 	// Subtracts x days to get the begining of the renewal period as well as the reminder sending.
 	$period->sub(new \DateInterval('P'.$daysPeriod.'D'));
 	$reminder->sub(new \DateInterval('P'.$daysReminder.'D'));
-	// Adds x days to get the begining of the renewal period as well as the reminder sending.
-	$revocation->add(new \DateInterval('P'.$daysRevocation.'D'));
 
 	// Renewal period hasn't started yet.
 	if ($now < $period) {
 	    // Deletes jobs from the previous checking.
 	    self::deleteJob('renewal');
 	    self::deleteJob('reminder');
-	    self::deleteJob('lastreminder');
+	    self::deleteJob('last_reminder');
 	}
 	// The renewal time period has started.
-	elseif ($now >= $period && !self::isJobDone('renewal')) {
+	elseif ($now >= $period && $now < $reminder && !self::isJobDone('renewal')) {
 	    self::setRenewalPendingStatus();
 	    self::jobDone('renewal');
 	    // Informs the members.
@@ -140,20 +144,33 @@ class RenewalHelper
 	    return 'renewal';
 	}
 	// Now checks for the reminder sending.
-	elseif ($now >= $reminder && !self::isJobDone('reminder')) {
+	elseif ($now >= $reminder && $now < $renewal && !self::isJobDone('reminder')) {
 	    self::jobDone('reminder');
 	    // Reminds the members.
-	    \Codalia\Membership\Helpers\EmailHelper::instance()->alertRenewal(true);
+	    \Codalia\Membership\Helpers\EmailHelper::instance()->alertRenewal('reminder');
 
 	    return 'reminder';
 	}
-	elseif ($now >= $renewal && !self::isJobDone('lastreminder')) {
-	    self::jobDone('lastreminder');
-	}
-	elseif ($now >= $revocation) {
-	    self::revokeMembers();
+	// It's the renewal day.
+	elseif ($now == $renewal && !self::isJobDone('last_reminder')) {
+	    self::jobDone('last_reminder');
+	    \Codalia\Membership\Helpers\EmailHelper::instance()->alertRenewal('last_reminder');
 	}
 
 	return 'none';
+    }
+
+    public function checkRevocation()
+    {
+        $daysRevocation = (int)Settings::get('revocation', 0);
+        $revocation = self::getRenewalDate($daysRevocation);
+	$now = new \DateTime(date('Y-m-d'));
+	$count = 0;
+
+	if ($now == $revocation) {
+	    $count = self::revokeMembers();
+	}
+
+	return $count;
     }
 }

@@ -97,14 +97,19 @@ class EmailHelper
 	}
     }
 
-    public function alertRenewal($reminder = false)
+    public function alertRenewal($type = null)
     {
         $emails = Member::where('status', 'pending_renewal')->with('profile.user')->get()->pluck('profile.user.email')->toArray();
 
 	if (!empty($emails)) {
 	    $renewal = \Codalia\Membership\Helpers\RenewalHelper::instance()->getRenewalDate()->format('d/m/Y');
 	    $vars = ['renewal' => $renewal, 'subscription_fee' => Settings::get('subscription_fee', 0)];
-	    $pattern = ($reminder) ? 'pending_renewal_reminder' : 'pending_renewal';
+	    $pattern = ($type) ? 'pending_renewal_'.$type : 'pending_renewal';
+
+	    if ($type == 'last_reminder') {
+		$daysRevocation = (int)Settings::get('revocation', 0);
+		$vars['limit_date'] = \Codalia\Membership\Helpers\RenewalHelper::instance()->getRenewalDate($daysRevocation)->format('d/m/Y');
+	    }
 
 	    Mail::send('codalia.membership::mail.'.$pattern, $vars, function($message) use($emails, $pattern) {
 		$message->to($emails, 'Admin System');

@@ -254,9 +254,11 @@ class Plugin extends PluginBase
 	    'codalia.membership::mail.candidate_application',
 	    'codalia.membership::mail.cancelled',
 	    'codalia.membership::mail.cancellation',
+	    'codalia.membership::mail.cancellation_admin',
 	    'codalia.membership::mail.new_member',
 	    'codalia.membership::mail.pending_renewal',
 	    'codalia.membership::mail.pending_renewal_reminder',
+	    'codalia.membership::mail.pending_renewal_last_reminder',
 	    'codalia.membership::mail.pending_subscription',
 	    'codalia.membership::mail.refused',
 	    'codalia.membership::mail.renewal_subscription',
@@ -264,7 +266,9 @@ class Plugin extends PluginBase
 	    'codalia.membership::mail.cheque_payment',
 	    'codalia.membership::mail.alert_cheque_payment',
 	    'codalia.membership::mail.payment_completed',
+	    'codalia.membership::mail.payment_completed_admin',
 	    'codalia.membership::mail.payment_error',
+	    'codalia.membership::mail.payment_error_admin',
 	];
     }
 }

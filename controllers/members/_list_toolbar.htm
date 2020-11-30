@@ -39,6 +39,15 @@
 	    data-stripe-load-indicator>
 	    Check renewal
 	</button>
+
+	<button
+	    class="btn btn-info oc-icon-refresh"
+	    onclick="$(this).data('request-data', { checked: $('.control-list').listWidget('getChecked') })"
+	    data-request="onCheckRevocation"
+	    data-trigger-action="enable"
+	    data-stripe-load-indicator>
+	    Check revocation
+	</button>
     <?php endif ?>
 </div>
 

@@ -110,6 +110,12 @@ class Members extends Controller
 	Flash::success(Lang::get('codalia.membership::lang.action.check_renewal_'.$action.'_success'));
     }
 
+    public function index_onCheckRevocation()
+    {
+	$count = RenewalHelper::instance()->checkRevocation();
+	Flash::success(Lang::get('codalia.membership::lang.action.revocation_success', ['count' => $count]));
+    }
+
     public function update_onEditUser($recordId = null)
     {
         $user = BackendAuth::getUser();
