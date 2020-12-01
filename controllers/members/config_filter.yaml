@@ -16,6 +16,7 @@ scopes:
             member: codalia.membership::lang.status.member
             pending_renewal: codalia.membership::lang.status.pending_renewal
             revoked: codalia.membership::lang.status.revoked
+            cancellation: codalia.membership::lang.status.cancellation
 
     category:
         # Filter name

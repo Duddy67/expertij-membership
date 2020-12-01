@@ -75,7 +75,7 @@
     $('#current-status').val(memberStatus);
 
     if(memberStatus != 'pending') {
-      $('#btn-send-email').css({'visibility':'hidden','display':'none'});
+      $('#btn-email-sendings').css({'visibility':'hidden','display':'none'});
     }
 
     $.fn.setStatuses();

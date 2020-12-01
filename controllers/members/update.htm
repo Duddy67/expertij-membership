@@ -49,13 +49,13 @@
 
 		<?php if ($this->vars['formModel']->status == 'pending'): ?>
 		    <button
-		        id="btn-send-email"
+		        id="btn-email-sendings"
 			type="button"
 			data-request="onSendEmailToDecisionMakers"
 			data-hotkey="ctrl+enter, cmd+enter"
 			data-load-indicator="Saving Member..."
-			class="btn btn-default">
-			Send Email
+			class="btn-warning btn oc-icon-envelope-o">
+			<?= e(trans('codalia.membership::lang.action.email_sendings', ["count" => $this->vars['formModel']->email_sendings])) ?>
 		    </button>
 		<?php endif; ?>
 	     <?php endif; ?>	

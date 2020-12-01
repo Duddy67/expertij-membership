@@ -110,6 +110,8 @@ return [
       'cheque_payment_success' => 'Your cheque payment has been taken into account successfully.',
       'payment_update_success' => 'The payment has been updated successfully.',
       'status_changed_by_system' => 'The status as been changed by the system. You cannot save the form. Please refresh the page (F5 key) and then save it again.',
+      'email_sendings' => 'Email sendings (:count)',
+      'email_sendings_success' => 'The emails have been sent successfully to the decision makers.',
     ],
     'email' => [
       'your_application' => 'Your application',

@@ -216,6 +216,11 @@ class Members extends Controller
     public function update_onSendEmailToDecisionMakers($recordId = null)
     {
 	EmailHelper::instance()->alertDecisionMakers($recordId);
+	Member::find($recordId)->increment('email_sendings');
+	$member = Member::find($recordId);
+	Flash::success(Lang::get('codalia.membership::lang.action.email_sendings_success'));
+
+	return ['#btn-email-sendings' => Lang::get('codalia.membership::lang.action.email_sendings', ['count' => $member->email_sendings])];
     }
 
     protected function prepareVotes($recordId)

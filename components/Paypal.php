@@ -81,7 +81,7 @@ class Paypal extends ComponentBase
 	// Set this to 0 once you go live or don't require logging.
 	define('DEBUG', 1);
 	// Set to 0 once you're ready to go live
-	define('LOG_FILE', 'ipn.log');
+	define('LOG_FILE', 'plugins/codalia/membership/components/paypal/logs/ipn.log');
 	$separator = PHP_EOL.'###################################### INFORMATION ######################################'.PHP_EOL;
 	$end = PHP_EOL.'###################################### END OF THE PROCESS ######################################'.PHP_EOL;
 
@@ -101,7 +101,7 @@ class Paypal extends ComponentBase
 
 	// Checks that txn_id has not been previously processed.
 	if (!Payment::isUniqueTransactionId($myPost['txn_id'])) {
-	    // N.B: Paypal works like shit and keep sending ipn despite the empty 200 response sent after closing curl.
+	    // N.B: Paypal works like shit and keeps sending ipn despite the empty 200 response sent after closing curl.
 	    //      So no need to waste time by manage this as an error etc... Just send again an empty 200 response (just in case) and quit the function. 
 	    header("HTTP/1.1 200 OK");
 
