@@ -27,7 +27,7 @@ class Member extends Model
     /**
      * @var array Fillable fields
      */
-    protected $fillable = ['status'];
+    protected $fillable = ['status', 'member_list'];
 
     /**
      * @var array Validation rules for attributes
@@ -179,7 +179,9 @@ class Member extends Model
 	    if (substr($data['item'], 0, 9) === 'insurance' || substr($data['item'], 0, 22) === 'subscription-insurance') {
 		// Removes the 'subscription-' part from the item code.
 		$insurance = (substr($data['item'], 0, 9) === 'insurance') ? $data['item'] : substr($data['item'], 13); 
-		$this->insurance()->update(['status' => 'running', 'code' => $insurance]);
+		// Gets the insurance code placed after the hyphen (ie: insurance-xx).
+		$code = substr($insurance, 10);
+		$this->insurance()->update(['status' => 'running', 'code' => $code]);
 	    }
 
 	    EmailHelper::instance()->alertPayment($this->id, $data);

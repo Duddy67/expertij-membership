@@ -112,6 +112,8 @@ return [
       'status_changed_by_system' => 'The status as been changed by the system. You cannot save the form. Please refresh the page (F5 key) and then save it again.',
       'email_sendings' => 'Email sendings (:count)',
       'email_sendings_success' => 'The emails have been sent successfully to the decision makers.',
+      'member_list_0' => 'You no longer appear in the member list.',
+      'member_list_1' => 'Now you appear in the member list.',
     ],
     'email' => [
       'your_application' => 'Your application',
@@ -120,6 +122,7 @@ return [
       'new_member' => 'You are member !',
       'pending_renewal' => 'Subscription renewal',
       'pending_renewal_reminder' => 'Subscription renewal reminder',
+      'pending_renewal_last_reminder' => 'Subscription renewal last reminder',
       'pending_subscription' => 'Application accepted',
       'refused' => 'Application refused',
       'renewal_subscription' => 'Membership renewed',

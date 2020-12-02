@@ -51,6 +51,7 @@ class Account extends \Codalia\Profile\Components\Account
 	$this->page['isCandidate'] = ($this->member->member_since === null) ? true : false; 
 	$this->page['insurance'] = $this->member->insurance->status;
 	$this->page['status'] = $this->member->status;
+	$this->page['memberList'] = $this->member->member_list;
 
         parent::prepareVars();
     }
@@ -129,6 +130,15 @@ class Account extends \Codalia\Profile\Components\Account
     public function onUpdate()
     {
         parent::onUpdate();
+    }
+
+    public function onMemberList()
+    {
+        $memberList = (int)post('member_list');
+	$member = $this->loadMember();
+	$member->update(['member_list' => $memberList]);
+
+	Flash::success(Lang::get('codalia.membership::lang.action.member_list_'.$memberList));
     }
 
     public function onCancellation()

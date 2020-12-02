@@ -1,4 +1,4 @@
-<p>This is the default markup for component Account</p>
+<h4>Member Space</h4>
 
 {% if status == 'cancelled' or status == 'revoked' or status == 'cancellation' %}
   <div class="card bg-light mb-3"><div class="card-header">Information</div><div class="card-body">You are no longer member of this association.</div></div>
@@ -122,6 +122,22 @@
 	  <label for="inputAppealCourt">Appeal Court</label>
 	  <input type="text" name="_appeal_court" disabled="disabled" class="form-control" id="inputAppealCourt" value="{{ member.categories|first.name }}">
 	</div>
+	{% if status == 'member' %}
+	  <div class="form-group col-sm-6">
+	    <h5>Member List</h5>
+	    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+	    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	    dolore eu fugiat nulla pariatur.</p>
+	    <div class="radio">
+		<input name="member_list" value="1" type="radio" data-request="onMemberList" id="member-list-yes" {{ (memberList == 1) ? 'checked="checked"' : '' }} />
+		<label for="member-list-yes">Yes</label>
+	    </div>
+	    <div class="radio">
+		<input name="member_list" value="0" type="radio" data-request="onMemberList" id="member-list-no" {{ (memberList == 0) ? 'checked="checked"' : '' }} />
+		<label for="member-list-no">No</label>
+	    </div>
+	  </div>
+	{% endif %}
 	{% if status == 'pending_renewal' %}
 	  <div class="form-group col-sm-6">
 	    <h4>Membership Cancellation</h4>
@@ -171,7 +187,7 @@
 	{% endif %}
 	  <tr>
 	    <td>
-	      Payment description<br />
+	      Subscription description<br />
 	      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 	    </td>
 	  </tr>

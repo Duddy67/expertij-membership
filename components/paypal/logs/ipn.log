@@ -1,0 +1,322 @@
+
+###################################### INFORMATION ######################################
+
+[2020-12-01 15:01:32 UTC] raw_post_data: mc_gross=1.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=06%3A49%3A39+Dec+01%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.28&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=4-subscription&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=Aex7kRRYcf-KA30G1-edAL4Q0WcjAqq5qIvrg--XXzw.MTXi4IvaPkt4&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=0SA43862NM1336119&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription&discount=0.00&mc_currency=EUR&item_number=subscription01&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=38f678ac939fb
+
+###################################### INFORMATION ######################################
+
+[2020-12-01 15:01:34 UTC] HTTP request of validation request:POST /cgi-bin/webscr HTTP/1.1
+Host: www.sandbox.paypal.com
+Accept: */*
+Connection: Close
+Content-Length: 1079
+Content-Type: application/x-www-form-urlencoded
+Expect: 100-continue
+
+ for IPN payload: cmd=_notify-validate&mc_gross=1.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=06%3A49%3A39+Dec+01%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.28&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=4-subscription&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=Aex7kRRYcf-KA30G1-edAL4Q0WcjAqq5qIvrg--XXzw.MTXi4IvaPkt4&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=0SA43862NM1336119&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription&discount=0.00&mc_currency=EUR&item_number=subscription01&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=38f678ac939fb
+
+###################################### INFORMATION ######################################
+
+[2020-12-01 15:01:34 UTC] HTTP response of validation request: HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+Cache-Control: max-age=0, no-cache, no-store, must-revalidate
+Content-Type: text/html; charset=UTF-8
+Date: Tue, 01 Dec 2020 15:01:33 GMT
+Paypal-Debug-Id: 56cc9699fab4c
+Set-Cookie: c9MWDuvPtT9GIMyPc3jwol1VSlO=t-3l7YnqVEU8VcBnkxU-bfgvmbBxmmi_JE3ttxA6VcxYdl7AiB6_IP8HncQpxfIkbD6wMrM4hH44s1S25taITc8h97v7zQ6tyB78HKNqHaqzpWP6A2gYxPlCC19a89YnEsEPeo2HgFA2iiQQe1WDnto-lDzTdjwFzl_HFV_YTqxnNQbJgCfRrpf8OQR9yDOb-U1JUobk9A3Xh0XQazwEbkrm3iyL1FeGX2huBVlzdp4LI4cqAVky9BS0GrynKlWxejJch6GASAwW0LXM19PIDQgBColvH4nY3WwB78IE2bWhVRMAOcgMNQuYWeBJ_c1sZ3dRsWCMXY-ipkdCaqPwzVri01ctJgVvFUVnCrdioJTa2f-3GyoFROYgidQJkzLqd6tI3PefQrGRG5bXLoPYCdi4K-Tu2j5GpgpqnkkBbwhngW4p0sCVvavZ2Va; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: cookie_check=yes; expires=Fri, 29-Nov-2030 15:01:34 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navcmd=_notify-validate; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navlns=0.0; expires=Thu, 01-Dec-2022 15:01:34 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: Apache=10.72.108.11.1606834893508217; path=/; expires=Thu, 24-Nov-50 15:01:33 GMT
+Set-Cookie: ts=vreXpYrS%3D1701442893%26vteXpYrS%3D1606836693%26vr%3D1ed2b2b61760a48ef31f08c7fe001ffa%26vt%3D1ed2b2b61760a48ef31f08c7fe001ff9%26vtyp%3Dnew; Path=/; Domain=paypal.com; Expires=Fri, 01 Dec 2023 15:01:34 GMT; HttpOnly; Secure
+Set-Cookie: ts_c=vr%3D1ed2b2b61760a48ef31f08c7fe001ffa%26vt%3D1ed2b2b61760a48ef31f08c7fe001ff9; Path=/; Domain=paypal.com; Expires=Fri, 01 Dec 2023 15:01:34 GMT; Secure
+Vary: Accept-Encoding,User-Agent
+X-Frame-Options: SAMEORIGIN
+Content-Length: 8
+Connection: close
+Strict-Transport-Security: max-age=63072000
+
+VERIFIED
+
+###################################### INFORMATION ######################################
+
+[2020-12-01 15:01:34 UTC] Verified IPN: cmd=_notify-validate&mc_gross=1.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=06%3A49%3A39+Dec+01%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.28&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=4-subscription&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=Aex7kRRYcf-KA30G1-edAL4Q0WcjAqq5qIvrg--XXzw.MTXi4IvaPkt4&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=0SA43862NM1336119&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription&discount=0.00&mc_currency=EUR&item_number=subscription01&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=38f678ac939fb 
+
+###################################### END OF THE PROCESS ######################################
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 08:27:58 UTC] raw_post_data: mc_gross=1.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=00%3A27%3A35+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.28&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=4-insurance-f1&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=AsxueOOaAwMTdXilksCtqiQx.MbsAyMwx-7GsQaYcrUWRO24xvsA5cAC&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=77E84079X95255710&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Insurance+%28Essential%29&discount=0.00&mc_currency=EUR&item_number=insurance-f101&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=c7431d01803b4
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 08:28:00 UTC] HTTP request of validation request:POST /cgi-bin/webscr HTTP/1.1
+Host: www.sandbox.paypal.com
+Accept: */*
+Connection: Close
+Content-Length: 1092
+Content-Type: application/x-www-form-urlencoded
+Expect: 100-continue
+
+ for IPN payload: cmd=_notify-validate&mc_gross=1.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=00%3A27%3A35+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.28&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=4-insurance-f1&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=AsxueOOaAwMTdXilksCtqiQx.MbsAyMwx-7GsQaYcrUWRO24xvsA5cAC&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=77E84079X95255710&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Insurance+%28Essential%29&discount=0.00&mc_currency=EUR&item_number=insurance-f101&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=c7431d01803b4
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 08:28:00 UTC] HTTP response of validation request: HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+Cache-Control: max-age=0, no-cache, no-store, must-revalidate
+Content-Type: text/html; charset=UTF-8
+Date: Wed, 02 Dec 2020 08:27:59 GMT
+Paypal-Debug-Id: c5b5b0e0f886a
+Set-Cookie: c9MWDuvPtT9GIMyPc3jwol1VSlO=Imjf9nd_iKxR1SY-Yf2w2FIdC-WI2hvi5NmLln2tVvZD8-C2fW_93_GhR3xzf3ToCdFo7trDWLK6wPRfTysbq5nMGc1EsdxT89KBhDGk4s61pc6EQWuhbZSybLdbWW1pyyMjwpJ2fYjDUVivqxcjNar5yIB1iAM7_k_FPYMGgoAsmD8zwZr5EeKBCFazBriwK95tk8OX8BX8sk4YQHhmXquAieKfIizKlSPOKCjG6fl_MII8626Bgu-mlu_Pnz2ou6EdsXa5Dk9oqKzs3s3nMndgmaU9tN06hd53Y6R1Xrg8N_aVdByqmL1vxgAu-zC-6PH8GB49ukG6IXAp3G5_WCVGc5KIno5HWzxPnWuvUWr0YgueOS7NZMPJjxieKPNCObAUt74B6W3ZC-Nc4HrCwNNhNVqsLM8-xzLbLMdN8CLlvUIdNSkiZSQNnYy; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: cookie_check=yes; expires=Sat, 30-Nov-2030 08:28:00 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navcmd=_notify-validate; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navlns=0.0; expires=Fri, 02-Dec-2022 08:28:00 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: Apache=10.72.108.11.1606897679541527; path=/; expires=Fri, 25-Nov-50 08:27:59 GMT
+Set-Cookie: ts=vreXpYrS%3D1701505679%26vteXpYrS%3D1606899479%26vr%3D2290bca91760a48f13e045abfde22b31%26vt%3D2290bca91760a48f13e045abfde22b30%26vtyp%3Dnew; Path=/; Domain=paypal.com; Expires=Sat, 02 Dec 2023 08:28:00 GMT; HttpOnly; Secure
+Set-Cookie: ts_c=vr%3D2290bca91760a48f13e045abfde22b31%26vt%3D2290bca91760a48f13e045abfde22b30; Path=/; Domain=paypal.com; Expires=Sat, 02 Dec 2023 08:28:00 GMT; Secure
+Vary: Accept-Encoding,User-Agent
+X-Frame-Options: SAMEORIGIN
+Content-Length: 8
+Connection: close
+Strict-Transport-Security: max-age=63072000
+
+VERIFIED
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 08:28:00 UTC] Verified IPN: cmd=_notify-validate&mc_gross=1.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=00%3A27%3A35+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.28&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=4-insurance-f1&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=AsxueOOaAwMTdXilksCtqiQx.MbsAyMwx-7GsQaYcrUWRO24xvsA5cAC&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=77E84079X95255710&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Insurance+%28Essential%29&discount=0.00&mc_currency=EUR&item_number=insurance-f101&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=c7431d01803b4 
+
+###################################### END OF THE PROCESS ######################################
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 09:32:48 UTC] raw_post_data: mc_gross=3.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=01%3A32%3A25+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.35&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=4-subscription-insurance-f2&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=A0xlrDw4kx1d31Zcps9ryR-x2ifEAdXBhuw7DaugbKIcBreZN0vQC.q-&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=9JK0247375659462D&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription+%2B+Insurance+%28Full%29&discount=0.00&mc_currency=EUR&item_number=subscription-insurance-f201&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=9091af7f38b4c
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 09:32:50 UTC] HTTP request of validation request:POST /cgi-bin/webscr HTTP/1.1
+Host: www.sandbox.paypal.com
+Accept: */*
+Connection: Close
+Content-Length: 1130
+Content-Type: application/x-www-form-urlencoded
+Expect: 100-continue
+
+ for IPN payload: cmd=_notify-validate&mc_gross=3.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=01%3A32%3A25+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.35&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=4-subscription-insurance-f2&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=A0xlrDw4kx1d31Zcps9ryR-x2ifEAdXBhuw7DaugbKIcBreZN0vQC.q-&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=9JK0247375659462D&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription+%2B+Insurance+%28Full%29&discount=0.00&mc_currency=EUR&item_number=subscription-insurance-f201&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=9091af7f38b4c
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 09:32:50 UTC] HTTP response of validation request: HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+Cache-Control: max-age=0, no-cache, no-store, must-revalidate
+Content-Type: text/html; charset=UTF-8
+Date: Wed, 02 Dec 2020 09:32:48 GMT
+Paypal-Debug-Id: ddcec0609d33
+Set-Cookie: c9MWDuvPtT9GIMyPc3jwol1VSlO=8F25yIl0sQGf9r13YMFsD2stuB4GN8fGv1AEsgGgmGqIqqbNR92id8ooEsrVz0nWKaxXvpBZNgCY7-TbDqhcef7mZQhzgW2KPdS6X4uStwLrL8TfbDKT55HC5hMwqroyARkscTUgqcMqnAGtp_T1zbp3_hx1nNQ1Bn9DrHCqfSm6l14MGf9AZc3AB2cfjZeT-uE7RBhHj6KUnyT3S2U-T0LWi_AEQ24cDXTUFhvzm7eCcnpu2xeuKdaQkHUyg7hvO5fXjYizFZ6H_Fnd461bJ-Tv3y_xW-TULgKq5LVASsAz0BkLqhbzoIXG66NB0b31ksNX66Pw99oTXFoloDmshwMQsNcbqa2Sw0ONULK9KIgkdw_zhiwa891hGbEXtWAmDP6ClDY9sRYfwQB-mV2GfDdwzI_5vWsW8N2SECwD6W3dNnGhAKkXZmaTr7e; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: cookie_check=yes; expires=Sat, 30-Nov-2030 09:32:49 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navcmd=_notify-validate; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navlns=0.0; expires=Fri, 02-Dec-2022 09:32:49 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: Apache=10.72.108.11.1606901568941715; path=/; expires=Fri, 25-Nov-50 09:32:48 GMT
+Set-Cookie: ts=vreXpYrS%3D1701509568%26vteXpYrS%3D1606903368%26vr%3D22cc159c1760a488df8c4374fde1391c%26vt%3D22cc159c1760a488df8c4374fde1391b%26vtyp%3Dnew; Path=/; Domain=paypal.com; Expires=Sat, 02 Dec 2023 09:32:50 GMT; HttpOnly; Secure
+Set-Cookie: ts_c=vr%3D22cc159c1760a488df8c4374fde1391c%26vt%3D22cc159c1760a488df8c4374fde1391b; Path=/; Domain=paypal.com; Expires=Sat, 02 Dec 2023 09:32:50 GMT; Secure
+Vary: Accept-Encoding,User-Agent
+X-Frame-Options: SAMEORIGIN
+Content-Length: 8
+Connection: close
+Strict-Transport-Security: max-age=63072000
+
+VERIFIED
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 09:32:50 UTC] Verified IPN: cmd=_notify-validate&mc_gross=3.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=01%3A32%3A25+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.35&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=4-subscription-insurance-f2&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=A0xlrDw4kx1d31Zcps9ryR-x2ifEAdXBhuw7DaugbKIcBreZN0vQC.q-&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=9JK0247375659462D&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription+%2B+Insurance+%28Full%29&discount=0.00&mc_currency=EUR&item_number=subscription-insurance-f201&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=9091af7f38b4c 
+
+###################################### END OF THE PROCESS ######################################
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 09:45:33 UTC] raw_post_data: mc_gross=1.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=01%3A45%3A20+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.28&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=1-subscription&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=ACSB5qNEspyVcXYudUSrallxEwCxAeHEDbB-xxWjdEV6e8dumvmjCLU7&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=6HH03848SJ255933S&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription&discount=0.00&mc_currency=EUR&item_number=subscription01&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=79b42bd843ac7
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 09:45:35 UTC] HTTP request of validation request:POST /cgi-bin/webscr HTTP/1.1
+Host: www.sandbox.paypal.com
+Accept: */*
+Connection: Close
+Content-Length: 1079
+Content-Type: application/x-www-form-urlencoded
+Expect: 100-continue
+
+ for IPN payload: cmd=_notify-validate&mc_gross=1.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=01%3A45%3A20+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.28&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=1-subscription&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=ACSB5qNEspyVcXYudUSrallxEwCxAeHEDbB-xxWjdEV6e8dumvmjCLU7&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=6HH03848SJ255933S&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription&discount=0.00&mc_currency=EUR&item_number=subscription01&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=79b42bd843ac7
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 09:45:35 UTC] HTTP response of validation request: HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+Cache-Control: max-age=0, no-cache, no-store, must-revalidate
+Content-Type: text/html; charset=UTF-8
+Date: Wed, 02 Dec 2020 09:45:34 GMT
+Paypal-Debug-Id: 17151fa93e776
+Set-Cookie: c9MWDuvPtT9GIMyPc3jwol1VSlO=sEFjwEg06dl80fBjEImXpdXGxP3lKCMoBDm2au2P6Dv-tlMnvF85YY_F6mLaLCK1YY5WU9CAx27q6DQOrLEtspt2TTkagonqw-mT18uQVonAnZZCD7swA_ixR1opFk0hMoAuPnbU8TF63KCTumRjeIrjL1r8oI_aMV9BTysRykUcf3PWOkgAXVBL-u71hmTTBNGx4faUL5ENx-qWyFGD7BXTQ9qUyF_vC7jdAXBCqA9WpzEPFYZuJzsC8t66khxkE2x9D2Hmt_dWTSw3Muvc1Vk6RRtwCu40ueXAzs4kW85bK3mqysG7rW0rsM3jIX6emVeWoumbp61FG6HES5EvtlN6arkgRr5a4jMSdEApBuhzeh1dAwaJnuM_4EwCzRs3h4fyntEwhzpCtmbi8q8tx9kzKB-LYyarzUbB0iSO0ShEp77WZm5jELFC2v8; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: cookie_check=yes; expires=Sat, 30-Nov-2030 09:45:34 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navcmd=_notify-validate; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navlns=0.0; expires=Fri, 02-Dec-2022 09:45:34 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: Apache=10.72.108.11.1606902334036593; path=/; expires=Fri, 25-Nov-50 09:45:34 GMT
+Set-Cookie: ts=vreXpYrS%3D1701510334%26vteXpYrS%3D1606904134%26vr%3D22d7c2451760a488874967cdfde097d6%26vt%3D22d7c2451760a488874967cdfde097d5%26vtyp%3Dnew; Path=/; Domain=paypal.com; Expires=Sat, 02 Dec 2023 09:45:35 GMT; HttpOnly; Secure
+Set-Cookie: ts_c=vr%3D22d7c2451760a488874967cdfde097d6%26vt%3D22d7c2451760a488874967cdfde097d5; Path=/; Domain=paypal.com; Expires=Sat, 02 Dec 2023 09:45:35 GMT; Secure
+Vary: Accept-Encoding,User-Agent
+X-Frame-Options: SAMEORIGIN
+Content-Length: 8
+Connection: close
+Strict-Transport-Security: max-age=63072000
+
+VERIFIED
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 09:45:35 UTC] Verified IPN: cmd=_notify-validate&mc_gross=1.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=01%3A45%3A20+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.28&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=1-subscription&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=ACSB5qNEspyVcXYudUSrallxEwCxAeHEDbB-xxWjdEV6e8dumvmjCLU7&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=6HH03848SJ255933S&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription&discount=0.00&mc_currency=EUR&item_number=subscription01&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=79b42bd843ac7 
+
+###################################### END OF THE PROCESS ######################################
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 14:20:56 UTC] raw_post_data: mc_gross=1.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=06%3A01%3A44+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.28&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=3-subscription&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=Aaw-Fd69z.JLuiq13ejMN-CsSMuuAkJS844LspVke6nDtgb5Iui3l3qL&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=3RN834638S7268339&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription&discount=0.00&mc_currency=EUR&item_number=subscription01&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=352dafad59e4e
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 14:20:59 UTC] HTTP request of validation request:POST /cgi-bin/webscr HTTP/1.1
+Host: www.sandbox.paypal.com
+Accept: */*
+Connection: Close
+Content-Length: 1079
+Content-Type: application/x-www-form-urlencoded
+Expect: 100-continue
+
+ for IPN payload: cmd=_notify-validate&mc_gross=1.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=06%3A01%3A44+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.28&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=3-subscription&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=Aaw-Fd69z.JLuiq13ejMN-CsSMuuAkJS844LspVke6nDtgb5Iui3l3qL&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=3RN834638S7268339&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription&discount=0.00&mc_currency=EUR&item_number=subscription01&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=352dafad59e4e
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 14:20:59 UTC] HTTP response of validation request: HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+Cache-Control: max-age=0, no-cache, no-store, must-revalidate
+Content-Type: text/html; charset=UTF-8
+Date: Wed, 02 Dec 2020 14:20:57 GMT
+Paypal-Debug-Id: afcd541d7495c
+Set-Cookie: c9MWDuvPtT9GIMyPc3jwol1VSlO=bvNZL8UQRcWAFIvT8ATOgc2w6q6qInBN13EZMW99IRV0dki2CXjeILcARwfpamBdFjAuoQgVkRRXLRW2vp7ogLiI4kHzHbOXrj4QJQVJPDXgeqrrOmSoN4Sum5AyWFEYcTEy9zwJi4gHqlp3KvPvd7L6cDxhq9n31eAI_CX71f6R9FVp2I2wkpJSYkTcX6sOOQxN4thlFJsqHADkTW8wvufj4rfHv1MrcW2pFkPnQ_5tr7k_Nsn245DuNe-gzowMvyd0hRfwJWAXR0GAJbcuPi6xFXEAoLl8ygbcuKZWK8JYHUqKp5xLiTpKIJyQZPO3-uyyVNvId9MQ4h-fRWtUJA-Nj6IDPoE2afTjVStA0iBjDVnuyMd8sb4zA_YUhJpeXNqHaSQl3kuWZIi1zn53X_hSBlU0aG0ziTSc3VeZ0VS5wPVrkKll_2ctjI8; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: cookie_check=yes; expires=Sat, 30-Nov-2030 14:20:58 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navcmd=_notify-validate; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navlns=0.0; expires=Fri, 02-Dec-2022 14:20:58 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: Apache=10.72.108.11.1606918857810807; path=/; expires=Fri, 25-Nov-50 14:20:57 GMT
+Set-Cookie: ts=vreXpYrS%3D1701526857%26vteXpYrS%3D1606920657%26vr%3D23d3e4451760a488874967cdfdd8feca%26vt%3D23d3e4451760a488874967cdfdd8fec9%26vtyp%3Dnew; Path=/; Domain=paypal.com; Expires=Sat, 02 Dec 2023 14:20:58 GMT; HttpOnly; Secure
+Set-Cookie: ts_c=vr%3D23d3e4451760a488874967cdfdd8feca%26vt%3D23d3e4451760a488874967cdfdd8fec9; Path=/; Domain=paypal.com; Expires=Sat, 02 Dec 2023 14:20:58 GMT; Secure
+Vary: Accept-Encoding,User-Agent
+X-Frame-Options: SAMEORIGIN
+Content-Length: 8
+Connection: close
+Strict-Transport-Security: max-age=63072000
+
+VERIFIED
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 14:20:59 UTC] Verified IPN: cmd=_notify-validate&mc_gross=1.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=06%3A01%3A44+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.28&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=3-subscription&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=Aaw-Fd69z.JLuiq13ejMN-CsSMuuAkJS844LspVke6nDtgb5Iui3l3qL&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=3RN834638S7268339&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription&discount=0.00&mc_currency=EUR&item_number=subscription01&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=352dafad59e4e 
+
+###################################### END OF THE PROCESS ######################################
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 15:01:21 UTC] raw_post_data: mc_gross=2.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=06%3A37%3A24+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.32&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=3-subscription-insurance-f1&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=Af3QIjSd8Y-NvoXVrklWxvu6xqShAmFIPVRsLyBNy8kXosN3kMYaSZg6&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=9P3882346T726662R&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription+%2B+Insurance+%28Essential%29&discount=0.00&mc_currency=EUR&item_number=subscription-insurance-f101&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=9048d85fe80cb
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 15:01:23 UTC] HTTP request of validation request:POST /cgi-bin/webscr HTTP/1.1
+Host: www.sandbox.paypal.com
+Accept: */*
+Connection: Close
+Content-Length: 1135
+Content-Type: application/x-www-form-urlencoded
+Expect: 100-continue
+
+ for IPN payload: cmd=_notify-validate&mc_gross=2.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=06%3A37%3A24+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.32&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=3-subscription-insurance-f1&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=Af3QIjSd8Y-NvoXVrklWxvu6xqShAmFIPVRsLyBNy8kXosN3kMYaSZg6&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=9P3882346T726662R&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription+%2B+Insurance+%28Essential%29&discount=0.00&mc_currency=EUR&item_number=subscription-insurance-f101&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=9048d85fe80cb
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 15:01:23 UTC] HTTP response of validation request: HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+Cache-Control: max-age=0, no-cache, no-store, must-revalidate
+Content-Type: text/html; charset=UTF-8
+Date: Wed, 02 Dec 2020 15:01:22 GMT
+Paypal-Debug-Id: 858de1067631e
+Set-Cookie: c9MWDuvPtT9GIMyPc3jwol1VSlO=4Vp5trZQFYOB7fiQ4NukqO1WxTlc3a7axESl9Xq67Trjm2Lz-0hCRSVVnl8ffkGeWRozeva2vWTyQOy91mrlLM-J9UaWPJqAQ_cfGyjnhaMWkPTKh4qhLWhGEgPLM9mFX7gussdGu5ExnPghnoX_TSv5mptWkksGTnu3VQdOCKZX2tUVNJszWknjHdBn86aDt9eVL5m74xOs8bv5TmvfrUP3fH2V5K_3NGRZ0m6NkDN0dn35EHs5VLGT3FTjwCtZQWxRU0L5a1MWkcuKbvJLXGakozL7yKmkRWKE8PP7UOdYg7Hi6SxWkVx-JMvqRs-p7VaZBTOGy_cs37NUA7N336wGCAjRelPJFFt2iHLKD-7dpC46LhwOlxuGuaemkI2hDasUbhxHGf2MnYalC6XB_7qBuXuTG8dG0Li-Un7UZ9-JCztWrhRP4APBhEK; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: cookie_check=yes; expires=Sat, 30-Nov-2030 15:01:22 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navcmd=_notify-validate; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navlns=0.0; expires=Fri, 02-Dec-2022 15:01:22 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: Apache=10.72.108.11.1606921282086225; path=/; expires=Fri, 25-Nov-50 15:01:22 GMT
+Set-Cookie: ts=vreXpYrS%3D1701529282%26vteXpYrS%3D1606923082%26vr%3D23f8e2101760a48b2a9e2490fdd8443b%26vt%3D23f8e2101760a48b2a9e2490fdd8443a%26vtyp%3Dnew; Path=/; Domain=paypal.com; Expires=Sat, 02 Dec 2023 15:01:23 GMT; HttpOnly; Secure
+Set-Cookie: ts_c=vr%3D23f8e2101760a48b2a9e2490fdd8443b%26vt%3D23f8e2101760a48b2a9e2490fdd8443a; Path=/; Domain=paypal.com; Expires=Sat, 02 Dec 2023 15:01:23 GMT; Secure
+Vary: Accept-Encoding,User-Agent
+X-Frame-Options: SAMEORIGIN
+Content-Length: 8
+Connection: close
+Strict-Transport-Security: max-age=63072000
+
+VERIFIED
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 15:01:23 UTC] Verified IPN: cmd=_notify-validate&mc_gross=2.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=06%3A37%3A24+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.32&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=3-subscription-insurance-f1&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=Af3QIjSd8Y-NvoXVrklWxvu6xqShAmFIPVRsLyBNy8kXosN3kMYaSZg6&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=9P3882346T726662R&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription+%2B+Insurance+%28Essential%29&discount=0.00&mc_currency=EUR&item_number=subscription-insurance-f101&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=9048d85fe80cb 
+
+###################################### END OF THE PROCESS ######################################
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 15:42:41 UTC] raw_post_data: mc_gross=1.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=07%3A19%3A47+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.28&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=1-subscription&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=A29U4aFByfI5Iw2RaM2q5ZmO5MDHA96dLoEHEViEecT0YJRJfUNx78a5&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=149314330B743115R&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription&discount=0.00&mc_currency=EUR&item_number=subscription01&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=4e7bd83ce33ae
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 15:42:43 UTC] HTTP request of validation request:POST /cgi-bin/webscr HTTP/1.1
+Host: www.sandbox.paypal.com
+Accept: */*
+Connection: Close
+Content-Length: 1079
+Content-Type: application/x-www-form-urlencoded
+Expect: 100-continue
+
+ for IPN payload: cmd=_notify-validate&mc_gross=1.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=07%3A19%3A47+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.28&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=1-subscription&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=A29U4aFByfI5Iw2RaM2q5ZmO5MDHA96dLoEHEViEecT0YJRJfUNx78a5&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=149314330B743115R&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription&discount=0.00&mc_currency=EUR&item_number=subscription01&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=4e7bd83ce33ae
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 15:42:43 UTC] HTTP response of validation request: HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+Cache-Control: max-age=0, no-cache, no-store, must-revalidate
+Content-Type: text/html; charset=UTF-8
+Date: Wed, 02 Dec 2020 15:42:42 GMT
+Paypal-Debug-Id: efc6544fc8b5c
+Set-Cookie: c9MWDuvPtT9GIMyPc3jwol1VSlO=LAoYIYaPxXQKOULPhCWUWSc3XM2pNeZuoyWAJShGMJEfDzWJwcF8Ht016dgTSz_hONxJHMuKmZ_F7GjG224uU2ELwAAa9ivro92aZb17NM1VN6wOM_5Dd4M5sUz3DvI3PFKV9TWmXB_FzPI5or5HMX2tPTy4BxqQ-4aPNKFWKFffdftpUAqCCKfZ_M875zgsuJQ6GR-tERd_00kbD8dA51lu-p0UBLZPNO7Hgov5bzRI20IecJ-QXYbH0-_3heVt7J-p6EcP9FX5KoIFTSK5cRsK-QcHlHjiI47AmseuMG69xotKLZT-X3MjEIpHkwg3wp8-tdyGDSfzrjqqR1N1I6HbZLYXV0_lthaHJ_eclf586A6CgrF4L65X-jHdeNSnoKdbKCU_b44D7zAdRwprOXBEI8tzEPcCDKNImDPeOGyYMVSjGe9Y_TDCVAC; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: cookie_check=yes; expires=Sat, 30-Nov-2030 15:42:43 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navcmd=_notify-validate; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navlns=0.0; expires=Fri, 02-Dec-2022 15:42:43 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: Apache=10.72.108.11.1606923762308986; path=/; expires=Fri, 25-Nov-50 15:42:42 GMT
+Set-Cookie: ts=vreXpYrS%3D1701531762%26vteXpYrS%3D1606925562%26vr%3D241eba731760a48f127e5dacfdd6a1c8%26vt%3D241eba731760a48f127e5dacfdd6a1c7%26vtyp%3Dnew; Path=/; Domain=paypal.com; Expires=Sat, 02 Dec 2023 15:42:43 GMT; HttpOnly; Secure
+Set-Cookie: ts_c=vr%3D241eba731760a48f127e5dacfdd6a1c8%26vt%3D241eba731760a48f127e5dacfdd6a1c7; Path=/; Domain=paypal.com; Expires=Sat, 02 Dec 2023 15:42:43 GMT; Secure
+Vary: Accept-Encoding,User-Agent
+X-Frame-Options: SAMEORIGIN
+Content-Length: 8
+Connection: close
+Strict-Transport-Security: max-age=63072000
+
+VERIFIED
+
+###################################### INFORMATION ######################################
+
+[2020-12-02 15:42:43 UTC] Verified IPN: cmd=_notify-validate&mc_gross=1.00&protection_eligibility=Eligible&address_status=confirmed&payer_id=NQY3WFGVCDNMY&address_street=Av.+de+la+Pelouse%2C+87648672+Mayet&payment_date=07%3A19%3A47+Dec+02%2C+2020+PST&payment_status=Completed&charset=windows-1252&address_zip=75002&first_name=Howard&mc_fee=0.28&address_country_code=FR&address_name=Howard+Wolowitz&notify_version=3.9&custom=1-subscription&payer_status=verified&business=sb-phrs91000408%40business.example.com&address_country=France&address_city=Paris&quantity=1&verify_sign=A29U4aFByfI5Iw2RaM2q5ZmO5MDHA96dLoEHEViEecT0YJRJfUNx78a5&payer_email=lucas.sanner%2Bhoward%40gmail.com&txn_id=149314330B743115R&payment_type=instant&last_name=Wolowitz&address_state=Alsace&receiver_email=sb-phrs91000408%40business.example.com&payment_fee=&shipping_discount=0.00&insurance_amount=0.00&receiver_id=GBXTHTRJFRBU2&txn_type=web_accept&item_name=Subscription&discount=0.00&mc_currency=EUR&item_number=subscription01&residence_country=FR&test_ipn=1&shipping_method=Default&transaction_subject=&payment_gross=&ipn_track_id=4e7bd83ce33ae 
+
+###################################### END OF THE PROCESS ######################################

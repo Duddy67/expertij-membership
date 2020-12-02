@@ -40,13 +40,13 @@ class RenewalHelper
 
     public function jobDone($jobName)
     {
-        $path = plugins_path().'/codalia/membership/jobs';
+        $path = plugins_path().'/codalia/membership/helpers/jobs';
 	fopen($path.'/'.$jobName, 'w');
     }
 
     public function isJobDone($jobName)
     {
-        $path = plugins_path().'/codalia/membership/jobs';
+        $path = plugins_path().'/codalia/membership/helpers/jobs';
 
 	if (file_exists($path.'/'.$jobName)) {
 	    return true;
@@ -57,7 +57,7 @@ class RenewalHelper
 
     public function deleteJob($jobName)
     {
-        $path = plugins_path().'/codalia/membership/jobs';
+        $path = plugins_path().'/codalia/membership/helpers/jobs';
 	@unlink($path.'/'.$jobName);
     }
 
@@ -67,15 +67,31 @@ class RenewalHelper
      */
     public function setRenewalPendingStatus()
     {
-      Db::table('codalia_membership_members AS m')->join('codalia_membership_payments AS p', 'p.member_id', '=', 'm.id')
-						  ->where('m.status', 'member')
-						  ->update(['m.status' => 'pending_renewal',
-							    'm.updated_at' => Carbon::now(),
-							    'p.last' => 0]);
+	Db::table('codalia_membership_members AS m')->join('codalia_membership_payments AS p', 'p.member_id', '=', 'm.id')
+						    ->where('m.status', 'member')
+						    ->update(['m.status' => 'pending_renewal',
+							      'm.updated_at' => Carbon::now(),
+							      'p.last' => 0]);
 
-      Db::table('codalia_membership_insurances')->where('status', 'running')
-						->update(['status' => 'pending_renewal',
-							  'updated_at' => Carbon::now()]);
+	Db::table('codalia_membership_insurances')->where('status', 'running')
+						  ->update(['status' => 'pending_renewal',
+							    'updated_at' => Carbon::now()]);
+    }
+
+    /*
+     * Ensures that members are no longer displayed in the member list and their insurance
+     * is no longer running.
+     */
+    public function disableMembers()
+    {
+	Db::table('codalia_membership_members AS m')->join('codalia_membership_insurances AS i', 'i.member_id', '=', 'm.id')
+						    ->where('m.status', 'pending_renewal')
+						    // Removes members from the member list.
+						    ->update(['m.member_list' => 0,
+							      'm.updated_at' => Carbon::now(),
+							      // Insurance is no longer running
+							      'i.status' => 'disabled',
+							      'i.updated_at' => Carbon::now()]);
     }
 
     public function revokeMembers()
@@ -127,15 +143,8 @@ class RenewalHelper
 	$period->sub(new \DateInterval('P'.$daysPeriod.'D'));
 	$reminder->sub(new \DateInterval('P'.$daysReminder.'D'));
 
-	// Renewal period hasn't started yet.
-	if ($now < $period) {
-	    // Deletes jobs from the previous checking.
-	    self::deleteJob('renewal');
-	    self::deleteJob('reminder');
-	    self::deleteJob('last_reminder');
-	}
 	// The renewal time period has started.
-	elseif ($now >= $period && $now < $reminder && !self::isJobDone('renewal')) {
+	if ($now >= $period && $now < $reminder && !self::isJobDone('renewal')) {
 	    self::setRenewalPendingStatus();
 	    self::jobDone('renewal');
 	    // Informs the members.
@@ -151,26 +160,39 @@ class RenewalHelper
 
 	    return 'reminder';
 	}
-	// It's the renewal day.
-	elseif ($now == $renewal && !self::isJobDone('last_reminder')) {
-	    self::jobDone('last_reminder');
-	    \Codalia\Membership\Helpers\EmailHelper::instance()->alertRenewal('last_reminder');
-	}
 
-	return 'none';
+	return self::checkRevocation();
     }
 
+    /*
+     *
+     */
     public function checkRevocation()
     {
         $daysRevocation = (int)Settings::get('revocation', 0);
         $revocation = self::getRenewalDate($daysRevocation);
-	$now = new \DateTime(date('Y-m-d'));
-	$count = 0;
+	$renewal = clone $revocation;
+	// Subtracts x days to get the end of the renewal period.
+	$renewal->sub(new \DateInterval('P'.$daysRevocation.'D'));
 
-	if ($now == $revocation) {
-	    $count = self::revokeMembers();
+	$now = new \DateTime(date('Y-m-d'));
+
+	if ($now >= $renewal && $now < $revocation && !self::isJobDone('last_reminder')) {
+	    self::disableMembers();
+	    self::jobDone('last_reminder');
+	    \Codalia\Membership\Helpers\EmailHelper::instance()->alertRenewal('last_reminder');
+	    return 'last_reminder';
 	}
 
-	return $count;
+	if ($now == $revocation) {
+	    // Deletes jobs from the previous checking.
+	    self::deleteJob('renewal');
+	    self::deleteJob('reminder');
+	    self::deleteJob('last_reminder');
+
+	    return self::revokeMembers();
+	}
+
+	return 'none';
     }
 }
