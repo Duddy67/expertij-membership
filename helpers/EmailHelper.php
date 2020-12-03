@@ -59,7 +59,11 @@ class EmailHelper
     {
         $candidate = Member::find($memberId)->profile;
 	// Fetches the emails of the users belonging to the Decision Maker group.
-        $emails = UserGroup::where('code', 'decision-maker')->first()->users->pluck('email')->toArray();
+	if (!$group = UserGroup::where('code', 'decision-maker')->first()) {
+	    throw new \ApplicationException('Error: No group called "decision-maker" !');
+	}
+
+        $emails = $group->users->pluck('email')->toArray();
 
 
 	if (!empty($emails)) {
