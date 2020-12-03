@@ -13,7 +13,7 @@ class CreateInsurancesTable extends Migration
             $table->increments('id');
             $table->integer('member_id')->unsigned()->index()->nullable()->default(null);
 	    $table->char('status', 20)->default('disabled');
-	    $table->char('code', 3)->default(null);
+	    $table->char('code', 3)->default('f0');
             $table->timestamps();
         });
     }
