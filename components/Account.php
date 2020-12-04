@@ -50,6 +50,7 @@ class Account extends \Codalia\Profile\Components\Account
 	$this->page['isMember'] = ($this->member->status == 'member') ? true : false;
 	$this->page['isCandidate'] = ($this->member->member_since === null) ? true : false; 
 	$this->page['insurance'] = $this->member->insurance->status;
+	$this->page['insuranceName'] = Lang::get('codalia.membership::lang.global_settings.insurance_'.$this->member->insurance->code);
 	$this->page['status'] = $this->member->status;
 	$this->page['memberList'] = $this->member->member_list;
 
@@ -110,9 +111,10 @@ class Account extends \Codalia\Profile\Components\Account
 	elseif ($item == 'insurance') {
 	    $item = 'insurance-'.post('code');
 	}
-//file_put_contents('debog_file.txt', print_r($data, true));
+
         if ($paymentMode == 'cheque') {
-	    $data = ['mode' => 'cheque', 'status' => 'pending', 'item' => $item, 'amount' => Payment::getAmount($item), 'last' => 1];
+	  $data = ['mode' => 'cheque', 'status' => 'pending', 'item' => $item, 'amount' => Payment::getAmount($item),
+		   'currency' => 'EUR', 'transaction_id' => uniqid('CHQ'), 'last' => 1];
 	    $member->savePayment($data);
 
 	    Flash::success(Lang::get('codalia.membership::lang.action.cheque_payment_success'));

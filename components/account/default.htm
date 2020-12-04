@@ -122,6 +122,12 @@
 	  <label for="inputAppealCourt">Appeal Court</label>
 	  <input type="text" name="_appeal_court" disabled="disabled" class="form-control" id="inputAppealCourt" value="{{ member.categories|first.name }}">
 	</div>
+	{% if insurance == 'running' or insurance == 'pending_renewal' %}
+	  <div class="form-group col-sm-6">
+	    <h5>Insurance</h5>
+	    <p>{{ insuranceName }}</p>
+	  </div>
+	{% endif %}
 	{% if status == 'member' %}
 	  <div class="form-group col-sm-6">
 	    <h5>Member List</h5>

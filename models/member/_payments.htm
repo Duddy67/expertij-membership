@@ -15,47 +15,58 @@
 		    <th></th>
 		  </tr>
 	        </thead>
-		<?php foreach ($model->payments()->latest()->get() as $payment) : ?>	
-		<tr <?php echo ($payment->last) ? '' : 'class="history"'; ?>>
-		    <td>
-		      <?php $disabled = ($payment->status != 'pending') ? 'disabled' : ''; ?>
-			  <select name="_payment_status" id="payment-status" <?php echo $disabled; ?> class="form-control">
-			    <option value="pending">Pending</option>
-			    <option value="completed" <?php echo ($payment->status == 'completed') ? 'selected="selected"' : ''; ?>>Completed</option>
-			    <option value="cancelled" <?php echo ($payment->status == 'cancelled') ? 'selected="selected"' : ''; ?>>Canceled</option>
-			    <option value="error" <?php echo ($payment->status == 'error') ? 'selected="selected"' : ''; ?>>Error</option>
-			  </select>
-			  <input type="hidden" name="_payment_id" value="<?php echo $payment->id; ?>">
-		    </td>
-		    <td>
-		      <?php echo $payment->mode; ?>
-		    </td>
-		    <td>
-		      <?php echo $payment->amount; ?>
-		    </td>
-		    <td>
-		      <?php echo $payment->created_at; ?>
-		    </td>
-		    <td>
-		      <?php echo $payment->item; ?>
-		    </td>
-		    <td>
-		      <?php if ($payment->status == 'pending' && $model->status != 'cancelled' && $model->status != 'revoked' && $model->status != 'cancellation') : ?>
-		        <div id="save-payment-button">
-			  <button
-			      type="button"
-			      id="btn-save-payment"
-			      data-request="onSavePayment"
-			      data-browser-validate
-			      data-request-data="close:1"
-			      data-request-success="$.fn.checkPaymentStatus();"
-			      class="btn btn-default">
-			      Save
-			  </button>
-			</div>
-		      <?php endif; ?>
-		    </td>
-		  </tr>
+		<?php foreach ($model->payments()->latest()->get() as $payment) :
+		          // Gets the item type according to the item code. 
+			  $itemType = (substr($payment->item, 0, 9) === 'insurance') ? 'insurance' : 'subscription'; ?>	
+		    <tr <?php echo ($payment->last) ? '' : 'class="history"'; ?>>
+			<td>
+			  <?php $disabled = ($payment->status != 'pending') ? 'disabled' : ''; ?>
+			      <select name="_<?php echo $itemType; ?>_payment_status" id="payment-status" <?php echo $disabled; ?> class="form-control">
+				<option value="pending">Pending</option>
+				<option value="completed" <?php echo ($payment->status == 'completed') ? 'selected="selected"' : ''; ?>>Completed</option>
+				<option value="cancelled" <?php echo ($payment->status == 'cancelled') ? 'selected="selected"' : ''; ?>>Canceled</option>
+				<?php if ($payment->mode != 'cheque') : ?>
+				    <option value="error" <?php echo ($payment->status == 'error') ? 'selected="selected"' : ''; ?>>Error</option>
+				<?php endif; ?>
+			      </select>
+
+			      <?php if ($payment->last) : ?>
+				<input type="hidden" name="_<?php echo $itemType; ?>_payment_id" value="<?php echo $payment->id; ?>">
+				<input type="hidden" name="_<?php echo $itemType; ?>_transaction_id" value="<?php echo $payment->transaction_id; ?>">
+				<input type="hidden" name="_<?php echo $itemType; ?>_payment_mode" value="<?php echo $payment->mode; ?>">
+				<input type="hidden" name="_<?php echo $itemType; ?>_item_code" value="<?php echo $payment->item; ?>">
+				<input type="hidden" name="_<?php echo $itemType; ?>_amount" value="<?php echo $payment->amount; ?>">
+			      <?php endif; ?>
+			</td>
+			<td>
+			  <?php echo $payment->mode; ?>
+			</td>
+			<td>
+			  <?php echo $payment->amount; ?>
+			</td>
+			<td>
+			  <?php echo $payment->created_at; ?>
+			</td>
+			<td>
+			  <?php echo $payment->item; ?>
+			</td>
+			<td>
+			  <?php if ($payment->status == 'pending' && $model->status != 'cancelled' && $model->status != 'revoked' && $model->status != 'cancellation') : ?>
+			    <div id="save-payment-button">
+			      <button
+				  type="button"
+				  id="btn-save-payment"
+				  data-request="onSavePayment"
+				  data-browser-validate
+				  data-request-data="close:1"
+				  data-request-success="$.fn.checkPaymentStatus();"
+				  class="btn btn-default">
+				  Save
+			      </button>
+			    </div>
+			  <?php endif; ?>
+			</td>
+		      </tr>
 <?php           endforeach; ?>
 	    </table>
 <?php    endif; ?>	

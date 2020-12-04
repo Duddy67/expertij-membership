@@ -270,6 +270,8 @@ class Plugin extends PluginBase
 	    'codalia.membership::mail.payment_completed_admin',
 	    'codalia.membership::mail.payment_error',
 	    'codalia.membership::mail.payment_error_admin',
+	    'codalia.membership::mail.payment_cancelled',
+	    'codalia.membership::mail.payment_cancelled_admin',
 	];
     }
 }

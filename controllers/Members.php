@@ -255,21 +255,24 @@ class Members extends Controller
     public function update_onSavePayment($recordId = null)
     {
 	$data = post();
+	// Sets the item type (ie: subscription or insurance).
+	$itemType = (isset($data['_subscription_payment_status'])) ? 'subscription' : 'insurance';
 
-	if ($data['_payment_status'] == 'pending') {
+	if ($data['_'.$itemType.'_payment_status'] == 'pending') {
 	    return;
 	}
 
-        $payment = Member::find($recordId)->payments()->where('id', $data['_payment_id'])->first();
-	$payment->update(['status' => $data['_payment_status']]);
+	// Prepares the required variables. 
+	$data['status'] = $data['_'.$itemType.'_payment_status']; 
+	$data['transaction_id'] = $data['_'.$itemType.'_transaction_id']; 
+	$data['mode'] = $data['_'.$itemType.'_payment_mode']; 
+	$data['item'] = $data['_'.$itemType.'_item_code']; 
+	$data['amount'] = $data['_'.$itemType.'_amount']; 
+
+	$member = Member::find($recordId);
+	$member->savePayment($data);
 
 	Flash::success(Lang::get('codalia.membership::lang.action.payment_update_success'));
-
-	if ($data['_payment_status'] == 'completed') {
-	    $member = Member::find($recordId);
-	    $member->update(['status' => 'member']);
-	    EmailHelper::instance()->statusChange($recordId, 'member', $data['Member']['status']);
-	}
 
 	return [
 	    '#save-payment-button' => '',

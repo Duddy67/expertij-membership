@@ -50,6 +50,11 @@ class Member extends Model
     protected $appends = [];
 
     /**
+     * @var array Attributes to be appended to the API representation of the model (ex. toArray())
+     */
+    protected $payment = null;
+
+    /**
      * @var array Attributes to be removed from the API representation of the model (ex. toArray())
      */
     protected $hidden = [];
@@ -143,22 +148,30 @@ class Member extends Model
      */
     public function savePayment($data)
     {
-        $payment = new Payment ($data);
-	$this->payments()->save($payment);
-	// Gets the latest payment (ie: the one which has just been created).
-	$payment = $this->payments()->where('item', $data['item'])->latest()->first();
+        // Creates a new payment row.
+        if (!Payment::transactionIdExists($data['mode'], $data['transaction_id'])) {
+	    $this->payment = new Payment ($data);
+	    $this->payments()->save($this->payment);
+	    // Gets the id of the latest payment (ie: the one which has just been created).
+	    $paymentId = Payment::transactionIdExists($data['mode'], $data['transaction_id']);
 
-	// Sets the 'last' flag of the older payments to zero.
-	$values = [['id', '<>', $payment->id]];
-	if (substr($data['item'], 0, 9) === 'insurance') {
-	    // Updates only the insurance payments.
-	    $values[] = ['item', 'like', 'insurance%'];
+	    // Sets the 'last' flag of the older payments to zero.
+	    $values = [['id', '<>', $paymentId]];
+	    if (substr($data['item'], 0, 9) === 'insurance') {
+		// Updates only the insurance payments.
+		$values[] = ['item', 'like', 'insurance%'];
+	    }
+
+	    $this->payments()->where($values)->update(['last' => 0]);
+	}
+	// Updates the payment status.
+	else {
+	    $this->payment = $this->payments()->where('mode', $data['mode'])->where('transaction_id', $data['transaction_id'])->first();
+	    $this->payment->update(['status' => $data['status']]);
 	}
 
-	$this->payments()->where($values)->update(['last' => 0]);
-
 	if ($data['mode'] == 'cheque' && $data['status'] == 'pending') {
-	    EmailHelper::instance()->alertChequePayment($member, $data);
+	    EmailHelper::instance()->alertChequePayment($this, $data);
 	    return;
 	}
 
@@ -186,7 +199,7 @@ class Member extends Model
 
 	    EmailHelper::instance()->alertPayment($this->id, $data);
 	}
-	// error
+	// error, cancelled
 	else {
 	    EmailHelper::instance()->alertPayment($this->id, $data);
 	}

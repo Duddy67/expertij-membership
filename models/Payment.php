@@ -75,13 +75,16 @@ class Payment extends Model
 
 
     /*
-     *  return  boolean    true if the transaction id exists, false otherwise.
+     * Check if a transaction id exists.
+     *
+     * @param string  $paymentMode	The payment mode name.
+     * @param string  $transactionId	The transaction id to compare.
+     *
+     * @return integer			Zero if the transaction id doesn't exist, the payment id otherwise.
      */
-    public static function isUniqueTransactionId($transactionId)
+    public static function transactionIdExists($paymentMode, $transactionId)
     {
-	$result = Payment::where('transaction_id', $transactionId)->pluck('id')->toArray();
-
-	return empty($result);
+	return (int)Payment::where('mode', $paymentMode)->where('transaction_id', $transactionId)->value('id');
     }
 
     /*

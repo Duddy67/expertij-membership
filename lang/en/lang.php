@@ -132,9 +132,11 @@ return [
       'cheque_payment' => 'Cheque payment confirmation',
       'alert_cheque_payment' => 'Cheque payment notification',
       'payment_completed' => 'Payment completed',
-      'payment_error' => 'Payment error',
       'payment_completed_admin' => 'Payment completed',
+      'payment_error' => 'Payment error',
       'payment_error_admin' => 'Payment error',
+      'payment_cancelled' => 'Payment cancelled',
+      'payment_cancelled_admin' => 'Payment cancelled',
     ],
     'payment' => [
       'subscription' => 'Subscription',

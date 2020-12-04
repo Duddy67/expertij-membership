@@ -161,7 +161,7 @@ class EmailHelper
 	    $message->to($member->profile->user->email, 'Admin System');
 	    $message->subject(Lang::get('codalia.membership::lang.email.payment_'.$data['status']));
 
-	    if (PluginManager::instance()->exists('Renatio.DynamicPDF')) {
+	    if ($data['status'] == 'completed' && PluginManager::instance()->exists('Renatio.DynamicPDF')) {
 		$tempFile = tempnam(sys_get_temp_dir(), 'inv');
 		PDF::loadTemplate('invoice-membership', $vars)->save($tempFile);
 
