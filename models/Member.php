@@ -32,7 +32,13 @@ class Member extends Model
     /**
      * @var array Validation rules for attributes
      */
-    public $rules = [];
+    public $rules = [
+	//'attestation' => 'required|mimes:jpg,jpeg,png,gif',
+    ];
+
+    public $registrationRules = [
+	'attestation' => 'required|image|mimes:jpg,jpeg,png,gif',
+    ];
 
     /**
      * @var array Attributes to be cast to native types

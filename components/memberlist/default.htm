@@ -1,3 +1,8 @@
 <p>This is the default markup for component MemberList</p>
 
 <small>You can delete this file if you want</small>
+
+
+{{ form_ajax('onLogout', {flash: ''}) }}
+	      <button type="submit" id="btn-cancellation" class="btn btn-danger">Cancellation</button>
+	    {{ form_close() }}

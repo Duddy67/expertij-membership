@@ -30,6 +30,8 @@
 
     <div class="tab-pane fade show active" id="profile">
       {{ form_ajax('onUpdate', {flash: ''}) }}
+	  {{ form_token() }}
+	  {{ form_sessionKey }}
 
 	  <div class="form-group col-sm-6">
 	    <label for="inputFirstname">First Name</label>
@@ -85,7 +87,7 @@
 	  </div>
 
 	  <input name="name" type="hidden" id="accountName" value="{{ member.profile.user.name }}">
-	  <input type="hidden" name="context" value="membership">
+	  <input type="hidden" name="_context" value="membership">
 
 	  <button type="submit" class="btn btn-success">Save</button>
       {{ form_close() }}

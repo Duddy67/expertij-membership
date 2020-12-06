@@ -103,12 +103,14 @@ class Plugin extends PluginBase
 	
 	// A user has been registered as member.
 	Event::listen('codalia.profile.registerMember', function($profile, $data) {
-	    // Ensures that a member model always exists.
+	    // Ensures that a profile model always exists.
 	    $member = MemberModel::getFromProfile($profile);
 
 	    if (Input::hasFile('attestation')) {
 		$member->attestations = Input::file('attestation');
-		$member->save();
+		// Important: Save without validation.
+		// NB. The validation has been performed earlier in the code.
+		$member->forceSave();
 	    }
 
 	    EmailHelper::instance()->afterRegistration($member);

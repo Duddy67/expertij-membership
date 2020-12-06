@@ -76,6 +76,12 @@ class Account extends \Codalia\Profile\Components\Account
 
     public function onReplaceFile()
     {
+        $rules = (new MemberItem)->rules;
+
+	$validation = Validator::make(Input::all(), $rules);
+	if ($validation->fails()) {
+	    throw new ValidationException($validation);
+	}
         $member = $this->loadMember();
 
 	if (Input::hasFile('attestation')) {
@@ -131,6 +137,13 @@ class Account extends \Codalia\Profile\Components\Account
 
     public function onUpdate()
     {
+	/*$data = post();
+        $rules = (new MemberItem)->rules;
+
+	$validation = Validator::make($data, $rules);
+	if ($validation->fails()) {
+	    throw new ValidationException($validation);
+	}*/
         parent::onUpdate();
     }
 
