@@ -82,11 +82,12 @@ class Account extends \Codalia\Profile\Components\Account
 	if ($validation->fails()) {
 	    throw new ValidationException($validation);
 	}
+
         $member = $this->loadMember();
 
 	if (Input::hasFile('attestation')) {
 	    $member->attestations = Input::file('attestation');
-	    $member->save();
+	    $member->forceSave();
 	}
 
         Flash::success(Lang::get('codalia.membership::lang.action.file_replace_success'));

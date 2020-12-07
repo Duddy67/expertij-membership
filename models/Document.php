@@ -27,7 +27,7 @@ class Document extends Model
     /**
      * @var array Validation rules for attributes
      */
-    public $rules = [];
+    public $rules = ['title' => 'required'];
 
     /**
      * @var array Attributes to be cast to native types
@@ -63,10 +63,27 @@ class Document extends Model
     public $hasOne = [];
     public $hasMany = [];
     public $belongsTo = [];
-    public $belongsToMany = [];
+    public $belongsToMany = [
+	'categories' => ['Codalia\Membership\Models\Category',
+			 'table' => 'codalia_membership_cat_documents',
+			 'order' => 'created_at desc',
+      ],
+    ];
     public $morphTo = [];
     public $morphOne = [];
     public $morphMany = [];
     public $attachOne = [];
-    public $attachMany = [];
+    public $attachMany = [
+        // Deletes the linked files once a model is removed.
+        'files' => ['System\Models\File', 'order' => 'created_at desc', 'delete' => true]
+    ];
+
+
+    public function getStatusOptions()
+    {
+	return array('unpublished' => 'codalia.membership::lang.status.unpublished',
+		     'published' => 'codalia.membership::lang.status.published',
+		     'archived' => 'codalia.membership::lang.status.archived');
+    }
 }
+

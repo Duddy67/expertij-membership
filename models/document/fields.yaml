@@ -3,6 +3,74 @@
 # ===================================
 
 fields:
-    id:
-        label: ID
-        disabled: true
+    title:
+        label: codalia.membership::lang.attribute.title
+        span: left
+        placeholder: codalia.membership::lang.attribute.title_placeholder
+        required: true
+
+secondaryTabs:
+    stretch: true
+    fields:
+        files:
+            tab: codalia.membership::lang.attribute.tab_edit
+            span: left
+            type: fileupload
+            mode: file
+            attachOnUpload: true
+
+        description:
+            tab: codalia.membership::lang.attribute.tab_edit
+            type: richeditor
+            stretch: true
+
+        categories:
+            tab: codalia.membership::lang.attribute.tab_categories
+            span: left
+            type: relation
+            commentAbove: codalia.membership::lang.attribute.categories_comment
+            placeholder: codalia.membership::lang.attribute.categories_placeholder
+
+        status:
+            tab: codalia.membership::lang.attribute.tab_manage
+            label: codalia.membership::lang.attribute.status
+            span: left
+            type: dropdown
+            permissions: codalia.membership.access_publish
+
+        created_at:
+            tab: codalia.membership::lang.attribute.tab_manage
+            label: codalia.membership::lang.attribute.created_at
+            span: left
+            type: datepicker
+            mode: datetime
+            disabled: true
+
+        updated_at:
+            tab: codalia.membership::lang.attribute.tab_manage
+            label: codalia.membership::lang.attribute.updated_at
+            span: left 
+            type: datepicker
+            mode: datetime
+            disabled: true
+
+        # Read-only information field for users without other_books access.
+        _created_by_field:
+            tab: codalia.membership::lang.attribute.tab_manage
+            label: codalia.membership::lang.attribute.created_by
+            span: left
+            context: [update]
+            disabled: true
+
+        # Read-only information field.
+        _updated_by_field:
+            tab: codalia.membership::lang.attribute.tab_manage
+            label: codalia.membership::lang.attribute.updated_by
+            span: left 
+            disabled: true
+
+        id:
+            tab: codalia.membership::lang.attribute.tab_manage
+            label: ID
+            span: left
+            disabled: true

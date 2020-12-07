@@ -33,7 +33,7 @@ class Member extends Model
      * @var array Validation rules for attributes
      */
     public $rules = [
-	//'attestation' => 'required|mimes:jpg,jpeg,png,gif',
+	'attestation' => 'required|mimes:jpg,jpeg,png,gif',
     ];
 
     public $registrationRules = [

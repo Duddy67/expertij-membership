@@ -66,9 +66,13 @@ class Category extends Model
     public $belongsTo = [];
     public $belongsToMany = [
 	'members' => ['Codalia\Membership\Models\Member',
-	'table' => 'codalia_membership_cat_members',
-	'order' => 'created_at desc',
-      ],
+	    'table' => 'codalia_membership_cat_members',
+	    'order' => 'created_at desc',
+	],
+	'documents' => ['Codalia\Membership\Models\Document',
+	    'table' => 'codalia_membership_cat_documents',
+	    'order' => 'created_at desc',
+	],
     ];
     public $morphTo = [];
     public $morphOne = [];

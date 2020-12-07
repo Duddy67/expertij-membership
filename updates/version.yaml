@@ -14,3 +14,9 @@
 1.0.4:
   - Created insurance table
   - create_insurances_table.php
+1.0.5:
+  - Created cat_documents table
+  - create_cat_documents_table.php
+1.0.6:
+  - Updated documents table
+  - update_documents_table.php
