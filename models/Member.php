@@ -33,11 +33,14 @@ class Member extends Model
      * @var array Validation rules for attributes
      */
     public $rules = [
-	'attestation' => 'required|mimes:jpg,jpeg,png,gif',
+	'attestation' => 'required_if:_upload,1',
     ];
 
-    public $registrationRules = [
-	'attestation' => 'required|image|mimes:jpg,jpeg,png,gif',
+    /**
+     * @var array Rule  messages for attributes
+     */
+    public $ruleMessages = [
+	'attestation.required_if' => 'The :attribute field is required.',
     ];
 
     /**

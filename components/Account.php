@@ -78,7 +78,11 @@ class Account extends \Codalia\Profile\Components\Account
     {
         $rules = (new MemberItem)->rules;
 
-	$validation = Validator::make(Input::all(), $rules);
+	$messages = [
+	    'attestation.required_if' => 'The :attribute field is required.',
+	];
+
+	$validation = Validator::make(Input::all(), $rules, $messages);
 	if ($validation->fails()) {
 	    throw new ValidationException($validation);
 	}
