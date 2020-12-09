@@ -18,6 +18,7 @@ secondaryTabs:
             type: fileupload
             mode: file
             attachOnUpload: true
+            required: true
 
         description:
             tab: codalia.membership::lang.attribute.tab_edit

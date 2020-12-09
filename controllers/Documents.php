@@ -5,6 +5,7 @@ use Backend\Classes\Controller;
 use Codalia\Membership\Models\Document;
 use Codalia\Membership\Helpers\MembershipHelper;
 use BackendAuth;
+use Carbon\Carbon;
 use Lang;
 use Flash;
 
@@ -78,7 +79,7 @@ class Documents extends Controller
 	  $status = post('status');
 	  $count = 0;
 	  foreach ($checkedIds as $recordId) {
-	      $document = Book::find($recordId);
+	      $document = Document::find($recordId);
 
 	      if ($document->checked_out) {
 		  Flash::error(Lang::get('codalia.membership::lang.action.checked_out_item', ['name' => $document->title]));
@@ -86,11 +87,11 @@ class Documents extends Controller
 	      }
 
 	      $document->status = $status;
-	      $document->published_up = Book::setPublishingDate($document);
+	      $document->published_up = Document::setPublishingDate($document);
 	      // Important: Do not use the save() or update() methods here as the events (afterSave etc...) will be 
 	      //            triggered as well and may have unexpected behaviors.
 	      \Db::table('codalia_membership_documents')->where('id', $recordId)->update(['status' => $status,
-										   'published_up' => Book::setPublishingDate($document)]);
+										   'published_up' => Document::setPublishingDate($document)]);
 	      $count++;
 	  }
 

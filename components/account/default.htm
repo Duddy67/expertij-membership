@@ -8,7 +8,7 @@
 	  <a href="#profile" class="nav-link active" data-toggle="tab">Profile</a>
       </li>
       <li class="nav-item">
-	  <a href="#documents" class="nav-link" data-toggle="tab">Documents</a>
+	  <a href="#membership" class="nav-link" data-toggle="tab">Membership</a>
       </li>
       <li class="nav-item">
 	  <a href="#informations" class="nav-link" data-toggle="tab">Informations</a>
@@ -24,6 +24,9 @@
 	    <a href="#insurance" class="nav-link" data-toggle="tab">Insurance</a>
 	</li>
       {% endif %}
+      <li class="nav-item">
+	  <a href="#documents" class="nav-link" data-toggle="tab">Documents</a>
+      </li>
   </ul>
 
   <div class="tab-content" id="member-space">
@@ -93,7 +96,7 @@
       {{ form_close() }}
     </div>
 
-    <div class="tab-pane fade" id="documents">
+    <div class="tab-pane fade" id="membership">
       <!--<form method="POST" action="{{ url('profile') }}" accept-charset="UTF8" enctype="multipart/form-data">-->
       <!--<form data-request="onReplaceFile" data-request-files data-request-flash>-->
       {{ form_ajax('onReplaceFile', {files: 1, flash: ''}) }}
@@ -276,6 +279,20 @@
       {{ form_close() }}
       </div>
     {% endif %}
+    <div class="tab-pane fade" id="documents">
+      {% for document in documents %}
+	<li>{{ document.title }}</li>
+	<div>{{ document.description }}</div>
+
+	{% for file in document.files %}
+	  <div class="form-group col-sm-6">
+	    <a class="btn btn-info btn-lg" target="_blank" href="{{ file.getPath() }}">
+	    <span class="glyphicon glyphicon-download"></span>Download</a>
+	  </div>
+	{% endfor %}
+
+      {% endfor %}
+    </div>
 
   </div>
   {% put scripts %}

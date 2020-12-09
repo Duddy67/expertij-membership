@@ -5,6 +5,7 @@ use Codalia\Membership\Models\Member as MemberItem;
 use Codalia\Membership\Models\Payment;
 use Codalia\Membership\Models\Settings;
 use Codalia\Profile\Models\Profile;
+use Codalia\Membership\Models\Document;
 use Codalia\Membership\Helpers\EmailHelper;
 use Auth;
 use Input;
@@ -19,6 +20,7 @@ use System\Models\File;
 class Account extends \Codalia\Profile\Components\Account
 {
     public $member;
+    public $documents;
 
     public function componentDetails()
     {
@@ -54,6 +56,8 @@ class Account extends \Codalia\Profile\Components\Account
 	$this->page['status'] = $this->member->status;
 	$this->page['memberList'] = $this->member->member_list;
 
+	$this->page['documents'] = $this->loadDocuments($this->member->categories);
+
         parent::prepareVars();
     }
 
@@ -72,6 +76,17 @@ class Account extends \Codalia\Profile\Components\Account
 
 	//var_dump($member->name);
 	return $member;
+    }
+
+    protected function loadDocuments($categories)
+    {
+        $catIds = $categories->pluck('id')->toArray();
+	// Gets only documents which match the member's categories.
+	$documents = Document::where('status', 'published')->whereHas('categories', function($query) use($catIds) {
+	    $query->whereIn('id', $catIds);
+	})->get();
+
+	return $documents;
     }
 
     public function onReplaceFile()

@@ -73,7 +73,7 @@ return [
       'cancellation' => 'Cancellation',
     ],
     'action' => [
-      'new' => 'New Article',
+      'new_document' => 'New Document',
       'publish' => 'Publish',
       'unpublish' => 'Unpublish',
       'trash' => 'Trash',

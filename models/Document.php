@@ -1,6 +1,7 @@
 <?php namespace Codalia\Membership\Models;
 
 use Model;
+use Carbon\Carbon;
 
 /**
  * Document Model
