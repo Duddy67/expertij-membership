@@ -2,6 +2,12 @@
 
 use BackendMenu;
 use Backend\Classes\Controller;
+use Codalia\Membership\Models\Document;
+use Codalia\Membership\Helpers\MembershipHelper;
+use BackendAuth;
+use Lang;
+use Flash;
+
 
 /**
  * Documents Back-end Controller
@@ -32,4 +38,93 @@ class Documents extends Controller
 
         BackendMenu::setContext('Codalia.Membership', 'membership', 'documents');
     }
+
+
+    public function index()
+    {
+	$this->vars['statusIcons'] = MembershipHelper::instance()->getStatusIcons();
+	$this->addCss(url('plugins/codalia/membership/assets/css/extra.css'));
+	// Unlocks the checked out items of this user (if any).
+	MembershipHelper::instance()->checkIn((new Document)->getTable(), BackendAuth::getUser());
+	// Calls the parent method as an extension.
+        $this->asExtension('ListController')->index();
+    }
+
+    public function listInjectRowClass($record, $definition = null)
+    {
+        $class = '';
+
+	if ($record->checked_out) {
+	    $class = 'safe disabled nolink';
+	}
+
+	return $class;
+    }
+
+    public function listOverrideColumnValue($record, $columnName, $definition = null)
+    {
+        if ($record->checked_out && $columnName == 'title') {
+	    return MembershipHelper::instance()->getCheckInHtml($record, BackendAuth::findUserById($record->checked_out), $record->title);
+	}
+    }
+
+    public function index_onSetStatus()
+    {
+	// Needed for the status column partial.
+	$this->vars['statusIcons'] = MembershipHelper::instance()->getStatusIcons();
+
+	// Ensures one or more items are selected.
+	if (($checkedIds = post('checked')) && is_array($checkedIds) && count($checkedIds)) {
+	  $status = post('status');
+	  $count = 0;
+	  foreach ($checkedIds as $recordId) {
+	      $document = Book::find($recordId);
+
+	      if ($document->checked_out) {
+		  Flash::error(Lang::get('codalia.membership::lang.action.checked_out_item', ['name' => $document->title]));
+		  return $this->listRefresh();
+	      }
+
+	      $document->status = $status;
+	      $document->published_up = Book::setPublishingDate($document);
+	      // Important: Do not use the save() or update() methods here as the events (afterSave etc...) will be 
+	      //            triggered as well and may have unexpected behaviors.
+	      \Db::table('codalia_membership_documents')->where('id', $recordId)->update(['status' => $status,
+										   'published_up' => Book::setPublishingDate($document)]);
+	      $count++;
+	  }
+
+	  $toRemove = ($status == 'archived') ? 'd' : 'ed';
+
+	  Flash::success(Lang::get('codalia.membership::lang.action.'.rtrim($status, $toRemove).'_success', ['count' => $count]));
+	}
+
+	return $this->listRefresh();
+    }
+
+    public function index_onCheckIn()
+    {
+	// Needed for the status column partial.
+	//$this->vars['statusIcons'] = JournalHelper::instance()->getStatusIcons();
+
+	// Ensures one or more items are selected.
+	if (($checkedIds = post('checked')) && is_array($checkedIds) && count($checkedIds)) {
+	  $count = 0;
+	  foreach ($checkedIds as $recordId) {
+	      MembershipHelper::instance()->checkIn((new Document)->getTable(), null, $recordId);
+	      $count++;
+	  }
+
+	  Flash::success(Lang::get('codalia.membership::lang.action.check_in_success', ['count' => $count]));
+	}
+
+	return $this->listRefresh();
+    }
+
+    public function loadScripts()
+    {
+        $this->addCss(url('plugins/codalia/membership/assets/css/extra.css'));
+	$this->addJs('/plugins/codalia/membership/assets/js/document.js');
+    }
+
 }

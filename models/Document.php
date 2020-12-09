@@ -85,5 +85,12 @@ class Document extends Model
 		     'published' => 'codalia.membership::lang.status.published',
 		     'archived' => 'codalia.membership::lang.status.archived');
     }
+
+    public static function setPublishingDate($document)
+    {
+	// Sets to the current date time in case the record has never been published before. 
+	return ($document->status == 'published' && is_null($document->published_up)) ? Carbon::now() : $document->published_up;
+    }
+
 }
 

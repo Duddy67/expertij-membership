@@ -15,7 +15,9 @@ class UpdateDocumentsTable extends Migration
 	    $table->timestamp('last_email_sending')->nullable()->after('status');
 	    $table->integer('created_by')->unsigned()->nullable()->index()->after('last_email_sending');
 	    $table->integer('updated_by')->unsigned()->nullable()->after('created_by');
-	    $table->integer('checked_out')->unsigned()->nullable()->index()->after('updated_by');
+	    $table->timestamp('published_up')->nullable()->after('updated_by');
+	    $table->timestamp('published_down')->nullable()->after('published_up');
+	    $table->integer('checked_out')->unsigned()->nullable()->index()->after('published_down');
 	    $table->timestamp('checked_out_time')->nullable()->after('checked_out');
         });
     }
@@ -61,6 +63,20 @@ class UpdateDocumentsTable extends Migration
             Schema::table('codalia_membership_documents', function($table)
             {
                 $table->dropColumn('updated_by');
+            });
+        }
+
+        if (Schema::hasColumn('codalia_membership_documents', 'published_up')) {
+            Schema::table('codalia_membership_documents', function($table)
+            {
+                $table->dropColumn('published_up');
+            });
+        }
+
+        if (Schema::hasColumn('codalia_membership_documents', 'published_down')) {
+            Schema::table('codalia_membership_documents', function($table)
+            {
+                $table->dropColumn('published_down');
             });
         }
 

@@ -69,4 +69,14 @@ class MembershipHelper
 
 	return $html;
     }
+
+    /**
+     * Returns the css status mapping.
+     *
+     * @return array
+     */
+    public function getStatusIcons()
+    {
+        return ['published' => 'success', 'unpublished' => 'danger', 'archived' => 'muted']; 
+    }
 }

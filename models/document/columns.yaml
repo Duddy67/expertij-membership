@@ -3,6 +3,29 @@
 # ===================================
 
 columns:
+    title:
+        label: codalia.membership::lang.attribute.title
+        searchable: true
+        sortable: true
+
+    _categories:
+        label: codalia.membership::lang.membership.categories
+        relation: categories
+        select: name
+        searchable: true
+        sortable: false
+
+    status:
+        label: codalia.membership::lang.attribute.status
+        sortable: true
+        type: partial
+        path: ~/plugins/codalia/membership/models/document/_status_column.htm
+
+    created_at:
+        label: codalia.membership::lang.attribute.created_at
+        type: datetime
+        sortable: true
+
     id:
         label: ID
         searchable: true

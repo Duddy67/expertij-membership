@@ -2,20 +2,76 @@
     <a
         href="<?= Backend::url('codalia/membership/documents/create') ?>"
         class="btn btn-primary oc-icon-plus">
-        New Document
+	<?= e(trans('codalia.membership::lang.action.new')) ?>
     </a>
 
-    <button
-        class="btn btn-danger oc-icon-trash-o"
-        disabled="disabled"
-        onclick="$(this).data('request-data', { checked: $('.control-list').listWidget('getChecked') })"
-        data-request="onDelete"
-        data-request-confirm="Are you sure you want to delete the selected Documents?"
-        data-trigger-action="enable"
-        data-trigger=".control-list input[type=checkbox]"
-        data-trigger-condition="checked"
-        data-request-success="$(this).prop('disabled', 'disabled')"
-        data-stripe-load-indicator>
-        Delete selected
-    </button>
+    <?php if ($this->user->hasAccess('codalia.membership.access_publish')): ?>
+      <button
+	  class="btn btn-success oc-icon-check-square-o deactivable"
+	  disabled="disabled"
+	  onclick="$(this).data('request-data', { checked: $('.control-list').listWidget('getChecked'), status: 'published' })"
+	  data-request="onSetStatus"
+	  data-trigger-action="enable"
+	  data-trigger=".control-list input[type=checkbox]"
+	  data-trigger-condition="checked"
+	  data-request-success="$.fn.disableButtons();"
+	  data-stripe-load-indicator>
+	  <?= e(trans('codalia.membership::lang.action.publish')) ?>
+      </button>
+
+      <button
+	  class="btn btn-warning oc-icon-square-o deactivable"
+	  disabled="disabled"
+	  onclick="$(this).data('request-data', { checked: $('.control-list').listWidget('getChecked'), status: 'unpublished' })"
+	  data-request="onSetStatus"
+	  data-trigger-action="enable"
+	  data-trigger=".control-list input[type=checkbox]"
+	  data-trigger-condition="checked"
+	  data-request-success="$.fn.disableButtons();"
+	  data-stripe-load-indicator>
+	  <?= e(trans('codalia.membership::lang.action.unpublish')) ?>
+      </button>
+    <?php endif ?>
+
+    <?php if ($this->user->hasAccess('codalia.membership.access_check_in')): ?>
+      <button
+	  class="btn btn-info oc-icon-unlock-alt deactivable"
+	  disabled="disabled"
+	  onclick="$(this).data('request-data', { checked: $('.control-list').listWidget('getChecked'), status: 'archived' })"
+	  data-request="onCheckIn"
+	  data-trigger-action="enable"
+	  data-trigger=".control-list input[type=checkbox]"
+	  data-trigger-condition="checked"
+	  data-request-success="$.fn.disableButtons();"
+	  data-stripe-load-indicator>
+	  <?= e(trans('codalia.membership::lang.action.check_in')) ?>
+      </button>
+    <?php endif ?>
+
+    <?php if ($this->user->hasAccess('codalia.membership.access_delete')): ?>
+      <button
+	  class="btn btn-danger oc-icon-trash-o deactivable"
+	  disabled="disabled"
+	  onclick="$(this).data('request-data', { checked: $('.control-list').listWidget('getChecked') })"
+	  data-request="onDelete"
+	  data-request-confirm="<?= e(trans('codalia.membership::lang.action.deletion_confirmation')) ?>"
+	  data-trigger-action="enable"
+	  data-trigger=".control-list input[type=checkbox]"
+	  data-trigger-condition="checked"
+	  data-request-success="$.fn.disableButtons();"
+	  data-stripe-load-indicator>
+	  <?= e(trans('codalia.membership::lang.action.delete')) ?>
+      </button>
+    <?php endif ?>
 </div>
+
+<script>
+$.fn.disableButtons = function() {
+    $(':button.deactivable').each(function() {
+	$(this).prop('disabled', 'disabled');
+    });
+}
+</script>
+
+
+
