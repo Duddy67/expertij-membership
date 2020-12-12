@@ -20,12 +20,16 @@ class MemberList extends ComponentBase
         return [];
     }
 
+    public function onRun()
+    {
+	$this->prepareVars();
+    }
+
     /**
      * Executed when this component is initialized
      */
     public function prepareVars()
     {
-        parent::prepareVars();
     }
 
     public function onTest()

@@ -17,7 +17,7 @@ use Redirect;
 use System\Models\File;
 
 
-class Account extends \Codalia\Profile\Components\Account
+class Member extends ComponentBase
 {
     public $member;
     public $documents;
@@ -25,9 +25,14 @@ class Account extends \Codalia\Profile\Components\Account
     public function componentDetails()
     {
         return [
-            'name'        => 'Account Membership Component',
+            'name'        => 'Member Component',
             'description' => 'No description provided yet...'
         ];
+    }
+
+    public function onRun()
+    {
+	$this->prepareVars();
     }
 
     /**
@@ -57,8 +62,6 @@ class Account extends \Codalia\Profile\Components\Account
 	$this->page['memberList'] = $this->member->member_list;
 
 	$this->page['documents'] = $this->loadDocuments($this->member->categories);
-
-        parent::prepareVars();
     }
 
     protected function loadMember()

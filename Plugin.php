@@ -143,7 +143,7 @@ class Plugin extends PluginBase
         //return []; // Remove this line to activate
 
         return [
-            'Codalia\Membership\Components\Account' => 'account',
+            'Codalia\Membership\Components\Member' => 'member',
             'Codalia\Membership\Components\Paypal' => 'paypal',
             'Codalia\Membership\Components\MemberList' => 'memberList',
         ];

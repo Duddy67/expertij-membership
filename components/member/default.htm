@@ -5,10 +5,7 @@
 {% else %}
   <ul class="nav nav-tabs">
       <li class="nav-item">
-	  <a href="#profile" class="nav-link active" data-toggle="tab">Profile</a>
-      </li>
-      <li class="nav-item">
-	  <a href="#membership" class="nav-link" data-toggle="tab">Membership</a>
+	  <a href="#membership" class="nav-link active" data-toggle="tab">Membership</a>
       </li>
       <li class="nav-item">
 	  <a href="#informations" class="nav-link" data-toggle="tab">Informations</a>
@@ -31,72 +28,7 @@
 
   <div class="tab-content" id="member-space">
 
-    <div class="tab-pane fade show active" id="profile">
-      {{ form_ajax('onUpdate', {flash: ''}) }}
-	  {{ form_token() }}
-	  {{ form_sessionKey }}
-
-	  <div class="form-group col-sm-6">
-	    <label for="inputFirstname">First Name</label>
-	    <input type="text" name="first_name" class="form-control" id="inputFirstname" value="{{ member.profile.first_name }}">
-	  </div>
-
-	  <div class="form-group col-sm-6">
-	    <label for="inputLastname">Last Name</label>
-	    <input type="text" name="last_name" class="form-control" id="inputLastname" value="{{ member.profile.last_name }}">
-	  </div>
-
-	  <div class="form-group col-sm-6">
-	      <label for="accountEmail">Email</label>
-	      <input name="email" type="email" class="form-control" id="accountEmail" value="{{ member.profile.user.email }}">
-	  </div>
-
-	  <div class="form-group col-sm-6">
-	      <label for="accountPassword">New Password</label>
-	      <input name="password" type="password" class="form-control" id="accountPassword">
-	  </div>
-
-	  <div class="form-group col-sm-6">
-	      <label for="accountPasswordConfirm">Confirm New Password</label>
-	      <input name="password_confirmation" type="password" class="form-control" id="accountPasswordConfirm">
-	  </div>
-
-	  {% if updateRequiresPassword %}
-	      <p>To change these details, please confirm your current password.</p>
-	      <div class="form-group col-sm-6">
-		  <label for="accountPasswordCurrent">Current Password <small class="text-danger">* required</small></label>
-		  <input name="password_current" type="password" class="form-control" id="accountPasswordCurrent">
-	      </div>
-	  {% endif %}
-
-	  <div class="form-group col-sm-6">
-	    <label for="inputStreet">Street</label>
-	    <input type="text" name="street" class="form-control" id="inputStreet" value="{{ member.profile.street }}">
-	  </div>
-
-	  <div class="form-group col-sm-6">
-	    <label for="inputPostcode">Postcode</label>
-	    <input type="text" name="postcode" class="form-control" id="inputPostcode" value="{{ member.profile.postcode }}">
-	  </div>
-
-	  <div class="form-group col-sm-6">
-	    <label for="inputCity">City</label>
-	    <input type="text" name="city" class="form-control" id="inputCity" value="{{ member.profile.city }}">
-	  </div>
-
-	  <div class="form-group col-sm-6">
-	    <label for="inputCountry">Country</label>
-	    <input type="text" name="country" class="form-control" id="inputCountry" value="{{ member.profile.country }}">
-	  </div>
-
-	  <input name="name" type="hidden" id="accountName" value="{{ member.profile.user.name }}">
-	  <input type="hidden" name="_context" value="membership">
-
-	  <button type="submit" class="btn btn-success">Save</button>
-      {{ form_close() }}
-    </div>
-
-    <div class="tab-pane fade" id="membership">
+    <div class="tab-pane fade show active" id="membership">
       <!--<form method="POST" action="{{ url('profile') }}" accept-charset="UTF8" enctype="multipart/form-data">-->
       <!--<form data-request="onReplaceFile" data-request-files data-request-flash>-->
       {{ form_ajax('onReplaceFile', {files: 1, flash: ''}) }}
@@ -280,18 +212,20 @@
       </div>
     {% endif %}
     <div class="tab-pane fade" id="documents">
-      {% for document in documents %}
-	<li>{{ document.title }}</li>
-	<div>{{ document.description }}</div>
+      {% if isMember %}
+	{% for document in documents %}
+	  <li>{{ document.title }}</li>
+	  <div>{{ document.description }}</div>
 
-	{% for file in document.files %}
-	  <div class="form-group col-sm-6">
-	    <a class="btn btn-info btn-lg" target="_blank" href="{{ file.getPath() }}">
-	    <span class="glyphicon glyphicon-download"></span>Download</a>
-	  </div>
+	  {% for file in document.files %}
+	    <div class="form-group col-sm-6">
+	      <a class="btn btn-info btn-lg" target="_blank" href="{{ file.getPath() }}">
+	      <span class="glyphicon glyphicon-download"></span>Download</a>
+	    </div>
+	  {% endfor %}
+
 	{% endfor %}
-
-      {% endfor %}
+      {% endif %}
     </div>
 
   </div>
