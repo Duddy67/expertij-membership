@@ -39,6 +39,13 @@ tabs:
             comment: codalia.membership::lang.global_settings.revocation_comment
             type: text
 
+        free_period:
+            tab: codalia.membership::lang.global_settings.tab_general
+            span: left
+            label: codalia.membership::lang.global_settings.free_period
+            comment: codalia.membership::lang.global_settings.free_period_comment
+            type: text
+
         subscription_fee:
             tab: codalia.membership::lang.global_settings.tab_prices
             span: left

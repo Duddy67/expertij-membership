@@ -154,6 +154,8 @@ return [
       'renewal_month_comment' => 'Renewal month',
       'renewal_period' => 'Renewal period',
       'renewal_period_comment' => 'Sets a renewal period (in days) before the renewal date',
+      'free_period' => 'Free period',
+      'free_period_comment' => 'Sets a subscription period (in days) before the renewal date.',
       'reminder_renewal' => 'Reminder renewal',
       'reminder_renewal_comment' => 'Sets a reminder (in days) before the renewal date',
       'revocation' => 'Revocation',

@@ -5,6 +5,7 @@ use Codalia\Profile\Models\Profile as ProfileModel;
 use Codalia\Membership\Models\Payment;
 use Codalia\Membership\Models\Insurance;
 use Codalia\Membership\Helpers\EmailHelper;
+use Codalia\Membership\Helpers\RenewalHelper;
 use Carbon\Carbon;
 
 /**
@@ -233,6 +234,10 @@ class Member extends Model
         // It's a brand new member.
         if ($this->status == 'member' && $this->member_since === null) {
 	    Member::where('id', $this->id)->update(['member_since' => Carbon::now()]);
+	    // 
+	    if (RenewalHelper::instance()->isFreePeriod()) {
+		Member::where('id', $this->id)->update(['free_period' => 1]);
+	    }
 	}
     }
 }

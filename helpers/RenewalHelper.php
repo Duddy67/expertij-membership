@@ -130,6 +130,27 @@ class RenewalHelper
 	return $renewal;
     }
 
+    /*
+     * If the candidates subscribe and pay during this period (starting few months before the renewal
+     * day), their current subscription fee payment will be actually taken into account on
+     * the renewal day. Meaning that the months before the renewal day are for free.  
+     */
+    public function isFreePeriod()
+    {
+        $renewal = self::getRenewalDate();
+        $daysPeriod = Settings::get('free_period', null);
+
+	$freePeriod = clone $renewal;
+	$freePeriod->sub(new \DateInterval('P'.$daysPeriod.'D'));
+	$now = new \DateTime(date('Y-m-d'));
+
+	if ($now >= $freePeriod && $now < $renewal) {
+	    return true;
+	}
+
+	return false;
+    }
+
     public function checkRenewal()
     {
         $renewal = self::getRenewalDate();
