@@ -181,6 +181,9 @@ return [
       'october' => 'October',
       'november' => 'November',
       'december' => 'December',
+    ],
+    'appeal_court' => [
+      'aix-en-provence' => 'Aix en Provence',
     ]
 ];
 

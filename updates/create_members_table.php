@@ -16,6 +16,8 @@ class CreateMembersTable extends Migration
 	    $table->boolean('member_list')->nullable();
 	    $table->tinyInteger('email_sendings')->unsigned()->default(0);
 	    $table->timestamp('member_since')->nullable();
+	    $table->string('member_number', 30)->nullable();
+	    $table->string('appeal_court', 30)->nullable();
 	    $table->boolean('free_period')->nullable();
 	    $table->integer('checked_out')->unsigned()->nullable()->index();
 	    $table->timestamp('checked_out_time')->nullable();

@@ -164,7 +164,7 @@ class Plugin extends PluginBase
 	      ],
             'codalia.membership.access_members' => [
                 'tab' => 'codalia.membership::lang.membership.tab',
-                'label' => 'codalia.membership::lang.membership.access_articles',
+                'label' => 'codalia.membership::lang.membership.access_members',
 		'order' => 201
             ],
             'codalia.membership.access_categories' => [

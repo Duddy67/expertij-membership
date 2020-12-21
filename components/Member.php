@@ -60,6 +60,7 @@ class Member extends ComponentBase
 	$this->page['insuranceName'] = Lang::get('codalia.membership::lang.global_settings.insurance_'.$this->member->insurance->code);
 	$this->page['status'] = $this->member->status;
 	$this->page['memberList'] = $this->member->member_list;
+	$this->page['isFreePeriod'] = ($this->member->free_period && $this->member->member_since) ? true : false; 
 
 	$this->page['documents'] = $this->loadDocuments($this->member->categories);
     }
@@ -132,6 +133,7 @@ class Member extends ComponentBase
         $item = post('item');
         $insuranceCode = post('insurance_code');
 	$member = $this->loadMember();
+	$offlineModes = ['cheque', 'bank_transfer', 'free_period'];
 
 	// The user has added the insurance to the subscription fee.
 	if ($item == 'subscription' && $insuranceCode && $insuranceCode != 'f0') {
@@ -141,20 +143,30 @@ class Member extends ComponentBase
 	    $item = 'insurance-'.post('code');
 	}
 
-        if ($paymentMode == 'cheque') {
-	  $data = ['mode' => 'cheque', 'status' => 'pending', 'item' => $item, 'amount' => Payment::getAmount($item),
-		   'currency' => 'EUR', 'transaction_id' => uniqid('CHQ'), 'last' => 1];
+	// Ensures the member data matches the free period conditions.
+	if ($paymentMode == 'free_period' && (!$member->free_period || !$member->member_since)) {
+	    return Redirect::to('403');
+	}
+
+        if (in_array($paymentMode, $offlineModes)) {
+	    // Handles the free period option.
+	    $status = ($paymentMode == 'free_period') ? 'completed' : 'pending';
+	    $amount = ($paymentMode == 'free_period') ? 0 : Payment::getAmount($item);
+
+	    $data = ['mode' => $paymentMode, 'status' => $status, 'item' => $item, 'amount' => $amount,
+		     'currency' => 'EUR', 'transaction_id' => uniqid('CHQ'), 'last' => 1];
+
 	    $member->savePayment($data);
 
 	    Flash::success(Lang::get('codalia.membership::lang.action.cheque_payment_success'));
-
 
 	    return[
 		'#payment-modes' => '<div class="card bg-light mb-3"><div class="card-header">Information</div><div class="card-body">There is no payment to display.</div></div>'
 	    ];
 	}
-	elseif ($paymentMode == 'paypal') {
-	    return Redirect::to('/paypal/'.$item.'/pay-now');
+	// Online modes (Paypal etc..).
+	else {
+	    return Redirect::to('/'.$paymentMode.'/'.$item.'/pay-now');
 	}
     }
 

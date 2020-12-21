@@ -114,6 +114,11 @@ class Member extends Model
 
 	$member = new static;
 	$member->profile = $profile;
+
+	if (RenewalHelper::instance()->isFreePeriod()) {
+	    $member->free_period = 1;
+	}
+
 	// Important: Creates a member without validation.
 	// NB. The validation has been performed earlier in the code.
 	$member->forceSave();
@@ -227,17 +232,30 @@ class Member extends Model
     }
 
     /*
+     * TODO: Temporary. Wait for the proper way to compute the member numbers.
+     */
+    public function getMemberNumber()
+    {
+        return uniqid('MB');
+    }
+
+    /*
      * N.B: Called only if one or more values have been modified.
      */ 
     public function afterUpdate()
     {
         // It's a brand new member.
         if ($this->status == 'member' && $this->member_since === null) {
-	    Member::where('id', $this->id)->update(['member_since' => Carbon::now()]);
-	    // 
-	    if (RenewalHelper::instance()->isFreePeriod()) {
-		Member::where('id', $this->id)->update(['free_period' => 1]);
+	    Member::where('id', $this->id)->update(['member_since' => Carbon::now(), 'member_number' => $this->getMemberNumber()]);
+
+	    // The subscription fee must be paid during the free period as well to be valid.
+	    if (!RenewalHelper::instance()->isFreePeriod()) {
+		Member::where('id', $this->id)->update(['free_period' => 0]);
 	    }
+	}
+	else {
+	    // The perk of the free period stops after the first renewal.
+	    Member::where('id', $this->id)->update(['free_period' => 0]);
 	}
     }
 }
