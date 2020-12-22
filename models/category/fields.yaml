@@ -6,27 +6,27 @@ fields:
     name:
         label: codalia.membership::lang.attribute.name
         span: left
-        placeholder: codalia.membership::lang.category.name_placeholder
+        placeholder: codalia.membership::lang.attribute.name_placeholder
         required: true
 
     slug:
         label: codalia.membership::lang.attribute.slug
         span: right
-        placeholder: codalia.membership::lang.category.slug_placeholder
+        placeholder: codalia.membership::lang.attribute.slug_placeholder
         required: true
         preset:
             field: name
             type: slug
 
     parent:
-        label: codalia.journal::lang.attribute.parent_category
+        label: codalia.membership::lang.attribute.parent_category
         span: left
         type: relation
         nameFrom: name
-        emptyOption: codalia.journal::lang.attribute.none
+        emptyOption: codalia.membership::lang.attribute.none
 
     description:
-        label: codalia.journal::lang.attribute.description
+        label: codalia.membership::lang.attribute.description
         size: large
         oc.commentPosition: ''
         span: full
