@@ -148,10 +148,10 @@ class Member extends Model
     {
         $appealCourts = [];
 
-	$fields = Profile::getSharedFields('membership', 'member');
+	$fields = ProfileModel::getSharedFields('membership', 'member');
 
 	foreach ($fields['appeal_court_options'] as $value) {
-	    $appealCourts[$value] = 'codalia.membership::lang.profile.appeal_court_options.'.$values;
+	    $appealCourts[$value] = 'codalia.membership::lang.profile.appeal_court_options.'.$value;
 	}
 
 	return $appealCourts;

@@ -19,6 +19,7 @@ return [
       'first_name' => 'First name',
       'last_name' => 'Last name',
       'email' => 'Email',
+      'appeal_court' => 'Appeal court',
     ],
     'members' => [
     ],

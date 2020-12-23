@@ -21,7 +21,7 @@ secondaryTabs:
 
         appeal_court:
             tab: codalia.membership::lang.attribute.tab_manage
-            label: codalia.membership::lang.attribute.status
+            label: codalia.membership::lang.member.appeal_court
             span: left
             type: dropdown
 
