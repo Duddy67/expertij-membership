@@ -144,6 +144,25 @@ class Member extends Model
 		     'cancellation' => 'codalia.membership::lang.status.cancellation');
     }
 
+    public function getAppealCourtOptions()
+    {
+        $appealCourts = [];
+
+	if(file_exists('plugins/codalia/membership/lang/en/lang.php')) {
+	    $results = include 'plugins/codalia/membership/lang/en/lang.php';
+            // Checks for both valid profile and appeal_courts sections.
+	    $results = (isset($results['profile']) && isset($results['profile']['appeal_courts'])) ? $results['profile']['appeal_courts'] : [];
+
+	    if (!empty($results)) {
+	        foreach ($results as $code => $result) {
+		    $appealCourts[$code] = 'codalia.membership::lang.profile.appeal_courts.'.$code;
+		}
+	    }
+	}
+
+	return $appealCourts;
+    }
+
     /**
      * Switch visibility of some fields.
      *
