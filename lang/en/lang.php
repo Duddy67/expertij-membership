@@ -186,8 +186,8 @@ return [
     // Variables used with the Profile plugin.
     'profile' => [
       'attestation' => 'Attestation',
-      'appeal_courts' => [
-	'' => '- Select -',
+      'appeal_court' => 'Appeal court',
+      'appeal_court_options' => [
 	'agen' => 'Agen',
 	'aix_en_provence' => 'Aix en Provence',
 	'amiens' => 'Amiens',

@@ -148,16 +148,10 @@ class Member extends Model
     {
         $appealCourts = [];
 
-	if(file_exists('plugins/codalia/membership/lang/en/lang.php')) {
-	    $results = include 'plugins/codalia/membership/lang/en/lang.php';
-            // Checks for both valid profile and appeal_courts sections.
-	    $results = (isset($results['profile']) && isset($results['profile']['appeal_courts'])) ? $results['profile']['appeal_courts'] : [];
+	$fields = Profile::getSharedFields('membership', 'member');
 
-	    if (!empty($results)) {
-	        foreach ($results as $code => $result) {
-		    $appealCourts[$code] = 'codalia.membership::lang.profile.appeal_courts.'.$code;
-		}
-	    }
+	foreach ($fields['appeal_court_options'] as $value) {
+	    $appealCourts[$value] = 'codalia.membership::lang.profile.appeal_court_options.'.$values;
 	}
 
 	return $appealCourts;
