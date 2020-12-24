@@ -19,11 +19,11 @@ secondaryTabs:
             span: left
             type: dropdown
 
-        appeal_court:
+        appealCourt:
             tab: codalia.membership::lang.attribute.tab_manage
             label: codalia.membership::lang.member.appeal_court
             span: left
-            type: dropdown
+            type: relation
 
         id:
             tab: codalia.membership::lang.attribute.tab_manage

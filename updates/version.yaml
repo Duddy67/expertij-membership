@@ -20,3 +20,9 @@
 1.0.6:
   - Updated documents table
   - update_documents_table.php
+1.0.7:
+  - Create appeal courts table
+  - create_appeal_courts_table.php
+1.0.8:
+  - Seed appeal courts table
+  - seed_appeal_courts_table.php

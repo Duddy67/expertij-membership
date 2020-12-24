@@ -1,9 +1,10 @@
 <?php namespace Codalia\Membership\Models;
 
 use Model;
-use Codalia\Profile\Models\Profile as ProfileModel;
 use Codalia\Membership\Models\Payment;
 use Codalia\Membership\Models\Insurance;
+use Codalia\Membership\Models\Category;
+use Codalia\Membership\Models\AppealCourt;
 use Codalia\Membership\Helpers\EmailHelper;
 use Codalia\Membership\Helpers\RenewalHelper;
 use Carbon\Carbon;
@@ -88,7 +89,8 @@ class Member extends Model
         'payments' => ['Codalia\Membership\Models\Payment']
     ];
     public $belongsTo = [
-        'profile' => ['Codalia\Profile\Models\Profile']
+        'profile' => ['Codalia\Profile\Models\Profile'],
+        'appealCourt' => ['Codalia\Membership\Models\AppealCourt']
     ];
     public $belongsToMany = [
 	'categories' => ['Codalia\Membership\Models\Category',
@@ -106,7 +108,7 @@ class Member extends Model
     ];
 
 
-    public static function getFromProfile($profile)
+    public static function getFromProfile($profile, $data = array())
     {
         if ($profile->member) {
 	    return $profile->member;
@@ -117,6 +119,10 @@ class Member extends Model
 
 	if (RenewalHelper::instance()->isFreePeriod()) {
 	    $member->free_period = 1;
+	}
+
+	if (isset($data['appeal_court'])) {
+	    $member->appeal_court = (int)$data['appeal_court'];
 	}
 
 	// Important: Creates a member without validation.
@@ -144,17 +150,20 @@ class Member extends Model
 		     'cancellation' => 'codalia.membership::lang.status.cancellation');
     }
 
-    public function getAppealCourtOptions()
+    /*
+     * Used by the Profile plugin.
+     */
+    public static function getSharedFields()
     {
-        $appealCourts = [];
+	$sharedFields = ['attestation' => 'codalia.membership::lang.profile.attestation',
+			 'appeal_court' => 'codalia.membership::lang.profile.appeal_court',
+			 'categories' => 'codalia.membership::lang.profile.categories'
+	];
 
-	$fields = ProfileModel::getSharedFields('membership', 'member');
+	$sharedFields['category_options'] = Category::get()->pluck('name', 'id')->toArray();
+	$sharedFields['appeal_court_options'] = AppealCourt::get()->pluck('name', 'id')->toArray();
 
-	foreach ($fields['appeal_court_options'] as $value) {
-	    $appealCourts[$value] = 'codalia.membership::lang.profile.appeal_court_options.'.$value;
-	}
-
-	return $appealCourts;
+        return $sharedFields;
     }
 
     /**
