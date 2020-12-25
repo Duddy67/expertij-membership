@@ -1,7 +1,7 @@
 <?php namespace Codalia\Membership\Components;
 
 use Cms\Classes\ComponentBase;
-use Codalia\Membership\Models\Member as MemberItem;
+use Codalia\Membership\Models\Member as MemberModel;
 use Codalia\Membership\Models\Payment;
 use Codalia\Membership\Models\Settings;
 use Codalia\Profile\Models\Profile;
@@ -54,15 +54,12 @@ class Member extends ComponentBase
 	}
 
 	$this->page['isPayment'] = $isPayment;
-	$this->page['isMember'] = ($this->member->status == 'member') ? true : false;
 	$this->page['isCandidate'] = ($this->member->member_since === null) ? true : false; 
-	$this->page['insurance'] = $this->member->insurance->status;
 	$this->page['insuranceName'] = Lang::get('codalia.membership::lang.global_settings.insurance_'.$this->member->insurance->code);
-	$this->page['status'] = $this->member->status;
-	$this->page['memberList'] = $this->member->member_list;
 	$this->page['isFreePeriod'] = ($this->member->free_period && $this->member->member_since) ? true : false; 
-
 	$this->page['documents'] = $this->loadDocuments($this->member->categories);
+	$this->page['sharedFields'] = MemberModel::getSharedFields();
+	$this->page['categoryIds'] = $this->member->categories->pluck('id')->toArray();
     }
 
     protected function loadMember()
@@ -71,7 +68,7 @@ class Member extends ComponentBase
         $user = Auth::getUser();
 	// Loads the corresponding member through the profile_id attribute.
 	$profileId = Profile::where('user_id', $user->id)->pluck('id');
-	$member = new MemberItem;
+	$member = new MemberModel;
 	$member = $member->where('profile_id', $profileId);
 
 	if (($member = $member->first()) === null) {
@@ -95,7 +92,7 @@ class Member extends ComponentBase
 
     public function onReplaceFile()
     {
-        $rules = (new MemberItem)->rules;
+        $rules = (new MemberModel)->rules;
 
 	$messages = [
 	    'attestation.required_if' => 'The :attribute field is required.',
@@ -172,23 +169,20 @@ class Member extends ComponentBase
 
     public function onUpdate()
     {
-	/*$data = post();
-        $rules = (new MemberItem)->rules;
+	$data = post();
+        $rules = (new MemberModel)->rules;
 
 	$validation = Validator::make($data, $rules);
 	if ($validation->fails()) {
 	    throw new ValidationException($validation);
-	}*/
-        parent::onUpdate();
-    }
+	}
 
-    public function onMemberList()
-    {
-        $memberList = (int)post('member_list');
+	// Updates the passed data.
 	$member = $this->loadMember();
-	$member->update(['member_list' => $memberList]);
+	$member->update(['member_list' => $data['member_list'], 'appeal_court_id' => $data['appealCourt']]);
+	$member->categories()->sync($data['categories']);
 
-	Flash::success(Lang::get('codalia.membership::lang.action.member_list_'.$memberList));
+	Flash::success(Lang::get('codalia.membership::lang.action.update_success'));
     }
 
     public function onCancellation()

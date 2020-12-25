@@ -29,13 +29,14 @@ class Member extends Model
     /**
      * @var array Fillable fields
      */
-    protected $fillable = ['status', 'member_list'];
+    protected $fillable = ['status', 'member_list', 'appeal_court_id'];
 
     /**
      * @var array Validation rules for attributes
      */
     public $rules = [
 	'attestation' => 'required_if:_upload,1',
+	'appealCourt' => 'required',
     ];
 
     /**

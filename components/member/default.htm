@@ -1,6 +1,6 @@
 <h4>Member Space</h4>
 
-{% if status == 'cancelled' or status == 'revoked' or status == 'cancellation' %}
+{% if member.status == 'cancelled' or member.status == 'revoked' or member.status == 'cancellation' %}
   <div class="card bg-light mb-3"><div class="card-header">Information</div><div class="card-body">You are no longer member of this association.</div></div>
 {% else %}
   <ul class="nav nav-tabs">
@@ -16,7 +16,7 @@
 	</li>
       {% endif %}
 
-      {% if isMember and insurance != 'running' %}
+      {% if member.status == 'member' and member.insurance.status != 'running' %}
 	<li class="nav-item">
 	    <a href="#insurance" class="nav-link" data-toggle="tab">Insurance</a>
 	</li>
@@ -33,33 +33,55 @@
 	  <label for="inputStatus">Status</label>
 	  <input type="text" name="_status" disabled="disabled" class="form-control" id="inputStatus" value="{{ member.status }}">
 	</div>
-	<div class="form-group col-sm-6">
-	  <label for="inputAppealCourt">Appeal Court</label>
-	  <input type="text" name="_appeal_court" disabled="disabled" class="form-control" id="inputAppealCourt" value="{{ member.categories|first.name }}">
-	</div>
-	{% if insurance == 'running' or insurance == 'pending_renewal' %}
+	{% if member.insurance.status == 'running' or member.insurance.status == 'pending_renewal' %}
 	  <div class="form-group col-sm-6">
 	    <h5>Insurance</h5>
 	    <p>{{ insuranceName }}</p>
 	  </div>
 	{% endif %}
-	{% if status == 'member' %}
+
+	{{ form_ajax('onUpdate', {flash: ''}) }}
 	  <div class="form-group col-sm-6">
-	    <h5>Member List</h5>
-	    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-	    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	    dolore eu fugiat nulla pariatur.</p>
-	    <div class="radio">
-		<input name="member_list" value="1" type="radio" data-request="onMemberList" id="member-list-yes" {{ (memberList == 1) ? 'checked="checked"' : '' }} />
-		<label for="member-list-yes">Yes</label>
-	    </div>
-	    <div class="radio">
-		<input name="member_list" value="0" type="radio" data-request="onMemberList" id="member-list-no" {{ (memberList == 0) ? 'checked="checked"' : '' }} />
-		<label for="member-list-no">No</label>
-	    </div>
+	    <label for="inputAppealCourt">{{ sharedFields.appeal_court }}</label>
+	    <select name="appealCourt" class="form-control" id="inputAppealCourt">
+	      <option value="">- Select -</option>
+	      {% for id, name in sharedFields.appeal_court_options %}
+		<option value="{{ id }}" {{ (id == member.appeal_court_id) ? 'selected' : '' }}>{{ name }}</option>
+	      {% endfor %}
+	    </select>
 	  </div>
-	{% endif %}
-	{% if status == 'pending_renewal' %}
+
+	  <div class="form-group col-sm-6">
+	    <label>{{ sharedFields.categories }}</label>
+	      {% for id, name in sharedFields.category_options %}
+		<div>
+		  <input type="checkbox"  id="{{ id }}" name="categories[]" value="{{ id }}" {{ (id in categoryIds) ? 'checked' : '' }}>
+		  <label for="{{ id }}">{{ name }}</label>
+		</div>
+	      {% endfor %}
+	  </div>
+
+	  {% if member.status == 'member' %}
+	    <div class="form-group col-sm-6">
+	      <h5>Member List</h5>
+	      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+	      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	      dolore eu fugiat nulla pariatur.</p>
+	      <div class="radio">
+		  <input name="member_list" value="1" type="radio" id="member-list-yes" {{ (member.member_list == 1) ? 'checked="checked"' : '' }} />
+		  <label for="member-list-yes">Yes</label>
+	      </div>
+	      <div class="radio">
+		  <input name="member_list" value="0" type="radio" id="member-list-no" {{ (member.member_list == 0) ? 'checked="checked"' : '' }} />
+		  <label for="member-list-no">No</label>
+	      </div>
+	    </div>
+	  {% endif %}
+
+	  <button type="submit" id="btn-update" class="btn btn-success">Update</button>
+	{{ form_close() }}
+
+	{% if member.status == 'pending_renewal' %}
 	  <div class="form-group col-sm-6">
 	    <h4>Membership Cancellation</h4>
 	    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
@@ -168,7 +190,7 @@
       </div>
     {% endif %}
 
-    {% if isMember and insurance != 'running' %}
+    {% if member.status == 'member' and member.insurance.status != 'running' %}
       <div class="tab-pane fade" id="insurance">
       {{ form_ajax('onPayment', {flash: ''}) }}
 	<div id="payment-modes">
@@ -221,7 +243,7 @@
       </div>
     {% endif %}
     <div class="tab-pane fade" id="documents">
-      {% if isMember %}
+      {% if member.status == 'member' %}
 	{% for document in documents %}
 	  <li>{{ document.title }}</li>
 	  <div>{{ document.description }}</div>
