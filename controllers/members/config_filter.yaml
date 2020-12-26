@@ -5,7 +5,7 @@
 scopes:
 
     status:
-        label: codalia.journal::lang.articles.filter_status
+        label: codalia.membership::lang.members.filter_status
         type: group
         conditions: status in (:filtered)
         options:

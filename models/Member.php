@@ -114,7 +114,7 @@ class Member extends Model
         if ($profile->member) {
 	    return $profile->member;
 	}
-
+file_put_contents('debog_file.txt', print_r($data, true));
 	$member = new static;
 	$member->profile = $profile;
 
@@ -122,13 +122,17 @@ class Member extends Model
 	    $member->free_period = 1;
 	}
 
-	if (isset($data['appeal_court'])) {
-	    $member->appeal_court = (int)$data['appeal_court'];
+	if (isset($data['appealCourt'])) {
+	    $member->appeal_court_id = (int)$data['appealCourt'];
 	}
 
 	// Important: Creates a member without validation.
 	// NB. The validation has been performed earlier in the code.
 	$member->forceSave();
+
+	if (isset($data['categories']) && !empty($data['categories'])) {
+	    $member->categories()->attach($data['categories']);
+	}
 
 	// Creates an empty insurance.
 	$insurance = new Insurance;
@@ -217,8 +221,15 @@ class Member extends Model
 	    // New subscription or renewal.
 	    if (substr($data['item'], 0, 12) === 'subscription') {
 		$isNewMember = ($this->member_since === null) ? true : false;
+		$update = ['status' => 'member'];
+
+		if (!$isNewMember) {
+		    // The perk of the free period stops after the first renewal.
+		    $update['free_period'] = 0;
+		}
+
 		// Becomes member again or new member.
-		$this->update(['status' => 'member']);
+		$this->update($update);
 		// Reset the insurance status.
 		$this->insurance()->update(['status' => 'disabled']);
 
@@ -271,14 +282,10 @@ class Member extends Model
         if ($this->status == 'member' && $this->member_since === null) {
 	    Member::where('id', $this->id)->update(['member_since' => Carbon::now(), 'member_number' => $this->getMemberNumber()]);
 
-	    // The subscription fee must be paid during the free period as well to be valid.
+	    // The first subscription fee must be paid during the free period as well to be valid.
 	    if (!RenewalHelper::instance()->isFreePeriod()) {
 		Member::where('id', $this->id)->update(['free_period' => 0]);
 	    }
-	}
-	else {
-	    // The perk of the free period stops after the first renewal.
-	    Member::where('id', $this->id)->update(['free_period' => 0]);
 	}
     }
 }

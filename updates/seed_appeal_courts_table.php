@@ -2,6 +2,7 @@
 
 use Seeder;
 use Codalia\Membership\Models\AppealCourt;
+use Codalia\Membership\Models\Category;
 
 
 class SeedAppealCourtsTable extends Seeder
@@ -14,11 +15,19 @@ class SeedAppealCourtsTable extends Seeder
 			    'Riom', 'Rouen', 'Saint Denis', 'Saint Pierre', 'Toulouse', 'Versailles'
     ]; 
 
+    public $categories = [['name' => 'Expert', 'slug' => 'expert'],
+                          ['name' => 'CESEDA', 'slug' => 'ceseda'],
+                          ['name' => 'Membre associé', 'slug' => 'membre-associe']
+    ];
 
     public function run()
     {
         foreach ($this->appealCourts as $appealCourt) {
 	    AppealCourt::create(['name' => $appealCourt]);
+	}
+
+        foreach ($this->categories as $category) {
+	    Category::create(['name' => $category['name'], 'slug' => $category['slug']]);
 	}
     }
 }

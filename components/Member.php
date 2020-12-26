@@ -53,12 +53,21 @@ class Member extends ComponentBase
 	    $isPayment = false;
 	}
 
+	$sharedFields = MemberModel::getSharedFields();
+	foreach ($sharedFields as $key => $value) {
+	    // Ensures a language variable is available.
+	    if (!is_array($value) && strpos($value, '::lang') !== false) {
+		// Replaces the language variable with the actual label.
+		$sharedFields[$key] = Lang::get($value);
+	    }
+	}
+
 	$this->page['isPayment'] = $isPayment;
 	$this->page['isCandidate'] = ($this->member->member_since === null) ? true : false; 
 	$this->page['insuranceName'] = Lang::get('codalia.membership::lang.global_settings.insurance_'.$this->member->insurance->code);
 	$this->page['isFreePeriod'] = ($this->member->free_period && $this->member->member_since) ? true : false; 
 	$this->page['documents'] = $this->loadDocuments($this->member->categories);
-	$this->page['sharedFields'] = MemberModel::getSharedFields();
+	$this->page['sharedFields'] = $sharedFields;
 	$this->page['categoryIds'] = $this->member->categories->pluck('id')->toArray();
     }
 
@@ -179,7 +188,8 @@ class Member extends ComponentBase
 
 	// Updates the passed data.
 	$member = $this->loadMember();
-	$member->update(['member_list' => $data['member_list'], 'appeal_court_id' => $data['appealCourt']]);
+	$memberList = ($member->status == 'member') ? $data['member_list'] : 0;
+	$member->update(['member_list' => $memberList, 'appeal_court_id' => $data['appealCourt']]);
 	$member->categories()->sync($data['categories']);
 
 	Flash::success(Lang::get('codalia.membership::lang.action.update_success'));

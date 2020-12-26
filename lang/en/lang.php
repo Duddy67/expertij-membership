@@ -22,6 +22,7 @@ return [
       'appeal_court' => 'Appeal court',
     ],
     'members' => [
+      'filter_status' => 'Status',
     ],
     'categories' => [
     ],
