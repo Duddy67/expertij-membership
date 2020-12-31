@@ -40,20 +40,24 @@ class Member extends ComponentBase
      */
     public function prepareVars()
     {
-	$this->member = $this->page['member'] = $this->loadMember();
+	if (!$this->member = $this->page['member'] = $this->loadMember()) {
+	    return Redirect::to('403');
+	}
+
 	// Sets the payment flag.
-	$isPayment = false;
+	$payment = false;
 	if ($this->member->status == 'pending_subscription' || $this->member->status == 'pending_renewal') {
-	    $isPayment = true;
+	    $payment = true;
 	}
 
 	// The user has paid by cheque.
-	if ($isPayment && $this->member->payments()->where([['status', 'pending'], ['mode', 'cheque']])->first()) {
+	if ($payment && $this->member->payments()->where([['status', 'pending'], ['mode', 'cheque']])->first()) {
 	    // The payment form is no longer necessary.
-	    $isPayment = false;
+	    $payment = false;
 	}
 
 	$sharedFields = MemberModel::getSharedFields();
+
 	foreach ($sharedFields as $key => $value) {
 	    // Ensures a language variable is available.
 	    if (!is_array($value) && strpos($value, '::lang') !== false) {
@@ -62,13 +66,12 @@ class Member extends ComponentBase
 	    }
 	}
 
-	$this->page['isPayment'] = $isPayment;
-	$this->page['isCandidate'] = ($this->member->member_since === null) ? true : false; 
-	$this->page['insuranceName'] = Lang::get('codalia.membership::lang.global_settings.insurance_'.$this->member->insurance->code);
-	$this->page['isFreePeriod'] = ($this->member->free_period && $this->member->member_since) ? true : false; 
+	$this->page['flags'] = ['payment' => $payment, 'candidate' => ($this->member->member_since === null) ? true : false,
+				'freePeriod' => ($this->member->free_period && $this->member->member_since) ? true : false];
 	$this->page['documents'] = $this->loadDocuments($this->member->categories);
 	$this->page['sharedFields'] = $sharedFields;
 	$this->page['categoryIds'] = $this->member->categories->pluck('id')->toArray();
+	$this->page['texts'] = $this->getTexts();
     }
 
     protected function loadMember()
@@ -97,6 +100,22 @@ class Member extends ComponentBase
 	})->get();
 
 	return $documents;
+    }
+
+    protected function getTexts()
+    {
+	$texts = ['member_status' => Lang::get('codalia.membership::lang.status.'.$this->member->status),
+		  'member_insurance' => Lang::get('codalia.membership::lang.global_settings.insurance_'.$this->member->insurance->code)
+	];
+
+	$codes = ['profile.appeal_court', 'profile.attestation', 'profile.categories', 'profile.select', 'attribute.status'];
+
+	foreach ($codes as $code) {
+	    $key = substr($code, strpos($code, '.') + 1);
+	    $texts[$key] = Lang::get('codalia.membership::lang.'.$code);
+	}
+
+	return $texts;
     }
 
     public function onReplaceFile()

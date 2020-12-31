@@ -1,5 +1,4 @@
 <h4>Member Space</h4>
-
 {% if member.status == 'cancelled' or member.status == 'revoked' or member.status == 'cancellation' %}
   <div class="card bg-light mb-3"><div class="card-header">Information</div><div class="card-body">You are no longer member of this association.</div></div>
 {% else %}
@@ -10,7 +9,7 @@
       <li class="nav-item">
 	  <a href="#files" class="nav-link" data-toggle="tab">Files</a>
       </li>
-      {% if isPayment %}
+      {% if flags.payment %}
 	<li class="nav-item">
 	    <a href="#payment" class="nav-link" data-toggle="tab">Payment</a>
 	</li>
@@ -30,13 +29,13 @@
 
     <div class="tab-pane fade show active" id="informations">
 	<div class="form-group col-sm-6">
-	  <label for="inputStatus">Status</label>
-	  <input type="text" name="_status" disabled="disabled" class="form-control" id="inputStatus" value="{{ member.status }}">
+	  <label for="inputStatus">{{ texts.status }}</label>
+	  <input type="text" name="_status" disabled="disabled" class="form-control" id="inputStatus" value="{{ texts.member_status }}">
 	</div>
 	{% if member.insurance.status == 'running' or member.insurance.status == 'pending_renewal' %}
 	  <div class="form-group col-sm-6">
-	    <h5>Insurance</h5>
-	    <p>{{ insuranceName }}</p>
+	    <p class="h5">Insurance</p>
+	    <p>{{ texts.member_insurance }}</p>
 	  </div>
 	{% endif %}
 
@@ -63,7 +62,7 @@
 
 	  {% if member.status == 'member' %}
 	    <div class="form-group col-sm-6">
-	      <h5>Member List</h5>
+	      <p class="h5">Member List</p>
 	      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
 	      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 	      dolore eu fugiat nulla pariatur.</p>
@@ -78,12 +77,14 @@
 	    </div>
 	  {% endif %}
 
-	  <button type="submit" id="btn-update" class="btn btn-success">Update</button>
+	  <div class="form-group col-sm-6">
+	    <button type="submit" id="btn-update" class="btn btn-success">Update</button>
+	  </div>
 	{{ form_close() }}
 
 	{% if member.status == 'pending_renewal' %}
 	  <div class="form-group col-sm-6">
-	    <h4>Membership Cancellation</h4>
+	    <p class="h5">Membership Cancellation</p>
 	    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
 	    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 	    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -98,34 +99,24 @@
     </div>
 
     <div class="tab-pane fade" id="files">
-      <!--<form method="POST" action="{{ url('profile') }}" accept-charset="UTF8" enctype="multipart/form-data">-->
-      <!--<form data-request="onReplaceFile" data-request-files data-request-flash>-->
       {{ form_ajax('onReplaceFile', {files: 1, flash: ''}) }}
-
-	<!--<input type="hidden" name="_handler" value="onReplaceFile">-->
-
-	  {{ form_token() }}
-	  {{ form_sessionKey }}
-
 	<div id="newFile" class="form-group col-sm-6">
-	  <a class="btn btn-danger btn-lg" target="_blank" href="{{ member.attestations.first.path }}">
-	  <span class="glyphicon glyphicon-download"></span>Download</a>
-	</div>
-	<div class="form-group col-sm-6">
-	  <label for="inputAttestation">Attestation</label>
+	  <p class="h5 mt-3">Attestation</p>
+	  <a class="stretched-link" target="_blank" href="{{ member.attestations.first.path }}">{{ member.attestations.first.filename}}</a>
+	  <p class="mb-0"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</small></p>
 	  <input type="file" name="attestation" data-request="onUploadDocument" class="form-control" id="inputAttestation" data-request-files data-request-flash>
+	  <input type="hidden" name="_upload" value="1">
+	  <button type="submit" class="btn btn-success mt-3">Replace</button>
 	</div>
-	<input type="hidden" name="_upload" value="1">
-	<button type="submit" class="btn btn-success">Replace</button>
       {{ form_close() }}
     </div>
 
-    {% if isPayment %}
+    {% if flags.payment %}
       <div class="tab-pane fade" id="payment">
       {{ form_ajax('onPayment', {flash: ''}) }}
 	<div id="payment-modes">
 	<table class="table">
-	{% if not isCandidate and not isFreePeriod %}
+	{% if not flags.candidate and not flags.freePeriod %}
 	  <tr>
 	    <td>
 	      Insurance description</br>
@@ -157,7 +148,7 @@
 	      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 	    </td>
 	  </tr>
-	  {% if isFreePeriod %}
+	  {% if flags.freePeriod %}
 	    <tr>
 	      <td>
 		<input type="radio" id="free-period" name="payment_mode" value="free_period" checked>
