@@ -195,7 +195,8 @@ class Members extends Controller
 	//        N.B: As the status drop down list is disabled when set to 'member', the new status won't be erased as the drop down
 	//             list value is not passed. So no need to stop the workflow. 
 
-        parent::update_onSave($recordId, $context);
+	// Calls the original update_onSave method
+	$this->asExtension('FormController')->update_onSave($recordId, $context);
 
 	// The possible (ie: authorized) changes.
 	$options = ['refused', 'pending_subscription', 'cancelled', 'revoked'];
@@ -205,9 +206,9 @@ class Members extends Controller
 	    EmailHelper::instance()->statusChange($recordId, $newStatus);
 	}
 
-        /*return[
-            '#Form-field-Member-id-group' => '<a class="btn btn-danger btn-lg" target="_blank" href="#"><span class="glyphicon glyphicon-download"></span>Download</a>'
-	];*/
+        if ($redirect = $this->makeRedirect('update', $member)) {
+            return $redirect;
+        }
     }
 
     public function loadScripts()

@@ -114,7 +114,7 @@ class Member extends Model
         if ($profile->member) {
 	    return $profile->member;
 	}
-file_put_contents('debog_file.txt', print_r($data, true));
+
 	$member = new static;
 	$member->profile = $profile;
 
@@ -156,7 +156,7 @@ file_put_contents('debog_file.txt', print_r($data, true));
     }
 
     /*
-     * Used by the Profile plugin.
+     * Used by the Profile plugin in the registration form.
      */
     public static function getSharedFields()
     {

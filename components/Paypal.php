@@ -113,30 +113,19 @@ class Paypal extends ComponentBase
 	// read the post from PayPal system and add 'cmd'
 	$req = 'cmd=_notify-validate';
 
-	if (function_exists('get_magic_quotes_gpc')) {
-	    $get_magic_quotes_exists = true;
-	}
-
 	foreach ($myPost as $key => $value) {
-	    if ($get_magic_quotes_exists == true && get_magic_quotes_gpc() == 1) {
-		$value = urlencode(stripslashes($value));
-	    }
-	    else {
-		$value = urlencode($value);
-	    }
-
+	    $value = urlencode($value);
 	    $req .= "&$key=$value";
 	}
 
 	// Post IPN data back to PayPal to validate the IPN data is genuine.
 	// Without this step anyone can fake IPN data.
-
 	$paypal_url = $this->page['paypalUrl'];
 
 	$ch = curl_init($paypal_url);
 
 	if ($ch == false) {
-	    error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "Curl failed to init ! url: " . $paypal_url.PHP_EOL.$end, 3, LOG_FILE);
+	    error_log($separator.PHP_EOL.date('[Y-m-d H:i:s e] '). "Curl failed to init ! url: $paypal_url" . PHP_EOL.$end, 3, LOG_FILE);
 	    return false;
 	}
 

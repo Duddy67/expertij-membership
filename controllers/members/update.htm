@@ -17,9 +17,9 @@
 	    <?php if($this->user->role->code != 'decision-maker') : // No access for decision maker. ?>
                 <button
 		    id="on-save"
-                    type="submit"
+                    type="button"
                     data-request="onSave"
-                    data-request-data="redirect:1"
+                    data-request-data="refresh:1"
                     data-hotkey="ctrl+s, cmd+s"
                     data-load-indicator="Saving Member..."
 		    data-request-success="$.fn.refreshForm();"
@@ -27,13 +27,11 @@
 		    <?= e(trans('codalia.membership::lang.action.save')) ?>
                 </button>
                 <button
-		    id="on-save-close"
                     type="button"
                     data-request="onSave"
                     data-request-data="close:1"
                     data-hotkey="ctrl+enter, cmd+enter"
                     data-load-indicator="Saving Member..."
-		    data-request-success="$.fn.refreshForm();"
                     class="btn btn-default">
 		    <?= e(trans('codalia.membership::lang.action.save_and_close')) ?>
                 </button>

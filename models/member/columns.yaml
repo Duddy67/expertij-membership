@@ -29,8 +29,9 @@ columns:
 
     status:
         label: codalia.membership::lang.attribute.status
-        searchable: true
         sortable: false
+        type: partial
+        path: ~/plugins/codalia/membership/models/member/_status_column.htm
 
     _categories:
         label: codalia.membership::lang.membership.categories
