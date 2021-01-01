@@ -166,6 +166,10 @@ class EmailHelper
 		PDF::loadTemplate('invoice-membership', $vars)->save($tempFile);
 
 		$message->attach($tempFile, ['as' => 'Your_Invoice.pdf']);
+
+		rename($tempFile, 'storage/temp/public/your_invoice.pdf');
+		$member->invoices = 'storage/temp/public/your_invoice.pdf';
+		$member->forceSave();
 	    }
 	});
 

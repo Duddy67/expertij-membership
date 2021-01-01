@@ -105,7 +105,8 @@ class Member extends Model
     public $attachOne = [];
     public $attachMany = [
         // Deletes the linked files once a model is removed.
-        'attestations' => ['System\Models\File', 'order' => 'created_at desc', 'delete' => true]
+        'attestations' => ['System\Models\File', 'order' => 'created_at desc', 'delete' => true],
+        'invoices' => ['System\Models\File', 'order' => 'created_at desc', 'delete' => true]
     ];
 
 
