@@ -2,6 +2,9 @@
 
 use Model;
 use Codalia\Membership\Models\Settings;
+use Renatio\DynamicPDF\Classes\PDF; // import facade
+use System\Classes\PluginManager;
+use Lang;
 
 /**
  * Payment Model
@@ -113,5 +116,40 @@ class Payment extends Model
 	}
 
 	return $amount;
+    }
+
+    public function getInvoicePDF()
+    {
+        $tmpInvoicePDF = null;
+
+	if (PluginManager::instance()->exists('Renatio.DynamicPDF')) {
+	    $vars = ['first_name' => $this->member->profile->first_name,
+		     'last_name' => $this->member->profile->last_name,
+		     'amount' => $this->amount,
+		     'item' => $this->item,
+		     'item_name' => Lang::get('codalia.membership::lang.payment.'.$this->item),
+		     'payment_mode' => $this->mode,
+		     'reference' => 'xxxxxxxxxx',
+	    ];
+
+	    // Separates subscription and insurance fees.
+	    if (substr($this->item, 0, 12) === 'subscription') {
+		$vars['subscription_fee'] = ($this->mode == 'free_period') ? 0 : self::getAmount('subscription');
+	    }
+
+	    // The user has paid only for insurance or for both subscription and insurance.
+	    if (substr($this->item, 0, 9) === 'insurance' || substr($this->item, 0, 22) === 'subscription-insurance') {
+		// Removes the 'subscription-' part from the item code.
+		$insurance = (substr($this->item, 0, 9) === 'insurance') ? $this->item : substr($this->item, 13); 
+
+		$vars['insurance_fee'] = self::getAmount($insurance);
+		$vars['insurance_name'] = Lang::get('codalia.membership::lang.payment.'.$insurance);
+	    }
+
+	    $tmpInvoicePDF = '/tmp/test_invoice.pdf';
+	    PDF::loadTemplate('invoice-membership', $vars)->save($tmpInvoicePDF);
+	}
+
+        return $tmpInvoicePDF;
     }
 }

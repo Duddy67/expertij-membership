@@ -8,8 +8,6 @@ use Codalia\Membership\Models\Member;
 use Codalia\Membership\Models\Payment;
 use Codalia\Membership\Models\Settings;
 use Backend\Models\UserGroup;
-use System\Classes\PluginManager;
-use Renatio\DynamicPDF\Classes\PDF; // import facade
 use Mail;
 use Flash;
 use Lang;
@@ -144,39 +142,21 @@ class EmailHelper
 		 'reference' => 'xxxxxxxxxx',
         ];
 
-	if (substr($data['item'], 0, 12) === 'subscription') {
-	    $vars['subscription_fee'] = Payment::getAmount('subscription');
-	}
+	$langVar = ($data['mode'] == 'free_period') ? 'free_period_validated' : 'payment_'.$data['status'];
 
-	// The user has paid only for insurance or for both subscription and insurance.
-	if (substr($data['item'], 0, 9) === 'insurance' || substr($data['item'], 0, 22) === 'subscription-insurance') {
-	    // Removes the 'subscription-' part from the item code.
-	    $insurance = (substr($data['item'], 0, 9) === 'insurance') ? $data['item'] : substr($data['item'], 13); 
-
-	    $vars['insurance_fee'] = Payment::getAmount($insurance);
-	    $vars['insurance_name'] = Lang::get('codalia.membership::lang.payment.'.$insurance);
-	}
-
-	Mail::send('codalia.membership::mail.payment_'.$data['status'], $vars, function($message) use($member, $data, $vars) {
+	Mail::send('codalia.membership::mail.'.$langVar, $vars, function($message) use($member, $data, $vars, $langVar) {
 	    $message->to($member->profile->user->email, 'Admin System');
-	    $message->subject(Lang::get('codalia.membership::lang.email.payment_'.$data['status']));
+	    $message->subject(Lang::get('codalia.membership::lang.email.'.$langVar));
 
-	    if ($data['status'] == 'completed' && PluginManager::instance()->exists('Renatio.DynamicPDF')) {
-		$tempFile = tempnam(sys_get_temp_dir(), 'inv');
-		PDF::loadTemplate('invoice-membership', $vars)->save($tempFile);
-
-		$message->attach($tempFile, ['as' => 'Your_Invoice.pdf']);
-
-		rename($tempFile, 'storage/temp/public/your_invoice.pdf');
-		$member->invoices = 'storage/temp/public/your_invoice.pdf';
-		$member->forceSave();
+	    if ($data['status'] == 'completed' && isset($data['invoice_path'])) {
+		$message->attach($data['invoice_path'], ['as' => $data['invoice_name']]);
 	    }
 	});
 
 	if (!empty($emails)) {
-	    Mail::send('codalia.membership::mail.payment_'.$data['status'].'_admin', $vars, function($message) use($emails, $data) {
+	    Mail::send('codalia.membership::mail.'.$langVar.'_admin', $vars, function($message) use($emails, $data, $langVar) {
 		$message->to($emails, 'Admin System');
-		$message->subject(Lang::get('codalia.membership::lang.email.payment_'.$data['status'].'_admin'));
+		$message->subject(Lang::get('codalia.membership::lang.email.'.$langVar.'_admin'));
 	    });
 	}
     }

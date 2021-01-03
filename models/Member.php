@@ -29,7 +29,7 @@ class Member extends Model
     /**
      * @var array Fillable fields
      */
-    protected $fillable = ['status', 'member_list', 'appeal_court_id'];
+    protected $fillable = ['status', 'member_list', 'free_period', 'appeal_court_id'];
 
     /**
      * @var array Validation rules for attributes
@@ -193,8 +193,8 @@ class Member extends Model
     {
         // Creates a new payment row.
         if (!Payment::transactionIdExists($data['mode'], $data['transaction_id'])) {
-	    $this->payment = new Payment ($data);
-	    $this->payments()->save($this->payment);
+	    $payment = new Payment ($data);
+	    $this->payments()->save($payment);
 	    // Gets the id of the latest payment (ie: the one which has just been created).
 	    $paymentId = Payment::transactionIdExists($data['mode'], $data['transaction_id']);
 
@@ -206,6 +206,8 @@ class Member extends Model
 	    }
 
 	    $this->payments()->where($values)->update(['last' => 0]);
+            // Gets the newly created payment.
+	    $this->payment = $this->payments()->where('id', $paymentId)->first();
 	}
 	// Updates the payment status.
 	else {
@@ -225,7 +227,7 @@ class Member extends Model
 		$update = ['status' => 'member'];
 
 		if (!$isNewMember) {
-		    // The perk of the free period stops after the first renewal.
+		    // The privilege of the free period stops after the first renewal.
 		    $update['free_period'] = 0;
 		}
 
@@ -245,6 +247,17 @@ class Member extends Model
 		// Gets the insurance code placed after the hyphen (ie: insurance-xx).
 		$code = substr($insurance, 10);
 		$this->insurance()->update(['status' => 'running', 'code' => $code]);
+	    }
+
+	    if ($tmpFile = $this->payment->getInvoicePDF()) {
+		$this->invoices = $tmpFile;
+		$this->forceSave();
+
+		@unlink($tmpFile);
+
+		$invoice = $this->invoices()->first();
+		$data['invoice_path'] = $invoice->getLocalPath();
+		$data['invoice_name'] = $invoice->file_name;
 	    }
 
 	    EmailHelper::instance()->alertPayment($this->id, $data);

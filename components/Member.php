@@ -179,11 +179,12 @@ class Member extends ComponentBase
 	    $amount = ($paymentMode == 'free_period') ? 0 : Payment::getAmount($item);
 
 	    $data = ['mode' => $paymentMode, 'status' => $status, 'item' => $item, 'amount' => $amount,
-		     'currency' => 'EUR', 'transaction_id' => uniqid('CHQ'), 'last' => 1];
+		     'currency' => 'EUR', 'transaction_id' => uniqid('OFFL'), 'last' => 1];
 
 	    $member->savePayment($data);
 
-	    Flash::success(Lang::get('codalia.membership::lang.action.cheque_payment_success'));
+	    $langVar = ($paymentMode == 'free_period') ? 'free_period_privilege_success' : $paymentMode.'_payment_success';
+	    Flash::success(Lang::get('codalia.membership::lang.action.'.$langVar));
 
 	    return[
 		'#payment-modes' => '<div class="card bg-light mb-3"><div class="card-header">Information</div><div class="card-body">There is no payment to display.</div></div>'

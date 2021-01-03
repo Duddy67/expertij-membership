@@ -54,13 +54,13 @@
 	  Paypal
 	</td>
       </tr>
+    {% endif %}
       <tr>
 	<td>
 	  <input type="hidden" name="item" value="subscription">
-	  <button type="submit" id="btn-payment" class="btn btn-success">Pay Now</button>
+	  <button type="submit" id="btn-payment" class="btn btn-success">{{ (flags.freePeriod) ? 'Subscribe' : 'Pay Now' }}</button>
 	</td>
       </tr>
-  {% endif %}
   </table>
   </div>
 {{ form_close() }}

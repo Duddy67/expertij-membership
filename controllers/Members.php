@@ -16,8 +16,6 @@ use ValidationException;
 use Lang;
 use Flash;
 
-use October\Rain\Database\Models\DeferredBinding;
-
 
 /**
  * Members Back-end Controller
@@ -57,7 +55,6 @@ class Members extends Controller
 	MembershipHelper::instance()->checkIn((new Member)->getTable(), BackendAuth::getUser());
 	// Calls the parent method as an extension.
         $this->asExtension('ListController')->index();
-	//DeferredBinding::cleanUp();
     }
 
     public function update($recordId = null, $context = null)
@@ -87,9 +84,6 @@ class Members extends Controller
 
     public function index_onCheckIn()
     {
-	// Needed for the status column partial.
-	//$this->vars['statusIcons'] = JournalHelper::instance()->getStatusIcons();
-
 	// Ensures one or more items are selected.
 	if (($checkedIds = post('checked')) && is_array($checkedIds) && count($checkedIds)) {
 	  $count = 0;
