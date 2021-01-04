@@ -78,16 +78,16 @@ class Payment extends Model
 
 
     /*
-     * Check if a transaction id exists.
+     * Checks if a payment exists in database.
      *
      * @param string  $paymentMode	The payment mode name.
      * @param string  $transactionId	The transaction id to compare.
      *
-     * @return integer			Zero if the transaction id doesn't exist, the payment id otherwise.
+     * @return object			The Payment object if the payment exists, null otherwise.
      */
-    public static function transactionIdExists($paymentMode, $transactionId)
+    public static function getPayment($paymentMode, $transactionId)
     {
-	return (int)Payment::where('mode', $paymentMode)->where('transaction_id', $transactionId)->value('id');
+	return Payment::where([['mode', $paymentMode], ['transaction_id', $transactionId]])->first();
     }
 
     /*
@@ -146,7 +146,8 @@ class Payment extends Model
 		$vars['insurance_name'] = Lang::get('codalia.membership::lang.payment.'.$insurance);
 	    }
 
-	    $tmpInvoicePDF = '/tmp/test_invoice.pdf';
+	    // TODO: Temporary. Wait for the proper way to compute the invoice id number.
+	    $tmpInvoicePDF = '/tmp/invoice_'.uniqid().'.pdf';
 	    PDF::loadTemplate('invoice-membership', $vars)->save($tmpInvoicePDF);
 	}
 

@@ -100,7 +100,7 @@ class Paypal extends ComponentBase
 	}
 
 	// Checks that txn_id has not been previously processed.
-	if (Payment::transactionIdExists('paypal', $myPost['txn_id'])) {
+	if (Payment::getPayment('paypal', $myPost['txn_id'])) {
 	    // N.B: Paypal works like shit and keeps sending ipn despite the empty 200 response sent after closing curl.
 	    //      So no need to waste time by manage this as an error etc... Just send again an empty 200 response (just in case) and quit the function. 
 	    header("HTTP/1.1 200 OK");

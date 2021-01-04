@@ -192,26 +192,23 @@ class Member extends Model
     public function savePayment($data)
     {
         // Creates a new payment row.
-        if (!Payment::transactionIdExists($data['mode'], $data['transaction_id'])) {
+        if (!$this->payment = Payment::getPayment($data['mode'], $data['transaction_id'])) {
 	    $payment = new Payment ($data);
 	    $this->payments()->save($payment);
-	    // Gets the id of the latest payment (ie: the one which has just been created).
-	    $paymentId = Payment::transactionIdExists($data['mode'], $data['transaction_id']);
+            // Gets the newly created payment.
+	    $this->payment = Payment::getPayment($data['mode'], $data['transaction_id']);
 
 	    // Sets the 'last' flag of the older payments to zero.
-	    $values = [['id', '<>', $paymentId]];
+	    $values = [['id', '<>', $this->payment->id]];
 	    if (substr($data['item'], 0, 9) === 'insurance') {
 		// Updates only the insurance payments.
 		$values[] = ['item', 'like', 'insurance%'];
 	    }
 
 	    $this->payments()->where($values)->update(['last' => 0]);
-            // Gets the newly created payment.
-	    $this->payment = $this->payments()->where('id', $paymentId)->first();
 	}
 	// Updates the payment status.
 	else {
-	    $this->payment = $this->payments()->where('mode', $data['mode'])->where('transaction_id', $data['transaction_id'])->first();
 	    $this->payment->update(['status' => $data['status']]);
 	}
 
@@ -249,10 +246,10 @@ class Member extends Model
 		$this->insurance()->update(['status' => 'running', 'code' => $code]);
 	    }
 
+	    // Stores the invoice.
 	    if ($tmpFile = $this->payment->getInvoicePDF()) {
 		$this->invoices = $tmpFile;
 		$this->forceSave();
-
 		@unlink($tmpFile);
 
 		$invoice = $this->invoices()->first();
