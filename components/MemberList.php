@@ -1,12 +1,18 @@
 <?php namespace Codalia\Membership\Components;
 
 use Cms\Classes\ComponentBase;
+use Codalia\Membership\Models\Member as MemberModel;
+use Codalia\Membership\Models\AppealCourt;
 use Flash;
 use Lang;
 
 
 class MemberList extends ComponentBase
 {
+    public $members = null;
+    public $appealCourts = null;
+
+
     public function componentDetails()
     {
         return [
@@ -22,7 +28,10 @@ class MemberList extends ComponentBase
 
     public function onRun()
     {
-	$this->prepareVars();
+        $this->prepareVars();
+
+	$this->members = $this->listMembers();
+	$this->appealCourts = $this->loadAppealCourts();
     }
 
     /**
@@ -32,8 +41,15 @@ class MemberList extends ComponentBase
     {
     }
 
-    public function onTest()
+    protected function listMembers()
     {
-        Flash::success(Lang::get('codalia.membership::lang.action.file_replace_success'));
+        $members = MemberModel::where('member_list', 1)->get();
+
+	return $members;
+    }
+
+    protected function loadAppealCourts()
+    {
+        return AppealCourt::get();
     }
 }

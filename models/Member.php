@@ -97,7 +97,7 @@ class Member extends Model
 	'categories' => ['Codalia\Membership\Models\Category',
 			 'table' => 'codalia_membership_cat_members',
 			 'order' => 'created_at desc',
-      ],
+	],
     ];
     public $morphTo = [];
     public $morphOne = [];

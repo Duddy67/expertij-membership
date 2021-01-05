@@ -1,8 +1,25 @@
-<p>This is the default markup for component MemberList</p>
+{% set members = __SELF__.members %}
+{% set appealCourts = __SELF__.appealCourts %}
+<p class="h3">Member List</p>
 
-<small>You can delete this file if you want</small>
+<select class="form-control custom-select col-sm-3">
+    <option value="">Select</option>
+    {% for appealCourt in appealCourts %}
+      <option value="{{ appealCourt.id }}">{{ appealCourt.name }}</option>
+    {% endfor %}
+</select>
 
-
-{{ form_ajax('onTest', {flash: ''}) }}
-	      <button type="submit" id="btn-cancellation" class="btn btn-danger">Cancellation</button>
-	    {{ form_close() }}
+<ul class="list-group list-group-flush">
+    {% for member in members %}
+        <li class="list-group-item">
+	    <p class="h4">{{ member.profile.first_name ~' '~ member.profile.last_name }}</p>
+            <p class="info">
+	      {{ member.appealCourt.name }}<br />
+	      {{ member.profile.street }}<br />
+	      {{ member.profile.postcode }}<br />
+	      {{ member.profile.city }}<br />
+	      {{ member.profile.user.email }}
+	    </p>
+        </li>
+    {% endfor %}
+</ul>
