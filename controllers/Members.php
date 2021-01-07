@@ -274,4 +274,20 @@ class Members extends Controller
 	    //'#payment-status-select' => '<input type="text" name="_payment_status" id="payment-status" value="'.$data['_payment_status'].'" disabled="disabled" class="form-control">'
 	];
     }
+
+    public function update_onDeleteFile($recordId = null)
+    {
+        $data = post();
+	$relationship = $data['relationship'];
+
+	$member = Member::find($recordId);
+	$file = $member->$relationship()->where('id', $data['file_id'])->first();
+	$localPath = $file->getLocalPath();
+	// Deletes the model.
+	$file->delete();
+	// Deletes the file.
+	@unlink($localPath);
+
+	Flash::success(Lang::get('codalia.membership::lang.action.delete_file_success'));
+    }
 }

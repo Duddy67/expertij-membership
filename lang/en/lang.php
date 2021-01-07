@@ -117,6 +117,8 @@ return [
       'status_changed_by_system' => 'The status as been changed by the system. You cannot save the form. Please refresh the page (F5 key) and then save it again.',
       'email_sendings' => 'Email sendings (:count)',
       'email_sendings_success' => 'The emails have been sent successfully to the decision makers.',
+      'delete_file_success' => 'The file has been successfully deleted.',
+      'no_file_selected' => 'No file selected.',
     ],
     'email' => [
       'your_application' => 'Your application',

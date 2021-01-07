@@ -120,36 +120,26 @@ class Member extends ComponentBase
 
     public function onReplaceFile()
     {
-        $rules = (new MemberModel)->rules;
-
-	$messages = [
-	    'attestation.required_if' => 'The :attribute field is required.',
-	];
-
-	$validation = Validator::make(Input::all(), $rules, $messages);
-	if ($validation->fails()) {
-	    throw new ValidationException($validation);
-	}
-
         $member = $this->loadMember();
 
 	if (Input::hasFile('attestation')) {
 	    $member->attestations = Input::file('attestation');
 	    $member->forceSave();
+
+	    $file = (new File())->fromPost(Input::file('attestation'));
+	}
+	else {
+	    Flash::error(Lang::get('codalia.membership::lang.action.no_file_selected'));
+	    return;
 	}
 
         Flash::success(Lang::get('codalia.membership::lang.action.file_replace_success'));
-    }
 
-    public function onUploadDocument()
-    {
-        $input = Input::all();
-
-        $file = (new File())->fromPost($input['attestation']);
-
-        return[
-            '#newFile' => '<a class="btn btn-danger btn-lg" target="_blank" href="'.$file->getPath().'"><span class="glyphicon glyphicon-download"></span>Download</a>'
-        ];
+	return[
+	  '#new-attestation' => '<a target="_blank" href="'.$file->getPath().'">'.$file->file_name.'</a>', 
+	  // Replaces the old file input by a new one to clear the previous file selection. 
+	  '#attestation-file-input' => '<input type="file" name="attestation" class="form-control" id="inputAttestation">'
+	];
     }
 
     public function onPayment()
