@@ -1,16 +1,42 @@
 <div class="tab-pane fade" id="files">
   {{ form_ajax('onReplaceFile', {files: 1, flash: ''}) }}
-    <div class="form-group col-sm-6">
+    <div class="form-group col-sm-8">
       <p class="h5 mt-3">Attestation</p>
       <div id="new-attestation">
 	<a target="_blank" href="{{ member.attestations.first.path }}">{{ member.attestations.first.filename}}</a>
       </div>
       <p class="mb-0"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</small></p>
-      <div id="attestation-file-input">
-	<input type="file" name="attestation" class="form-control" id="inputAttestation">
+      <div class="row">
+	<div id="attestation-file-input" class="col-sm-6">
+	  <input type="file" name="attestation" class="form-control" id="inputAttestation">
+	</div>
+	<div class="col-sm-2">
+	  <input type="hidden" name="file_type" value="attestation">
+	  <button type="submit" class="btn btn-success">Replace</button>
+	</div>
       </div>
-      <input type="hidden" name="_upload" value="1">
-      <button type="submit" class="btn btn-success mt-3">Replace</button>
+    </div>
+  {{ form_close() }}
+
+  {{ form_ajax('onReplaceFile', {files: 1, flash: ''}) }}
+    <div class="form-group col-sm-8">
+      <p class="h5 mt-3">Photo</p>
+      <div id="new-photo">
+      {% if not member.photo %}	
+       <p>TEST</p>
+      {% endif %}
+        <img src="{{ member.photo.thumb(200, 200, 'auto') }}" />
+      </div>
+      <p class="mb-0"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</small></p>
+      <div class="row">
+        <div id="photo-file-input" class="col-sm-6">
+          <input type="file" name="photo" class="form-control" id="inputPhoto">
+        </div>
+        <div class="col-sm-2">
+          <input type="hidden" name="file_type" value="photo">
+          <button type="submit" class="btn btn-success">Replace</button>
+        </div>
+      </div>
     </div>
   {{ form_close() }}
 </div>

@@ -22,6 +22,21 @@ class Member extends ComponentBase
     public $member;
     public $documents;
 
+    /**
+     * @var array Matching between file types and model relationships.
+     */
+    public $relationships = [
+	'attestation' => 'attestations', 'photo' => 'photo'
+    ];
+
+    /**
+     * @var array Matching between file types and rules.
+     */
+    public $fileRules = [
+	'attestation' => 'required|mimes:pdf', 'photo' => 'required|mimes:jpg,jpeg,png'
+    ];
+
+
     public function componentDetails()
     {
         return [
@@ -120,25 +135,41 @@ class Member extends ComponentBase
 
     public function onReplaceFile()
     {
+	$data = post();
+
+	if (@!$relationship = $this->relationships[$data['file_type']]) {
+	    return;
+	}
+
+	$rules = [$data['file_type'] => $this->fileRules[$data['file_type']]];
+
+	$validation = Validator::make(Input::all(), $rules);
+	if ($validation->fails()) {
+	    throw new ValidationException($validation);
+	}
+
         $member = $this->loadMember();
 
-	if (Input::hasFile('attestation')) {
-	    $member->attestations = Input::file('attestation');
-	    $member->forceSave();
+	if (Input::hasFile($data['file_type'])) {
+	    $file = (new File())->fromPost(Input::file($data['file_type']));
+	    //$member->$relationship = Input::file($data['file_type']);
 
-	    $file = (new File())->fromPost(Input::file('attestation'));
-	}
-	else {
-	    Flash::error(Lang::get('codalia.membership::lang.action.no_file_selected'));
-	    return;
+	    if ($file->isImage()) {
+	    }
+
+	    $member->$relationship()->add($file);
+	    $member->forceSave();
 	}
 
         Flash::success(Lang::get('codalia.membership::lang.action.file_replace_success'));
 
+	$newFile = '<a target="_blank" href="'.$file->getPath().'">'.$file->file_name.'</a>'; 
+	$newFile = ($file->isImage()) ? '<img src="'.$file->getPath().'" />' : $newFile;
+
 	return[
-	  '#new-attestation' => '<a target="_blank" href="'.$file->getPath().'">'.$file->file_name.'</a>', 
+	  '#new-'.$data['file_type'] => $newFile,
 	  // Replaces the old file input by a new one to clear the previous file selection. 
-	  '#attestation-file-input' => '<input type="file" name="attestation" class="form-control" id="inputAttestation">'
+	  '#'.$data['file_type'].'-file-input' => '<input type="file" name="'.$data['file_type'].'" class="form-control">'
 	];
     }
 

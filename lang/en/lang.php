@@ -192,6 +192,7 @@ return [
     // Variables used with the Profile plugin.
     'profile' => [
       'attestation' => 'Attestation',
+      'photo' => 'Photo',
       'appeal_court' => 'Appeal court',
       'categories' => 'Categories',
       'select' => '- Select -',

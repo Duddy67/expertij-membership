@@ -35,7 +35,8 @@ class Member extends Model
      * @var array Validation rules for attributes
      */
     public $rules = [
-	'attestation' => 'required_if:_upload,1',
+	'attestation' => 'required_if:_context,membership|mimes:pdf', // Only active during registration.
+	'photo' => 'required_if:_context,membership|mimes:jpg,png',   // Only active during registration.
 	'appealCourt' => 'required',
     ];
 
@@ -165,7 +166,8 @@ class Member extends Model
     {
 	$sharedFields = ['attestation' => 'codalia.membership::lang.profile.attestation',
 			 'appeal_court' => 'codalia.membership::lang.profile.appeal_court',
-			 'categories' => 'codalia.membership::lang.profile.categories'
+			 'categories' => 'codalia.membership::lang.profile.categories',
+			 'photo' => 'codalia.membership::lang.profile.photo'
 	];
 
 	$sharedFields['category_options'] = Category::get()->pluck('name', 'id')->toArray();

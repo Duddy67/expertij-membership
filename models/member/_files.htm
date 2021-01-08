@@ -31,3 +31,39 @@ foreach ($attestations as $key => $attestation) : ?>
 <?php endforeach; ?>
       </tbody>
 </table>
+
+<table class="table">
+   <caption>Photo</caption>
+      <thead>
+      <tbody>
+        <tr>
+            <th>File name</th>
+            <th>Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <?php $photo = $this->vars['formModel']->photo; 
+          if ($photo) : 
+    ?>
+      <tr id="file-<?php echo $photo->id; ?>"><td>
+	  <a target="_blank" href="<?php echo $photo->getPath(); ?>"><?php echo $photo->getFilename(); ?></a>
+      </td><td>
+	  <?php echo $photo->created_at; ?>
+      </td><td>
+	  <button
+	      type="button"
+	      class="btn btn-danger icon-trash"
+	      data-request-confirm="<?= e(trans('codalia.membership::lang.action.deletion_confirmation')) ?>"
+	      data-request="onDeleteFile"
+	      data-request-success="$('#file-<?php echo $photo->id; ?>').remove();"
+	      data-browser-validate
+	      data-request-data="relationship:'photo', file_id:<?php echo $photo->id; ?>"
+	      class="btn btn-default">
+	  </button>
+      </td></tr>
+      <?php endif; ?>
+      </tbody>
+</table>
+
+
+

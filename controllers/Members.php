@@ -282,11 +282,7 @@ class Members extends Controller
 
 	$member = Member::find($recordId);
 	$file = $member->$relationship()->where('id', $data['file_id'])->first();
-	$localPath = $file->getLocalPath();
-	// Deletes the model.
 	$file->delete();
-	// Deletes the file.
-	@unlink($localPath);
 
 	Flash::success(Lang::get('codalia.membership::lang.action.delete_file_success'));
     }
