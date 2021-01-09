@@ -3,6 +3,7 @@
 use Cms\Classes\ComponentBase;
 use Codalia\Membership\Models\Member as MemberModel;
 use Codalia\Membership\Models\AppealCourt;
+use Codalia\Membership\Models\Settings;
 use Flash;
 use Lang;
 
@@ -39,6 +40,8 @@ class MemberList extends ComponentBase
      */
     public function prepareVars()
     {
+	$thumbSize = explode(':', Settings::get('photo_thumbnail', '100:100'));
+	$this->page['thumbSize'] = ['width' => $thumbSize[0], 'height' => $thumbSize[1]];
     }
 
     protected function listMembers()

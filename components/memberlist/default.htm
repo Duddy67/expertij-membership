@@ -13,6 +13,13 @@
     {% for member in members %}
         <li class="list-group-item">
 	    <p class="h4">{{ member.profile.first_name ~' '~ member.profile.last_name }}</p>
+	    <div class="photo">
+	    {% if member.photo %}	
+	      <img src="{{ member.photo.thumb(thumbSize.width, thumbSize.height, 'auto') }}" />
+	    {% else %}
+	      <img src="plugins/codalia/membership/assets/img/userportrait.jpg" width="{{ thumbSize.width }}" height="{{ thumbSize.height }}" />
+	    {% endif %}
+	    </div>
             <p class="info">
 	      {{ member.appealCourt.name }}<br />
 	      {{ member.profile.street }}<br />

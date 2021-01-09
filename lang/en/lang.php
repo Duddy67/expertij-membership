@@ -155,6 +155,7 @@ return [
     'global_settings' => [
       'tab_general' => 'General',
       'tab_prices' => 'Prices',
+      'tab_images' => 'Images',
       'renewal_day' => 'Renewal day',
       'renewal_day_comment' => 'Renewal day',
       'renewal_month' => 'Renewal month',
@@ -175,6 +176,8 @@ return [
       'insurance_fee_f2_comment' => 'Currency: Euro',
       'insurance_f1' => 'AXA Essential',
       'insurance_f2' => 'AXA Full',
+      'photo_thumbnail' => 'Photo thumbnail',
+      'photo_thumbnail_comment' => 'The size of the photo thumbnail in pixel. The width and height must be separated by a semicolon, (eg: 100:100).',
       'january' => 'January',
       'january' => 'January',
       'february' => 'February',

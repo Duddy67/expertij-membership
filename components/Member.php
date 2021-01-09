@@ -81,6 +81,8 @@ class Member extends ComponentBase
 	    }
 	}
 
+	$thumbSize = explode(':', Settings::get('photo_thumbnail', '100:100'));
+	$this->page['thumbSize'] = ['width' => $thumbSize[0], 'height' => $thumbSize[1]];
 	$this->page['flags'] = ['payment' => $payment, 'candidate' => ($this->member->member_since === null) ? true : false,
 				'freePeriod' => ($this->member->free_period && $this->member->member_since) ? true : false];
 	$this->page['documents'] = $this->loadDocuments($this->member->categories);
@@ -148,13 +150,13 @@ class Member extends ComponentBase
 	    throw new ValidationException($validation);
 	}
 
-        $member = $this->loadMember();
-
 	if (Input::hasFile($data['file_type'])) {
 	    $file = (new File())->fromPost(Input::file($data['file_type']));
-	    //$member->$relationship = Input::file($data['file_type']);
+	    $member = $this->loadMember();
 
-	    if ($file->isImage()) {
+	    if ($data['file_type'] == 'photo') {
+	        // Deletes the previous file before adding a new one.
+	        $member->photo->delete();
 	    }
 
 	    $member->$relationship()->add($file);
@@ -164,7 +166,7 @@ class Member extends ComponentBase
         Flash::success(Lang::get('codalia.membership::lang.action.file_replace_success'));
 
 	$newFile = '<a target="_blank" href="'.$file->getPath().'">'.$file->file_name.'</a>'; 
-	$newFile = ($file->isImage()) ? '<img src="'.$file->getPath().'" />' : $newFile;
+	$newFile = ($data['file_type'] == 'photo') ? '<img src="'.$file->getThumb(100, 100).'" />' : $newFile;
 
 	return[
 	  '#new-'.$data['file_type'] => $newFile,

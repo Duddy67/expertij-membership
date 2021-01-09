@@ -17,15 +17,16 @@
       </div>
     </div>
   {{ form_close() }}
-
+  <hr/>
   {{ form_ajax('onReplaceFile', {files: 1, flash: ''}) }}
     <div class="form-group col-sm-8">
       <p class="h5 mt-3">Photo</p>
       <div id="new-photo">
-      {% if not member.photo %}	
-       <p>TEST</p>
+      {% if member.photo %}	
+        <img src="{{ member.photo.thumb(thumbSize.width, thumbSize.height, 'auto') }}" />
+      {% else %}
+	<img src="plugins/codalia/membership/assets/img/userportrait.jpg" width="{{ thumbSize.width }}" height="{{ thumbSize.height }}" />
       {% endif %}
-        <img src="{{ member.photo.thumb(200, 200, 'auto') }}" />
       </div>
       <p class="mb-0"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</small></p>
       <div class="row">
