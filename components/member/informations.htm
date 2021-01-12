@@ -12,16 +12,6 @@
 
     {{ form_ajax('onUpdate', {flash: ''}) }}
       <div class="form-group col-sm-6">
-	<label for="inputAppealCourt">{{ sharedFields.appeal_court }}</label>
-	<select name="appealCourt" class="form-control" id="inputAppealCourt">
-	  <option value="">- Select -</option>
-	  {% for id, name in sharedFields.appeal_court_options %}
-	    <option value="{{ id }}" {{ (id == member.appeal_court_id) ? 'selected' : '' }}>{{ name }}</option>
-	  {% endfor %}
-	</select>
-      </div>
-
-      <div class="form-group col-sm-6">
 	<label>{{ sharedFields.categories }}</label>
 	  {% for id, name in sharedFields.category_options %}
 	    <div>

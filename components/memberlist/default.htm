@@ -1,13 +1,6 @@
 {% set members = __SELF__.members %}
-{% set appealCourts = __SELF__.appealCourts %}
 <p class="h3">Member List</p>
 
-<select class="form-control custom-select col-sm-3">
-    <option value="">Select</option>
-    {% for appealCourt in appealCourts %}
-      <option value="{{ appealCourt.id }}">{{ appealCourt.name }}</option>
-    {% endfor %}
-</select>
 
 <ul class="list-group list-group-flush">
     {% for member in members %}
@@ -21,7 +14,6 @@
 	    {% endif %}
 	    </div>
             <p class="info">
-	      {{ member.appealCourt.name }}<br />
 	      {{ member.profile.street }}<br />
 	      {{ member.profile.postcode }}<br />
 	      {{ member.profile.city }}<br />

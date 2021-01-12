@@ -21,8 +21,8 @@
   - Updated documents table
   - update_documents_table.php
 1.0.7:
-  - Create appeal courts table
-  - create_appeal_courts_table.php
+  - Create appeal court list table
+  - create_appeal_court_list_table.php
 1.0.8:
-  - Seed appeal courts table
-  - seed_appeal_courts_table.php
+  - Seed appeal court list table
+  - seed_appeal_court_list_table.php

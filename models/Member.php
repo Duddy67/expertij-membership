@@ -4,7 +4,6 @@ use Model;
 use Codalia\Membership\Models\Payment;
 use Codalia\Membership\Models\Insurance;
 use Codalia\Membership\Models\Category;
-use Codalia\Membership\Models\AppealCourt;
 use Codalia\Membership\Helpers\EmailHelper;
 use Codalia\Membership\Helpers\RenewalHelper;
 use Carbon\Carbon;
@@ -29,15 +28,14 @@ class Member extends Model
     /**
      * @var array Fillable fields
      */
-    protected $fillable = ['status', 'member_list', 'free_period', 'appeal_court_id'];
+    protected $fillable = ['status', 'member_list', 'free_period'];
 
     /**
      * @var array Validation rules for attributes
      */
     public $rules = [
-	'attestation' => 'required_if:_context,membership|mimes:pdf', // Only active during registration.
-	'photo' => 'required_if:_context,membership|mimes:jpg,png',   // Only active during registration.
-	'appealCourt' => 'required',
+	//'attestation' => 'required_if:_context,membership|mimes:pdf', // Only active during registration.
+	//'photo' => 'required_if:_context,membership|mimes:jpg,png',   // Only active during registration.
     ];
 
     /**
@@ -92,7 +90,6 @@ class Member extends Model
     ];
     public $belongsTo = [
         'profile' => ['Codalia\Profile\Models\Profile'],
-        'appealCourt' => ['Codalia\Membership\Models\AppealCourt']
     ];
     public $belongsToMany = [
 	'categories' => ['Codalia\Membership\Models\Category',
@@ -124,10 +121,6 @@ class Member extends Model
 
 	if (RenewalHelper::instance()->isFreePeriod()) {
 	    $member->free_period = 1;
-	}
-
-	if (isset($data['appealCourt'])) {
-	    $member->appeal_court_id = (int)$data['appealCourt'];
 	}
 
 	// Important: Creates a member without validation.
@@ -171,7 +164,6 @@ class Member extends Model
 	];
 
 	$sharedFields['category_options'] = Category::get()->pluck('name', 'id')->toArray();
-	$sharedFields['appeal_court_options'] = AppealCourt::get()->pluck('name', 'id')->toArray();
 
         return $sharedFields;
     }

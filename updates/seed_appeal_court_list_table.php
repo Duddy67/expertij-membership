@@ -1,11 +1,10 @@
 <?php namespace Codalia\Membership\Updates;
 
 use Seeder;
-use Codalia\Membership\Models\AppealCourt;
-use Codalia\Membership\Models\Category;
+use Illuminate\Support\Facades\DB;
 
 
-class SeedAppealCourtsTable extends Seeder
+class SeedAppealCourtListTable extends Seeder
 {
     public $appealCourts = ['Agen', 'Aix en Provence', 'Amiens', 'Angers', 'Basse Terre',
 			    'Bastia', 'Besançon', 'Bordeaux', 'Bourges', 'Caen', 'Cayenne',
@@ -15,19 +14,10 @@ class SeedAppealCourtsTable extends Seeder
 			    'Riom', 'Rouen', 'Saint Denis', 'Saint Pierre', 'Toulouse', 'Versailles'
     ]; 
 
-    public $categories = [['name' => 'Expert', 'slug' => 'expert'],
-                          ['name' => 'CESEDA', 'slug' => 'ceseda'],
-                          ['name' => 'Membre associé', 'slug' => 'membre-associe']
-    ];
-
     public function run()
     {
         foreach ($this->appealCourts as $appealCourt) {
-	    AppealCourt::create(['name' => $appealCourt]);
-	}
-
-        foreach ($this->categories as $category) {
-	    Category::create(['name' => $category['name'], 'slug' => $category['slug']]);
+	    DB::table('codalia_membership_appeal_court_list')->insert(['name' => $appealCourt]);
 	}
     }
 }

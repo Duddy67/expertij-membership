@@ -61,9 +61,7 @@ class AppealCourt extends Model
      * @var array Relations
      */
     public $hasOne = [];
-    public $hasMany = [
-        'members' => ['Codalia\Membership\Models\Member']
-    ];
+    public $hasMany = [];
     public $belongsTo = [];
     public $belongsToMany = [];
     public $morphTo = [];

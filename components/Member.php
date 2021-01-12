@@ -232,7 +232,7 @@ class Member extends ComponentBase
 	// Updates the passed data.
 	$member = $this->loadMember();
 	$memberList = ($member->status == 'member') ? $data['member_list'] : 0;
-	$member->update(['member_list' => $memberList, 'appeal_court_id' => $data['appealCourt']]);
+	$member->update(['member_list' => $memberList]);
 	$member->categories()->sync($data['categories']);
 
 	Flash::success(Lang::get('codalia.membership::lang.action.update_success'));
