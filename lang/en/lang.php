@@ -196,8 +196,14 @@ return [
     'profile' => [
       'attestation' => 'Attestation',
       'photo' => 'Photo',
-      'appeal_court' => 'Appeal court',
-      'categories' => 'Categories',
+      'pro_status' => 'Professional status',
+      'liberal_profession' => 'Liberal profession',
+      'micro_entrepreneur' => 'Micro-entrepreneur',
+      'company' => 'Company',
+      'other' => 'Other',
+      'pro_status_info' => 'Professional status info',
+      'siret_number' => 'SIRET number',
+      'naf_code' => 'NAF code',
       'select' => '- Select -',
     ],
     'languages' => [

@@ -127,10 +127,6 @@ class Member extends Model
 	// NB. The validation has been performed earlier in the code.
 	$member->forceSave();
 
-	if (isset($data['categories']) && !empty($data['categories'])) {
-	    $member->categories()->attach($data['categories']);
-	}
-
 	// Creates an empty insurance.
 	$insurance = new Insurance;
 	$member->insurance()->save($insurance);
@@ -152,18 +148,38 @@ class Member extends Model
 		     'cancellation' => 'codalia.membership::lang.status.cancellation');
     }
 
+    public function getProStatusOptions()
+    {
+	return Member::getProStatusOptionData();
+    }
+
+    public static function getProStatusOptionData()
+    {
+	return ['liberal_profession' => 'codalia.membership::lang.profile.liberal_profession',
+		'micro_entrepreneur' => 'codalia.membership::lang.profile.micro_entrepreneur',
+		'company' => 'codalia.membership::lang.profile.company',
+		'other' => 'codalia.membership::lang.profile.other',
+	];
+    }
+
     /*
      * Used by the Profile plugin in the registration form.
      */
     public static function getSharedFields()
     {
 	$sharedFields = ['attestation' => 'codalia.membership::lang.profile.attestation',
-			 'appeal_court' => 'codalia.membership::lang.profile.appeal_court',
-			 'categories' => 'codalia.membership::lang.profile.categories',
+			 'pro_status' => 'codalia.membership::lang.profile.pro_status',
+			 'pro_status_info' => 'codalia.membership::lang.profile.pro_status_info',
+			 'liberal_profession' => 'codalia.membership::lang.profile.liberal_profession',
+			 'micro_entrepreneur' => 'codalia.membership::lang.profile.micro_entrepreneur',
+			 'company' => 'codalia.membership::lang.profile.company',
+			 'other' => 'codalia.membership::lang.profile.other',
+			 'siret_number' => 'codalia.membership::lang.profile.siret_number',
+			 'naf_code' => 'codalia.membership::lang.profile.naf_code',
 			 'photo' => 'codalia.membership::lang.profile.photo'
 	];
 
-	$sharedFields['category_options'] = Category::get()->pluck('name', 'id')->toArray();
+	$sharedFields['pro_status_options'] = Member::getProStatusOptionData();
 
         return $sharedFields;
     }

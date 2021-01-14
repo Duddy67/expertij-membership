@@ -20,6 +20,9 @@ class CreateMembersTable extends Migration
 	    $table->boolean('free_period')->nullable();
 	    $table->char('pro_status', 20)->nullable();
 	    $table->string('pro_status_info', 30)->nullable();
+            $table->smallInteger('since')->unsigned()->nullable();
+	    $table->char('siret_number', 14)->nullable();
+	    $table->char('naf_code', 5)->nullable();
 	    $table->integer('checked_out')->unsigned()->nullable()->index();
 	    $table->timestamp('checked_out_time')->nullable();
             $table->timestamps();
