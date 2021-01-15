@@ -23,12 +23,12 @@ class Member extends Model
     /**
      * @var array Guarded fields
      */
-    protected $guarded = [];
+    protected $guarded = ['id', 'profile_id', 'created_at', 'updated_at'];
 
     /**
      * @var array Fillable fields
      */
-    protected $fillable = ['status', 'member_list', 'free_period'];
+    protected $fillable = [];
 
     /**
      * @var array Validation rules for attributes
@@ -42,7 +42,7 @@ class Member extends Model
      * @var array Rule  messages for attributes
      */
     public $ruleMessages = [
-	'attestation.required_if' => 'The :attribute field is required.',
+	//'attestation.required_if' => 'The :attribute field is required.',
     ];
 
     /**

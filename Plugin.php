@@ -105,6 +105,7 @@ class Plugin extends PluginBase
 	Event::listen('codalia.profile.registerMember', function($profile, $data) {
 	    // Ensures that a profile model always exists.
 	    $member = MemberModel::getFromProfile($profile, $data);
+	    $member->update($data['membership']);
 
 	    if (Input::hasFile('attestation')) {
 		$member->attestations = Input::file('attestation');
