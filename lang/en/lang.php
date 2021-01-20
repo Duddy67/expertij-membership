@@ -13,6 +13,7 @@ return [
     'member' => [
       'tab_documents' => 'Documents',
       'tab_profile' => 'Profile',
+      'tab_licences' => 'Licences',
       'tab_votes' => 'Votes',
       'tab_payments' => 'Payments',
       'tab_insurance' => 'Insurance',
@@ -202,6 +203,7 @@ return [
       'company' => 'Company',
       'other' => 'Other',
       'pro_status_info' => 'Professional status info',
+      'since' => 'Since',
       'siret_number' => 'SIRET number',
       'naf_code' => 'NAF code',
       'select' => '- Select -',

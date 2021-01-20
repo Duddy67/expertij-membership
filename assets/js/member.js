@@ -82,7 +82,8 @@
   };
 
   $.fn.setUserEditFields = function(data) {
-    let fields = ['first_name', 'last_name', 'street', 'city', 'postcode', 'country', 'user-email'];
+    let fields = ['civility', 'first_name', 'last_name', 'birth_name', 'birth_date', 'birth_location',
+		  'citizenship', 'street', 'city', 'postcode', 'phone'];
     let value = true;
 
     if (data.action == 'enable') {
@@ -99,7 +100,13 @@
     }
 
     fields.forEach( function(field) {
-      $('#Form-field-Member-profile-'+field).prop('disabled', value);
+      let inputId = 'Form-field-Member-profile-';
+
+      if (field == 'birth_date') {
+	inputId = 'DatePicker-formProfileBirthDate-date-profile-';
+      }
+
+      $('#'+inputId+field).prop('disabled', value);
     });
   };
 

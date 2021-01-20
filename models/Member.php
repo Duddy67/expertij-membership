@@ -36,6 +36,7 @@ class Member extends Model
     public $rules = [
 	//'attestation' => 'required_if:_context,membership|mimes:pdf', // Only active during registration.
 	//'photo' => 'required_if:_context,membership|mimes:jpg,png',   // Only active during registration.
+	'membership.since' => 'sometimes|required|between:4,4',
     ];
 
     /**
@@ -110,7 +111,7 @@ class Member extends Model
     ];
 
 
-    public static function getFromProfile($profile, $data = array())
+    public static function getFromProfile($profile, $data)
     {
         if ($profile->member) {
 	    return $profile->member;
@@ -125,7 +126,9 @@ class Member extends Model
 
 	// Important: Creates a member without validation.
 	// NB. The validation has been performed earlier in the code.
-	$member->forceSave();
+	$member->save();
+
+	$member->update($data['membership']);
 
 	// Creates an empty insurance.
 	$insurance = new Insurance;
@@ -175,6 +178,7 @@ class Member extends Model
 			 'company' => 'codalia.membership::lang.profile.company',
 			 'other' => 'codalia.membership::lang.profile.other',
 			 'siret_number' => 'codalia.membership::lang.profile.siret_number',
+			 'since' => 'codalia.membership::lang.profile.since',
 			 'naf_code' => 'codalia.membership::lang.profile.naf_code',
 			 'photo' => 'codalia.membership::lang.profile.photo'
 	];

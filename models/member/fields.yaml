@@ -47,24 +47,62 @@ secondaryTabs:
             type: partial
             path: ~/plugins/codalia/membership/models/member/_files.htm
 
-        categories:
-            tab: codalia.membership::lang.attribute.tab_categories
-            span: left
-            type: relation
-
-        profile[first_name]:
-            tab: codalia.membership::lang.member.tab_profile
-            label: First Name
-            size: small
-            span: left
-            type: text
-            disabled: true
-
         profile[last_name]:
             tab: codalia.membership::lang.member.tab_profile
             label: Last Name
             span: left
             type: text
+            disabled: true
+
+        profile[first_name]:
+            tab: codalia.membership::lang.member.tab_profile
+            label: First Name
+            size: small
+            span: right
+            type: text
+            disabled: true
+
+        profile[birth_name]:
+            tab: codalia.membership::lang.member.tab_profile
+            label: Birth Name
+            span: left
+            type: text
+            disabled: true
+
+        profile[civility]:
+            tab: codalia.membership::lang.member.tab_profile
+            label: Civility
+            size: small
+            span: right
+            type: dropdown
+            disabled: true
+
+        profile[birth_date]:
+            tab: codalia.membership::lang.member.tab_profile
+            label: Birth Date
+            span: left
+            type: datepicker
+            mode: date
+            disabled: true
+
+        profile[birth_location]:
+            tab: codalia.membership::lang.member.tab_profile
+            label: Birth Location
+            span: right
+            type: text
+            disabled: true
+
+        profile[citizenship]:
+            tab: codalia.membership::lang.member.tab_profile
+            label: Citizenship
+            span: left
+            type: dropdown
+            disabled: true
+
+        profile[user][email]:
+            tab: codalia.membership::lang.member.tab_profile
+            label: Email 
+            span: right
             disabled: true
 
         profile[street]:
@@ -77,7 +115,7 @@ secondaryTabs:
         profile[city]:
             tab: codalia.membership::lang.member.tab_profile
             label: City
-            span: left
+            span: right
             type: text
             disabled: true
 
@@ -88,17 +126,11 @@ secondaryTabs:
             type: text
             disabled: true
 
-        profile[country]:
+        profile[phone]:
             tab: codalia.membership::lang.member.tab_profile
-            label: Country
-            span: left
+            label: Phone
+            span: right
             type: text
-            disabled: true
-
-        profile[user][email]:
-            tab: codalia.membership::lang.member.tab_profile
-            label: Email 
-            span: left
             disabled: true
 
         _edit_user:
@@ -106,6 +138,12 @@ secondaryTabs:
             span: left
             type: partial
             path: '$/codalia/membership/models/member/_edit_user.htm'
+
+        licences:
+            tab: codalia.membership::lang.member.tab_licences
+            span: left
+            type: partial
+            path: '$/codalia/membership/models/member/_licences.htm'
 
         _votes:
             tab: codalia.membership::lang.member.tab_votes
