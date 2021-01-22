@@ -102,11 +102,11 @@ class Member extends Model
     public $morphOne = [];
     public $morphMany = [];
     public $attachOne = [
-        'photo' => ['System\Models\File', 'delete' => true]
+        'photo' => ['System\Models\File', 'delete' => true],
+        'attestation' => ['System\Models\File', 'delete' => true],
     ];
     public $attachMany = [
         // Deletes the attached files once a model is removed.
-        'attestations' => ['System\Models\File', 'order' => 'created_at desc', 'delete' => true],
         'invoices' => ['System\Models\File', 'order' => 'created_at desc', 'delete' => true]
     ];
 

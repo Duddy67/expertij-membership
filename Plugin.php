@@ -107,7 +107,7 @@ class Plugin extends PluginBase
 	    $member = MemberModel::getFromProfile($profile, $data);
 
 	    if (Input::hasFile('attestation')) {
-		$member->attestations = Input::file('attestation');
+		$member->attestation = Input::file('attestation');
 		// Important: Save without validation.
 		// NB. The validation has been performed earlier in the code.
 		$member->forceSave();
