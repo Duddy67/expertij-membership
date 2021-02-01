@@ -87,6 +87,7 @@ class Member extends ComponentBase
 				'freePeriod' => ($this->member->free_period && $this->member->member_since) ? true : false];
 	$this->page['documents'] = $this->loadDocuments($this->member->categories);
 	$this->page['sharedFields'] = $sharedFields;
+	$this->page['years'] = Profile::getYears();
 	$this->page['categoryIds'] = $this->member->categories->pluck('id')->toArray();
 	$this->page['texts'] = $this->getTexts();
     }
@@ -233,7 +234,7 @@ class Member extends ComponentBase
 	$member = $this->loadMember();
 	$memberList = ($member->status == 'member') ? $data['member_list'] : 0;
 	$member->update(['member_list' => $memberList]);
-	$member->categories()->sync($data['categories']);
+	//$member->categories()->sync($data['categories']);
 
 	Flash::success(Lang::get('codalia.membership::lang.action.update_success'));
     }

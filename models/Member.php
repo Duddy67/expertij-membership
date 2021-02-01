@@ -6,6 +6,7 @@ use Codalia\Membership\Models\Insurance;
 use Codalia\Membership\Models\Category;
 use Codalia\Membership\Helpers\EmailHelper;
 use Codalia\Membership\Helpers\RenewalHelper;
+use Codalia\Profile\Models\Profile;
 use Carbon\Carbon;
 
 /**
@@ -163,6 +164,16 @@ class Member extends Model
 		'company' => 'codalia.membership::lang.profile.company',
 		'other' => 'codalia.membership::lang.profile.other',
 	];
+    }
+
+    public function getAppealCourts()
+    {
+        return Profile::getAppealCourts();
+    }
+
+    public function getCourts()
+    {
+        return Profile::getCourts();
     }
 
     /*

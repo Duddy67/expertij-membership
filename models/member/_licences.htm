@@ -1,25 +1,48 @@
+<?php $appealCourts = $model->getAppealCourts(); 
+      $courts = $model->getCourts(); ?>
+
 <?php foreach ($model->profile->licences as $licence) : ?>                
+
     <div class="form-group  text-field span-left">
 	<label for="Form-field-Licence-type">Type</label>
-	<input type="text" name="_type" class="form-control" disabled="disabled" value="<?php echo $licence->type; ?>">
+	<input type="text" name="_type" class="form-control" disabled="disabled"
+	       value="<?= e(trans('codalia.profile::lang.licence.'.$licence->type)) ?>">
     </div>
-    <div class="form-group  text-field span-left">
-	<label for="Form-field-Licence-appeal-court">Appeal court</label>
-	<input type="text" name="_appeal_court" class="form-control" disabled="disabled" value="<?php echo $licence->appeal_court_id; ?>">
-    </div>
-    <div class="form-group  text-field span-right">
-	<label for="Form-field-Licence-since">Since</label>
-	<input type="text" name="_since" class="form-control" disabled="disabled" value="<?php echo $licence->since; ?>">
+
+    <?php if ($licence->type == 'expert') : ?> 
+	<div class="form-group  text-field span-left">
+	    <label for="Form-field-Licence-appeal-court">Appeal court</label>
+	    <input type="text" name="_appeal_court" class="form-control" disabled="disabled" value="<?php echo $appealCourts[$licence->appeal_court_id]; ?>">
+	</div>
+    <?php else : ?>
+	<div class="form-group  text-field span-left">
+	    <label for="Form-field-Licence-appeal-court">Court</label>
+	    <input type="text" name="_court" class="form-control" disabled="disabled" value="<?php echo $courts[$licence->court_id]; ?>">
+	</div>
+    <?php endif; ?>
+
+    <div class="col-sm-6">
+	<div class="form-group text-field span-left">
+	    <label for="Form-field-Licence-since">Since</label>
+	    <input type="text" name="_since" class="form-control" disabled="disabled" value="<?php echo $licence->since; ?>">
+	</div>
     </div>
     <?php foreach ($licence->attestations as $key => $attestation) : ?>    
 	      <div class="form-group  text-field span-left">
 		  <label for="Form-field-Attestation-expiry-date">Expiry Date</label>
 		  <input type="text" name="_expiry_date" class="form-control" disabled="disabled" value="<?php echo $attestation->expiry_date; ?>">
 	      </div>
+	      <div class="form-group  text-field span-right">
+		  <label class="" for="">Attestation</label>
+		  <div>
+		      <a target="_blank" href="<?php echo $attestation->file->path; ?>"><?php echo $attestation->file->file_name; ?></a>
+		  </div>
+	      </div>
 	<?php foreach ($attestation->languages as $key => $language) : ?>    
 		  <div class="form-group  text-field span-left">
 		      <label for="Form-field-Language-type-<?php echo $language->attributes['ordering']; ?>">Language</label>
-		      <input type="text" name="_language_<?php echo $language->attributes['ordering']; ?>" class="form-control" disabled="disabled" value="<?php echo $language->alpha_2; ?>">
+		      <input type="text" name="_language_<?php echo $language->attributes['ordering']; ?>" class="form-control"
+			     disabled="disabled" value="<?= e(trans('codalia.profile::lang.language.'.$language->alpha_2)) ?>">
 		  </div>
 		  <div class="col-sm-6">
 		      <div class="form-group text-field span-left">

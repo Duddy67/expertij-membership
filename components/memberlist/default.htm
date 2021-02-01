@@ -1,24 +1,62 @@
-{% set members = __SELF__.members %}
 <p class="h3">Member List</p>
 
+{{ form_ajax('onFilterMembers', {flash: ''}) }}
 
-<ul class="list-group list-group-flush">
-    {% for member in members %}
-        <li class="list-group-item">
-	    <p class="h4">{{ member.profile.first_name ~' '~ member.profile.last_name }}</p>
-	    <div class="photo">
-	    {% if member.photo %}	
-	      <img src="{{ member.photo.thumb(thumbSize.width, thumbSize.height, 'auto') }}" />
-	    {% else %}
-	      <img src="plugins/codalia/membership/assets/img/userportrait.jpg" width="{{ thumbSize.width }}" height="{{ thumbSize.height }}" />
-	    {% endif %}
-	    </div>
-            <p class="info">
-	      {{ member.profile.street }}<br />
-	      {{ member.profile.postcode }}<br />
-	      {{ member.profile.city }}<br />
-	      {{ member.profile.user.email }}
-	    </p>
-        </li>
-    {% endfor %}
-</ul>
+<div class="row">
+    <div class="form-group col-sm-3">
+	<label for="languages">Languages</label>
+	<select name="languages" class="form-control" id="languages">
+	    <option value="">- All -</option>
+	    {% for value, text in languages %}
+		<option value="{{ value }}">{{ text }}</option>
+	    {% endfor %}
+	</select>
+    </div>
+
+    <div class="form-group col-sm-2">
+	<label for="licence-type">Type</label>
+	<select name="licence_type" class="form-control" id="licence-type">
+	    <option value="">- All -</option>
+	    {% for value, text in licenceTypes %}
+		<option value="{{ value }}">{{ text }}</option>
+	    {% endfor %}
+	</select>
+    </div>
+
+    <div class="form-group col-sm-2">
+	<label for="expert-skill">Skill</label>
+	<select name="expert_skill" class="form-control" id="expert-skill">
+	    <option value="">- All -</option>
+	    <option value="interpreter">Interpreter</option>
+	    <option value="translator">Translator</option>
+	</select>
+    </div>
+
+    <div class="form-group col-sm-3">
+	<label for="appeal-court">Appeal court</label>
+	<select name="appeal_court_id" class="form-control" id="appeal-court">
+	    <option value="">- All -</option>
+	    {% for value, text in appealCourts %}
+		<option value="{{ value }}">{{ text }}</option>
+	    {% endfor %}
+	</select>
+    </div>
+
+    <div class="form-group col-sm-3">
+	<label for="court">Court</label>
+	<select name="court_id" class="form-control" id="court">
+	    <option value="">- All -</option>
+	    {% for value, text in courts %}
+		<option value="{{ value }}">{{ text }}</option>
+	    {% endfor %}
+	</select>
+    </div>
+</div>
+
+    <button type="button" data-request="onFilterMembers" 
+			  class="btn btn-success" id="">Search</button>
+{{ form_close() }}
+
+<div id="members">
+    {% partial '@members' %}
+</div>
