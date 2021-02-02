@@ -1,12 +1,13 @@
 <p class="h3">Member List</p>
+{% put scripts %}
+{% endput %}
 
 {{ form_ajax('onFilterMembers', {flash: ''}) }}
 
 <div class="row">
     <div class="form-group col-sm-3">
 	<label for="languages">Languages</label>
-	<select name="languages" class="form-control" id="languages">
-	    <option value="">- All -</option>
+	<select name="languages[]" class="form-control js-example-basic-multiple" multiple="multiple" id="languages">
 	    {% for value, text in languages %}
 		<option value="{{ value }}">{{ text }}</option>
 	    {% endfor %}
@@ -33,9 +34,8 @@
     </div>
 
     <div class="form-group col-sm-3">
-	<label for="appeal-court">Appeal court</label>
-	<select name="appeal_court_id" class="form-control" id="appeal-court">
-	    <option value="">- All -</option>
+	<label for="appeal-courts">Appeal courts</label>
+	<select name="appeal_court_ids[]" class="form-control js-example-basic-multiple" multiple="multiple" id="appeal-courts">
 	    {% for value, text in appealCourts %}
 		<option value="{{ value }}">{{ text }}</option>
 	    {% endfor %}
@@ -43,9 +43,8 @@
     </div>
 
     <div class="form-group col-sm-3">
-	<label for="court">Court</label>
-	<select name="court_id" class="form-control" id="court">
-	    <option value="">- All -</option>
+	<label for="courts">Court</label>
+	<select name="court_ids[]" class="form-control js-example-basic-multiple" multiple="multiple" id="courts">
 	    {% for value, text in courts %}
 		<option value="{{ value }}">{{ text }}</option>
 	    {% endfor %}
@@ -60,3 +59,9 @@
 <div id="members">
     {% partial '@members' %}
 </div>
+
+{% put scripts %}
+    <link href="plugins/codalia/membership/assets/vendor/select2-4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="plugins/codalia/membership/assets/vendor/select2-4.0.13/js/select2.min.js"></script>
+    <script type="text/javascript" src="plugins/codalia/membership/assets/js/member-list.js"></script>
+{% endput %}

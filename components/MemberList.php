@@ -11,7 +11,6 @@ use Lang;
 
 class MemberList extends ComponentBase
 {
-    public $members = null;
     public $profiles = null;
 
 
@@ -48,7 +47,7 @@ class MemberList extends ComponentBase
 	$this->page['appealCourts'] = Profile::getAppealCourts();
 	$this->page['courts'] = Profile::getCourts();
 
-	$profiles = Profile::whereHas('licences', function($query) {
+	/*$profiles = Profile::whereHas('licences', function($query) {
 				 $query->where('type', 'ceseda')->whereHas('attestations', function($query) {
 				     $query->whereHas('languages', function($query) { 
 					 $query->where('alpha_2', 'ba');
@@ -60,13 +59,12 @@ class MemberList extends ComponentBase
 
 	foreach ($profiles as $profile) {
 	  echo $profile->last_name;
-	}
+	}*/
     }
 
     protected function listMembers()
     {
-        //$members = MemberModel::where('member_list', 1)->get();
-        // Searches from the Profile relationship as it contained most of the relevant data.
+        // Loads members from the Profile relationship as it contained most of the relevant data.
 	$profiles = Profile::whereHas('member', function($query) {
 		        $query->where('member_list', 1);
 		    })->get();
@@ -80,25 +78,31 @@ class MemberList extends ComponentBase
 	$thumbSize = explode(':', Settings::get('photo_thumbnail', '100:100'));
 	$this->page['thumbSize'] = ['width' => $thumbSize[0], 'height' => $thumbSize[1]];
 
-	\DB::enableQueryLog(); // Enable query log
+//file_put_contents('debog_file.txt', print_r($data, true));
+//return;
+	//\DB::enableQueryLog(); // Enable query log
+        // Searches members from the Profile relationship as it contained most of the relevant data.
 	$this->profiles = Profile::whereHas('licences', function($query) use($data) {
 
 			      if (!empty($data['licence_type'])) {
 				 $query->where('type', $data['licence_type']);
-				 if (!empty($data['appeal_court_id']) || !empty($data['court_id'])) {
+
+				 if (isset($data['appeal_court_ids']) || isset($data['court_ids'])) {
 				     $attributeName = ($data['licence_type'] == 'expert') ? 'appeal_court_id' : 'court_id';
-				     //$attributeValue = (!empty($data['appeal_court_id'])) ? $data['appeal_court_id'] : 'court_id';
-//file_put_contents('debog_file.txt', print_r($attributeName.' '.$attributeValue, true));
-				    //$query->where('type', 'expert');
-				    $query->where($attributeName, $data[$attributeName]);
+				     $ids = (isset($data['appeal_court_ids'])) ? $data['appeal_court_ids'] : $data['court_ids'];
+				     $query->whereIn($attributeName, $ids);
 				 }
 			      }
 
 			      $query->whereHas('attestations', function($query) use($data) {
-				 //
+				  //
 				  $query->whereHas('languages', function($query) use($data) { 
-				      if (!empty($data['languages'])) {
-					  $query->where('alpha_2', $data['languages']);
+				      if (isset($data['languages'])) {
+					  $query->whereIn('alpha_2', $data['languages']);
+
+					  if ($data['licence_type'] == 'expert' && !empty($data['expert_skill'])) {
+					      $query->where($data['expert_skill'], 1);
+					  }
 				      }
 				  });
 			      });

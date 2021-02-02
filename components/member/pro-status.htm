@@ -1,0 +1,99 @@
+
+<div class="tab-pane fade" id="pro-status">
+    {{ form_ajax('onUpdate', {flash: ''}) }}
+	<div class="row">
+	    <div class="form-group col-sm-6">
+		<label for="inputProStatus">{{ sharedFields.pro_status }}</label>
+		<select name="membership[pro_status]" class="form-control custom-select" id="inputProStatus">
+		  {% for value, text in sharedFields.pro_status_options %}
+		      <option value="{{ value }}" {{ (member.pro_status == value) ? 'selected' : '' }}>{{ sharedFields[value] }}</option>
+		  {% endfor %}
+		</select>
+	    </div>
+
+	    <div class="form-group col-sm-6">
+		<label for="inputSince">{{ sharedFields.since }}</label>
+		<select name="membership[since]" class="form-control" id="inputSince">
+		    <option value="">- Select -</option>
+		    {% for year in years %}
+			<option value="{{ year }}" {{ (member.since == year) ? 'selected' : '' }}>{{ year }}</option>
+		    {% endfor %}
+		</select>
+	    </div>
+	</div>
+
+	<div class="row">
+	    <div class="form-group col-sm-6">
+		<label for="inputProStatusInfo">{{ sharedFields.pro_status_info}}</label>
+		<input type="text" name="membership[pro_status_info]" class="form-control" id="inputProStatusInfo">
+	    </div>
+	</div>
+
+	<div class="row">
+	    <div class="form-group col-sm-6">
+		<label for="inputSiretNumber">{{ sharedFields.siret_number }}</label>
+		<input type="text" name="membership[siret_number]" class="form-control" id="inputSiretNumber" value="{{ member.siret_number }}">
+	    </div>
+
+	    <div class="form-group col-sm-6">
+		<label for="inputNafCode">{{ sharedFields.naf_code }}</label>
+		<input type="text" name="membership[naf_code]" class="form-control" id="inputNafCode" value="{{ member.naf_code }}">
+	    </div>
+	</div>
+
+	<div class="row">
+	    <div class="form-group col-sm-6">
+		<button type="submit" id="btn-update" class="btn btn-success">Update</button>
+	    </div>
+	</div>
+    {{ form_close() }}
+
+    {{ form_ajax('onReplaceFile', {files: 1, flash: ''}) }}
+	<div class="row">
+	    <div class="form-group col-sm-8">
+		<p class="h5 mt-3">Attestation</p>
+		<div id="new-attestation">
+		    <a target="_blank" href="{{ member.attestations.first.path }}">{{ member.attestations.first.filename}}</a>
+		</div>
+		<p class="mb-0"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</small></p>
+		<div class="row">
+		    <div id="attestation-file-input" class="col-sm-6">
+			<input type="file" name="attestation" class="form-control" id="inputAttestation">
+		    </div>
+		    <div class="col-sm-2">
+			<input type="hidden" name="file_type" value="attestation">
+			<button type="submit" class="btn btn-success">Replace</button>
+		    </div>
+		</div>
+	    </div>
+	</div>
+    {{ form_close() }}
+
+    <hr/>
+
+    {{ form_ajax('onReplaceFile', {files: 1, flash: ''}) }}
+	<div class="row">
+	    <div class="form-group col-sm-8">
+		<p class="h5 mt-3">Photo</p>
+		<div id="new-photo">
+		    {% if member.photo %}	
+			<img src="{{ member.photo.thumb(thumbSize.width, thumbSize.height, 'auto') }}" />
+		    {% else %}
+			<img src="plugins/codalia/membership/assets/img/userportrait.jpg" width="{{ thumbSize.width }}" height="{{ thumbSize.height }}" />
+		    {% endif %}
+		</div>
+		<p class="mb-0"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</small></p>
+		<div class="row">
+		    <div id="photo-file-input" class="col-sm-6">
+			<input type="file" name="photo" class="form-control" id="inputPhoto">
+		    </div>
+		    <div class="col-sm-2">
+			<input type="hidden" name="file_type" value="photo">
+			<button type="submit" class="btn btn-success">Replace</button>
+		    </div>
+		</div>
+	    </div>
+	</div>
+    {{ form_close() }}
+</div>
+

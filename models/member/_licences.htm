@@ -30,7 +30,14 @@
     <?php foreach ($licence->attestations as $key => $attestation) : ?>    
 	      <div class="form-group  text-field span-left">
 		  <label for="Form-field-Attestation-expiry-date">Expiry Date</label>
-		  <input type="text" name="_expiry_date" class="form-control" disabled="disabled" value="<?php echo $attestation->expiry_date; ?>">
+		  <?php
+			 $date = new DateTime($attestation->expiry_date);
+			 $expiryDate = $date->format('m/d/Y');
+		   ?>
+		  <div class="input-with-icon right-align">
+		      <i class="icon icon-calendar-o"></i>
+		      <input type="text" name="_expiry_date" class="form-control align-right" disabled="disabled" value="<?php echo $expiryDate; ?>">
+		  </div>
 	      </div>
 	      <div class="form-group  text-field span-right">
 		  <label class="" for="">Attestation</label>
@@ -58,4 +65,7 @@
 		  </div>
 	<?php endforeach; ?>
     <?php endforeach; ?>
+    <div class="form-group col-sm-12">
+	<hr class="my-12">
+    </div>
 <?php endforeach; ?>

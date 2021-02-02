@@ -10,7 +10,7 @@
 	  <a href="#informations" class="nav-link active" data-toggle="tab">Informations</a>
       </li>
       <li class="nav-item">
-	  <a href="#files" class="nav-link" data-toggle="tab">Files</a>
+	  <a href="#pro-status" class="nav-link" data-toggle="tab">Professional status</a>
       </li>
       {% if flags.payment %}
 	<li class="nav-item">
@@ -36,7 +36,7 @@
 
       {% partial __SELF__ ~ '::informations' %}
 
-      {% partial __SELF__ ~ '::files' %}
+      {% partial __SELF__ ~ '::pro-status' %}
 
       {% if flags.payment %}
 	{% partial __SELF__ ~ '::payment' %}

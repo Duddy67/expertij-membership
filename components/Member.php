@@ -126,7 +126,7 @@ class Member extends ComponentBase
 		  'member_insurance' => Lang::get('codalia.membership::lang.global_settings.insurance_'.$this->member->insurance->code)
 	];
 
-	$codes = ['profile.appeal_court', 'profile.attestation', 'profile.categories', 'profile.select', 'attribute.status'];
+	$codes = ['profile.appeal_court', 'profile.attestation', 'profile.categories', 'profile.select', 'profile.liberal_profession', 'attribute.status'];
 
 	foreach ($codes as $code) {
 	    $key = substr($code, strpos($code, '.') + 1);
