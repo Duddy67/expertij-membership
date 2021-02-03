@@ -1,21 +1,50 @@
 {%  set profiles =__SELF__.profiles %}
-<ul class="list-group list-group-flush">
+<ul class="list-group list-group-flush mt-3">
     {% for profile in profiles %}
-        <li class="list-group-item">
-	    <p class="h4">{{ profile.first_name ~' '~ profile.last_name }}</p>
-	    <div class="photo">
-	    {% if profile.member.photo %}	
-	      <img src="{{ profile.member.photo.thumb(thumbSize.width, thumbSize.height, 'auto') }}" />
-	    {% else %}
-	      <img src="plugins/codalia/membership/assets/img/userportrait.jpg" width="{{ thumbSize.width }}" height="{{ thumbSize.height }}" />
-	    {% endif %}
+        <li class="list-group-item pl-0">
+	    <div class="row">
+		<div class="col-sm-4">
+		<p class="h4">{{ profile.first_name ~' '~ profile.last_name }}</p>
+		    <div class="photo">
+			{% if profile.member.photo %}	
+			    <img src="{{ profile.member.photo.thumb(thumbSize.width, thumbSize.height, 'auto') }}" />
+			{% else %}
+			    <img src="plugins/codalia/membership/assets/img/userportrait.jpg" width="{{ thumbSize.width }}" height="{{ thumbSize.height }}" />
+			{% endif %}
+		    </div>
+		    <p class="info">
+			{{ profile.street }}<br />
+			{{ profile.postcode }}<br />
+			{{ profile.city }}<br />
+			{{ profile.user.email }}
+		    </p>
+		</div>
+
+		<div class="col-sm">
+		    {% for licence in profile.licences %}
+		    <p class="mb-0"><strong>{{ licenceTypes[licence.type] }}</strong></p>
+			{% if licence.type == 'expert' %}	
+			    <p>{{ texts.appeal_court ~': '~ appealCourts[licence.appeal_court_id] }}</p>
+			{% else %}
+			    <p>{{ texts.court ~': '~ courts[licence.court_id] }}</p>
+			{% endif %}
+
+			{% for attestation in licence.attestations %}
+			    {% if attestation.licence_id == licence.id %}	
+				{% for language in attestation.languages %}
+				    <div>
+					<p class="d-inline">{{ languages[language.alpha_2] }}</p>
+					{% if licence.type == 'expert' %}	
+					    <p class="d-inline">{{ (language.interpreter) ? texts.interpreter : '' }}</p>
+					    <p class="d-inline">{{ (language.translator) ? texts.translator : '' }}</p>
+					{% endif %}
+				    </div>
+				{% endfor %}
+			    {% endif %}
+			{% endfor %}
+		    {% endfor %}
+		</div>
 	    </div>
-            <p class="info">
-	      {{ profile.street }}<br />
-	      {{ profile.postcode }}<br />
-	      {{ profile.city }}<br />
-	      {{ profile.user.email }}
-	    </p>
         </li>
     {% endfor %}
 </ul>

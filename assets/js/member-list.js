@@ -4,7 +4,9 @@
   $(window).on('load', function() {
     $('.js-example-basic-multiple').select2();
 
-    $('#licence-type').change( function(e) { $.fn.setFilters($(this)); });
+    $('#licence-type').change( function() { $.fn.setFilters($(this)); });
+    $('#reset-filters').click( function() { $.fn.resetFilters(); });
+
     $.fn.setFilters($('#licence-type'));
   });
 
@@ -14,7 +16,7 @@
       $('#courts').parent().css({'visibility':'hidden','display':'none'});
       $('#expert-skill').parent().css({'visibility':'visible','display':'block'});
       $('#appeal-courts').parent().css({'visibility':'visible','display':'block'});
-      $('#courts').select2().trigger('change');
+      $('#appeal-courts').select2().trigger('change');
     }
     else if(elem.val() == 'ceseda') {
       $('#expert-skill').val('');
@@ -22,18 +24,27 @@
       $('#appeal-courts').parent().css({'visibility':'hidden','display':'none'});
       $('#expert-skill').parent().css({'visibility':'hidden','display':'none'});
       $('#courts').parent().css({'visibility':'visible','display':'block'});
-      $('#appeal-courts').select2().trigger('change');
+      $('#courts').select2().trigger('change');
     }
     else {
       $('#expert-skill').val('');
       $('#appeal-courts').val('');
       $('#courts').val('');
-      $('#appeal-courts').select2().trigger('change');
-      $('#courts').select2().trigger('change');
       $('#appeal-courts').parent().css({'visibility':'hidden','display':'none'});
       $('#courts').parent().css({'visibility':'hidden','display':'none'});
       $('#expert-skill').parent().css({'visibility':'hidden','display':'none'});
     }
+  };
+
+  $.fn.resetFilters = function() {
+    $('#languages').val('');
+    $('#expert-skill').val('');
+    $('#appeal-courts').val('');
+    $('#courts').val('');
+    $('#languages').select2().trigger('change');
+
+    $('#licence-type').val('');
+    $.fn.setFilters($('#licence-type'));
   };
 
 })(jQuery);

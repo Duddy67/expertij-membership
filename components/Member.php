@@ -155,11 +155,6 @@ class Member extends ComponentBase
 	    $file = (new File())->fromPost(Input::file($data['file_type']));
 	    $member = $this->loadMember();
 
-	    if ($data['file_type'] == 'photo') {
-	        // Deletes the previous file before adding a new one.
-	        $member->photo->delete();
-	    }
-
 	    $member->$relationship()->add($file);
 	    $member->forceSave();
 	}
@@ -225,6 +220,15 @@ class Member extends ComponentBase
 	$data = post();
         $rules = (new MemberModel)->rules;
 
+	// Data comes from the pro status form.
+	if (isset($data['pro_status'])) {
+	    $update = $data['pro_status'];
+	}
+	// or from the information form.
+	else {
+	    $update = ['member_list' => $data['member_list']];
+	}
+
 	$validation = Validator::make($data, $rules);
 	if ($validation->fails()) {
 	    throw new ValidationException($validation);
@@ -232,9 +236,7 @@ class Member extends ComponentBase
 
 	// Updates the passed data.
 	$member = $this->loadMember();
-	$memberList = ($member->status == 'member') ? $data['member_list'] : 0;
-	$member->update(['member_list' => $memberList]);
-	//$member->categories()->sync($data['categories']);
+	$member->update($update);
 
 	Flash::success(Lang::get('codalia.membership::lang.action.update_success'));
     }

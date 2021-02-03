@@ -113,6 +113,11 @@ class Plugin extends PluginBase
 		$member->forceSave();
 	    }
 
+	    if (Input::hasFile('photo')) {
+		$member->photo = Input::file('photo');
+		$member->forceSave();
+	    }
+
 	    EmailHelper::instance()->afterRegistration($member);
 	});
 

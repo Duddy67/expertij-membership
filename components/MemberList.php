@@ -46,6 +46,7 @@ class MemberList extends ComponentBase
 	$this->page['licenceTypes'] = $this->getLicenceTypes();
 	$this->page['appealCourts'] = Profile::getAppealCourts();
 	$this->page['courts'] = Profile::getCourts();
+	$this->page['texts'] = $this->getTexts();
 
 	/*$profiles = Profile::whereHas('licences', function($query) {
 				 $query->where('type', 'ceseda')->whereHas('attestations', function($query) {
@@ -72,11 +73,23 @@ class MemberList extends ComponentBase
 	return $profiles;
     }
 
+    protected function getTexts()
+    {
+	$codes = ['appeal_court' => 'profile::licence', 'court' => 'profile::licence', 'interpreter' => 'profile::licence', 'translator' => 'profile::licence'];
+	$texts = [];
+
+	foreach ($codes as $code => $nameSpace) {
+	    $nameSpaces = explode('::', $nameSpace);
+	    $texts[$code] = Lang::get('codalia.'.$nameSpaces[0].'::lang.'.$nameSpaces[1].'.'.$code);
+	}
+
+	return $texts;
+    }
+
     public function onFilterMembers()
     {
         $data = post();
-	$thumbSize = explode(':', Settings::get('photo_thumbnail', '100:100'));
-	$this->page['thumbSize'] = ['width' => $thumbSize[0], 'height' => $thumbSize[1]];
+	$this->prepareVars();
 
 //file_put_contents('debog_file.txt', print_r($data, true));
 //return;
