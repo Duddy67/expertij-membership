@@ -47,20 +47,6 @@ class MemberList extends ComponentBase
 	$this->page['appealCourts'] = Profile::getAppealCourts();
 	$this->page['courts'] = Profile::getCourts();
 	$this->page['texts'] = $this->getTexts();
-
-	/*$profiles = Profile::whereHas('licences', function($query) {
-				 $query->where('type', 'ceseda')->whereHas('attestations', function($query) {
-				     $query->whereHas('languages', function($query) { 
-					 $query->where('alpha_2', 'ba');
-				     });
-				  });
-			      })->whereHas('member', function($query) {
-				      $query->where('member_list', 1);
-			      })->get();
-
-	foreach ($profiles as $profile) {
-	  echo $profile->last_name;
-	}*/
     }
 
     protected function listMembers()
@@ -75,7 +61,8 @@ class MemberList extends ComponentBase
 
     protected function getTexts()
     {
-	$codes = ['appeal_court' => 'profile::licence', 'court' => 'profile::licence', 'interpreter' => 'profile::licence', 'translator' => 'profile::licence'];
+      $codes = ['appeal_court' => 'profile::licence', 'court' => 'profile::licence',
+		'interpreter' => 'profile::licence', 'translator' => 'profile::licence', 'cassation' => 'profile::licence'];
 	$texts = [];
 
 	foreach ($codes as $code => $nameSpace) {
@@ -91,41 +78,37 @@ class MemberList extends ComponentBase
         $data = post();
 	$this->prepareVars();
 
-//file_put_contents('debog_file.txt', print_r($data, true));
-//return;
-	//\DB::enableQueryLog(); // Enable query log
         // Searches members from the Profile relationship as it contained most of the relevant data.
 	$this->profiles = Profile::whereHas('licences', function($query) use($data) {
 
 			      if (!empty($data['licence_type'])) {
-				 $query->where('type', $data['licence_type']);
+				  $query->where('type', $data['licence_type']);
 
-				 if (isset($data['appeal_court_ids']) || isset($data['court_ids'])) {
-				     $attributeName = ($data['licence_type'] == 'expert') ? 'appeal_court_id' : 'court_id';
-				     $ids = (isset($data['appeal_court_ids'])) ? $data['appeal_court_ids'] : $data['court_ids'];
-				     $query->whereIn($attributeName, $ids);
-				 }
+				  if (isset($data['appeal_court_ids']) || isset($data['court_ids'])) {
+				      $attributeName = ($data['licence_type'] == 'expert') ? 'appeal_court_id' : 'court_id';
+				      $ids = (isset($data['appeal_court_ids'])) ? $data['appeal_court_ids'] : $data['court_ids'];
+				      $query->whereIn($attributeName, $ids);
+				  }
 			      }
 
 			      $query->whereHas('attestations', function($query) use($data) {
 				  //
-				  $query->whereHas('languages', function($query) use($data) { 
-				      if (isset($data['languages'])) {
-					  $query->whereIn('alpha_2', $data['languages']);
+				  if (isset($data['languages'])) {
+				      foreach ($data['languages'] as $language) {
+					  $query->whereHas('languages', function($query) use($data, $language) { 
+						  //$query->whereIn('alpha_2', $data['languages']);
+						  $query->where('alpha_2', $language);
 
-					  if ($data['licence_type'] == 'expert' && !empty($data['expert_skill'])) {
-					      $query->where($data['expert_skill'], 1);
-					  }
+						  if ($data['licence_type'] == 'expert' && !empty($data['expert_skill'])) {
+						      $query->where($data['expert_skill'], 1);
+						  }
+					  }); 
 				      }
-				  });
+				  }
 			      });
 			  })->whereHas('member', function($query) {
 			      $query->where('member_list', 1);
 			  })->get();
-	//var_dump(\DB::getQueryLog()); // Show results of log
-	/*$this->profiles = Profile::whereHas('licences', function($query) use($data) {
-					   $query->where('type', 'expert')->where('appeal_court_id', 14);
-	})->get();*/
 
         return ['#members' => $this->renderPartial('@members')];
     }

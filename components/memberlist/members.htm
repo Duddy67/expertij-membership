@@ -36,7 +36,13 @@
 					<p class="d-inline">{{ languages[language.alpha_2] }}</p>
 					{% if licence.type == 'expert' %}	
 					    <p class="d-inline">{{ (language.interpreter) ? texts.interpreter : '' }}</p>
+					    {% if language.interpreter %}	
+						<p class="d-inline">{{ (language.interpreter_cassation) ? texts.cassation: '' }}</p>
+					    {% endif %}
 					    <p class="d-inline">{{ (language.translator) ? texts.translator : '' }}</p>
+					    {% if language.translator %}	
+						<p class="d-inline">{{ (language.translator_cassation) ? texts.cassation: '' }}</p>
+					    {% endif %}
 					{% endif %}
 				    </div>
 				{% endfor %}

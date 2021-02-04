@@ -51,18 +51,35 @@
 		      <input type="text" name="_language_<?php echo $language->attributes['ordering']; ?>" class="form-control"
 			     disabled="disabled" value="<?= e(trans('codalia.profile::lang.language.'.$language->alpha_2)) ?>">
 		  </div>
-		  <div class="col-sm-6">
-		      <div class="form-group text-field span-left">
-			  <label for="Form-field-Language-interpreter-<?php echo $language->id; ?>">Interpreter</label>
-			  <?php $interpreter = ($language->interpreter) ? 'Yes' : 'No'; ?>
-			  <input type="text" name="_interpreter_<?php echo $language->id; ?>" class="form-control" disabled="disabled" value="<?php echo $interpreter; ?>">
+
+		  <?php if ($licence->type == 'expert') : ?>
+		      <div class="col-sm-6">
+			  <div class="form-group text-field span-left">
+			      <label for="Form-field-Language-interpreter-<?php echo $language->id; ?>">Interpreter</label>
+			      <?php $interpreter = ($language->interpreter) ? 'Yes' : 'No'; ?>
+			      <input type="text" name="_interpreter_<?php echo $language->id; ?>" class="form-control" disabled="disabled" value="<?php echo $interpreter; ?>">
+			  </div>
+			  <?php if ($language->interpreter) : ?>
+			      <div class="form-group text-field span-right">
+				  <label for="Form-field-Language-interpreter-cassation-<?php echo $language->id; ?>">Cassation</label>
+				  <?php $cassation = ($language->interpreter_cassation) ? 'Yes' : 'No'; ?>
+				  <input type="text" name="_interpreter_cassation_<?php echo $language->id; ?>" class="form-control" disabled="disabled" value="<?php echo $cassation; ?>">
+			      </div>
+			  <?php endif; ?>
+			  <div class="form-group text-field span-left">
+			      <label for="Form-field-Language-translator-<?php echo $language->id; ?>">Translator</label>
+			      <?php $translator = ($language->translator) ? 'Yes' : 'No'; ?>
+			      <input type="text" name="_translator_<?php echo $language->id; ?>" class="form-control" disabled="disabled" value="<?php echo $translator; ?>">
+			  </div>
+			  <?php if ($language->translator) : ?>
+			      <div class="form-group text-field span-right">
+				  <label for="Form-field-Language-translator-cassation-<?php echo $language->id; ?>">Cassation</label>
+				  <?php $cassation = ($language->translator_cassation) ? 'Yes' : 'No'; ?>
+				  <input type="text" name="_translator_cassation_<?php echo $language->id; ?>" class="form-control" disabled="disabled" value="<?php echo $cassation; ?>">
+			      </div>
+			  <?php endif; ?>
 		      </div>
-		      <div class="form-group text-field span-right">
-			  <label for="Form-field-Language-translator-<?php echo $language->id; ?>">Translator</label>
-			  <?php $translator = ($language->translator) ? 'Yes' : 'No'; ?>
-			  <input type="text" name="_translator_<?php echo $language->id; ?>" class="form-control" disabled="disabled" value="<?php echo $translator; ?>">
-		      </div>
-		  </div>
+		  <?php endif; ?>
 	<?php endforeach; ?>
     <?php endforeach; ?>
     <div class="form-group col-sm-12">
