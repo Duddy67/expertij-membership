@@ -1,3 +1,10 @@
+<?php if ($model->profile->honorary_member) : ?>                
+   <div class="panel panel-info">
+       <div class="panel-heading">Information</div>
+       <div class="panel-body">The honorary members have no licences.</div>
+   </div>
+<?php endif; ?>
+
 <?php $appealCourts = $model->getAppealCourts(); 
       $courts = $model->getCourts(); ?>
 

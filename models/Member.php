@@ -37,7 +37,7 @@ class Member extends Model
     public $rules = [
 	//'attestation' => 'required_if:_context,membership|mimes:pdf', // Only active during registration.
 	//'photo' => 'required_if:_context,membership|mimes:jpg,png',   // Only active during registration.
-	'membership.since' => 'sometimes|required|between:4,4',
+	//'membership.since' => 'sometimes|required|between:4,4',
     ];
 
     /**
@@ -129,13 +129,18 @@ class Member extends Model
 	// NB. The validation has been performed earlier in the code.
 	$member->save();
 
-	$member->update($data['membership']);
-
 	// Creates an empty insurance.
 	$insurance = new Insurance;
 	$member->insurance()->save($insurance);
 
 	$profile->member = $member;
+
+	// Honorary members don't have a professional situation.
+	if ($profile->honorary_member) {
+	    return $member;
+	}
+
+	$member->update($data['membership']);
 
 	return $member;
     }
