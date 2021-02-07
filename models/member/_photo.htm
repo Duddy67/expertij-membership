@@ -1,0 +1,8 @@
+<?php $path = ($model->profile->photo) ? $model->profile->photo->getThumb(100, 100) : $model->getBlankProfileUrl(); ?>                
+<div class="form-group  span-left">
+    <div>
+	<?php $size = ($model->profile->photo) ? '' : 'width="'.$model->getThumbnailSize()['width'].'" height="'.$model->getThumbnailSize()['height'].'"'; ?>
+	<img src="<?php echo $path; ?>" <?php echo $size; ?> />
+    </div>
+</div>
+

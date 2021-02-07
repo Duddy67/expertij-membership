@@ -81,8 +81,6 @@ class Member extends ComponentBase
 	    }
 	}
 
-	$thumbSize = explode(':', Settings::get('photo_thumbnail', '100:100'));
-	$this->page['thumbSize'] = ['width' => $thumbSize[0], 'height' => $thumbSize[1]];
 	$this->page['flags'] = ['payment' => $payment, 'candidate' => ($this->member->member_since === null) ? true : false,
 				'freePeriod' => ($this->member->free_period && $this->member->member_since) ? true : false];
 	$this->page['documents'] = $this->loadDocuments($this->member->categories);
@@ -136,38 +134,27 @@ class Member extends ComponentBase
 	return $texts;
     }
 
-    public function onReplaceFile()
+    public function onReplaceAttestation()
     {
-	$data = post();
+        $file = null;
 
-	if (@!$relationship = $this->relationships[$data['file_type']]) {
-	    return;
-	}
-
-	$rules = [$data['file_type'] => $this->fileRules[$data['file_type']]];
-
-	$validation = Validator::make(Input::all(), $rules);
-	if ($validation->fails()) {
-	    throw new ValidationException($validation);
-	}
-
-	if (Input::hasFile($data['file_type'])) {
-	    $file = (new File())->fromPost(Input::file($data['file_type']));
+	if (Input::hasFile('attestation')) {
+	    $file = (new File())->fromPost(Input::file('attestation'));
 	    $member = $this->loadMember();
 
-	    $member->$relationship()->add($file);
+	    $member->attestation()->add($file);
 	    $member->forceSave();
+	}
+	else {
+	    return;
 	}
 
         Flash::success(Lang::get('codalia.membership::lang.action.file_replace_success'));
 
-	$newFile = '<a target="_blank" href="'.$file->getPath().'">'.$file->file_name.'</a>'; 
-	$newFile = ($data['file_type'] == 'photo') ? '<img src="'.$file->getThumb(100, 100).'" />' : $newFile;
-
-	return[
-	  '#new-'.$data['file_type'] => $newFile,
-	  // Replaces the old file input by a new one to clear the previous file selection. 
-	  '#'.$data['file_type'].'-file-input' => '<input type="file" name="'.$data['file_type'].'" class="form-control">'
+	return [
+	  '#new-attestation' => '<a target="_blank" href="'.$file->getPath().'">'.$file->file_name.'</a>', 
+	  // Replaces the old file input by a new one to clear the previous file selection.
+	  '#attestation-file-input' => '<input type="file" name="attestation" class="form-control" id="inputAttestation">'
 	];
     }
 

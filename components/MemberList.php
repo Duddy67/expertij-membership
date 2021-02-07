@@ -2,7 +2,6 @@
 
 use Cms\Classes\ComponentBase;
 use Codalia\Membership\Models\Member as MemberModel;
-use Codalia\Membership\Models\Settings;
 use Codalia\Profile\Models\Profile;
 use Codalia\Profile\Models\Licence;
 use Flash;
@@ -40,8 +39,8 @@ class MemberList extends ComponentBase
      */
     public function prepareVars()
     {
-	$thumbSize = explode(':', Settings::get('photo_thumbnail', '100:100'));
-	$this->page['thumbSize'] = ['width' => $thumbSize[0], 'height' => $thumbSize[1]];
+	$this->page['thumbSize'] = Profile::getThumbnailSize();
+	$this->page['blankProfile'] = Profile::getBlankProfileUrl();
 	$this->page['languages'] = $this->getLanguages();
 	$this->page['licenceTypes'] = $this->getLicenceTypes();
 	$this->page['appealCourts'] = Profile::getAppealCourts();

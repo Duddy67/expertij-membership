@@ -9,26 +9,33 @@
       <li class="nav-item">
 	  <a href="#informations" class="nav-link active" data-toggle="tab">Informations</a>
       </li>
-      <li class="nav-item">
-	  <a href="#pro-status" class="nav-link" data-toggle="tab">Professional status</a>
-      </li>
+
+      {% if not member.profile.honorary_member %}
+	  <li class="nav-item">
+	      <a href="#pro-status" class="nav-link" data-toggle="tab">Professional status</a>
+	  </li>
+      {% endif %}
+
       {% if flags.payment %}
-	<li class="nav-item">
-	    <a href="#payment" class="nav-link" data-toggle="tab">Payment</a>
-	</li>
+	  <li class="nav-item">
+	      <a href="#payment" class="nav-link" data-toggle="tab">Payment</a>
+	  </li>
       {% endif %}
+
       {% if member.status == 'member' and member.insurance.status != 'running' %}
-	<li class="nav-item">
-	    <a href="#insurance" class="nav-link" data-toggle="tab">Insurance</a>
-	</li>
+	  <li class="nav-item">
+	      <a href="#insurance" class="nav-link" data-toggle="tab">Insurance</a>
+	  </li>
       {% endif %}
+
       <li class="nav-item">
 	  <a href="#documents" class="nav-link" data-toggle="tab">Documents</a>
       </li>
+
       {% if not flags.candidate %}
-	<li class="nav-item">
-	    <a href="#invoices" class="nav-link" data-toggle="tab">Invoices</a>
-	</li>
+	  <li class="nav-item">
+	      <a href="#invoices" class="nav-link" data-toggle="tab">Invoices</a>
+	  </li>
       {% endif %}
   </ul>
 
@@ -36,20 +43,22 @@
 
       {% partial __SELF__ ~ '::informations' %}
 
-      {% partial __SELF__ ~ '::pro-status' %}
+      {% if not member.profile.honorary_member %}
+	  {% partial __SELF__ ~ '::pro-status' %}
+      {% endif %}
 
       {% if flags.payment %}
-	{% partial __SELF__ ~ '::payment' %}
+	  {% partial __SELF__ ~ '::payment' %}
       {% endif %}
 
       {% if member.status == 'member' and member.insurance.status != 'running' %}
-	{% partial __SELF__ ~ '::insurance' %}
+	  {% partial __SELF__ ~ '::insurance' %}
       {% endif %}
 
       {% partial __SELF__ ~ '::documents' %}
 
       {% if not flags.candidate %}
-	{% partial __SELF__ ~ '::invoices' %}
+	  {% partial __SELF__ ~ '::invoices' %}
       {% endif %}
 
   </div>

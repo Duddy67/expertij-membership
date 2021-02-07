@@ -103,7 +103,6 @@ class Member extends Model
     public $morphOne = [];
     public $morphMany = [];
     public $attachOne = [
-        'photo' => ['System\Models\File', 'delete' => true],
         'attestation' => ['System\Models\File', 'delete' => true],
     ];
     public $attachMany = [
@@ -179,6 +178,16 @@ class Member extends Model
     public function getCourts()
     {
         return Profile::getCourts();
+    }
+
+    public function getThumbnailSize()
+    {
+        return Profile::getThumbnailSize();
+    }
+
+    public function getBlankProfileUrl()
+    {
+        return Profile::getBlankProfileUrl();
     }
 
     /*

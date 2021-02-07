@@ -41,11 +41,11 @@ secondaryTabs:
             mode: datetime
             disabled: true
 
-        attestations:
-            tab: codalia.membership::lang.member.tab_documents
+        _photo:
+            tab: codalia.membership::lang.member.tab_profile
             span: left
             type: partial
-            path: ~/plugins/codalia/membership/models/member/_files.htm
+            path: '$/codalia/membership/models/member/_photo.htm'
 
         profile[last_name]:
             tab: codalia.membership::lang.member.tab_profile
@@ -144,6 +144,12 @@ secondaryTabs:
             span: left
             type: partial
             path: '$/codalia/membership/models/member/_licences.htm'
+
+        pro_status:
+            tab: codalia.membership::lang.member.tab_pro_status
+            span: left
+            type: partial
+            path: '$/codalia/membership/models/member/_pro_status.htm'
 
         _votes:
             tab: codalia.membership::lang.member.tab_votes

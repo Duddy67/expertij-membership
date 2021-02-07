@@ -66,10 +66,3 @@ tabs:
             label: codalia.membership::lang.global_settings.insurance_fee_f2
             comment: codalia.membership::lang.global_settings.insurance_fee_f2_comment
             type: text 
-
-        photo_thumbnail:
-            tab: codalia.membership::lang.global_settings.tab_images
-            span: left
-            label: codalia.membership::lang.global_settings.photo_thumbnail
-            comment: codalia.membership::lang.global_settings.photo_thumbnail_comment
-            type: text 

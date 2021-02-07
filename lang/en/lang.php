@@ -11,9 +11,9 @@ return [
       'documents' => 'Documents',
     ],
     'member' => [
-      'tab_documents' => 'Documents',
       'tab_profile' => 'Profile',
       'tab_licences' => 'Licences',
+      'tab_pro_status' => 'Professional status',
       'tab_votes' => 'Votes',
       'tab_payments' => 'Payments',
       'tab_insurance' => 'Insurance',
