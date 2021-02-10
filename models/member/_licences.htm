@@ -49,7 +49,9 @@
 	      <div class="form-group  text-field span-right">
 		  <label class="" for="">Attestation</label>
 		  <div>
-		      <a target="_blank" href="<?php echo $attestation->file->path; ?>"><?php echo $attestation->file->file_name; ?></a>
+		      <?php if ($attestation->file) : ?>
+			  <a target="_blank" href="<?php echo $attestation->file->path; ?>"><?php echo $attestation->file->file_name; ?></a>
+		      <?php endif; ?>
 		  </div>
 	      </div>
 	<?php foreach ($attestation->languages as $key => $language) : ?>    

@@ -131,9 +131,10 @@ class Members extends Controller
     public function update_onSaveUser($recordId = null)
     {
 	$data = post();
-        $rules = (new Profile)->rules;
+        //$rules = (new Profile)->_rules;
+        $rules = Profile::getRules();
 
-	$validation = Validator::make($data['Member']['profile'], $rules);
+	$validation = Validator::make($data['Member'], $rules);
 	if ($validation->fails()) {
 	    throw new ValidationException($validation);
 	}

@@ -113,11 +113,6 @@ class Plugin extends PluginBase
 		$member->forceSave();
 	    }
 
-	    if (Input::hasFile('photo')) {
-		$member->photo = Input::file('photo');
-		$member->forceSave();
-	    }
-
 	    EmailHelper::instance()->afterRegistration($member);
 	});
 
@@ -212,11 +207,6 @@ class Plugin extends PluginBase
 			'icon'        => 'icon-users',
 			'url'         => Backend::url('codalia/membership/members'),
 		    ],
-		    'categories' => [
-			'label'       => 'codalia.membership::lang.membership.categories',
-			'icon'        => 'icon-sitemap',
-			'url'         => Backend::url('codalia/membership/categories'),
-		    ],
 		    'documents' => [
 			'label'       => 'codalia.membership::lang.membership.documents',
 			'icon'        => 'icon-files-o',
@@ -230,7 +220,6 @@ class Plugin extends PluginBase
 
 	// Limited access for decision maker.
 	if ($user->role->code == 'decision-maker') {
-	    unset($navigation['membership']['sideMenu']['categories']);
 	    unset($navigation['membership']['sideMenu']['documents']);
 	}
 

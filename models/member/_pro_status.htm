@@ -28,7 +28,9 @@
 <div class="form-group  text-field span-left">
     <label class="" for="">Attestation</label>
     <div>
-	<a target="_blank" href="<?php echo $model->attestation->path; ?>"><?php echo $model->attestation->file_name; ?></a>
+	<?php if ($model->attestation) : ?>
+	    <a target="_blank" href="<?php echo $model->attestation->path; ?>"><?php echo $model->attestation->file_name; ?></a>
+        <?php endif; ?>
     </div>
 </div>
 <?php endif; ?>

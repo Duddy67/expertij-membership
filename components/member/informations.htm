@@ -37,11 +37,11 @@
 		    <label for="member-list-no">No</label>
 		</div>
 	    </div>
-	{% endif %}
 
-      <div class="form-group col-sm-6">
-	  <button type="submit" id="btn-update" class="btn btn-success">Update</button>
-      </div>
+	    <div class="form-group col-sm-6">
+		<button type="submit" id="btn-update" class="btn btn-success">Update</button>
+	    </div>
+	{% endif %}
     {{ form_close() }}
 
     {% if member.status == 'pending_renewal' %}

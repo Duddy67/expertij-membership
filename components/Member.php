@@ -205,11 +205,11 @@ class Member extends ComponentBase
     public function onUpdate()
     {
 	$data = post();
-        $rules = (new MemberModel)->rules;
 
-	// Data comes from the pro status form.
-	if (isset($data['pro_status'])) {
-	    $update = $data['pro_status'];
+	// Data comes from the main form.
+	if (isset($data['membership'])) {
+	    $update = $data['membership'];
+	    $rules = MemberModel::getRules();
 	}
 	// or from the information form.
 	else {

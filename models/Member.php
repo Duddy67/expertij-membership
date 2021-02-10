@@ -34,18 +34,7 @@ class Member extends Model
     /**
      * @var array Validation rules for attributes
      */
-    public $rules = [
-	//'attestation' => 'required_if:_context,membership|mimes:pdf', // Only active during registration.
-	//'photo' => 'required_if:_context,membership|mimes:jpg,png',   // Only active during registration.
-	//'membership.since' => 'sometimes|required|between:4,4',
-    ];
-
-    /**
-     * @var array Rule  messages for attributes
-     */
-    public $ruleMessages = [
-	//'attestation.required_if' => 'The :attribute field is required.',
-    ];
+    public $rules = [];
 
     /**
      * @var array Attributes to be cast to native types
@@ -168,6 +157,23 @@ class Member extends Model
 		'company' => 'codalia.membership::lang.profile.company',
 		'other' => 'codalia.membership::lang.profile.other',
 	];
+    }
+
+    public static function getRules()
+    {
+	$rules = [
+	    'membership.pro_status' => 'required',
+	    'membership.since' => 'required',
+	    'membership.pro_status_info' => 'required_if:membership.pro_status,other|between:2,30',
+	    'membership.siret_number' => 'required|size:14',
+	    'membership.naf_code' => 'required|size:5',
+	];
+
+	if (\Session::has('registration_context')) {
+	    $rules['attestation'] = 'required|mimes:pdf';
+	}
+
+	return $rules;
     }
 
     public function getAppealCourts()

@@ -4,16 +4,17 @@
 	<div class="row">
 	    <div class="form-group col-sm-6">
 		<label for="inputProStatus">{{ sharedFields.pro_status }}</label>
-		<select name="pro_status[pro_status]" class="form-control custom-select" id="inputProStatus">
-		  {% for value, text in sharedFields.pro_status_options %}
-		      <option value="{{ value }}" {{ (member.pro_status == value) ? 'selected' : '' }}>{{ sharedFields[value] }}</option>
-		  {% endfor %}
+		<select name="membership[pro_status]" class="form-control custom-select" id="inputProStatus">
+		    <option value="">- Select -</option>
+		    {% for value, text in sharedFields.pro_status_options %}
+			<option value="{{ value }}" {{ (member.pro_status == value) ? 'selected' : '' }}>{{ sharedFields[value] }}</option>
+		    {% endfor %}
 		</select>
 	    </div>
 
 	    <div class="form-group col-sm-6">
 		<label for="inputSince">{{ sharedFields.since }}</label>
-		<select name="pro_status[since]" class="form-control" id="inputSince">
+		<select name="membership[since]" class="form-control" id="inputSince">
 		    <option value="">- Select -</option>
 		    {% for year in years %}
 			<option value="{{ year }}" {{ (member.since == year) ? 'selected' : '' }}>{{ year }}</option>
@@ -25,25 +26,25 @@
 	<div class="row">
 	    <div class="form-group col-sm-6">
 		<label for="inputProStatusInfo">{{ sharedFields.pro_status_info}}</label>
-		<input type="text" name="pro_status[pro_status_info]" class="form-control" id="inputProStatusInfo">
+		<input type="text" name="membership[pro_status_info]" class="form-control" id="inputProStatusInfo" value="{{ member.pro_status_info }}">
 	    </div>
 	</div>
 
 	<div class="row">
 	    <div class="form-group col-sm-6">
 		<label for="inputSiretNumber">{{ sharedFields.siret_number }}</label>
-		<input type="text" name="pro_status[siret_number]" class="form-control" id="inputSiretNumber" value="{{ member.siret_number }}">
+		<input type="text" name="membership[siret_number]" class="form-control" id="inputSiretNumber" value="{{ member.siret_number }}">
 	    </div>
 
 	    <div class="form-group col-sm-6">
 		<label for="inputNafCode">{{ sharedFields.naf_code }}</label>
-		<input type="text" name="pro_status[naf_code]" class="form-control" id="inputNafCode" value="{{ member.naf_code }}">
+		<input type="text" name="membership[naf_code]" class="form-control" id="inputNafCode" value="{{ member.naf_code }}">
 	    </div>
 	</div>
 
 	<div class="row">
 	    <div class="form-group col-sm-6">
-		<button type="submit" id="btn-update" class="btn btn-success">Update</button>
+		<button type="submit" id="btn-update-pro-status" class="btn btn-success">Update</button>
 	    </div>
 	</div>
     {{ form_close() }}
