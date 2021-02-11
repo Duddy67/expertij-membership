@@ -176,6 +176,26 @@ class Member extends Model
 	return $rules;
     }
 
+    public static function getValidationRuleAttributes()
+    {
+        $rules = Member::getRules();
+	$attributes = [];
+
+	foreach ($rules as $attribute => $rule) {
+	    $lang = str_replace('membership.', '', $attribute);
+	    $attributes[$attribute] = 'codalia.membership::lang.profile.'.$lang;
+	}
+
+	return $attributes;
+    }
+
+    public static function getValidationRuleMessages()
+    {
+        $messages = [];
+
+	return $messages;
+    }
+
     public function getAppealCourts()
     {
         return Profile::getAppealCourts();
@@ -199,9 +219,9 @@ class Member extends Model
     /*
      * Used by the Profile plugin in the registration form.
      */
-    public static function getSharedFields()
+    public static function getHostedFields()
     {
-	$sharedFields = ['attestation' => 'codalia.membership::lang.profile.attestation',
+	$hostedFields = ['attestation' => 'codalia.membership::lang.profile.attestation',
 			 'pro_status' => 'codalia.membership::lang.profile.pro_status',
 			 'pro_status_info' => 'codalia.membership::lang.profile.pro_status_info',
 			 'liberal_profession' => 'codalia.membership::lang.profile.liberal_profession',
@@ -211,12 +231,11 @@ class Member extends Model
 			 'siret_number' => 'codalia.membership::lang.profile.siret_number',
 			 'since' => 'codalia.membership::lang.profile.since',
 			 'naf_code' => 'codalia.membership::lang.profile.naf_code',
-			 'photo' => 'codalia.membership::lang.profile.photo'
 	];
 
-	$sharedFields['pro_status_options'] = Member::getProStatusOptionData();
+	$hostedFields['pro_status_options'] = Member::getProStatusOptionData();
 
-        return $sharedFields;
+        return $hostedFields;
     }
 
     /**

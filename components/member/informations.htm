@@ -13,8 +13,8 @@
 
     {{ form_ajax('onUpdate', {flash: ''}) }}
 	<div class="form-group col-sm-6">
-	    <label>{{ sharedFields.categories }}</label>
-	    {% for id, name in sharedFields.category_options %}
+	    <label>{{ hostedFields.categories }}</label>
+	    {% for id, name in hostedFields.category_options %}
 		<div>
 		    <input type="checkbox"  id="{{ id }}" name="categories[]" value="{{ id }}" {{ (id in categoryIds) ? 'checked' : '' }}>
 		    <label for="{{ id }}">{{ name }}</label>

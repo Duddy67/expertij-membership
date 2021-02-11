@@ -71,20 +71,20 @@ class Member extends ComponentBase
 	    $payment = false;
 	}
 
-	$sharedFields = MemberModel::getSharedFields();
+	$hostedFields = MemberModel::getHostedFields();
 
-	foreach ($sharedFields as $key => $value) {
+	foreach ($hostedFields as $key => $value) {
 	    // Ensures a language variable is available.
 	    if (!is_array($value) && strpos($value, '::lang') !== false) {
 		// Replaces the language variable with the actual label.
-		$sharedFields[$key] = Lang::get($value);
+		$hostedFields[$key] = Lang::get($value);
 	    }
 	}
 
 	$this->page['flags'] = ['payment' => $payment, 'candidate' => ($this->member->member_since === null) ? true : false,
 				'freePeriod' => ($this->member->free_period && $this->member->member_since) ? true : false];
 	$this->page['documents'] = $this->loadDocuments($this->member->categories);
-	$this->page['sharedFields'] = $sharedFields;
+	$this->page['hostedFields'] = $hostedFields;
 	$this->page['years'] = Profile::getYears();
 	$this->page['categoryIds'] = $this->member->categories->pluck('id')->toArray();
 	$this->page['texts'] = $this->getTexts();
