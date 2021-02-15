@@ -131,8 +131,11 @@ class Members extends Controller
     public function update_onSaveUser($recordId = null)
     {
 	$data = post();
-        //$rules = (new Profile)->_rules;
         $rules = Profile::getRules();
+	// Removes the unecessary rules.
+	unset($rules['email']);
+	unset($rules['password']);
+	unset($rules['password_confirmation']);
 
 	$validation = Validator::make($data['Member'], $rules);
 	if ($validation->fails()) {

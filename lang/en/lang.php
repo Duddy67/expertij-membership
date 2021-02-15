@@ -196,6 +196,7 @@ return [
     // Variables used with the Profile plugin.
     'profile' => [
       'attestation' => 'Attestation',
+      'membership__attestation' => 'Attestation',
       'photo' => 'Photo',
       'pro_status' => 'Professional status',
       'liberal_profession' => 'Liberal profession',

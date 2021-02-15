@@ -143,7 +143,7 @@ class Member extends ComponentBase
 	    $member = $this->loadMember();
 
 	    $member->attestation()->add($file);
-	    $member->forceSave();
+	    $member->save();
 	}
 	else {
 	    return;

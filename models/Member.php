@@ -170,7 +170,7 @@ class Member extends Model
 	];
 
 	if (\Session::has('registration_context')) {
-	    $rules['attestation'] = 'required|mimes:pdf';
+	    $rules['membership__attestation'] = 'required|mimes:pdf';
 	}
 
 	return $rules;

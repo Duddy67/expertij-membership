@@ -106,8 +106,8 @@ class Plugin extends PluginBase
 	    // Ensures that a profile model always exists.
 	    $member = MemberModel::getFromProfile($profile, $data);
 
-	    if (Input::hasFile('attestation') && !$profile->honorary_member) {
-		$member->attestation = Input::file('attestation');
+	    if (Input::hasFile('membership__attestation') && !$profile->honorary_member) {
+		$member->attestation = Input::file('membership__attestation');
 		$member->save();
 	    }
 
