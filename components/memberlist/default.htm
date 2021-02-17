@@ -7,54 +7,54 @@
 
 <div class="row">
     <div class="form-group col-sm-3">
-	<label for="languages">Languages</label>
-	<select name="languages[]" class="form-control js-example-basic-multiple" multiple="multiple" data-request="onFilterMembers" id="languages">
-	    {% for value, text in languages %}
-		<option value="{{ value }}">{{ text }}</option>
-	    {% endfor %}
-	</select>
+	<label for="languages">{{ texts['filter.languages'] }}</label>
+	    <select name="languages[]" class="form-control js-example-basic-multiple" multiple="multiple" data-request="onFilterMembers" id="languages">
+		{% for value, text in languages %}
+		    <option value="{{ value }}">{{ text }}</option>
+		{% endfor %}
+	    </select>
     </div>
 
     <div class="form-group col-sm-2">
-	<label for="licence-type">Type</label>
-	<select name="licence_type" class="form-control" data-request="onFilterMembers" id="licence-type">
-	    <option value="">- All -</option>
-	    {% for value, text in licenceTypes %}
-		<option value="{{ value }}">{{ text }}</option>
-	    {% endfor %}
-	</select>
+	<label for="licence-type">{{ texts['filter.type'] }}</label>
+	    <select name="licence_type" class="form-control" data-request="onFilterMembers" id="licence-type">
+		<option value="">{{ texts['action.all'] }}</option>
+		{% for value, text in licenceTypes %}
+		    <option value="{{ value }}">{{ text }}</option>
+		{% endfor %}
+	    </select>
     </div>
 
     <div class="form-group col-sm-2">
-	<label for="expert-skill">Skill</label>
-	<select name="expert_skill" class="form-control" data-request="onFilterMembers" id="expert-skill">
-	    <option value="">- All -</option>
-	    <option value="interpreter">Interpreter</option>
-	    <option value="translator">Translator</option>
-	</select>
+	<label for="expert-skill">{{ texts['filter.skill'] }}</label>
+	    <select name="expert_skill" class="form-control" data-request="onFilterMembers" id="expert-skill">
+		<option value="">{{ texts['action.all'] }}</option>
+		<option value="interpreter">{{ texts['profile.interpreter'] }}</option>
+		<option value="translator">{{ texts['profile.translator'] }}</option>
+	    </select>
     </div>
 
     <div class="form-group col-sm-3">
-	<label for="appeal-courts">Appeal courts</label>
-	<select name="appeal_court_ids[]" class="form-control js-example-basic-multiple" multiple="multiple" data-request="onFilterMembers" id="appeal-courts">
-	    {% for value, text in appealCourts %}
-		<option value="{{ value }}">{{ text }}</option>
-	    {% endfor %}
-	</select>
+	<label for="appeal-courts">{{ texts['filter.appeal_courts'] }}</label>
+	    <select name="appeal_court_ids[]" class="form-control js-example-basic-multiple" multiple="multiple" data-request="onFilterMembers" id="appeal-courts">
+		{% for value, text in appealCourts %}
+		    <option value="{{ value }}">{{ text }}</option>
+		{% endfor %}
+	    </select>
     </div>
 
     <div class="form-group col-sm-3">
-	<label for="courts">Court</label>
-	<select name="court_ids[]" class="form-control js-example-basic-multiple" multiple="multiple" data-request="onFilterMembers" id="courts">
-	    {% for value, text in courts %}
-		<option value="{{ value }}">{{ text }}</option>
-	    {% endfor %}
-	</select>
+	<label for="courts">{{ texts['filter.courts'] }}</label>
+	    <select name="court_ids[]" class="form-control js-example-basic-multiple" multiple="multiple" data-request="onFilterMembers" id="courts">
+		{% for value, text in courts %}
+		    <option value="{{ value }}">{{ text }}</option>
+		{% endfor %}
+	    </select>
     </div>
 </div>
 
     <button type="button" data-request="onFilterMembers" id="reset-filters"
-			  class="btn btn-success" id="">Reset</button>
+			  class="btn btn-success">{{ texts['action.reset'] }}</button>
 {{ form_close() }}
 
 <div id="members">

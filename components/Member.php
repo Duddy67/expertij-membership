@@ -6,7 +6,6 @@ use Codalia\Membership\Models\Payment;
 use Codalia\Membership\Models\Settings;
 use Codalia\Profile\Models\Profile;
 use Codalia\Membership\Models\Document;
-use Codalia\Membership\Helpers\EmailHelper;
 use Auth;
 use Input;
 use Validator;
@@ -71,20 +70,9 @@ class Member extends ComponentBase
 	    $payment = false;
 	}
 
-	$hostedFields = MemberModel::getHostedFields();
-
-	foreach ($hostedFields as $key => $value) {
-	    // Ensures a language variable is available.
-	    if (!is_array($value) && strpos($value, '::lang') !== false) {
-		// Replaces the language variable with the actual label.
-		$hostedFields[$key] = Lang::get($value);
-	    }
-	}
-
 	$this->page['flags'] = ['payment' => $payment, 'candidate' => ($this->member->member_since === null) ? true : false,
 				'freePeriod' => ($this->member->free_period && $this->member->member_since) ? true : false];
 	$this->page['documents'] = $this->loadDocuments($this->member->categories);
-	$this->page['hostedFields'] = $hostedFields;
 	$this->page['years'] = Profile::getYears();
 	$this->page['categoryIds'] = $this->member->categories->pluck('id')->toArray();
 	$this->page['texts'] = $this->getTexts();
@@ -103,7 +91,6 @@ class Member extends ComponentBase
 	    return null;
 	}
 
-	//var_dump($member->name);
 	return $member;
     }
 
@@ -118,17 +105,18 @@ class Member extends ComponentBase
 	return $documents;
     }
 
-    protected function getTexts()
+    private function getTexts()
     {
-	$texts = ['member_status' => Lang::get('codalia.membership::lang.status.'.$this->member->status),
-		  'member_insurance' => Lang::get('codalia.membership::lang.global_settings.insurance_'.$this->member->insurance->code)
-	];
+        $langVars = require 'plugins/codalia/membership/lang/en/lang.php';
+	$texts = [];
+	$sections = ['professional_status', 'profile', 'action', 'attribute', 'status', 'member'];
 
-	$codes = ['profile.appeal_court', 'profile.attestation', 'profile.categories', 'profile.select', 'profile.liberal_profession', 'attribute.status'];
-
-	foreach ($codes as $code) {
-	    $key = substr($code, strpos($code, '.') + 1);
-	    $texts[$key] = Lang::get('codalia.membership::lang.'.$code);
+	foreach ($langVars as $level1 => $section1) {
+	    if (in_array($level1, $sections)) {
+		foreach ($section1 as $level2 => $section2) {
+		    $texts[$level1.'.'.$level2] = Lang::get('codalia.membership::lang.'.$level1.'.'.$level2);
+		}
+	    }
 	}
 
 	return $texts;

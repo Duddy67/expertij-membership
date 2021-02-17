@@ -1,7 +1,7 @@
 <div class="tab-pane fade show active" id="informations">
     <div class="form-group col-sm-6">
-	<label for="inputStatus">{{ texts.status }}</label>
-	<input type="text" name="_status" disabled="disabled" class="form-control" id="inputStatus" value="{{ texts.member_status }}">
+	<label for="inputStatus">{{ texts['attribute.status'] }}</label>
+	<input type="text" name="_status" disabled="disabled" class="form-control" id="inputStatus" value="{{ texts['status.'~member.status] }}">
     </div>
 
     {% if member.insurance.status == 'running' or member.insurance.status == 'pending_renewal' %}

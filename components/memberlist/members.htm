@@ -12,44 +12,51 @@
 			<img src="{{ blankProfile }}" width="{{ thumbSize.width }}" height="{{ thumbSize.height }}" />
 			{% endif %}
 		    </div>
-		    <p class="info">
+		    <p class="info mt-4">
 			{{ profile.street }}<br />
-			{{ profile.postcode }}<br />
-			{{ profile.city }}<br />
+			{{ profile.postcode }} {{ profile.city }}<br />
 			{{ profile.user.email }}
 		    </p>
 		</div>
 
-		<div class="col-sm">
-		    {% for licence in profile.licences %}
-		    <p class="mb-0"><strong>{{ licenceTypes[licence.type] }}</strong></p>
-			{% if licence.type == 'expert' %}	
-			    <p>{{ texts.appeal_court ~': '~ appealCourts[licence.appeal_court_id] }}</p>
-			{% else %}
-			    <p>{{ texts.court ~': '~ courts[licence.court_id] }}</p>
-			{% endif %}
-
-			{% for attestation in licence.attestations %}
-			    {% if attestation.licence_id == licence.id %}	
-				{% for language in attestation.languages %}
-				    <div>
-					<p class="d-inline">{{ languages[language.alpha_2] }}</p>
-					{% if licence.type == 'expert' %}	
-					    <p class="d-inline">{{ (language.interpreter) ? texts.interpreter : '' }}</p>
-					    {% if language.interpreter %}	
-						<p class="d-inline">{{ (language.interpreter_cassation) ? texts.cassation: '' }}</p>
-					    {% endif %}
-					    <p class="d-inline">{{ (language.translator) ? texts.translator : '' }}</p>
-					    {% if language.translator %}	
-						<p class="d-inline">{{ (language.translator_cassation) ? texts.cassation: '' }}</p>
-					    {% endif %}
-					{% endif %}
-				    </div>
-				{% endfor %}
+		{% if profile.honorary_member %}	
+		    <div class="col-sm">
+		      {{ texts['profile.honorary_member'] }}
+		    </div>
+		{% else %}
+		    <div class="col-sm">
+			{% for licence in profile.licences %}
+			<p class="mb-0"><strong>{{ licenceTypes[licence.type] }}</strong></p>
+			    {% if licence.type == 'expert' %}	
+				<p class="mb-1">{{ texts['profile.appeal_court'] ~': '~ appealCourts[licence.appeal_court_id] }}</p>
+			    {% else %}
+				<p class="mb-1">{{ texts['profile.court'] ~': '~ courts[licence.court_id] }}</p>
 			    {% endif %}
+
+			    {% for attestation in licence.attestations %}
+				{% if attestation.licence_id == licence.id %}	
+				    <p class="mb-0"><strong>Language(s)</strong></p>
+				    {% for language in attestation.languages %}
+					<div>
+					    <p class="d-inline">{{ languages[language.alpha_2] }}</p>
+					    {% if licence.type == 'expert' %}	
+						<p class="d-inline">: {{ (language.interpreter) ? texts['profile.interpreter'] : '' }}</p>
+						{% if language.interpreter %}	
+						    <p class="d-inline"><small>{{ (language.interpreter_cassation) ? '('~texts['profile.cassation']~')' : '' }}</small></p>
+						{% endif %}
+						<p class="d-inline">{{ (language.translator) ? '- '~texts['profile.translator'] : '' }}</p>
+						{% if language.translator %}	
+						    <p class="d-inline"><small>{{ (language.translator_cassation) ? '('~texts['profile.cassation']~')' : '' }}</small></p>
+						{% endif %}
+					    {% endif %}
+					</div>
+				    {% endfor %}
+				    <br />
+				{% endif %}
+			    {% endfor %}
 			{% endfor %}
-		    {% endfor %}
-		</div>
+		    </div>
+		{% endif %}
 	    </div>
         </li>
     {% endfor %}

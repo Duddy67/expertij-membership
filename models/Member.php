@@ -152,10 +152,10 @@ class Member extends Model
 
     public static function getProStatusOptionData()
     {
-	return ['liberal_profession' => 'codalia.membership::lang.profile.liberal_profession',
-		'micro_entrepreneur' => 'codalia.membership::lang.profile.micro_entrepreneur',
-		'company' => 'codalia.membership::lang.profile.company',
-		'other' => 'codalia.membership::lang.profile.other',
+	return ['liberal_profession' => 'codalia.membership::lang.professional_status.liberal_profession',
+		'micro_entrepreneur' => 'codalia.membership::lang.professional_status.micro_entrepreneur',
+		'company' => 'codalia.membership::lang.professional_status.company',
+		'other' => 'codalia.membership::lang.professional_status.other',
 	];
     }
 
@@ -183,7 +183,7 @@ class Member extends Model
 
 	foreach ($rules as $attribute => $rule) {
 	    $lang = str_replace('membership.', '', $attribute);
-	    $attributes[$attribute] = 'codalia.membership::lang.profile.'.$lang;
+	    $attributes[$attribute] = 'codalia.membership::lang.professional_status.'.$lang;
 	}
 
 	return $attributes;
@@ -221,16 +221,16 @@ class Member extends Model
      */
     public static function getHostedFields()
     {
-	$hostedFields = ['attestation' => 'codalia.membership::lang.profile.attestation',
-			 'pro_status' => 'codalia.membership::lang.profile.pro_status',
-			 'pro_status_info' => 'codalia.membership::lang.profile.pro_status_info',
-			 'liberal_profession' => 'codalia.membership::lang.profile.liberal_profession',
-			 'micro_entrepreneur' => 'codalia.membership::lang.profile.micro_entrepreneur',
-			 'company' => 'codalia.membership::lang.profile.company',
-			 'other' => 'codalia.membership::lang.profile.other',
-			 'siret_number' => 'codalia.membership::lang.profile.siret_number',
-			 'since' => 'codalia.membership::lang.profile.since',
-			 'naf_code' => 'codalia.membership::lang.profile.naf_code',
+	$hostedFields = ['attestation' => 'codalia.membership::lang.professional_status.attestation',
+			 'pro_status' => 'codalia.membership::lang.professional_status.pro_status',
+			 'pro_status_info' => 'codalia.membership::lang.professional_status.pro_status_info',
+			 'liberal_profession' => 'codalia.membership::lang.professional_status.liberal_profession',
+			 'micro_entrepreneur' => 'codalia.membership::lang.professional_status.micro_entrepreneur',
+			 'company' => 'codalia.membership::lang.professional_status.company',
+			 'other' => 'codalia.membership::lang.professional_status.other',
+			 'siret_number' => 'codalia.membership::lang.professional_status.siret_number',
+			 'since' => 'codalia.membership::lang.professional_status.since',
+			 'naf_code' => 'codalia.membership::lang.professional_status.naf_code',
 	];
 
 	$hostedFields['pro_status_options'] = Member::getProStatusOptionData();

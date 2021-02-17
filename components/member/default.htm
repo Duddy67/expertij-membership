@@ -7,39 +7,39 @@
 {% else %}
   <ul class="nav nav-tabs">
       <li class="nav-item">
-	  <a href="#informations" class="nav-link active" data-toggle="tab">Informations</a>
+	<a href="#informations" class="nav-link active" data-toggle="tab">{{ texts['member.tab_informations'] }}</a>
       </li>
 
       {% if not member.profile.honorary_member %}
 	  <li class="nav-item">
-	      <a href="#pro-status" class="nav-link" data-toggle="tab">Professional status</a>
+	      <a href="#pro-status" class="nav-link" data-toggle="tab">{{ texts['member.tab_pro_status'] }}</a>
 	  </li>
       {% endif %}
 
       {% if flags.payment %}
 	  <li class="nav-item">
-	      <a href="#payment" class="nav-link" data-toggle="tab">Payment</a>
+	      <a href="#payment" class="nav-link" data-toggle="tab">{{ texts['member.tab_payment'] }}</a>
 	  </li>
       {% endif %}
 
       {% if member.status == 'member' and member.insurance.status != 'running' %}
 	  <li class="nav-item">
-	      <a href="#insurance" class="nav-link" data-toggle="tab">Insurance</a>
+	      <a href="#insurance" class="nav-link" data-toggle="tab">{{ texts['member.tab_insurance'] }}</a>
 	  </li>
       {% endif %}
 
       <li class="nav-item">
-	  <a href="#documents" class="nav-link" data-toggle="tab">Documents</a>
+	  <a href="#documents" class="nav-link" data-toggle="tab">{{ texts['member.tab_documents'] }}</a>
       </li>
 
       {% if not flags.candidate %}
 	  <li class="nav-item">
-	      <a href="#invoices" class="nav-link" data-toggle="tab">Invoices</a>
+	      <a href="#invoices" class="nav-link" data-toggle="tab">{{ texts['member.tab_invoices'] }}</a>
 	  </li>
       {% endif %}
   </ul>
 
-  <div class="tab-content" id="member-space">
+  <div class="tab-content mt-4" id="member-space">
 
       {% partial __SELF__ ~ '::informations' %}
 

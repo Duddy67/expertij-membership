@@ -13,7 +13,7 @@ class CreateMembersTable extends Migration
             $table->increments('id');
             $table->integer('profile_id')->unsigned()->index()->nullable()->default(null);
 	    $table->char('status', 20)->default('pending');
-	    $table->boolean('member_list')->nullable();
+	    $table->boolean('member_list')->default(true);
 	    $table->tinyInteger('email_sendings')->unsigned()->default(0);
 	    $table->timestamp('member_since')->nullable();
 	    $table->string('member_number', 30)->nullable();
