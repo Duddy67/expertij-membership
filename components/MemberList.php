@@ -5,6 +5,7 @@ use Codalia\Membership\Models\Member as MemberModel;
 use Codalia\Membership\Helpers\RenewalHelper;
 use Codalia\Profile\Models\Profile;
 use Codalia\Profile\Models\Licence;
+use Auth;
 use Flash;
 use Lang;
 
@@ -30,7 +31,7 @@ class MemberList extends ComponentBase
     public function onRun()
     {
         $this->prepareVars();
-	$this->profiles = $this->listMembers();
+	$this->listMembers();
     }
 
     /**
@@ -50,7 +51,7 @@ class MemberList extends ComponentBase
     protected function listMembers()
     {
 	// Loads members from the Profile relationship as it contained most of the relevant data to search for.
-	$profiles = Profile::whereHas('member', function($query) {  
+	$this->profiles = Profile::whereHas('member', function($query) {  
 		        $query->where('member_list', 1)->where(function ($query) {
 			    $query->where('status', 'member');
 
@@ -63,7 +64,23 @@ class MemberList extends ComponentBase
 			});
 		     })->get();
 
-	return $profiles;
+	return $this->profiles;
+    }
+
+    protected function loadMember()
+    {
+        // Gets the current user.
+        $user = Auth::getUser();
+	// Loads the corresponding member through the profile_id attribute.
+	$profileId = Profile::where('user_id', $user->id)->pluck('id');
+	$member = new MemberModel;
+	$member = $member->where('profile_id', $profileId);
+
+	if (($member = $member->first()) === null) {
+	    return null;
+	}
+
+	return $member;
     }
 
     private function getTexts()
@@ -112,7 +129,6 @@ class MemberList extends ComponentBase
 				      if (isset($data['languages'])) {
 					  foreach ($data['languages'] as $language) {
 					      $query->whereHas('languages', function($query) use($data, $language) { 
-						      //$query->whereIn('alpha_2', $data['languages']);
 						      $query->where('alpha_2', $language);
 
 						      if ($data['licence_type'] == 'expert' && !empty($data['expert_skill'])) {
@@ -137,6 +153,18 @@ class MemberList extends ComponentBase
 	}
 
         return ['#members' => $this->renderPartial('@members')];
+    }
+
+    public function onExport()
+    {
+	$this->onFilterMembers();
+	foreach ($this->profiles as $profile) {
+	    file_put_contents('debog_file.txt', print_r($profile->last_name, true));
+	}
+
+	$member = $this->loadMember();
+
+	return \Redirect::to('export.php')->with('file', $member->attestation);
     }
 
     public function getLanguages()

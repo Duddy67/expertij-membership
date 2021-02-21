@@ -93,6 +93,7 @@ class Member extends Model
     public $morphMany = [];
     public $attachOne = [
         'attestation' => ['System\Models\File', 'delete' => true],
+        'export' => ['System\Models\File', 'delete' => true],
     ];
     public $attachMany = [
         // Deletes the attached files once a model is removed.

@@ -17,20 +17,48 @@ secondaryTabs:
             span: left
             type: fileupload
             mode: file
-            attachOnUpload: true
+            attachOnUpload: false
             required: true
 
         description:
             tab: codalia.membership::lang.attribute.tab_edit
             type: richeditor
-            stretch: true
 
-        categories:
-            tab: codalia.membership::lang.attribute.tab_categories
+        licence_types:
+            tab: codalia.membership::lang.document.tab_filters
+            label: codalia.membership::lang.document.licence_types
             span: left
-            type: relation
-            commentAbove: codalia.membership::lang.attribute.categories_comment
-            placeholder: codalia.membership::lang.attribute.categories_placeholder
+            type: taglist 
+            customTags: false
+            options: true
+            useKey: true:
+
+        appeal_courts:
+            tab: codalia.membership::lang.document.tab_filters
+            label: codalia.membership::lang.document.appeal_courts
+            span: left
+            type: taglist 
+            customTags: false
+            options: true
+            useKey: true:
+
+        courts:
+            tab: codalia.membership::lang.document.tab_filters
+            label: codalia.membership::lang.document.courts
+            span: left
+            type: taglist 
+            customTags: false
+            options: true
+            useKey: true:
+
+        languages:
+            tab: codalia.membership::lang.document.tab_filters
+            label: codalia.membership::lang.document.languages
+            span: left
+            type: taglist 
+            customTags: false
+            options: true
+            useKey: true:
 
         status:
             tab: codalia.membership::lang.attribute.tab_manage

@@ -2,6 +2,8 @@
 
 use Model;
 use Carbon\Carbon;
+use Codalia\Profile\Models\Profile;
+use Codalia\Profile\Models\Licence;
 
 /**
  * Document Model
@@ -85,6 +87,40 @@ class Document extends Model
 	return array('unpublished' => 'codalia.membership::lang.status.unpublished',
 		     'published' => 'codalia.membership::lang.status.published',
 		     'archived' => 'codalia.membership::lang.status.archived');
+    }
+
+    public function getAppealCourtsOptions()
+    {
+        return Profile::getAppealCourts();
+    }
+
+    public function getCourtsOptions()
+    {
+        return Profile::getCourts();
+    }
+
+    public function getLicenceTypesOptions()
+    {
+	$types = Licence::getTypes();
+	$licenceTypes = [];
+
+	foreach ($types as $type) {
+	    $licenceTypes[$type] = 'codalia.profile::lang.licence.'.$type;
+	}
+
+	return $licenceTypes;
+    }
+
+    public function getLanguagesOptions()
+    {
+        $codes = Profile::getLanguages();
+	$languages = [];
+
+	foreach ($codes as $code) {
+	    $languages[$code] = 'codalia.profile::lang.language.'.$code;
+	}
+
+	return $languages;
     }
 
     public static function setPublishingDate($document)

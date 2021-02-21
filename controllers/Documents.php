@@ -127,5 +127,4 @@ class Documents extends Controller
         $this->addCss(url('plugins/codalia/membership/assets/css/extra.css'));
 	$this->addJs('/plugins/codalia/membership/assets/js/document.js');
     }
-
 }

@@ -33,6 +33,13 @@ return [
     ],
     'documents' => [
     ],
+    'document' => [
+      'tab_filters' => 'Filters',
+      'appeal_courts' => 'Appeal courts',
+      'courts' => 'Courts',
+      'languages' => 'Languages',
+      'licence_types' => 'Licence types',
+    ],
     // Boilerplate attributes.
     'attribute' => [
       'title' => 'Title',
@@ -100,6 +107,7 @@ return [
       'all' => '- All -',
       'pay_now' => 'Pay Now',
       'subscribe' => 'Subscribe',
+      'export' => 'Export',
       'publish_success' => ':count item(s) successfully published.',
       'unpublish_success' => ':count item(s) successfully unpublished.',
       'archive_success' => ':count item(s) successfully archived.',

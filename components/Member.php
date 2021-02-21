@@ -72,9 +72,10 @@ class Member extends ComponentBase
 
 	$this->page['flags'] = ['payment' => $payment, 'candidate' => ($this->member->member_since === null) ? true : false,
 				'freePeriod' => ($this->member->free_period && $this->member->member_since) ? true : false];
-	$this->page['documents'] = $this->loadDocuments($this->member->categories);
+	$this->page['documents'] = $this->loadDocuments();
 	$this->page['years'] = Profile::getYears();
 	$this->page['categoryIds'] = $this->member->categories->pluck('id')->toArray();
+	$this->page['proStatuses'] = $this->getProStatuses();
 	$this->page['texts'] = $this->getTexts();
     }
 
@@ -94,15 +95,60 @@ class Member extends ComponentBase
 	return $member;
     }
 
-    protected function loadDocuments($categories)
+    protected function loadDocuments()
     {
-        $catIds = $categories->pluck('id')->toArray();
-	// Gets only documents which match the member's categories.
-	$documents = Document::where('status', 'published')->whereHas('categories', function($query) use($catIds) {
-	    $query->whereIn('id', $catIds);
-	})->get();
+        $licences = [];
+
+        foreach ($this->member->profile->licences as $licence) {
+	    $data = [];
+	    $data['type'] = $licence->type;
+	    $courtType = ($licence->type == 'expert') ? 'appeal_court_id' : 'court_id';
+	    $data['court'] = $licence->$courtType;
+	    $data['languages'] = [];
+
+	    foreach ($licence->attestations as $attestation) {
+		foreach ($attestation->languages as $language) {
+		    $data['languages'][] = $language->alpha_2;
+		}
+	    }
+
+	    $licences[] = $data;
+	}
+
+	$documents = Document::where('status', 'published')->where(function ($query) use($licences) {
+			foreach ($licences as $licence) {
+
+			    $query->orWhere(function ($query) use($licence) {
+				$query->where(function ($query) use($licence) {
+				    $query->whereRaw('FIND_IN_SET(?,licence_types) > 0', [$licence['type']])->orWhereNull('licence_types');
+				})->where(function ($query) use($licence) {
+				    $courtType = ($licence['type'] == 'expert') ? 'appeal_courts' : 'courts';
+				    $query->whereRaw('FIND_IN_SET(?,"'.$courtType.'") > 0', [$licence['court']])->orWhereNull($courtType);
+				})->where(function ($query) use($licence) {
+
+				    foreach ($licence['languages'] as $language) {
+					$query->orWhereRaw('FIND_IN_SET(?,languages) > 0', [$language]);
+				    }
+
+				    $query->orWhereNull('languages');
+				});
+			    });
+			}
+		    })->get();
+	var_dump(count($documents));
 
 	return $documents;
+    }
+
+    private function getProStatuses()
+    {
+	$statuses = MemberModel::getProStatusOptionData();
+
+	foreach ($statuses as $code => $langVar) {
+	    $statuses[$code] = Lang::get($langVar);
+	}
+
+	return $statuses;
     }
 
     private function getTexts()

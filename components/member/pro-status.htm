@@ -6,7 +6,7 @@
 		<label for="inputProStatus">{{ texts['professional_status.pro_status'] }}</label>
 		<select name="membership[pro_status]" class="form-control custom-select" id="inputProStatus">
 		    <option value="">{{ texts['action.select'] }}</option>
-		    {% for value, text in hostedFields.pro_status_options %}
+		    {% for value, text in proStatuses %}
 			<option value="{{ value }}" {{ (member.pro_status == value) ? 'selected' : '' }}>{{ texts['professional_status.'~value] }}</option>
 		    {% endfor %}
 		</select>
