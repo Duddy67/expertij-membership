@@ -30,7 +30,7 @@ class Document extends Model
     /**
      * @var array Validation rules for attributes
      */
-    public $rules = ['title' => 'required'];
+    public $rules = ['title' => 'required', 'files' => 'required'];
 
     /**
      * @var array Attributes to be cast to native types

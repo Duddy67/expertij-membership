@@ -25,6 +25,8 @@ return [
       'last_name' => 'Last name',
       'email' => 'Email',
       'appeal_court' => 'Appeal court',
+      'languages_expert' => 'Languages (Expert)',
+      'languages_ceseda' => 'Languages (CESEDA)',
     ],
     'members' => [
       'filter_status' => 'Status',
@@ -32,6 +34,7 @@ return [
     'categories' => [
     ],
     'documents' => [
+      'recipients' => 'Recipients',
     ],
     'document' => [
       'tab_filters' => 'Filters',
@@ -50,6 +53,7 @@ return [
       'required' => 'Required',
       'yes' => 'Yes',
       'no' => 'No',
+      'all' => 'All',
       'description' => 'Description',
       'title_placeholder' => 'New item title',
       'name_placeholder' => 'New item name',

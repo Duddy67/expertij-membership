@@ -99,6 +99,7 @@ class Member extends ComponentBase
     {
         $licences = [];
 
+	// Collects the member's licences, courts and languages.
         foreach ($this->member->profile->licences as $licence) {
 	    $data = [];
 	    $data['type'] = $licence->type;
@@ -115,6 +116,7 @@ class Member extends ComponentBase
 	    $licences[] = $data;
 	}
 
+	// Gets the documents matching the member's licences, courts and languages.
 	$documents = Document::where('status', 'published')->where(function ($query) use($licences) {
 			foreach ($licences as $licence) {
 
@@ -135,7 +137,6 @@ class Member extends ComponentBase
 			    });
 			}
 		    })->get();
-	var_dump(count($documents));
 
 	return $documents;
     }

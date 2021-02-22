@@ -4,6 +4,7 @@ use BackendMenu;
 use Backend\Classes\Controller;
 use Codalia\Membership\Models\Document;
 use Codalia\Membership\Helpers\MembershipHelper;
+use October\Rain\Database\Models\DeferredBinding;
 use BackendAuth;
 use Carbon\Carbon;
 use Lang;
@@ -47,6 +48,8 @@ class Documents extends Controller
 	$this->addCss(url('plugins/codalia/membership/assets/css/extra.css'));
 	// Unlocks the checked out items of this user (if any).
 	MembershipHelper::instance()->checkIn((new Document)->getTable(), BackendAuth::getUser());
+	// Removes orphan files from the server (ie: In case some files have been uploaded in an unsaved document).
+	DeferredBinding::cleanUp(0);
 	// Calls the parent method as an extension.
         $this->asExtension('ListController')->index();
     }
