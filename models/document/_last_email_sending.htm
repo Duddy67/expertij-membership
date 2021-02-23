@@ -1,0 +1,48 @@
+<div id="partial-lastEmailSending">
+    <div class="form-group  widget-field span-left"
+	    data-field-name="last_email_sending"
+	    id="Form-field-Document-last_email_sending-group"><label for="Form-field-Document-last_email_sending">
+		    Last email sending            </label>
+
+
+	    <!-- Widget -->
+
+	<div id="DatePicker-formLastEmailSending-last_email_sending"
+	    class="field-datepicker"
+	    data-control="datepicker"
+				    data-mode="datetime"
+			    data-show-week-number=""
+		>
+
+			<div class="row">
+		    <div class="col-md-6">
+			<!-- Date -->
+    <div class="input-with-icon right-align">
+	<i class="icon icon-calendar-o"></i>
+	<input type="text" id="DatePicker-formLastEmailSending-date-last_email_sending"
+	    class="form-control align-right"
+	    autocomplete="off"
+	     disabled="disabled" data-datepicker />
+    </div>
+		    </div>
+		    <div class="col-md-6">
+			<!-- Time -->
+    <div class="input-with-icon right-align">
+	<i class="icon icon-clock-o"></i>
+	<input type="text" id="DatePicker-formLastEmailSending-time-last_email_sending"
+	    class="form-control align-right"
+	    autocomplete="off"
+	     disabled="disabled" data-timepicker />
+    </div>
+		    </div>
+		</div>
+
+	    <!-- Data locker -->
+	    <input type="hidden" name="Document[last_email_sending]"
+		id="Form-field-Document-last_email_sending"
+		value="<?php echo $model->last_email_sending; ?>"
+		data-datetime-value />
+
+    </div></div>
+</div>
+

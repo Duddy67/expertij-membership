@@ -5,8 +5,10 @@ use Carbon\Carbon;
 use Backend;
 use BackendAuth;
 use Codalia\Membership\Models\Member;
+use Codalia\Membership\Models\Document;
 use Codalia\Membership\Models\Payment;
 use Codalia\Membership\Models\Settings;
+use Codalia\Profile\Models\Profile;
 use Backend\Models\UserGroup;
 use Mail;
 use Flash;
@@ -159,6 +161,71 @@ class EmailHelper
 		$message->subject(Lang::get('codalia.membership::lang.email.'.$langVar.'_admin'));
 	    });
 	}
+    }
+
+    /**
+     * 
+     *
+     * @param integer    $documentId
+     *
+     * @return void
+     */
+    public function alertDocument($documentId)
+    {
+        $document = Document::find($documentId);
+	// Prepares data.
+	$data = [];
+	$data['licence_types'] = (!empty($document->licence_types)) ? explode(',', $document->licence_types) : [];
+	$data['appeal_courts'] = (!empty($document->appeal_courts)) ? explode(',', $document->appeal_courts) : [];
+	$data['courts'] = (!empty($document->courts)) ? explode(',', $document->courts) : [];
+	$data['languages'] = (!empty($document->languages)) ? explode(',', $document->languages) : [];
+
+	// Searches members from the Profile relationship as it contained most of the relevant data to search for.
+	$profiles = Profile::whereHas('licences', function($query) use($data) {
+
+			if (!empty($data['licence_types'])) {
+			    $query->whereIn('type', $data['licence_types']);
+
+			    if (!empty($data['appeal_courts'])) {
+				$query->whereIn('appeal_court_id', $data['appeal_courts']);
+			    }
+
+			    if (!empty($data['courts'])) {
+			        if (!empty($data['appeal_courts'])) {
+				    $query->orWhereIn('court_id', $data['courts']);
+				}
+				else {
+				    $query->whereIn('court_id', $data['courts']);
+				}
+			    }
+			}
+
+			$query->whereHas('attestations', function($query) use($data) {
+			    //
+			    if (!empty($data['languages'])) {
+				$query->whereHas('languages', function($query) use($data) { 
+					$query->whereIn('alpha_2', $data['languages']);
+				}); 
+			    }
+			});
+		    })->whereHas('member', function($query) {
+			$query->where('member_list', 1)->where(function ($query) {
+			    $query->where('status', 'member');
+
+			    $now = new \DateTime(date('Y-m-d'));
+			    $renewalDate = \Codalia\Membership\Helpers\RenewalHelper::instance()->getRenewalDate();
+
+			    if ($now->format('Y-m-d') < $renewalDate->format('Y-m-d')) {
+				$query->orWhere('status', 'pending_renewal');
+			    }
+			});
+		    })->get();
+
+	$emails = [];
+	foreach ($profiles as $profile) {
+	    $emails[] = $profile->user->email;
+	}
+file_put_contents('debog_file.txt', print_r($emails, true));
     }
 
     public function statusChange($memberId, $newStatus, $isNewMember = false)

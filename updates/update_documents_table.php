@@ -13,7 +13,11 @@ class UpdateDocumentsTable extends Migration
             $table->text('description')->nullable()->after('title');
             $table->char('status', 15)->default('unpublished')->after('description');
 	    $table->timestamp('last_email_sending')->nullable()->after('status');
-	    $table->integer('created_by')->unsigned()->nullable()->index()->after('last_email_sending');
+            $table->string('licence_types', 40)->nullable()->after('last_email_sending');
+            $table->string('appeal_courts', 150)->nullable()->after('licence_types');
+            $table->string('courts', 250)->nullable()->after('appeal_courts');
+            $table->text('languages')->nullable()->after('courts');
+	    $table->integer('created_by')->unsigned()->nullable()->index()->after('languages');
 	    $table->integer('updated_by')->unsigned()->nullable()->after('created_by');
 	    $table->timestamp('published_up')->nullable()->after('updated_by');
 	    $table->timestamp('published_down')->nullable()->after('published_up');
@@ -49,6 +53,34 @@ class UpdateDocumentsTable extends Migration
             Schema::table('codalia_membership_documents', function($table)
             {
                 $table->dropColumn('last_email_sending');
+            });
+        }
+
+        if (Schema::hasColumn('codalia_membership_documents', 'licence_types')) {
+            Schema::table('codalia_membership_documents', function($table)
+            {
+                $table->dropColumn('licence_types');
+            });
+        }
+
+        if (Schema::hasColumn('codalia_membership_documents', 'appeal_courts')) {
+            Schema::table('codalia_membership_documents', function($table)
+            {
+                $table->dropColumn('appeal_courts');
+            });
+        }
+
+        if (Schema::hasColumn('codalia_membership_documents', 'courts')) {
+            Schema::table('codalia_membership_documents', function($table)
+            {
+                $table->dropColumn('courts');
+            });
+        }
+
+        if (Schema::hasColumn('codalia_membership_documents', 'languages')) {
+            Schema::table('codalia_membership_documents', function($table)
+            {
+                $table->dropColumn('languages');
             });
         }
 

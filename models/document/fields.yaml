@@ -83,6 +83,17 @@ secondaryTabs:
             mode: datetime
             disabled: true
 
+        last_email_sending:
+            tab: codalia.membership::lang.attribute.tab_manage
+            type: partial
+            path: '$/codalia/membership/models/document/_last_email_sending.htm'
+
+        _send_email:
+            tab: codalia.membership::lang.attribute.tab_manage
+            span: left
+            type: partial
+            path: '$/codalia/membership/models/document/_send_email.htm'
+
         # Read-only information field for users without other_books access.
         _created_by_field:
             tab: codalia.membership::lang.attribute.tab_manage

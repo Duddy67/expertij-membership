@@ -42,6 +42,7 @@ return [
       'courts' => 'Courts',
       'languages' => 'Languages',
       'licence_types' => 'Licence types',
+      'last_email_sending' => 'Last email sending',
     ],
     // Boilerplate attributes.
     'attribute' => [
@@ -138,7 +139,8 @@ return [
       'free_period_privilege_success' => 'Your free period privilege has been taken into account successfully.',
       'payment_update_success' => 'The payment has been updated successfully.',
       'status_changed_by_system' => 'The status as been changed by the system. You cannot save the form. Please refresh the page (F5 key) and then save it again.',
-      'email_sendings' => 'Email sendings (:count)',
+      'email_sendings_count' => 'Email sendings (:count)',
+      'email_sendings' => 'Email sendings',
       'email_sendings_success' => 'The emails have been sent successfully to the decision makers.',
       'delete_file_success' => 'The file has been successfully deleted.',
       'no_file_selected' => 'No file selected.',
