@@ -226,6 +226,7 @@ class MemberList extends ComponentBase
 	    $list[] = $data;
 	}
 
+	// Creates a temporary csv file.
 	$fileName = 'export-members-'.date('Y-m-d-H-i-s').'.csv';
 	$fp = fopen('storage/temp/public/'.$fileName, 'w');
 
@@ -234,18 +235,19 @@ class MemberList extends ComponentBase
 	}
 
 	fclose($fp);
-//file_put_contents('debog_file.txt', print_r($fileName, true));
-	/*$file = new File;
-	$file->data = $fileName;
-	$file->is_public = true;
+
+	// Attaches the newly created file.
+	$file = (new File)->fromFile('storage/temp/public/'.$fileName);
 	$file->save();
 
 	$member = $this->loadMember();
-	$member->export()->add($file);*/
+	$member->export = $file;
+	$member->save();
 
+	// Deletes the temporary file from the directory.
 	unlink('storage/temp/public/'.$fileName);
 
-	return \Redirect::to('export.php')->with('file', $member->attestation);
+	return \Redirect::to('export.php')->with('file', $member->export);
     }
 
     public function getLanguages()
