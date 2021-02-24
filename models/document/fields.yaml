@@ -77,11 +77,8 @@ secondaryTabs:
 
         updated_at:
             tab: codalia.membership::lang.attribute.tab_manage
-            label: codalia.membership::lang.attribute.updated_at
-            span: left 
-            type: datepicker
-            mode: datetime
-            disabled: true
+            type: partial
+            path: '$/codalia/membership/models/document/_updated_at.htm'
 
         last_email_sending:
             tab: codalia.membership::lang.attribute.tab_manage
@@ -90,7 +87,6 @@ secondaryTabs:
 
         _send_email:
             tab: codalia.membership::lang.attribute.tab_manage
-            span: left
             type: partial
             path: '$/codalia/membership/models/document/_send_email.htm'
 
@@ -106,7 +102,8 @@ secondaryTabs:
         _updated_by_field:
             tab: codalia.membership::lang.attribute.tab_manage
             label: codalia.membership::lang.attribute.updated_by
-            span: left 
+            span: left
+            context: [update]
             disabled: true
 
         id:

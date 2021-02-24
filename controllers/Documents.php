@@ -126,6 +126,18 @@ class Documents extends Controller
 	return $this->listRefresh();
     }
 
+    public function update_onSave($recordId = null, $context = null)
+    {
+	// Calls the original update_onSave method
+	if ($redirect = $this->asExtension('FormController')->update_onSave($recordId, $context)) {
+	    return $redirect;
+	}
+
+	$fieldMarkup = $this->formRenderField('updated_at', ['useContainer' => false]);
+	file_put_contents('debog_file.txt', print_r($fieldMarkup, true));
+	return ['#partial-updatedAt' => $fieldMarkup];
+    }
+
     public function update_onSendEmailToMembers($recordId = null)
     {
 	EmailHelper::instance()->alertDocument($recordId);

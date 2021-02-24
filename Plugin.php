@@ -246,6 +246,7 @@ class Plugin extends PluginBase
 	    'codalia.membership::mail.alert_office',
 	    'codalia.membership::mail.alert_decision_makers',
 	    'codalia.membership::mail.alert_vote',
+	    'codalia.membership::mail.alert_document',
 	    'codalia.membership::mail.candidate_application',
 	    'codalia.membership::mail.cancelled',
 	    'codalia.membership::mail.cancellation',

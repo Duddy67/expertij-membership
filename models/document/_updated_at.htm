@@ -1,0 +1,35 @@
+<div id="partial-updatedAt">
+    <div class="form-group  widget-field span-left" data-field-name="updated_at"
+	 id="Form-field-Document-last_email_sending-group">
+	<label for="Form-field-Document-updated_at"><?= e(trans('codalia.membership::lang.attribute.updated_at')) ?></label>
+        <!-- Widget -->
+	<div id="DatePicker-formUpdatedAt-updated_at" class="field-datepicker"
+	     data-control="datepicker" data-mode="datetime" data-show-week-number="" >
+	    <div class="row">
+                <div class="col-md-6">
+		<!-- Date -->
+		    <div class="input-with-icon right-align">
+			<i class="icon icon-calendar-o"></i>
+			<input type="text" id="DatePicker-formUpdatedAt-date-updated_at"
+			       class="form-control align-right"
+			       autocomplete="off" disabled="disabled" data-datepicker />
+		    </div>
+                </div>
+                <div class="col-md-6">
+                    <!-- Time -->
+		    <div class="input-with-icon right-align">
+			<i class="icon icon-clock-o"></i>
+			<input type="text" id="DatePicker-formUpdatedAt-time-updated_at"
+			       class="form-control align-right"
+			       autocomplete="off" disabled="disabled" data-timepicker />
+		    </div>
+		</div>
+	    </div>
+	    <!-- Data locker -->
+	    <input type="hidden" name="Document[updated_at]"
+		   id="Form-field-Document-updated_at"
+		   value="<?php echo $model->updated_at; ?>" data-datetime-value />
+	</div>
+    </div>
+</div>
+

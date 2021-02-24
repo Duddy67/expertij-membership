@@ -188,6 +188,10 @@ class EmailHelper
 
 			    if (!empty($data['appeal_courts'])) {
 				$query->whereIn('appeal_court_id', $data['appeal_courts']);
+
+			        if (empty($data['courts'])) {
+				    $query->orWhereNull('court_id');
+				}
 			    }
 
 			    if (!empty($data['courts'])) {
@@ -195,7 +199,7 @@ class EmailHelper
 				    $query->orWhereIn('court_id', $data['courts']);
 				}
 				else {
-				    $query->whereIn('court_id', $data['courts']);
+				    $query->whereIn('court_id', $data['courts'])->orWhereNull('appeal_court_id');
 				}
 			    }
 			}
@@ -222,10 +226,21 @@ class EmailHelper
 		    })->get();
 
 	$emails = [];
+
 	foreach ($profiles as $profile) {
 	    $emails[] = $profile->user->email;
 	}
-file_put_contents('debog_file.txt', print_r($emails, true));
+
+	// Prepares variables.
+	$vars = ['title' => $document->title,
+        ];
+
+	if (!empty($emails)) {
+	    Mail::send('codalia.membership::mail.alert_document', $vars, function($message) use($emails) {
+		$message->to($emails, 'Admin System');
+		$message->subject(Lang::get('codalia.membership::lang.email.new_document'));
+	    });
+	}
     }
 
     public function statusChange($memberId, $newStatus, $isNewMember = false)

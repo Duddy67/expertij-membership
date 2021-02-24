@@ -4,6 +4,7 @@ use Model;
 use Carbon\Carbon;
 use Codalia\Profile\Models\Profile;
 use Codalia\Profile\Models\Licence;
+use BackendAuth;
 
 /**
  * Document Model
@@ -82,6 +83,18 @@ class Document extends Model
     ];
 
 
+    public function beforeCreate()
+    {
+	$user = BackendAuth::getUser();
+	$this->created_by = $user->id;
+    }
+
+    public function beforeUpdate()
+    {
+	$user = BackendAuth::getUser();
+	$this->updated_by = $user->id;
+    }
+
     public function getStatusOptions()
     {
 	return array('unpublished' => 'codalia.membership::lang.status.unpublished',
@@ -121,6 +134,30 @@ class Document extends Model
 	}
 
 	return $languages;
+    }
+
+    public function getUpdatedByFieldAttribute()
+    {
+	$names = '';
+
+	if($this->updated_by) {
+	    $user = BackendAuth::findUserById($this->updated_by);
+	    $names = $user->first_name.' '.$user->last_name;
+	}
+
+	return $names;
+    }
+
+    public function getCreatedByFieldAttribute()
+    {
+	$names = '';
+
+        if ($this->created_by) {
+	    $user = BackendAuth::findUserById($this->created_by);
+	    $names = $user->first_name.' '.$user->last_name;
+	}
+
+	return $names;
     }
 
     public static function setPublishingDate($document)
