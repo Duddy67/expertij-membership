@@ -134,7 +134,7 @@ class Documents extends Controller
 	}
 
 	$fieldMarkup = $this->formRenderField('updated_at', ['useContainer' => false]);
-	file_put_contents('debog_file.txt', print_r($fieldMarkup, true));
+
 	return ['#partial-updatedAt' => $fieldMarkup];
     }
 

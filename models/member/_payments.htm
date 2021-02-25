@@ -36,7 +36,9 @@
 				<input type="hidden" name="_<?php echo $itemType; ?>_payment_mode" value="<?php echo $payment->mode; ?>">
 				<input type="hidden" name="_<?php echo $itemType; ?>_item_code" value="<?php echo $payment->item; ?>">
 				<input type="hidden" name="_<?php echo $itemType; ?>_amount" value="<?php echo $payment->amount; ?>">
+				<input type="hidden" name="_payment_item_type" id="payment-item-type" value="<?php echo $itemType; ?>">
 			      <?php endif; ?>
+
 			</td>
 			<td>
 			  <?php echo $payment->mode; ?>

@@ -9,6 +9,7 @@ use Codalia\Membership\Helpers\MembershipHelper;
 use Codalia\Membership\Helpers\EmailHelper;
 use Codalia\Membership\Helpers\RenewalHelper;
 use Codalia\Profile\Helpers\ProfileHelper;
+use Carbon\Carbon;
 use BackendAuth;
 use Validator;
 use Input;
@@ -60,6 +61,7 @@ class Members extends Controller
     public function update($recordId = null, $context = null)
     {
         $this->prepareVotes($recordId);
+        $this->setJavascriptMessages();
 
 	return $this->asExtension('FormController')->update($recordId, $context);
     }
@@ -207,6 +209,10 @@ class Members extends Controller
         if ($redirect = $this->makeRedirect('update', $member)) {
             return $redirect;
         }
+
+	$fieldMarkup = $this->formRenderField('updated_at', ['useContainer' => false]);
+
+	return ['#partial-updatedAt' => $fieldMarkup];
     }
 
     public function loadScripts()
@@ -222,7 +228,18 @@ class Members extends Controller
 	$member = Member::find($recordId);
 	Flash::success(Lang::get('codalia.membership::lang.action.email_sendings_success'));
 
-	return ['#btn-email-sendings' => Lang::get('codalia.membership::lang.action.email_sendings', ['count' => $member->email_sendings])];
+	return ['#btn-email-sendings' => Lang::get('codalia.membership::lang.action.email_sendings_count', ['count' => $member->email_sendings])];
+    }
+
+    protected function setJavascriptMessages()
+    {
+        $messages = [];
+	$messages['status_change_confirmation'] = Lang::get('codalia.membership::lang.action.status_change_confirmation');
+	$messages['state_change_confirmation'] = Lang::get('codalia.membership::lang.action.state_change_confirmation');
+	$messages['vote_confirmation'] = Lang::get('codalia.membership::lang.action.vote_confirmation');
+	$messages['payment_confirmation'] = Lang::get('codalia.membership::lang.action.payment_confirmation');
+
+	$this->vars['javascriptMessages'] = json_encode($messages);
     }
 
     protected function prepareVotes($recordId)
@@ -270,12 +287,17 @@ class Members extends Controller
 
 	$member = Member::find($recordId);
 	$member->savePayment($data);
+	$member->updated_at = Carbon::now();
+	$member->save();
+	$this->initForm($member);
 
 	Flash::success(Lang::get('codalia.membership::lang.action.payment_update_success'));
 
+	$fieldMarkup = $this->formRenderField('updated_at', ['useContainer' => false]);
+
 	return [
 	    '#save-payment-button' => '',
-	    //'#payment-status-select' => '<input type="text" name="_payment_status" id="payment-status" value="'.$data['_payment_status'].'" disabled="disabled" class="form-control">'
+	    '#partial-updatedAt' => $fieldMarkup,
 	];
     }
 

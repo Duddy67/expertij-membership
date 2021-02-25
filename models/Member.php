@@ -114,8 +114,6 @@ class Member extends Model
 	    $member->free_period = 1;
 	}
 
-	// Important: Creates a member without validation.
-	// NB. The validation has been performed earlier in the code.
 	$member->save();
 
 	// Creates an empty insurance.

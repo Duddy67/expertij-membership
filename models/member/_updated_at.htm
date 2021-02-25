@@ -1,7 +1,7 @@
 <div id="partial-updatedAt">
     <div class="form-group  widget-field span-left" data-field-name="updated_at"
-	 id="Form-field-Document-updated_at-group">
-	<label for="Form-field-Document-updated_at"><?= e(trans('codalia.membership::lang.attribute.updated_at')) ?></label>
+	 id="Form-field-Member-updated_at-group">
+	<label for="Form-field-Member-updated_at"><?= e(trans('codalia.membership::lang.attribute.updated_at')) ?></label>
         <!-- Widget -->
 	<div id="DatePicker-formUpdatedAt-updated_at" class="field-datepicker"
 	     data-control="datepicker" data-mode="datetime" data-show-week-number="" >
@@ -26,8 +26,8 @@
 		</div>
 	    </div>
 	    <!-- Data locker -->
-	    <input type="hidden" name="Document[updated_at]"
-		   id="Form-field-Document-updated_at"
+	    <input type="hidden" name="Member[updated_at]"
+		   id="Form-field-Member-updated_at"
 		   value="<?php echo $model->updated_at; ?>" data-datetime-value />
 	</div>
     </div>

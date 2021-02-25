@@ -47,7 +47,7 @@
   $.fn.checkPaymentStatus = function() {
     let currentStatus = $('#payment-status').val();
 
-    if (currentStatus == 'completed') {
+    if (currentStatus == 'completed' && $('#payment-item-type').val() == 'subscription') {
       // The candidate is now member.
       $('#Form-field-Member-status').val('member');
       $('#Form-field-Member-status').prop('disabled', true);
@@ -59,7 +59,9 @@
 
   $.fn.checkStatusChange = function(e) {
     if ($('#Form-field-Member-status').val() != $('#current-status').val()) {
-      if (!confirm('Are you sure ?')) {
+      let messages = JSON.parse($('#js-messages').val());
+
+      if (!confirm(messages.status_change_confirmation)) {
 	e.preventDefault();
 	e.stopPropagation();
 	return false;
@@ -70,7 +72,7 @@
   /*
    * Called through Ajax once all of the process is done.
    */
-  $.fn.refreshForm = function() {
+  $.fn.refreshStatus = function() {
     let memberStatus = $('#Form-field-Member-status').val();
     $('#current-status').val(memberStatus);
 
@@ -111,7 +113,9 @@
   };
 
   $.fn.confirmation = function(e, action) {
-    if (!confirm('Are you sure ?')) {
+    let messages = JSON.parse($('#js-messages').val());
+
+    if (!confirm(messages[action+'_confirmation'])) {
       e.preventDefault();
       e.stopPropagation();
       return false;
