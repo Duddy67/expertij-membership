@@ -17,20 +17,48 @@ secondaryTabs:
             span: left
             type: fileupload
             mode: file
-            attachOnUpload: true
+            attachOnUpload: false
             required: true
 
         description:
             tab: codalia.membership::lang.attribute.tab_edit
             type: richeditor
-            stretch: true
 
-        categories:
-            tab: codalia.membership::lang.attribute.tab_categories
+        licence_types:
+            tab: codalia.membership::lang.document.tab_filters
+            label: codalia.membership::lang.document.licence_types
             span: left
-            type: relation
-            commentAbove: codalia.membership::lang.attribute.categories_comment
-            placeholder: codalia.membership::lang.attribute.categories_placeholder
+            type: taglist 
+            customTags: false
+            options: true
+            useKey: true:
+
+        appeal_courts:
+            tab: codalia.membership::lang.document.tab_filters
+            label: codalia.membership::lang.document.appeal_courts
+            span: left
+            type: taglist 
+            customTags: false
+            options: true
+            useKey: true:
+
+        courts:
+            tab: codalia.membership::lang.document.tab_filters
+            label: codalia.membership::lang.document.courts
+            span: left
+            type: taglist 
+            customTags: false
+            options: true
+            useKey: true:
+
+        languages:
+            tab: codalia.membership::lang.document.tab_filters
+            label: codalia.membership::lang.document.languages
+            span: left
+            type: taglist 
+            customTags: false
+            options: true
+            useKey: true:
 
         status:
             tab: codalia.membership::lang.attribute.tab_manage
@@ -49,11 +77,18 @@ secondaryTabs:
 
         updated_at:
             tab: codalia.membership::lang.attribute.tab_manage
-            label: codalia.membership::lang.attribute.updated_at
-            span: left 
-            type: datepicker
-            mode: datetime
-            disabled: true
+            type: partial
+            path: '$/codalia/membership/models/document/_updated_at.htm'
+
+        last_email_sending:
+            tab: codalia.membership::lang.attribute.tab_manage
+            type: partial
+            path: '$/codalia/membership/models/document/_last_email_sending.htm'
+
+        _send_email:
+            tab: codalia.membership::lang.attribute.tab_manage
+            type: partial
+            path: '$/codalia/membership/models/document/_send_email.htm'
 
         # Read-only information field for users without other_books access.
         _created_by_field:
@@ -67,7 +102,8 @@ secondaryTabs:
         _updated_by_field:
             tab: codalia.membership::lang.attribute.tab_manage
             label: codalia.membership::lang.attribute.updated_by
-            span: left 
+            span: left
+            context: [update]
             disabled: true
 
         id:

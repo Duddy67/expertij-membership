@@ -2,6 +2,9 @@
 
 use Model;
 use Carbon\Carbon;
+use Codalia\Profile\Models\Profile;
+use Codalia\Profile\Models\Licence;
+use BackendAuth;
 
 /**
  * Document Model
@@ -28,7 +31,7 @@ class Document extends Model
     /**
      * @var array Validation rules for attributes
      */
-    public $rules = ['title' => 'required'];
+    public $rules = ['title' => 'required', 'files' => 'required'];
 
     /**
      * @var array Attributes to be cast to native types
@@ -80,11 +83,81 @@ class Document extends Model
     ];
 
 
+    public function beforeCreate()
+    {
+	$user = BackendAuth::getUser();
+	$this->created_by = $user->id;
+    }
+
+    public function beforeUpdate()
+    {
+	$user = BackendAuth::getUser();
+	$this->updated_by = $user->id;
+    }
+
     public function getStatusOptions()
     {
 	return array('unpublished' => 'codalia.membership::lang.status.unpublished',
 		     'published' => 'codalia.membership::lang.status.published',
 		     'archived' => 'codalia.membership::lang.status.archived');
+    }
+
+    public function getAppealCourtsOptions()
+    {
+        return Profile::getAppealCourts();
+    }
+
+    public function getCourtsOptions()
+    {
+        return Profile::getCourts();
+    }
+
+    public function getLicenceTypesOptions()
+    {
+	$types = Licence::getTypes();
+	$licenceTypes = [];
+
+	foreach ($types as $type) {
+	    $licenceTypes[$type] = 'codalia.profile::lang.licence.'.$type;
+	}
+
+	return $licenceTypes;
+    }
+
+    public function getLanguagesOptions()
+    {
+        $codes = Profile::getLanguages();
+	$languages = [];
+
+	foreach ($codes as $code) {
+	    $languages[$code] = 'codalia.profile::lang.language.'.$code;
+	}
+
+	return $languages;
+    }
+
+    public function getUpdatedByFieldAttribute()
+    {
+	$names = '';
+
+	if($this->updated_by) {
+	    $user = BackendAuth::findUserById($this->updated_by);
+	    $names = $user->first_name.' '.$user->last_name;
+	}
+
+	return $names;
+    }
+
+    public function getCreatedByFieldAttribute()
+    {
+	$names = '';
+
+        if ($this->created_by) {
+	    $user = BackendAuth::findUserById($this->created_by);
+	    $names = $user->first_name.' '.$user->last_name;
+	}
+
+	return $names;
     }
 
     public static function setPublishingDate($document)

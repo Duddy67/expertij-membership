@@ -22,7 +22,7 @@
     let currentStatus = $('#Form-field-Member-status').val();
 
     // Disables the dropdown list.
-    if(currentStatus == 'member' || currentStatus == 'refused' || currentStatus == 'cancelled' || currentStatus == 'revoked' || currentStatus == 'cancellation') {
+    if (currentStatus == 'member' || currentStatus == 'refused' || currentStatus == 'cancelled' || currentStatus == 'revoked' || currentStatus == 'cancellation') {
       $('#Form-field-Member-status').prop('disabled', true);
     }
     // Disables some options according to the pending status.
@@ -35,7 +35,7 @@
 	$('#Form-field-Member-status option[value="'+stat+'"]').prop('disabled', true);
       });
 
-      if(currentStatus == 'pending_subscription') {
+      if (currentStatus == 'pending_subscription') {
 	$('#Form-field-Member-status option[value="cancelled"]').prop('disabled', false);
       }
     }
@@ -47,7 +47,7 @@
   $.fn.checkPaymentStatus = function() {
     let currentStatus = $('#payment-status').val();
 
-    if(currentStatus == 'completed') {
+    if (currentStatus == 'completed' && $('#payment-item-type').val() == 'subscription') {
       // The candidate is now member.
       $('#Form-field-Member-status').val('member');
       $('#Form-field-Member-status').prop('disabled', true);
@@ -58,8 +58,10 @@
   };
 
   $.fn.checkStatusChange = function(e) {
-    if($('#Form-field-Member-status').val() != $('#current-status').val()) {
-      if(!confirm('Are you sure ?')) {
+    if ($('#Form-field-Member-status').val() != $('#current-status').val()) {
+      let messages = JSON.parse($('#js-messages').val());
+
+      if (!confirm(messages.status_change_confirmation)) {
 	e.preventDefault();
 	e.stopPropagation();
 	return false;
@@ -70,11 +72,11 @@
   /*
    * Called through Ajax once all of the process is done.
    */
-  $.fn.refreshForm = function() {
+  $.fn.refreshStatus = function() {
     let memberStatus = $('#Form-field-Member-status').val();
     $('#current-status').val(memberStatus);
 
-    if(memberStatus != 'pending') {
+    if (memberStatus != 'pending') {
       $('#btn-email-sendings').css({'visibility':'hidden','display':'none'});
     }
 
@@ -82,10 +84,11 @@
   };
 
   $.fn.setUserEditFields = function(data) {
-    let fields = ['first_name', 'last_name', 'street', 'city', 'postcode', 'country', 'user-email'];
+    let fields = ['civility', 'first_name', 'last_name', 'birth_name', 'birth_date', 'birth_location',
+		  'citizenship', 'street', 'city', 'postcode', 'phone'];
     let value = true;
 
-    if(data.action == 'enable') {
+    if (data.action == 'enable') {
       value = false;
       $('#btn-save-user').prop('disabled', false);
       $('#btn-edit-user').prop('disabled', true);
@@ -99,12 +102,20 @@
     }
 
     fields.forEach( function(field) {
-      $('#Form-field-Member-profile-'+field).prop('disabled', value);
+      let inputId = 'Form-field-Member-profile-';
+
+      if (field == 'birth_date') {
+	inputId = 'DatePicker-formProfileBirthDate-date-profile-';
+      }
+
+      $('#'+inputId+field).prop('disabled', value);
     });
   };
 
   $.fn.confirmation = function(e, action) {
-    if(!confirm('Are you sure ?')) {
+    let messages = JSON.parse($('#js-messages').val());
+
+    if (!confirm(messages[action+'_confirmation'])) {
       e.preventDefault();
       e.stopPropagation();
       return false;

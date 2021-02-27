@@ -6,7 +6,6 @@ use Codalia\Membership\Models\Payment;
 use Codalia\Membership\Models\Settings;
 use Codalia\Profile\Models\Profile;
 use Codalia\Membership\Models\Document;
-use Codalia\Membership\Helpers\EmailHelper;
 use Auth;
 use Input;
 use Validator;
@@ -21,6 +20,21 @@ class Member extends ComponentBase
 {
     public $member;
     public $documents;
+
+    /**
+     * @var array Matching between file types and model relationships.
+     */
+    public $relationships = [
+	'attestation' => 'attestations', 'photo' => 'photo'
+    ];
+
+    /**
+     * @var array Matching between file types and rules.
+     */
+    public $fileRules = [
+	'attestation' => 'required|mimes:pdf', 'photo' => 'required|mimes:jpg,jpeg,png'
+    ];
+
 
     public function componentDetails()
     {
@@ -40,26 +54,29 @@ class Member extends ComponentBase
      */
     public function prepareVars()
     {
-	$this->member = $this->page['member'] = $this->loadMember();
+	if (!$this->member = $this->page['member'] = $this->loadMember()) {
+	    return Redirect::to('403');
+	}
+
 	// Sets the payment flag.
-	$isPayment = false;
+	$payment = false;
 	if ($this->member->status == 'pending_subscription' || $this->member->status == 'pending_renewal') {
-	    $isPayment = true;
+	    $payment = true;
 	}
 
 	// The user has paid by cheque.
-	if ($isPayment && $this->member->payments()->where([['status', 'pending'], ['mode', 'cheque']])->first()) {
+	if ($payment && $this->member->payments()->where([['status', 'pending'], ['mode', 'cheque']])->first()) {
 	    // The payment form is no longer necessary.
-	    $isPayment = false;
+	    $payment = false;
 	}
 
-	$this->page['isPayment'] = $isPayment;
-	$this->page['isCandidate'] = ($this->member->member_since === null) ? true : false; 
-	$this->page['insuranceName'] = Lang::get('codalia.membership::lang.global_settings.insurance_'.$this->member->insurance->code);
-	$this->page['isFreePeriod'] = ($this->member->free_period && $this->member->member_since) ? true : false; 
-	$this->page['documents'] = $this->loadDocuments($this->member->categories);
-	$this->page['sharedFields'] = MemberModel::getSharedFields();
+	$this->page['flags'] = ['payment' => $payment, 'candidate' => ($this->member->member_since === null) ? true : false,
+				'freePeriod' => ($this->member->free_period && $this->member->member_since) ? true : false];
+	$this->page['documents'] = $this->loadDocuments();
+	$this->page['years'] = Profile::getYears();
 	$this->page['categoryIds'] = $this->member->categories->pluck('id')->toArray();
+	$this->page['proStatuses'] = $this->getProStatuses();
+	$this->page['texts'] = $this->getTexts();
     }
 
     protected function loadMember()
@@ -75,53 +92,105 @@ class Member extends ComponentBase
 	    return null;
 	}
 
-	//var_dump($member->name);
 	return $member;
     }
 
-    protected function loadDocuments($categories)
+    protected function loadDocuments()
     {
-        $catIds = $categories->pluck('id')->toArray();
-	// Gets only documents which match the member's categories.
-	$documents = Document::where('status', 'published')->whereHas('categories', function($query) use($catIds) {
-	    $query->whereIn('id', $catIds);
-	})->get();
+        $licences = [];
+
+	// Collects the member's licences, courts and languages.
+        foreach ($this->member->profile->licences as $licence) {
+	    $data = [];
+	    $data['type'] = $licence->type;
+	    $courtType = ($licence->type == 'expert') ? 'appeal_court_id' : 'court_id';
+	    $data['court'] = $licence->$courtType;
+	    $data['languages'] = [];
+
+	    foreach ($licence->attestations as $attestation) {
+		foreach ($attestation->languages as $language) {
+		    $data['languages'][] = $language->alpha_2;
+		}
+	    }
+
+	    $licences[] = $data;
+	}
+
+	// Gets the documents matching the member's licences, courts and languages.
+	$documents = Document::where('status', 'published')->where(function ($query) use($licences) {
+			foreach ($licences as $licence) {
+
+			    $query->orWhere(function ($query) use($licence) {
+				$query->where(function ($query) use($licence) {
+				    $query->whereRaw('FIND_IN_SET(?,licence_types) > 0', [$licence['type']])->orWhereNull('licence_types');
+				})->where(function ($query) use($licence) {
+				    $courtType = ($licence['type'] == 'expert') ? 'appeal_courts' : 'courts';
+				    $query->whereRaw('FIND_IN_SET(?,"'.$courtType.'") > 0', [$licence['court']])->orWhereNull($courtType);
+				})->where(function ($query) use($licence) {
+
+				    foreach ($licence['languages'] as $language) {
+					$query->orWhereRaw('FIND_IN_SET(?,languages) > 0', [$language]);
+				    }
+
+				    $query->orWhereNull('languages');
+				});
+			    });
+			}
+		    })->get();
 
 	return $documents;
     }
 
-    public function onReplaceFile()
+    private function getProStatuses()
     {
-        $rules = (new MemberModel)->rules;
+	$statuses = MemberModel::getProStatusOptionData();
 
-	$messages = [
-	    'attestation.required_if' => 'The :attribute field is required.',
-	];
-
-	$validation = Validator::make(Input::all(), $rules, $messages);
-	if ($validation->fails()) {
-	    throw new ValidationException($validation);
+	foreach ($statuses as $code => $langVar) {
+	    $statuses[$code] = Lang::get($langVar);
 	}
 
-        $member = $this->loadMember();
+	return $statuses;
+    }
+
+    private function getTexts()
+    {
+        $langVars = require 'plugins/codalia/membership/lang/en/lang.php';
+	$texts = [];
+	$sections = ['professional_status', 'profile', 'action', 'attribute', 'status', 'member'];
+
+	foreach ($langVars as $level1 => $section1) {
+	    if (in_array($level1, $sections)) {
+		foreach ($section1 as $level2 => $section2) {
+		    $texts[$level1.'.'.$level2] = Lang::get('codalia.membership::lang.'.$level1.'.'.$level2);
+		}
+	    }
+	}
+
+	return $texts;
+    }
+
+    public function onReplaceAttestation()
+    {
+        $file = null;
 
 	if (Input::hasFile('attestation')) {
-	    $member->attestations = Input::file('attestation');
-	    $member->forceSave();
+	    $file = (new File())->fromPost(Input::file('attestation'));
+	    $member = $this->loadMember();
+
+	    $member->attestation()->add($file);
+	    $member->save();
+	}
+	else {
+	    return;
 	}
 
         Flash::success(Lang::get('codalia.membership::lang.action.file_replace_success'));
-    }
 
-    public function onUploadDocument()
-    {
-        $input = Input::all();
-
-        $file = (new File())->fromPost($input['attestation']);
-
-        return[
-            '#newFile' => '<a class="btn btn-danger btn-lg" target="_blank" href="'.$file->getPath().'"><span class="glyphicon glyphicon-download"></span>Download</a>'
-        ];
+	return [
+	  '#new-attestation' => '<a target="_blank" href="'.$file->getPath().'">'.$file->file_name.'</a>', 
+	  // Replaces the old file input by a new one to clear the previous file selection.
+	  '#attestation-file-input' => '<input type="file" name="attestation" class="form-control" id="inputAttestation">'
+	];
     }
 
     public function onPayment()
@@ -151,11 +220,12 @@ class Member extends ComponentBase
 	    $amount = ($paymentMode == 'free_period') ? 0 : Payment::getAmount($item);
 
 	    $data = ['mode' => $paymentMode, 'status' => $status, 'item' => $item, 'amount' => $amount,
-		     'currency' => 'EUR', 'transaction_id' => uniqid('CHQ'), 'last' => 1];
+		     'currency' => 'EUR', 'transaction_id' => uniqid('OFFL'), 'last' => 1];
 
 	    $member->savePayment($data);
 
-	    Flash::success(Lang::get('codalia.membership::lang.action.cheque_payment_success'));
+	    $langVar = ($paymentMode == 'free_period') ? 'free_period_privilege_success' : $paymentMode.'_payment_success';
+	    Flash::success(Lang::get('codalia.membership::lang.action.'.$langVar));
 
 	    return[
 		'#payment-modes' => '<div class="card bg-light mb-3"><div class="card-header">Information</div><div class="card-body">There is no payment to display.</div></div>'
@@ -170,7 +240,16 @@ class Member extends ComponentBase
     public function onUpdate()
     {
 	$data = post();
-        $rules = (new MemberModel)->rules;
+
+	// Data comes from the main form.
+	if (isset($data['membership'])) {
+	    $update = $data['membership'];
+	    $rules = MemberModel::getRules();
+	}
+	// or from the information form.
+	else {
+	    $update = ['member_list' => $data['member_list']];
+	}
 
 	$validation = Validator::make($data, $rules);
 	if ($validation->fails()) {
@@ -179,8 +258,7 @@ class Member extends ComponentBase
 
 	// Updates the passed data.
 	$member = $this->loadMember();
-	$member->update(['member_list' => $data['member_list'], 'appeal_court_id' => $data['appealCourt']]);
-	$member->categories()->sync($data['categories']);
+	$member->update($update);
 
 	Flash::success(Lang::get('codalia.membership::lang.action.update_success'));
     }

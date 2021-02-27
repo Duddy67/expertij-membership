@@ -9,14 +9,13 @@ use Codalia\Membership\Helpers\MembershipHelper;
 use Codalia\Membership\Helpers\EmailHelper;
 use Codalia\Membership\Helpers\RenewalHelper;
 use Codalia\Profile\Helpers\ProfileHelper;
+use Carbon\Carbon;
 use BackendAuth;
 use Validator;
 use Input;
 use ValidationException;
 use Lang;
 use Flash;
-
-use October\Rain\Database\Models\DeferredBinding;
 
 
 /**
@@ -57,12 +56,12 @@ class Members extends Controller
 	MembershipHelper::instance()->checkIn((new Member)->getTable(), BackendAuth::getUser());
 	// Calls the parent method as an extension.
         $this->asExtension('ListController')->index();
-	//DeferredBinding::cleanUp();
     }
 
     public function update($recordId = null, $context = null)
     {
         $this->prepareVotes($recordId);
+        $this->setJavascriptMessages();
 
 	return $this->asExtension('FormController')->update($recordId, $context);
     }
@@ -87,9 +86,6 @@ class Members extends Controller
 
     public function index_onCheckIn()
     {
-	// Needed for the status column partial.
-	//$this->vars['statusIcons'] = JournalHelper::instance()->getStatusIcons();
-
 	// Ensures one or more items are selected.
 	if (($checkedIds = post('checked')) && is_array($checkedIds) && count($checkedIds)) {
 	  $count = 0;
@@ -137,9 +133,13 @@ class Members extends Controller
     public function update_onSaveUser($recordId = null)
     {
 	$data = post();
-        $rules = (new Profile)->rules;
+        $rules = Profile::getRules();
+	// Removes the unecessary rules.
+	unset($rules['email']);
+	unset($rules['password']);
+	unset($rules['password_confirmation']);
 
-	$validation = Validator::make($data['Member']['profile'], $rules);
+	$validation = Validator::make($data['Member'], $rules);
 	if ($validation->fails()) {
 	    throw new ValidationException($validation);
 	}
@@ -195,7 +195,8 @@ class Members extends Controller
 	//        N.B: As the status drop down list is disabled when set to 'member', the new status won't be erased as the drop down
 	//             list value is not passed. So no need to stop the workflow. 
 
-        parent::update_onSave($recordId, $context);
+	// Calls the original update_onSave method
+	$this->asExtension('FormController')->update_onSave($recordId, $context);
 
 	// The possible (ie: authorized) changes.
 	$options = ['refused', 'pending_subscription', 'cancelled', 'revoked'];
@@ -205,9 +206,13 @@ class Members extends Controller
 	    EmailHelper::instance()->statusChange($recordId, $newStatus);
 	}
 
-        /*return[
-            '#Form-field-Member-id-group' => '<a class="btn btn-danger btn-lg" target="_blank" href="#"><span class="glyphicon glyphicon-download"></span>Download</a>'
-	];*/
+        if ($redirect = $this->makeRedirect('update', $member)) {
+            return $redirect;
+        }
+
+	$fieldMarkup = $this->formRenderField('updated_at', ['useContainer' => false]);
+
+	return ['#partial-updatedAt' => $fieldMarkup];
     }
 
     public function loadScripts()
@@ -223,7 +228,18 @@ class Members extends Controller
 	$member = Member::find($recordId);
 	Flash::success(Lang::get('codalia.membership::lang.action.email_sendings_success'));
 
-	return ['#btn-email-sendings' => Lang::get('codalia.membership::lang.action.email_sendings', ['count' => $member->email_sendings])];
+	return ['#btn-email-sendings' => Lang::get('codalia.membership::lang.action.email_sendings_count', ['count' => $member->email_sendings])];
+    }
+
+    protected function setJavascriptMessages()
+    {
+        $messages = [];
+	$messages['status_change_confirmation'] = Lang::get('codalia.membership::lang.action.status_change_confirmation');
+	$messages['state_change_confirmation'] = Lang::get('codalia.membership::lang.action.state_change_confirmation');
+	$messages['vote_confirmation'] = Lang::get('codalia.membership::lang.action.vote_confirmation');
+	$messages['payment_confirmation'] = Lang::get('codalia.membership::lang.action.payment_confirmation');
+
+	$this->vars['javascriptMessages'] = json_encode($messages);
     }
 
     protected function prepareVotes($recordId)
@@ -271,12 +287,29 @@ class Members extends Controller
 
 	$member = Member::find($recordId);
 	$member->savePayment($data);
+	$member->updated_at = Carbon::now();
+	$member->save();
+	$this->initForm($member);
 
 	Flash::success(Lang::get('codalia.membership::lang.action.payment_update_success'));
 
+	$fieldMarkup = $this->formRenderField('updated_at', ['useContainer' => false]);
+
 	return [
 	    '#save-payment-button' => '',
-	    //'#payment-status-select' => '<input type="text" name="_payment_status" id="payment-status" value="'.$data['_payment_status'].'" disabled="disabled" class="form-control">'
+	    '#partial-updatedAt' => $fieldMarkup,
 	];
+    }
+
+    public function update_onDeleteFile($recordId = null)
+    {
+        $data = post();
+	$relationship = $data['relationship'];
+
+	$member = Member::find($recordId);
+	$file = $member->$relationship()->where('id', $data['file_id'])->first();
+	$file->delete();
+
+	Flash::success(Lang::get('codalia.membership::lang.action.delete_file_success'));
     }
 }

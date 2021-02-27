@@ -198,3 +198,17 @@ tr.history td {
   color: #999;
 }
 
+#Form-field-Document-last_email_sending-group {
+  padding-bottom: 10px !important;
+}
+
+.custom-field-left,
+.custom-field-right {
+  width: 23.5% !important;
+}
+
+.custom-field-right {
+  float: left !important;
+  margin-left: 32px !important;
+}
+

@@ -1,0 +1,9 @@
+<div class="tab-pane fade" id="invoices">
+      <ul class="list-group">
+	{% for invoice in member.invoices %}
+	    <li class="list-group-item"><a target="_blank" href="{{ invoice.path }}">{{ invoice.filename }}</a>
+	    <span class="mr-5"></span><small>{{ invoice.created_at|date('d/m/Y H:i') }}</small></li>
+	{% endfor %}
+      </ul>
+</div>
+

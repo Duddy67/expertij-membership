@@ -1,0 +1,72 @@
+
+<div class="tab-pane fade" id="pro-status">
+    {{ form_ajax('onUpdate', {flash: ''}) }}
+	<div class="row">
+	    <div class="form-group col-sm-6">
+		<label for="inputProStatus">{{ texts['professional_status.pro_status'] }}</label>
+		<select name="membership[pro_status]" class="form-control custom-select" id="inputProStatus">
+		    <option value="">{{ texts['action.select'] }}</option>
+		    {% for value, text in proStatuses %}
+			<option value="{{ value }}" {{ (member.pro_status == value) ? 'selected' : '' }}>{{ texts['professional_status.'~value] }}</option>
+		    {% endfor %}
+		</select>
+	    </div>
+
+	    <div class="form-group col-sm-6">
+		<label for="inputSince">{{ texts['professional_status.since'] }}</label>
+		<select name="membership[since]" class="form-control" id="inputSince">
+		    <option value="">{{ texts['action.select'] }}</option>
+		    {% for year in years %}
+			<option value="{{ year }}" {{ (member.since == year) ? 'selected' : '' }}>{{ year }}</option>
+		    {% endfor %}
+		</select>
+	    </div>
+	</div>
+
+	<div class="row">
+	    <div class="form-group col-sm-6">
+		<label for="inputProStatusInfo">{{ texts['professional_status.pro_status_info'] }}</label>
+		<input type="text" name="membership[pro_status_info]" class="form-control" id="inputProStatusInfo" value="{{ member.pro_status_info }}">
+	    </div>
+	</div>
+
+	<div class="row">
+	    <div class="form-group col-sm-6">
+		<label for="inputSiretNumber">{{ texts['professional_status.siret_number'] }}</label>
+		<input type="text" name="membership[siret_number]" class="form-control" id="inputSiretNumber" value="{{ member.siret_number }}">
+	    </div>
+
+	    <div class="form-group col-sm-6">
+		<label for="inputNafCode">{{ texts['professional_status.naf_code'] }}</label>
+		<input type="text" name="membership[naf_code]" class="form-control" id="inputNafCode" value="{{ member.naf_code }}">
+	    </div>
+	</div>
+
+	<div class="row">
+	    <div class="form-group col-sm-6">
+		<button type="submit" id="btn-update-pro-status" class="btn btn-success">{{ texts['action.update'] }}</button>
+	    </div>
+	</div>
+    {{ form_close() }}
+
+    {{ form_ajax('onReplaceAttestation', {files: 1, flash: ''}) }}
+	<div class="row">
+	    <div class="form-group col-sm-8">
+		<p class="h5 mt-3">{{ texts['professional_status.attestation'] }}</p>
+		<div id="new-attestation">
+		    <a target="_blank" href="{{ member.attestation.path }}">{{ member.attestation.filename}}</a>
+		</div>
+		<p class="mb-0"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</small></p>
+		<div class="row">
+		    <div id="attestation-file-input" class="col-sm-8">
+			<input type="file" name="attestation" class="form-control" id="inputAttestation">
+		    </div>
+		    <div class="col-sm-2">
+			<button type="submit" class="btn btn-success">{{ texts['action.replace'] }}</button>
+		    </div>
+		</div>
+	    </div>
+	</div>
+    {{ form_close() }}
+</div>
+

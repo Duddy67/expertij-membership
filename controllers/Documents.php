@@ -4,6 +4,8 @@ use BackendMenu;
 use Backend\Classes\Controller;
 use Codalia\Membership\Models\Document;
 use Codalia\Membership\Helpers\MembershipHelper;
+use Codalia\Membership\Helpers\EmailHelper;
+use October\Rain\Database\Models\DeferredBinding;
 use BackendAuth;
 use Carbon\Carbon;
 use Lang;
@@ -47,6 +49,8 @@ class Documents extends Controller
 	$this->addCss(url('plugins/codalia/membership/assets/css/extra.css'));
 	// Unlocks the checked out items of this user (if any).
 	MembershipHelper::instance()->checkIn((new Document)->getTable(), BackendAuth::getUser());
+	// Removes orphan files from the server (ie: In case some files have been uploaded in an unsaved document).
+	DeferredBinding::cleanUp(0);
 	// Calls the parent method as an extension.
         $this->asExtension('ListController')->index();
     }
@@ -122,10 +126,35 @@ class Documents extends Controller
 	return $this->listRefresh();
     }
 
+    public function update_onSave($recordId = null, $context = null)
+    {
+	// Calls the original update_onSave method
+	if ($redirect = $this->asExtension('FormController')->update_onSave($recordId, $context)) {
+	    return $redirect;
+	}
+
+	$fieldMarkup = $this->formRenderField('updated_at', ['useContainer' => false]);
+
+	return ['#partial-updatedAt' => $fieldMarkup];
+    }
+
+    public function update_onSendEmailToMembers($recordId = null)
+    {
+	EmailHelper::instance()->alertDocument($recordId);
+	$document = Document::find($recordId);
+	$document->last_email_sending = Carbon::now();
+	$document->save();
+	$this->initForm($document);
+	$fieldMarkup = $this->formRenderField('last_email_sending', ['useContainer' => false]);
+
+	Flash::success(Lang::get('codalia.membership::lang.action.email_sendings_success'));
+
+	return ['#partial-lastEmailSending' => $fieldMarkup];
+    }
+
     public function loadScripts()
     {
         $this->addCss(url('plugins/codalia/membership/assets/css/extra.css'));
 	$this->addJs('/plugins/codalia/membership/assets/js/document.js');
     }
-
 }

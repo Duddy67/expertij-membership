@@ -1,0 +1,63 @@
+{%  set profiles =__SELF__.profiles %}
+<ul class="list-group list-group-flush mt-3">
+    {% for profile in profiles %}
+        <li class="list-group-item pl-0">
+	    <div class="row">
+		<div class="col-sm-4">
+		<p class="h4">{{ profile.first_name ~' '~ profile.last_name }}</p>
+		    <div class="photo">
+			{% if profile.photo %}	
+			    <img src="{{ profile.photo.thumb(thumbSize.width, thumbSize.height, 'auto') }}" />
+			{% else %}
+			<img src="{{ blankProfile }}" width="{{ thumbSize.width }}" height="{{ thumbSize.height }}" />
+			{% endif %}
+		    </div>
+		    <p class="info mt-4">
+			{{ profile.street }}<br />
+			{{ profile.postcode }} {{ profile.city }}<br />
+			{{ profile.user.email }}
+		    </p>
+		</div>
+
+		{% if profile.honorary_member %}	
+		    <div class="col-sm">
+		      {{ texts['profile.honorary_member'] }}
+		    </div>
+		{% else %}
+		    <div class="col-sm">
+			{% for licence in profile.licences %}
+			<p class="mb-0"><strong>{{ licenceTypes[licence.type] }}</strong></p>
+			    {% if licence.type == 'expert' %}	
+				<p class="mb-1">{{ texts['profile.appeal_court'] ~': '~ appealCourts[licence.appeal_court_id] }}</p>
+			    {% else %}
+				<p class="mb-1">{{ texts['profile.court'] ~': '~ courts[licence.court_id] }}</p>
+			    {% endif %}
+
+			    {% for attestation in licence.attestations %}
+				{% if attestation.licence_id == licence.id %}	
+				    <p class="mb-0"><strong>Language(s)</strong></p>
+				    {% for language in attestation.languages %}
+					<div>
+					    <p class="d-inline">{{ languages[language.alpha_2] }}</p>
+					    {% if licence.type == 'expert' %}	
+						<p class="d-inline">: {{ (language.interpreter) ? texts['profile.interpreter'] : '' }}</p>
+						{% if language.interpreter %}	
+						    <p class="d-inline"><small>{{ (language.interpreter_cassation) ? '('~texts['profile.cassation']~')' : '' }}</small></p>
+						{% endif %}
+						<p class="d-inline">{{ (language.translator) ? '- '~texts['profile.translator'] : '' }}</p>
+						{% if language.translator %}	
+						    <p class="d-inline"><small>{{ (language.translator_cassation) ? '('~texts['profile.cassation']~')' : '' }}</small></p>
+						{% endif %}
+					    {% endif %}
+					</div>
+				    {% endfor %}
+				    <br />
+				{% endif %}
+			    {% endfor %}
+			{% endfor %}
+		    </div>
+		{% endif %}
+	    </div>
+        </li>
+    {% endfor %}
+</ul>

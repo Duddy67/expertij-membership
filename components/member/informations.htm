@@ -1,0 +1,61 @@
+<div class="tab-pane fade show active" id="informations">
+    <div class="form-group col-sm-6">
+	<label for="inputStatus">{{ texts['attribute.status'] }}</label>
+	<input type="text" name="_status" disabled="disabled" class="form-control" id="inputStatus" value="{{ texts['status.'~member.status] }}">
+    </div>
+
+    {% if member.insurance.status == 'running' or member.insurance.status == 'pending_renewal' %}
+	<div class="form-group col-sm-6">
+	    <p class="h5">Insurance</p>
+	    <p>{{ texts.member_insurance }}</p>
+	</div>
+    {% endif %}
+
+    {{ form_ajax('onUpdate', {flash: ''}) }}
+	<div class="form-group col-sm-6">
+	    <label>{{ hostedFields.categories }}</label>
+	    {% for id, name in hostedFields.category_options %}
+		<div>
+		    <input type="checkbox"  id="{{ id }}" name="categories[]" value="{{ id }}" {{ (id in categoryIds) ? 'checked' : '' }}>
+		    <label for="{{ id }}">{{ name }}</label>
+		</div>
+	    {% endfor %}
+	</div>
+
+	{% if member.status == 'member' %}
+	    <div class="form-group col-sm-6">
+		<p class="h5">Member List</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		dolore eu fugiat nulla pariatur.</p>
+		<div class="radio">
+		    <input name="member_list" value="1" type="radio" id="member-list-yes" {{ (member.member_list == 1) ? 'checked="checked"' : '' }} />
+		    <label for="member-list-yes">Yes</label>
+		</div>
+		<div class="radio">
+		    <input name="member_list" value="0" type="radio" id="member-list-no" {{ (member.member_list == 0) ? 'checked="checked"' : '' }} />
+		    <label for="member-list-no">No</label>
+		</div>
+	    </div>
+
+	    <div class="form-group col-sm-6">
+		<button type="submit" id="btn-update" class="btn btn-success">Update</button>
+	    </div>
+	{% endif %}
+    {{ form_close() }}
+
+    {% if member.status == 'pending_renewal' %}
+	<div class="form-group col-sm-6">
+	    <p class="h5">Membership Cancellation</p>
+	    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+	    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+	    dolore eu fugiat nulla pariatur.</p>
+
+	    {{ form_ajax('onCancellation', {flash: ''}) }}
+		<button type="submit" id="btn-cancellation" class="btn btn-danger">Cancellation</button>
+	    {{ form_close() }}
+	</div>
+    {% endif %}
+</div>

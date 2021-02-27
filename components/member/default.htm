@@ -1,265 +1,68 @@
 <h4>Member Space</h4>
-
 {% if member.status == 'cancelled' or member.status == 'revoked' or member.status == 'cancellation' %}
-  <div class="card bg-light mb-3"><div class="card-header">Information</div><div class="card-body">You are no longer member of this association.</div></div>
+  <div class="card bg-light mb-3">
+    <div class="card-header">Information</div>
+    <div class="card-body">You are no longer member of this association.</div>
+  </div>
 {% else %}
   <ul class="nav nav-tabs">
       <li class="nav-item">
-	  <a href="#informations" class="nav-link active" data-toggle="tab">Informations</a>
+	<a href="#informations" class="nav-link active" data-toggle="tab">{{ texts['member.tab_informations'] }}</a>
       </li>
-      <li class="nav-item">
-	  <a href="#files" class="nav-link" data-toggle="tab">Files</a>
-      </li>
-      {% if isPayment %}
-	<li class="nav-item">
-	    <a href="#payment" class="nav-link" data-toggle="tab">Payment</a>
-	</li>
+
+      {% if not member.profile.honorary_member %}
+	  <li class="nav-item">
+	      <a href="#pro-status" class="nav-link" data-toggle="tab">{{ texts['member.tab_pro_status'] }}</a>
+	  </li>
+      {% endif %}
+
+      {% if flags.payment %}
+	  <li class="nav-item">
+	      <a href="#payment" class="nav-link" data-toggle="tab">{{ texts['member.tab_payment'] }}</a>
+	  </li>
       {% endif %}
 
       {% if member.status == 'member' and member.insurance.status != 'running' %}
-	<li class="nav-item">
-	    <a href="#insurance" class="nav-link" data-toggle="tab">Insurance</a>
-	</li>
+	  <li class="nav-item">
+	      <a href="#insurance" class="nav-link" data-toggle="tab">{{ texts['member.tab_insurance'] }}</a>
+	  </li>
       {% endif %}
+
       <li class="nav-item">
-	  <a href="#documents" class="nav-link" data-toggle="tab">Documents</a>
+	  <a href="#documents" class="nav-link" data-toggle="tab">{{ texts['member.tab_documents'] }}</a>
       </li>
+
+      {% if not flags.candidate %}
+	  <li class="nav-item">
+	      <a href="#invoices" class="nav-link" data-toggle="tab">{{ texts['member.tab_invoices'] }}</a>
+	  </li>
+      {% endif %}
   </ul>
 
-  <div class="tab-content" id="member-space">
+  <div class="tab-content mt-4" id="member-space">
 
-    <div class="tab-pane fade show active" id="informations">
-	<div class="form-group col-sm-6">
-	  <label for="inputStatus">Status</label>
-	  <input type="text" name="_status" disabled="disabled" class="form-control" id="inputStatus" value="{{ member.status }}">
-	</div>
-	{% if member.insurance.status == 'running' or member.insurance.status == 'pending_renewal' %}
-	  <div class="form-group col-sm-6">
-	    <h5>Insurance</h5>
-	    <p>{{ insuranceName }}</p>
-	  </div>
-	{% endif %}
+      {% partial __SELF__ ~ '::informations' %}
 
-	{{ form_ajax('onUpdate', {flash: ''}) }}
-	  <div class="form-group col-sm-6">
-	    <label for="inputAppealCourt">{{ sharedFields.appeal_court }}</label>
-	    <select name="appealCourt" class="form-control" id="inputAppealCourt">
-	      <option value="">- Select -</option>
-	      {% for id, name in sharedFields.appeal_court_options %}
-		<option value="{{ id }}" {{ (id == member.appeal_court_id) ? 'selected' : '' }}>{{ name }}</option>
-	      {% endfor %}
-	    </select>
-	  </div>
-
-	  <div class="form-group col-sm-6">
-	    <label>{{ sharedFields.categories }}</label>
-	      {% for id, name in sharedFields.category_options %}
-		<div>
-		  <input type="checkbox"  id="{{ id }}" name="categories[]" value="{{ id }}" {{ (id in categoryIds) ? 'checked' : '' }}>
-		  <label for="{{ id }}">{{ name }}</label>
-		</div>
-	      {% endfor %}
-	  </div>
-
-	  {% if member.status == 'member' %}
-	    <div class="form-group col-sm-6">
-	      <h5>Member List</h5>
-	      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-	      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	      dolore eu fugiat nulla pariatur.</p>
-	      <div class="radio">
-		  <input name="member_list" value="1" type="radio" id="member-list-yes" {{ (member.member_list == 1) ? 'checked="checked"' : '' }} />
-		  <label for="member-list-yes">Yes</label>
-	      </div>
-	      <div class="radio">
-		  <input name="member_list" value="0" type="radio" id="member-list-no" {{ (member.member_list == 0) ? 'checked="checked"' : '' }} />
-		  <label for="member-list-no">No</label>
-	      </div>
-	    </div>
-	  {% endif %}
-
-	  <button type="submit" id="btn-update" class="btn btn-success">Update</button>
-	{{ form_close() }}
-
-	{% if member.status == 'pending_renewal' %}
-	  <div class="form-group col-sm-6">
-	    <h4>Membership Cancellation</h4>
-	    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-	    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-	    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-	    dolore eu fugiat nulla pariatur.</p>
-
-	    {{ form_ajax('onCancellation', {flash: ''}) }}
-	      <button type="submit" id="btn-cancellation" class="btn btn-danger">Cancellation</button>
-	    {{ form_close() }}
-	  </div>
-	{% endif %}
-    </div>
-
-    <div class="tab-pane fade" id="files">
-      <!--<form method="POST" action="{{ url('profile') }}" accept-charset="UTF8" enctype="multipart/form-data">-->
-      <!--<form data-request="onReplaceFile" data-request-files data-request-flash>-->
-      {{ form_ajax('onReplaceFile', {files: 1, flash: ''}) }}
-
-	<!--<input type="hidden" name="_handler" value="onReplaceFile">-->
-
-	  {{ form_token() }}
-	  {{ form_sessionKey }}
-
-	<div id="newFile" class="form-group col-sm-6">
-	  <a class="btn btn-danger btn-lg" target="_blank" href="{{ member.attestations.first.path }}">
-	  <span class="glyphicon glyphicon-download"></span>Download</a>
-	</div>
-	<div class="form-group col-sm-6">
-	  <label for="inputAttestation">Attestation</label>
-	  <input type="file" name="attestation" data-request="onUploadDocument" class="form-control" id="inputAttestation" data-request-files data-request-flash>
-	</div>
-	<input type="hidden" name="_upload" value="1">
-	<button type="submit" class="btn btn-success">Replace</button>
-      {{ form_close() }}
-    </div>
-
-    {% if isPayment %}
-      <div class="tab-pane fade" id="payment">
-      {{ form_ajax('onPayment', {flash: ''}) }}
-	<div id="payment-modes">
-	<table class="table">
-	{% if not isCandidate and not isFreePeriod %}
-	  <tr>
-	    <td>
-	      Insurance description</br>
-	      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-	    </td>
-	  </tr>
-	  <tr>
-	    <td>
-	      <input type="radio" id="f0" name="insurance_code" value="f0" checked>
-	      No Insurance
-	    </td>
-	  </tr>
-	  <tr>
-	    <td>
-	      <input type="radio" id="f1" name="insurance_code" value="f1">
-	      Insurance (Essential)
-	    </td>
-	  </tr>
-	  <tr>
-	    <td>
-	      <input type="radio" id="f2" name="insurance_code" value="f2">
-	      Insurance (Full)
-	    </td>
-	  </tr>
-	{% endif %}
-	  <tr>
-	    <td>
-	      Subscription description<br />
-	      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-	    </td>
-	  </tr>
-	  {% if isFreePeriod %}
-	    <tr>
-	      <td>
-		<input type="radio" id="free-period" name="payment_mode" value="free_period" checked>
-		Free Period
-	      </td>
-	    </tr>
-	  {% else %}
-	    <tr>
-	      <td>
-		<input type="radio" id="cheque" name="payment_mode" value="cheque" checked>
-		Cheque payment
-	      </td>
-	    </tr>
-	    <tr>
-	      <td>
-		<input type="radio" id="paypal" name="payment_mode" value="paypal">
-		Paypal
-	      </td>
-	    </tr>
-	    <tr>
-	      <td>
-		<input type="hidden" name="item" value="subscription">
-		<button type="submit" id="btn-payment" class="btn btn-success">Pay Now</button>
-	      </td>
-	    </tr>
-	{% endif %}
-	</table>
-	</div>
-      {{ form_close() }}
-      </div>
-    {% endif %}
-
-    {% if member.status == 'member' and member.insurance.status != 'running' %}
-      <div class="tab-pane fade" id="insurance">
-      {{ form_ajax('onPayment', {flash: ''}) }}
-	<div id="payment-modes">
-	<table class="table">
-	  <tr>
-	    <td>
-	      Insurance description</br>
-	      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-	    </td>
-	  </tr>
-	  <tr>
-	    <td>
-	      <input type="radio" id="f1" name="code" value="f1" checked>
-	      Insurance (Essential)
-	    </td>
-	  </tr>
-	  <tr>
-	    <td>
-	      <input type="radio" id="f2" name="code" value="f2">
-	      Insurance (Full)
-	    </td>
-	  </tr>
-	  <tr>
-	    <td>
-	      Payment description<br />
-	      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-	    </td>
-	  </tr>
-	  <tr>
-	    <td>
-	      <input type="radio" id="cheque" name="payment_mode" value="cheque" checked>
-	      Cheque payment
-	    </td>
-	  </tr>
-	  <tr>
-	    <td>
-	      <input type="radio" id="paypal" name="payment_mode" value="paypal">
-	      Paypal
-	    </td>
-	  </tr>
-	  <tr>
-	    <td>
-	      <input type="hidden" name="item" value="insurance">
-	      <button type="submit" id="btn-payment" class="btn btn-success">Pay Now</button>
-	    </td>
-	  </tr>
-	</table>
-	</div>
-      {{ form_close() }}
-      </div>
-    {% endif %}
-    <div class="tab-pane fade" id="documents">
-      {% if member.status == 'member' %}
-	{% for document in documents %}
-	  <li>{{ document.title }}</li>
-	  <div>{{ document.description }}</div>
-
-	  {% for file in document.files %}
-	    <div class="form-group col-sm-6">
-	      <a class="btn btn-info btn-lg" target="_blank" href="{{ file.getPath() }}">
-	      <span class="glyphicon glyphicon-download"></span>Download</a>
-	    </div>
-	  {% endfor %}
-
-	{% endfor %}
+      {% if not member.profile.honorary_member %}
+	  {% partial __SELF__ ~ '::pro-status' %}
       {% endif %}
-    </div>
+
+      {% if flags.payment %}
+	  {% partial __SELF__ ~ '::payment' %}
+      {% endif %}
+
+      {% if member.status == 'member' and member.insurance.status != 'running' %}
+	  {% partial __SELF__ ~ '::insurance' %}
+      {% endif %}
+
+      {% partial __SELF__ ~ '::documents' %}
+
+      {% if not flags.candidate %}
+	  {% partial __SELF__ ~ '::invoices' %}
+      {% endif %}
 
   </div>
+
   {% put scripts %}
       <script type="text/javascript" src="plugins/codalia/membership/assets/js/member-space.js"></script>
   {% endput %}

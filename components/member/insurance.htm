@@ -1,0 +1,51 @@
+<div class="tab-pane fade" id="insurance">
+{{ form_ajax('onPayment', {flash: ''}) }}
+  <div id="payment-modes">
+  <table class="table">
+    <tr>
+      <td>
+	Insurance description</br>
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+      </td>
+    </tr>
+    <tr>
+      <td>
+	<input type="radio" id="f1" name="code" value="f1" checked>
+	Insurance (Essential)
+      </td>
+    </tr>
+    <tr>
+      <td>
+	<input type="radio" id="f2" name="code" value="f2">
+	Insurance (Full)
+      </td>
+    </tr>
+    <tr>
+      <td>
+	Payment description<br />
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+      </td>
+    </tr>
+    <tr>
+      <td>
+	<input type="radio" id="cheque" name="payment_mode" value="cheque" checked>
+	Cheque payment
+      </td>
+    </tr>
+    <tr>
+      <td>
+	<input type="radio" id="paypal" name="payment_mode" value="paypal">
+	Paypal
+      </td>
+    </tr>
+    <tr>
+      <td>
+	<input type="hidden" name="item" value="insurance">
+	<button type="submit" id="btn-payment" class="btn btn-success">{{ texts['action.pay_now'] }}</button>
+      </td>
+    </tr>
+  </table>
+  </div>
+{{ form_close() }}
+</div>
+

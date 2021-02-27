@@ -1,8 +1,78 @@
-<p>This is the default markup for component MemberList</p>
+<div class="container">
 
-<small>You can delete this file if you want</small>
+    <p class="h3">Member List</p>
 
+    {% if(user) %}
+	{{ form_ajax('onExport', {flash: ''}) }}
+	    <div class="row">
+		<div class="form-group col-sm-3">
+		    <button type="submit" id="export" class="btn btn-info">{{ texts['action.export'] }}</button>
+		</div>
+	    </div>
+	{{ form_close() }}
+    {% endif %}
 
-{{ form_ajax('onTest', {flash: ''}) }}
-	      <button type="submit" id="btn-cancellation" class="btn btn-danger">Cancellation</button>
-	    {{ form_close() }}
+    {{ form_ajax('onFilterMembers', {flash: ''}) }}
+
+    <div class="row">
+	<div class="form-group col-sm-3">
+	    <label for="languages">{{ texts['filter.languages'] }}</label>
+		<select name="languages[]" class="form-control js-example-basic-multiple" multiple="multiple" data-request="onFilterMembers" id="languages">
+		    {% for value, text in languages %}
+			<option value="{{ value }}">{{ text }}</option>
+		    {% endfor %}
+		</select>
+	</div>
+
+	<div class="form-group col-sm-2">
+	    <label for="licence-type">{{ texts['filter.type'] }}</label>
+		<select name="licence_type" class="form-control" data-request="onFilterMembers" id="licence-type">
+		    <option value="">{{ texts['action.all'] }}</option>
+		    {% for value, text in licenceTypes %}
+			<option value="{{ value }}">{{ text }}</option>
+		    {% endfor %}
+		</select>
+	</div>
+
+	<div class="form-group col-sm-2">
+	    <label for="expert-skill">{{ texts['filter.skill'] }}</label>
+		<select name="expert_skill" class="form-control" data-request="onFilterMembers" id="expert-skill">
+		    <option value="">{{ texts['action.all'] }}</option>
+		    <option value="interpreter">{{ texts['profile.interpreter'] }}</option>
+		    <option value="translator">{{ texts['profile.translator'] }}</option>
+		</select>
+	</div>
+
+	<div class="form-group col-sm-3">
+	    <label for="appeal-courts">{{ texts['filter.appeal_courts'] }}</label>
+		<select name="appeal_court_ids[]" class="form-control js-example-basic-multiple" multiple="multiple" data-request="onFilterMembers" id="appeal-courts">
+		    {% for value, text in appealCourts %}
+			<option value="{{ value }}">{{ text }}</option>
+		    {% endfor %}
+		</select>
+	</div>
+
+	<div class="form-group col-sm-3">
+	    <label for="courts">{{ texts['filter.courts'] }}</label>
+		<select name="court_ids[]" class="form-control js-example-basic-multiple" multiple="multiple" data-request="onFilterMembers" id="courts">
+		    {% for value, text in courts %}
+			<option value="{{ value }}">{{ text }}</option>
+		    {% endfor %}
+		</select>
+	</div>
+    </div>
+
+	<button type="button" data-request="onFilterMembers" id="reset-filters"
+			      class="btn btn-success">{{ texts['action.reset'] }}</button>
+    {{ form_close() }}
+
+    <div id="members">
+	{% partial '@members' %}
+    </div>
+</div>
+
+{% put scripts %}
+    <link href="plugins/codalia/membership/assets/vendor/select2-4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="plugins/codalia/membership/assets/vendor/select2-4.0.13/js/select2.min.js"></script>
+    <script type="text/javascript" src="plugins/codalia/membership/assets/js/member-list.js"></script>
+{% endput %}

@@ -5,11 +5,11 @@ use Carbon\Carbon;
 use Backend;
 use BackendAuth;
 use Codalia\Membership\Models\Member;
+use Codalia\Membership\Models\Document;
 use Codalia\Membership\Models\Payment;
 use Codalia\Membership\Models\Settings;
+use Codalia\Profile\Models\Profile;
 use Backend\Models\UserGroup;
-use System\Classes\PluginManager;
-use Renatio\DynamicPDF\Classes\PDF; // import facade
 use Mail;
 use Flash;
 use Lang;
@@ -144,35 +144,101 @@ class EmailHelper
 		 'reference' => 'xxxxxxxxxx',
         ];
 
-	if (substr($data['item'], 0, 12) === 'subscription') {
-	    $vars['subscription_fee'] = Payment::getAmount('subscription');
-	}
+	$langVar = ($data['mode'] == 'free_period') ? 'free_period_validated' : 'payment_'.$data['status'];
 
-	// The user has paid only for insurance or for both subscription and insurance.
-	if (substr($data['item'], 0, 9) === 'insurance' || substr($data['item'], 0, 22) === 'subscription-insurance') {
-	    // Removes the 'subscription-' part from the item code.
-	    $insurance = (substr($data['item'], 0, 9) === 'insurance') ? $data['item'] : substr($data['item'], 13); 
-
-	    $vars['insurance_fee'] = Payment::getAmount($insurance);
-	    $vars['insurance_name'] = Lang::get('codalia.membership::lang.payment.'.$insurance);
-	}
-
-	Mail::send('codalia.membership::mail.payment_'.$data['status'], $vars, function($message) use($member, $data, $vars) {
+	Mail::send('codalia.membership::mail.'.$langVar, $vars, function($message) use($member, $data, $vars, $langVar) {
 	    $message->to($member->profile->user->email, 'Admin System');
-	    $message->subject(Lang::get('codalia.membership::lang.email.payment_'.$data['status']));
+	    $message->subject(Lang::get('codalia.membership::lang.email.'.$langVar));
 
-	    if ($data['status'] == 'completed' && PluginManager::instance()->exists('Renatio.DynamicPDF')) {
-		$tempFile = tempnam(sys_get_temp_dir(), 'inv');
-		PDF::loadTemplate('invoice-membership', $vars)->save($tempFile);
-
-		$message->attach($tempFile, ['as' => 'Your_Invoice.pdf']);
+	    if ($data['status'] == 'completed' && isset($data['invoice_path'])) {
+		$message->attach($data['invoice_path'], ['as' => $data['invoice_name']]);
 	    }
 	});
 
 	if (!empty($emails)) {
-	    Mail::send('codalia.membership::mail.payment_'.$data['status'].'_admin', $vars, function($message) use($emails, $data) {
+	    Mail::send('codalia.membership::mail.'.$langVar.'_admin', $vars, function($message) use($emails, $data, $langVar) {
 		$message->to($emails, 'Admin System');
-		$message->subject(Lang::get('codalia.membership::lang.email.payment_'.$data['status'].'_admin'));
+		$message->subject(Lang::get('codalia.membership::lang.email.'.$langVar.'_admin'));
+	    });
+	}
+    }
+
+    /**
+     * 
+     *
+     * @param integer    $documentId
+     *
+     * @return void
+     */
+    public function alertDocument($documentId)
+    {
+        $document = Document::find($documentId);
+	// Prepares data.
+	$data = [];
+	$data['licence_types'] = (!empty($document->licence_types)) ? explode(',', $document->licence_types) : [];
+	$data['appeal_courts'] = (!empty($document->appeal_courts)) ? explode(',', $document->appeal_courts) : [];
+	$data['courts'] = (!empty($document->courts)) ? explode(',', $document->courts) : [];
+	$data['languages'] = (!empty($document->languages)) ? explode(',', $document->languages) : [];
+
+	// Searches members from the Profile relationship as it contained most of the relevant data to search for.
+	$profiles = Profile::whereHas('licences', function($query) use($data) {
+
+			if (!empty($data['licence_types'])) {
+			    $query->whereIn('type', $data['licence_types']);
+
+			    if (!empty($data['appeal_courts'])) {
+				$query->whereIn('appeal_court_id', $data['appeal_courts']);
+
+			        if (empty($data['courts'])) {
+				    $query->orWhereNull('court_id');
+				}
+			    }
+
+			    if (!empty($data['courts'])) {
+			        if (!empty($data['appeal_courts'])) {
+				    $query->orWhereIn('court_id', $data['courts']);
+				}
+				else {
+				    $query->whereIn('court_id', $data['courts'])->orWhereNull('appeal_court_id');
+				}
+			    }
+			}
+
+			$query->whereHas('attestations', function($query) use($data) {
+			    //
+			    if (!empty($data['languages'])) {
+				$query->whereHas('languages', function($query) use($data) { 
+					$query->whereIn('alpha_2', $data['languages']);
+				}); 
+			    }
+			});
+		    })->whereHas('member', function($query) {
+			$query->where('member_list', 1)->where(function ($query) {
+			    $query->where('status', 'member');
+
+			    $now = new \DateTime(date('Y-m-d'));
+			    $renewalDate = \Codalia\Membership\Helpers\RenewalHelper::instance()->getRenewalDate();
+
+			    if ($now->format('Y-m-d') < $renewalDate->format('Y-m-d')) {
+				$query->orWhere('status', 'pending_renewal');
+			    }
+			});
+		    })->get();
+
+	$emails = [];
+
+	foreach ($profiles as $profile) {
+	    $emails[] = $profile->user->email;
+	}
+
+	// Prepares variables.
+	$vars = ['title' => $document->title,
+        ];
+
+	if (!empty($emails)) {
+	    Mail::send('codalia.membership::mail.alert_document', $vars, function($message) use($emails) {
+		$message->to($emails, 'Admin System');
+		$message->subject(Lang::get('codalia.membership::lang.email.new_document'));
 	    });
 	}
     }

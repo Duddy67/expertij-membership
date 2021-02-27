@@ -17,12 +17,12 @@
 	    <?php if($this->user->role->code != 'decision-maker') : // No access for decision maker. ?>
                 <button
 		    id="on-save"
-                    type="submit"
+                    type="button"
                     data-request="onSave"
-                    data-request-data="redirect:1"
+                    data-request-data="redirect:0"
                     data-hotkey="ctrl+s, cmd+s"
                     data-load-indicator="Saving Member..."
-		    data-request-success="$.fn.refreshForm();"
+		    data-request-success="$.fn.refreshStatus();"
                     class="btn btn-primary">
 		    <?= e(trans('codalia.membership::lang.action.save')) ?>
                 </button>
@@ -33,7 +33,6 @@
                     data-request-data="close:1"
                     data-hotkey="ctrl+enter, cmd+enter"
                     data-load-indicator="Saving Member..."
-		    data-request-success="$.fn.refreshForm();"
                     class="btn btn-default">
 		    <?= e(trans('codalia.membership::lang.action.save_and_close')) ?>
                 </button>
@@ -52,10 +51,11 @@
 		        id="btn-email-sendings"
 			type="button"
 			data-request="onSendEmailToDecisionMakers"
+			data-request-confirm="<?= e(trans('codalia.membership::lang.action.email_sending_confirmation')) ?>"
 			data-hotkey="ctrl+enter, cmd+enter"
 			data-load-indicator="Saving Member..."
 			class="btn-warning btn oc-icon-envelope-o">
-			<?= e(trans('codalia.membership::lang.action.email_sendings', ["count" => $this->vars['formModel']->email_sendings])) ?>
+			<?= e(trans('codalia.membership::lang.action.email_sendings_count', ["count" => $this->vars['formModel']->email_sendings])) ?>
 		    </button>
 		<?php endif; ?>
 	     <?php endif; ?>	
@@ -66,6 +66,7 @@
         </div>
 
 	<input type="hidden" name="_current_status" id="current-status" value="<?php echo $this->vars['formModel']->status; ?>"> 
+	<input type="hidden" name="_js_messages" id="js-messages" value="<?php echo htmlspecialchars($this->vars['javascriptMessages']); ?>"> 
 
     <?= Form::close() ?>
 

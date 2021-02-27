@@ -8,12 +8,11 @@ columns:
         searchable: true
         sortable: true
 
-    _categories:
-        label: codalia.membership::lang.membership.categories
-        relation: categories
-        select: name
-        searchable: true
+    _recipients:
+        label: codalia.membership::lang.documents.recipients
         sortable: false
+        type: partial
+        path: ~/plugins/codalia/membership/models/document/_recipient_column.htm
 
     status:
         label: codalia.membership::lang.attribute.status

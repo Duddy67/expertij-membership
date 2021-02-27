@@ -1,0 +1,18 @@
+<div class="tab-pane fade" id="documents">
+    {% if member.status == 'member' %}
+        <ul class="list-group">
+	{% for document in documents %}
+	    <li class="list-group-item"><strong>{{ document.title }}</strong>
+		<div>{{ document.description|raw }}</div>
+
+		<ul>
+		    {% for file in document.files %}
+			<li><a class="" target="_blank" href="{{ file.getPath() }}">{{ file.file_name }}</a> </li>
+		    {% endfor %}
+		</ul>
+	    </li>
+	{% endfor %}
+        </ul>
+    {% endif %}
+</div>
+

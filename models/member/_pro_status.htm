@@ -1,0 +1,36 @@
+<?php if ($model->profile->honorary_member) : ?>                
+   <div class="panel panel-info">
+       <div class="panel-heading">Information</div>
+       <div class="panel-body">The honorary members have no professional status.</div>
+   </div>
+<?php else : ?>
+
+<div class="form-group  text-field span-left">
+    <label for="Form-field-Member-pro-status">Status</label>
+    <input type="text" name="_pro_status" class="form-control" disabled="disabled" value="<?= e(trans('codalia.membership::lang.professional_status.'.$model->pro_status)) ?>">
+</div>
+
+<div class="form-group  text-field span-right">
+    <label for="Form-field-Member-since">Since</label>
+    <input type="text" name="_since" class="form-control" disabled="disabled" value="<?php echo $model->since; ?>">
+</div>
+
+<div class="form-group  text-field span-left">
+    <label for="Form-field-Member-siret-number">SIRET number</label>
+    <input type="text" name="_siret_number" class="form-control" disabled="disabled" value="<?php echo $model->siret_number; ?>">
+</div>
+
+<div class="form-group  text-field span-right">
+    <label for="Form-field-Member-naf-code">NAF code</label>
+    <input type="text" name="_naf_code" class="form-control" disabled="disabled" value="<?php echo $model->naf_code; ?>">
+</div>
+
+<div class="form-group  text-field span-left">
+    <label class="" for="">Attestation</label>
+    <div>
+	<?php if ($model->attestation) : ?>
+	    <a target="_blank" href="<?php echo $model->attestation->path; ?>"><?php echo $model->attestation->file_name; ?></a>
+        <?php endif; ?>
+    </div>
+</div>
+<?php endif; ?>

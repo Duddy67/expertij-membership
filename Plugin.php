@@ -106,11 +106,9 @@ class Plugin extends PluginBase
 	    // Ensures that a profile model always exists.
 	    $member = MemberModel::getFromProfile($profile, $data);
 
-	    if (Input::hasFile('attestation')) {
-		$member->attestations = Input::file('attestation');
-		// Important: Save without validation.
-		// NB. The validation has been performed earlier in the code.
-		$member->forceSave();
+	    if (Input::hasFile('membership__attestation') && !$profile->honorary_member) {
+		$member->attestation = Input::file('membership__attestation');
+		$member->save();
 	    }
 
 	    EmailHelper::instance()->afterRegistration($member);
@@ -207,11 +205,6 @@ class Plugin extends PluginBase
 			'icon'        => 'icon-users',
 			'url'         => Backend::url('codalia/membership/members'),
 		    ],
-		    'categories' => [
-			'label'       => 'codalia.membership::lang.membership.categories',
-			'icon'        => 'icon-sitemap',
-			'url'         => Backend::url('codalia/membership/categories'),
-		    ],
 		    'documents' => [
 			'label'       => 'codalia.membership::lang.membership.documents',
 			'icon'        => 'icon-files-o',
@@ -225,7 +218,6 @@ class Plugin extends PluginBase
 
 	// Limited access for decision maker.
 	if ($user->role->code == 'decision-maker') {
-	    unset($navigation['membership']['sideMenu']['categories']);
 	    unset($navigation['membership']['sideMenu']['documents']);
 	}
 
@@ -254,6 +246,7 @@ class Plugin extends PluginBase
 	    'codalia.membership::mail.alert_office',
 	    'codalia.membership::mail.alert_decision_makers',
 	    'codalia.membership::mail.alert_vote',
+	    'codalia.membership::mail.alert_document',
 	    'codalia.membership::mail.candidate_application',
 	    'codalia.membership::mail.cancelled',
 	    'codalia.membership::mail.cancellation',
@@ -270,6 +263,8 @@ class Plugin extends PluginBase
 	    'codalia.membership::mail.alert_cheque_payment',
 	    'codalia.membership::mail.payment_completed',
 	    'codalia.membership::mail.payment_completed_admin',
+	    'codalia.membership::mail.free_period_validated',
+	    'codalia.membership::mail.free_period_validated_admin',
 	    'codalia.membership::mail.payment_error',
 	    'codalia.membership::mail.payment_error_admin',
 	    'codalia.membership::mail.payment_cancelled',

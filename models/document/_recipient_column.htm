@@ -1,0 +1,14 @@
+<?php if ($record->licence_types) :
+            $types = explode(',', $record->licence_types);
+	    foreach ($types as $key => $type) : ?>
+		<?= e(trans('codalia.profile::lang.licence.'.$type)) ?>
+      <?php
+            if ($key + 1 < count($types)) {
+	        echo ', ';
+	    }
+
+	    endforeach; 
+     else : ?>
+    <?= e(trans('codalia.membership::lang.attribute.all')) ?>
+<?php endif; ?>
+
