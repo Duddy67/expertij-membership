@@ -182,9 +182,9 @@ class Paypal extends ComponentBase
 	$tokens = explode("\r\n\r\n", trim($result));
 	$result = trim(end($tokens));
 	$post = post();
-	// Retrieves the member id and the item code from the custom string.
+	// Retrieves the user id and the item code from the custom string.
 	preg_match('#^([0-9]+)\-([a-z\-0-9]+)#', $post['custom'], $matches);
-	$memberId = $matches[1];
+	$userId = $matches[1];
 	$item = $matches[2];
 	// Prepares variables.
 	$vars = ['mode' => 'paypal', 'item' => $item, 'amount' => $post['mc_gross'], 'currency' => $post['mc_currency'], 'transaction_id' => $post['txn_id'], 'last' => 1];
@@ -232,7 +232,7 @@ class Paypal extends ComponentBase
 	    }
 	}
 
-	$member = $this->loadMember($memberId);
+	$member = $this->loadMember($userId);
 	$member->savePayment($vars);
     }
 }

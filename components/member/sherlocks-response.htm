@@ -1,0 +1,30 @@
+{% if sherlocksResults['code'] == '' and sherlocksResults['error'] == '' %}
+    <div class="alert alert-danger" role="alert">
+	<h4>Erreur appel response.</h4>
+	<p>Executable non trouvé</p>
+    </div>
+{% elseif sherlocksResults['code'] != 0 %}
+    <div class="alert alert-danger" role="alert">
+	<h4>Erreur appel API de paiement.</h4>
+	<p>Message erreur: {{ sherlocksResults['error'] }}</p>
+    </div>
+{% else %}
+
+    {% if sherlocksResults['bank_response_code'] == '00' %}
+	<div class="alert alert-success" role="alert">
+	    <h4>Paiement réussi !</h4>
+	    {% set amount = sherlocksResults['amount'] / 100 %}
+	    <p>Votre paiement d'un montant de {{ amount }} Euros a été accepté.<br />
+	       Un email de confirmation ainsi qu'une facture vont vous être envoyés.
+	    </p>
+	</div>
+    {% else %}
+	<div class="alert alert-danger" role="alert">
+	    <h4>Erreur de paiement.</h4>
+	    <p>Réponse banque: {{ sherlocksResults['bank_response_code'] }}<br />
+	       Réponse complémentaire: {{ sherlocksResults['complementary_code'] }}
+	    </p>
+	</div>
+    {% endif %}
+
+{% endif %}

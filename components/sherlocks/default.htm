@@ -1,0 +1,14 @@
+
+{% if action == 'pay-now' %}
+    {% set code, error, message = result[1], result[2], result[3] %}
+
+    {% if (code == '' and error == '') %}
+	<p>Executable request not found</p>
+    {% elseif code != 0 %}
+        <p>Error payment API:</p>
+	<p>{{ error }}</p>
+    {% else %}
+        {{ amount }}
+        {{ message|raw }}
+    {% endif %}
+{% endif %}

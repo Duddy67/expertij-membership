@@ -143,6 +143,7 @@ class Plugin extends PluginBase
         return [
             'Codalia\Membership\Components\Member' => 'member',
             'Codalia\Membership\Components\Paypal' => 'paypal',
+            'Codalia\Membership\Components\Sherlocks' => 'sherlocks',
             'Codalia\Membership\Components\MemberList' => 'memberList',
         ];
     }

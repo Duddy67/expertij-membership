@@ -46,6 +46,11 @@ class Member extends ComponentBase
 
     public function onRun()
     {
+        if (\Session::has('sherlocks_results')) {
+	    // Retrieves then delete the results from the session.
+	    $this->page['sherlocksResults'] = \Session::pull('sherlocks_results');
+	}
+
 	$this->prepareVars();
     }
 

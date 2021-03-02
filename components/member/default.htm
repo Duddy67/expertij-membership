@@ -1,70 +1,75 @@
 <h4>Member Space</h4>
 {% if member.status == 'cancelled' or member.status == 'revoked' or member.status == 'cancellation' %}
-  <div class="card bg-light mb-3">
-    <div class="card-header">Information</div>
-    <div class="card-body">You are no longer member of this association.</div>
-  </div>
+    <div class="card bg-light mb-3">
+	<div class="card-header">Information</div>
+	<div class="card-body">You are no longer member of this association.</div>
+    </div>
 {% else %}
-  <ul class="nav nav-tabs">
-      <li class="nav-item">
-	<a href="#informations" class="nav-link active" data-toggle="tab">{{ texts['member.tab_informations'] }}</a>
-      </li>
 
-      {% if not member.profile.honorary_member %}
-	  <li class="nav-item">
-	      <a href="#pro-status" class="nav-link" data-toggle="tab">{{ texts['member.tab_pro_status'] }}</a>
-	  </li>
-      {% endif %}
+    {% if sherlocksResults is not null %}
+	{% partial __SELF__ ~ '::sherlocks-response' %}
+    {% endif %}
 
-      {% if flags.payment %}
-	  <li class="nav-item">
-	      <a href="#payment" class="nav-link" data-toggle="tab">{{ texts['member.tab_payment'] }}</a>
-	  </li>
-      {% endif %}
+    <ul class="nav nav-tabs">
+	<li class="nav-item">
+	    <a href="#informations" class="nav-link active" data-toggle="tab">{{ texts['member.tab_informations'] }}</a>
+	</li>
 
-      {% if member.status == 'member' and member.insurance.status != 'running' %}
-	  <li class="nav-item">
-	      <a href="#insurance" class="nav-link" data-toggle="tab">{{ texts['member.tab_insurance'] }}</a>
-	  </li>
-      {% endif %}
+	{% if not member.profile.honorary_member %}
+	    <li class="nav-item">
+		<a href="#pro-status" class="nav-link" data-toggle="tab">{{ texts['member.tab_pro_status'] }}</a>
+	    </li>
+	{% endif %}
 
-      <li class="nav-item">
-	  <a href="#documents" class="nav-link" data-toggle="tab">{{ texts['member.tab_documents'] }}</a>
-      </li>
+	{% if flags.payment %}
+	    <li class="nav-item">
+		<a href="#payment" class="nav-link" data-toggle="tab">{{ texts['member.tab_payment'] }}</a>
+	    </li>
+	{% endif %}
 
-      {% if not flags.candidate %}
-	  <li class="nav-item">
-	      <a href="#invoices" class="nav-link" data-toggle="tab">{{ texts['member.tab_invoices'] }}</a>
-	  </li>
-      {% endif %}
-  </ul>
+	{% if member.status == 'member' and member.insurance.status != 'running' %}
+	    <li class="nav-item">
+		<a href="#insurance" class="nav-link" data-toggle="tab">{{ texts['member.tab_insurance'] }}</a>
+	    </li>
+	{% endif %}
 
-  <div class="tab-content mt-4" id="member-space">
+	<li class="nav-item">
+	    <a href="#documents" class="nav-link" data-toggle="tab">{{ texts['member.tab_documents'] }}</a>
+	</li>
 
-      {% partial __SELF__ ~ '::informations' %}
+	{% if not flags.candidate %}
+	    <li class="nav-item">
+		<a href="#invoices" class="nav-link" data-toggle="tab">{{ texts['member.tab_invoices'] }}</a>
+	    </li>
+	{% endif %}
+    </ul>
 
-      {% if not member.profile.honorary_member %}
-	  {% partial __SELF__ ~ '::pro-status' %}
-      {% endif %}
+    <div class="tab-content mt-4" id="member-space">
 
-      {% if flags.payment %}
-	  {% partial __SELF__ ~ '::payment' %}
-      {% endif %}
+	{% partial __SELF__ ~ '::informations' %}
 
-      {% if member.status == 'member' and member.insurance.status != 'running' %}
-	  {% partial __SELF__ ~ '::insurance' %}
-      {% endif %}
+	{% if not member.profile.honorary_member %}
+	    {% partial __SELF__ ~ '::pro-status' %}
+	{% endif %}
 
-      {% partial __SELF__ ~ '::documents' %}
+	{% if flags.payment %}
+	    {% partial __SELF__ ~ '::payment' %}
+	{% endif %}
 
-      {% if not flags.candidate %}
-	  {% partial __SELF__ ~ '::invoices' %}
-      {% endif %}
+	{% if member.status == 'member' and member.insurance.status != 'running' %}
+	    {% partial __SELF__ ~ '::insurance' %}
+	{% endif %}
 
-  </div>
+	{% partial __SELF__ ~ '::documents' %}
 
-  {% put scripts %}
-      <script type="text/javascript" src="plugins/codalia/membership/assets/js/member-space.js"></script>
-  {% endput %}
+	{% if not flags.candidate %}
+	    {% partial __SELF__ ~ '::invoices' %}
+	{% endif %}
+
+    </div>
+
+    {% put scripts %}
+	<script type="text/javascript" src="{{ url('/') }}/plugins/codalia/membership/assets/js/member-space.js"></script>
+    {% endput %}
 
 {% endif %}
