@@ -8,7 +8,16 @@
         <p>Error payment API:</p>
 	<p>{{ error }}</p>
     {% else %}
-        {{ amount }}
+	<div class="alert alert-primary col-sm-12 mt-5 mb-5" role="alert">
+	    Payer un montant de {{ amount }} E via la plateforme de paiement LCL.
+	</div>
+
         {{ message|raw }}
+
+	<div class="row">
+	    <div class="form-group col-sm-3">
+		<a id="export" href="{{ url('membership') }}" class="btn btn-info">Return</a>
+	    </div>
+	</div>
     {% endif %}
 {% endif %}

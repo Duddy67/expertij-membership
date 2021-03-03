@@ -33,9 +33,3 @@ columns:
         type: partial
         path: ~/plugins/codalia/membership/models/member/_status_column.htm
 
-    _categories:
-        label: codalia.membership::lang.membership.categories
-        relation: categories
-        select: name
-        searchable: true
-        sortable: false

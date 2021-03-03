@@ -18,12 +18,3 @@ scopes:
             revoked: codalia.membership::lang.status.revoked
             cancellation: codalia.membership::lang.status.cancellation
 
-    category:
-        # Filter name
-        label: codalia.membership::lang.attribute.category
-        # Model Class name
-        modelClass: Codalia\Membership\Models\Category
-        # Model attribute to display for the name
-        nameFrom: name
-        # Apply query scope
-        scope: FilterCategories

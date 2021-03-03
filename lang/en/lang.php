@@ -103,6 +103,7 @@ return [
       'reset' => 'Reset',
       'update' => 'Update',
       'replace' => 'Replace',
+      'return' => 'Return',
       'save_and_close' => 'Save and close',
       'create' => 'Create',
       'create_and_close' => 'Create and close',
@@ -222,6 +223,7 @@ return [
       'october' => 'October',
       'november' => 'November',
       'december' => 'December',
+      'day_month_not_matching' => 'The renewal day doesn\'t match the renewal month. Ensure the chosen month has 31 days.',
     ],
     'filter' => [
       'languages' => 'Languages',
