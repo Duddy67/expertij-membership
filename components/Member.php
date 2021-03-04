@@ -82,6 +82,7 @@ class Member extends ComponentBase
 	$this->page['categoryIds'] = $this->member->categories->pluck('id')->toArray();
 	$this->page['proStatuses'] = $this->getProStatuses();
 	$this->page['texts'] = $this->getTexts();
+	$this->page['javascriptMessages'] = $this->getJavascriptMessages();
     }
 
     protected function loadMember()
@@ -279,5 +280,15 @@ class Member extends ComponentBase
 	    '#member-space' => '<div class="card bg-light mb-3"><div class="card-header">Information</div><div class="card-body">Your membership has been cancelled.</div></div>'
 	];
 
+    }
+
+    protected function getJavascriptMessages()
+    {
+        $messages = [];
+	$messages['pay_cheque_confirmation'] = Lang::get('codalia.membership::lang.action.pay_cheque_confirmation');
+	$messages['pay_paypal_confirmation'] = Lang::get('codalia.membership::lang.action.pay_paypal_confirmation');
+	$messages['pay_sherlocks_confirmation'] = Lang::get('codalia.membership::lang.action.pay_sherlocks_confirmation');
+
+	return json_encode($messages);
     }
 }
