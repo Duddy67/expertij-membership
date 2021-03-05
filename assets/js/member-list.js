@@ -5,7 +5,6 @@
     $('.js-example-basic-multiple').select2();
 
     $('#licence-type').change( function() { $.fn.setFilters($(this)); });
-    $('#reset-filters').click( function() { $.fn.resetFilters(); });
 
     $.fn.setFilters($('#licence-type'));
   });
@@ -16,7 +15,6 @@
       $('#courts').parent().css({'visibility':'hidden','display':'none'});
       $('#expert-skill').parent().css({'visibility':'visible','display':'block'});
       $('#appeal-courts').parent().css({'visibility':'visible','display':'block'});
-      $('#appeal-courts').select2().trigger('change');
     }
     else if(elem.val() == 'ceseda') {
       $('#expert-skill').val('');
@@ -24,7 +22,6 @@
       $('#appeal-courts').parent().css({'visibility':'hidden','display':'none'});
       $('#expert-skill').parent().css({'visibility':'hidden','display':'none'});
       $('#courts').parent().css({'visibility':'visible','display':'block'});
-      $('#courts').select2().trigger('change');
     }
     else {
       $('#expert-skill').val('');
@@ -37,18 +34,13 @@
   };
 
   $.fn.resetFilters = function() {
-    $('#languages').val('');
-    $('#expert-skill').val('');
-    $('#appeal-courts').val('');
-    $('#courts').val('');
-    $('#languages').select2().trigger('change');
-
     $('#licence-type').val('');
-    $.fn.setFilters($('#licence-type'));
-  };
+    $('#expert-skill').val('');
+    $('#languages').val(null).trigger('change');
+    $('#appeal-courts').val(null).trigger('change');
+    $('#courts').val(null).trigger('change');
 
-  $.fn.setPagination = function(pageNb) {
-      $('#page-number').val(pageNb);
+    $.fn.setFilters($('#licence-type'));
   };
 
 })(jQuery);

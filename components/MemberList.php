@@ -94,7 +94,7 @@ class MemberList extends ComponentBase
     protected function listMembers($pageNumber = null)
     {
         $pageNumber = ($pageNumber !== null) ? $pageNumber : 0;
-	$membersPerPage = $this->property('membersPerPage', 5);
+	$membersPerPage = $this->property('membersPerPage');
 
 	// Loads members from the Profile relationship as it contained most of the relevant data to search for.
 	$this->page['members'] = $this->profiles = Profile::whereHas('member', function($query) {  
@@ -115,15 +115,16 @@ class MemberList extends ComponentBase
     {
         $data = post();
 	$this->prepareVars();
-	$pageNumber = (isset($data['page_number'])) ? $data['page_number'] : 1;
+	// Sets the page number according to the passed variables.
+	$pageNumber = (isset($data['reset_filters']) || !isset($data['page_number'])) ? 0 : $data['page_number'];
 
 	// No filters or filters have been reset.
-	if (!isset($data['languages']) && empty($data['licence_type'])) {
+	if (isset($data['reset_filters']) || (!isset($data['languages']) && empty($data['licence_type']))) {
 	    $this->listMembers($pageNumber);
 	}
 	// Apply filters.
 	else {
-	    $membersPerPage = $this->property('membersPerPage', 5);
+	    $membersPerPage = $this->property('membersPerPage');
 	    // Searches members from the Profile relationship as it contained most of the relevant data to search for.
 	    $this->page['members'] = $this->profiles = Profile::whereHas('licences', function($query) use($data) {
 

@@ -62,8 +62,8 @@
 	    </div>
 	</div>
 
-	<button type="button" data-request-data="page_number: 1" data-request="onFilterMembers" id="reset-filters"
-			      class="btn btn-success">{{ texts['action.reset'] }}</button>
+	<button type="button" data-request-data="reset_filters: 1" data-request="onFilterMembers" data-request-success="$.fn.resetFilters();" 
+		id="reset-filters" class="btn btn-success">{{ texts['action.reset'] }}</button>
 
 	<div id="members">
 	    {% partial '@members' %}
