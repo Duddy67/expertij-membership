@@ -47,5 +47,9 @@
     $.fn.setFilters($('#licence-type'));
   };
 
+  $.fn.setPagination = function(pageNb) {
+      $('#page-number').val(pageNb);
+  };
+
 })(jQuery);
 

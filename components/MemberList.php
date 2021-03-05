@@ -26,7 +26,16 @@ class MemberList extends ComponentBase
 
     public function defineProperties()
     {
-        return [];
+	return [
+            'membersPerPage' => [
+                'title'             => 'codalia.membership::lang.settings.members_per_page',
+                'default'           => 5,
+                'type'              => 'string',
+                'validationPattern' => '^[0-9]+$',
+                'validationMessage' => 'codalia.membership::lang.settings.members_per_page_validation',
+                'showExternalParam' => false
+            ],
+	];
     }
 
     public function onRun()
@@ -47,25 +56,6 @@ class MemberList extends ComponentBase
 	$this->page['appealCourts'] = Profile::getAppealCourts();
 	$this->page['courts'] = Profile::getCourts();
 	$this->page['texts'] = $this->getTexts();
-    }
-
-    protected function listMembers()
-    {
-	// Loads members from the Profile relationship as it contained most of the relevant data to search for.
-	$this->profiles = Profile::whereHas('member', function($query) {  
-		        $query->where('member_list', 1)->where(function ($query) {
-			    $query->where('status', 'member');
-
-			    $now = new \DateTime(date('Y-m-d'));
-			    $renewalDate = RenewalHelper::instance()->getRenewalDate();
-
-			    if ($now->format('Y-m-d') < $renewalDate->format('Y-m-d')) {
-				$query->orWhere('status', 'pending_renewal');
-			    }
-			});
-		     })->get();
-
-	return $this->profiles;
     }
 
     protected function loadMember()
@@ -101,19 +91,41 @@ class MemberList extends ComponentBase
 	return $texts;
     }
 
+    protected function listMembers($pageNumber = null)
+    {
+        $pageNumber = ($pageNumber !== null) ? $pageNumber : 0;
+	$membersPerPage = $this->property('membersPerPage', 5);
+
+	// Loads members from the Profile relationship as it contained most of the relevant data to search for.
+	$this->page['members'] = $this->profiles = Profile::whereHas('member', function($query) {  
+		        $query->where('member_list', 1)->where(function ($query) {
+			    $query->where('status', 'member');
+
+			    $now = new \DateTime(date('Y-m-d'));
+			    $renewalDate = RenewalHelper::instance()->getRenewalDate();
+
+			    if ($now->format('Y-m-d') < $renewalDate->format('Y-m-d')) {
+				$query->orWhere('status', 'pending_renewal');
+			    }
+			});
+		     })->paginate($membersPerPage, $pageNumber);
+    }
+
     public function onFilterMembers()
     {
         $data = post();
 	$this->prepareVars();
+	$pageNumber = (isset($data['page_number'])) ? $data['page_number'] : 1;
 
-	// Filters have been reset.
+	// No filters or filters have been reset.
 	if (!isset($data['languages']) && empty($data['licence_type'])) {
-	    $this->listMembers();
+	    $this->listMembers($pageNumber);
 	}
 	// Apply filters.
 	else {
+	    $membersPerPage = $this->property('membersPerPage', 5);
 	    // Searches members from the Profile relationship as it contained most of the relevant data to search for.
-	    $this->profiles = Profile::whereHas('licences', function($query) use($data) {
+	    $this->page['members'] = $this->profiles = Profile::whereHas('licences', function($query) use($data) {
 
 				  if (!empty($data['licence_type'])) {
 				      $query->where('type', $data['licence_type']);
@@ -150,10 +162,14 @@ class MemberList extends ComponentBase
 					  $query->orWhere('status', 'pending_renewal');
 				      }
 				  });
-			      })->get();
+			      })->paginate($membersPerPage, $pageNumber);
+
 	}
 
-        return ['#members' => $this->renderPartial('@members')];
+	return [
+	    '#members' => $this->renderPartial('@members'), 
+	    '#pagination' => $this->renderPartial('@pagination'), 
+	];
     }
 
     public function onExport()

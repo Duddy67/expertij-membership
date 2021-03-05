@@ -1,0 +1,22 @@
+{% if members.lastPage > 1 %}
+    <ul class="pagination">
+        {% if members.currentPage > 1 %}
+            <li class="page-item">
+		<a href="#" class="page-link" data-request-data="page_number: {{ members.currentPage-1 }}" data-request="onFilterMembers">&larr; Prev</a>
+	    </li>
+        {% endif %}
+
+        {% for page in 1..members.lastPage %}
+            <li class="page-item {{ members.currentPage == page ? 'active' : null }}">
+		<a href="#" class="page-link" data-request-data="page_number: {{ page }}" data-request="onFilterMembers">{{ page }}</a>
+            </li>
+        {% endfor %}
+
+        {% if members.lastPage > members.currentPage %}
+            <li class="page-item">
+		<a href="#" class="page-link" data-request-data="page_number: {{ members.currentPage+1 }}" data-request="onFilterMembers">Next &larr;</a>
+	    </li>
+        {% endif %}
+    </ul>
+{% endif %}
+
