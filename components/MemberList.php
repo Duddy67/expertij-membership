@@ -125,8 +125,13 @@ class MemberList extends ComponentBase
 	// Apply filters.
 	else {
 	    $membersPerPage = $this->property('membersPerPage');
+	    // The licence type is set to "expert".
+	    $isExpert = (!empty($data['licence_type']) && $data['licence_type'] == 'expert') ? true : false;
+	    // Several languages are selected.
+	    $multiLanguages = (isset($data['languages']) && count($data['languages']) > 1) ? true : false;
+
 	    // Searches members from the Profile relationship as it contained most of the relevant data to search for.
-	    $this->page['members'] = $this->profiles = Profile::whereHas('licences', function($query) use($data) {
+	    $query = Profile::whereHas('licences', function($query) use($data, $isExpert) {
 
 				  if (!empty($data['licence_type'])) {
 				      $query->where('type', $data['licence_type']);
@@ -138,20 +143,36 @@ class MemberList extends ComponentBase
 				      }
 				  }
 
-				  $query->whereHas('attestations', function($query) use($data) {
-				      //
-				      if (isset($data['languages'])) {
+				  if (isset($data['languages'])) {
+				      // Manages expert licence specificities.
+				      if ($isExpert) {
+					  // Ensures that the selected languages exist in the licence attestations.
+					  // Note: Expert licence is unique for each profile, so there is no need to search extra licences.
 					  foreach ($data['languages'] as $language) {
-					      $query->whereHas('languages', function($query) use($data, $language) { 
-						      $query->where('alpha_2', $language);
-
-						      if ($data['licence_type'] == 'expert' && !empty($data['expert_skill'])) {
-							  $query->where($data['expert_skill'], 1);
+					      $query->whereHas('attestations', function($query) use($data, $language) {
+						  $query->whereHas('languages', function($query) use($data, $language) { 
+						      // Uses AND operator.  
+						      if (!empty($data['expert_skill'])) {
+							  // Uses a raw query or the bindings will come in the wrong order.
+							  $query->whereRaw('alpha_2 = ? AND '.$data['expert_skill'].' = 1', $language);
 						      }
-					      }); 
+						      else {
+							  $query->where('alpha_2', $language);
+						      }
+						  }); 
+					      });
 					  }
 				      }
-				  });
+				      else {
+				          $query->whereHas('attestations', function($query) use($data) {
+					      $query->whereHas('languages', function($query) use($data) { 
+						  // Uses OR operator.
+						  $query->whereIn('alpha_2', $data['languages']);
+					      }); 
+					  }); 
+				      }
+				  }
+			      // Filters the search against some member attributes. 	  
 			      })->whereHas('member', function($query) {
 				  $query->where('member_list', 1)->where(function ($query) {
 				      $query->where('status', 'member');
@@ -163,8 +184,54 @@ class MemberList extends ComponentBase
 					  $query->orWhere('status', 'pending_renewal');
 				      }
 				  });
-			      })->paginate($membersPerPage, $pageNumber);
+			      });
 
+	                      // Paginates the result if no extra filtering is needed.
+			      $this->page['members'] = $this->profiles = ($multiLanguages && !$isExpert) ? $query->get() : $query->paginate($membersPerPage, $pageNumber);
+
+                              // Filters languages by licence with the AND operator.
+			      if ($multiLanguages && !$isExpert) {
+				  $profileIds = $languages = [];
+
+				  foreach ($this->profiles as $profile) {
+				      foreach ($profile->licences as $licence) {
+                                          // Filters only the selected licence type.
+                                          if (!empty($data['licence_type']) && $data['licence_type'] != $licence->type) {
+					      continue;
+					  }
+
+					  foreach ($licence->attestations as $attestation) {
+					      foreach ($attestation->languages as $language) {
+						  if (in_array($language->alpha_2, $data['languages']) && !in_array($language->alpha_2, $languages)) {
+						      $languages[] = $language->alpha_2;
+						  }
+					      }
+					  }
+
+					  // All the selected languages must be contained in the current licence.
+                                          if (isset($data['court_ids'])) {
+					      if (count($data['languages']) == count($languages)) {
+						  // No need to go further.
+						  break;
+					      }
+					      else {
+						  // Reset the search for the next licence.
+						  $languages = [];
+					      }
+					  }
+				      }
+
+				      // All the selected languages have been found in the licences.
+				      if (count($data['languages']) == count($languages)) {
+					  $profileIds[] = $profile->id;
+				      }
+
+				      // Reset the search for the next profile.
+				      $languages = [];
+				  }
+
+				  $this->page['members'] = $this->profiles = Profile::whereIn('id', $profileIds)->paginate($membersPerPage, $pageNumber);
+			      }
 	}
 
 	return [
