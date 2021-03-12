@@ -227,6 +227,7 @@ return [
       'november' => 'November',
       'december' => 'December',
       'day_month_not_matching' => 'The renewal day doesn\'t match the renewal month. Ensure the chosen month has 31 days.',
+      'settings_not_correctly_set' => 'Warning: One or more fields in the global settings are not correctly set.',
     ],
     'filter' => [
       'languages' => 'Languages',

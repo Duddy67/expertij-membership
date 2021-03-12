@@ -54,6 +54,11 @@ class Members extends Controller
 	$this->addCss(url('plugins/codalia/membership/assets/css/extra.css'));
 	// Unlocks the checked out items of this user (if any).
 	MembershipHelper::instance()->checkIn((new Member)->getTable(), BackendAuth::getUser());
+
+	if(!MembershipHelper::instance()->checkSettings()) {
+	    Flash::error(Lang::get('codalia.membership::lang.global_settings.settings_not_correctly_set'));
+	}
+
 	// Calls the parent method as an extension.
         $this->asExtension('ListController')->index();
     }

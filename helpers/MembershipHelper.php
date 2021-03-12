@@ -79,4 +79,23 @@ class MembershipHelper
     {
         return ['published' => 'success', 'unpublished' => 'danger', 'archived' => 'muted']; 
     }
+
+    /**
+     * Checks that all the fields in the global settings are correctly set.
+     *
+     * @return boolean
+     */
+    public function checkSettings()
+    {
+      $fields = ['renewal_day', 'renewal_month', 'renewal_period', 'free_period', 'reminder_renewal',
+		 'revocation', 'subscription_fee', 'insurance_fee_f1', 'insurance_fee_f2'];
+
+      foreach ($fields as $field) {
+	  if (!Settings::get($field, null)) {
+	      return false;
+	  }
+      }
+
+      return true;
+    }
 }
