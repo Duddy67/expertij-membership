@@ -37,8 +37,11 @@ class EmailHelper
 	    $message->subject(Lang::get('codalia.membership::lang.email.your_application'));
 	});
 
+        $emails = [];
 	// Fetches the emails of the user belonging to the Office group.
-        $emails = UserGroup::where('code', 'office')->first()->users->pluck('email')->toArray();
+	if ($userGroup = UserGroup::where('code', 'office')->first()) {
+	    $emails = $userGroup->users->pluck('email')->toArray();
+	}
 
 	if (!empty($emails)) {
 	    Mail::send('codalia.membership::mail.alert_office', $vars, function($message) use($emails) {
@@ -87,8 +90,12 @@ class EmailHelper
     {
         $candidate = Member::find($memberId)->profile;
         $user = BackendAuth::getUser();
-	// Fetches the emails of the users belonging to the Office group.
-        $emails = UserGroup::where('code', 'office')->first()->users->pluck('email')->toArray();
+
+        $emails = [];
+	// Fetches the emails of the user belonging to the Office group.
+	if ($userGroup = UserGroup::where('code', 'office')->first()) {
+	    $emails = $userGroup->users->pluck('email')->toArray();
+	}
 
 	if (!empty($emails)) {
 	  $vars = ['first_name' => $user->first_name, 'last_name' => $user->last_name,
@@ -132,8 +139,12 @@ class EmailHelper
     public function alertPayment($memberId, $data)
     {
         $member = Member::find($memberId);
-	// Fetches the emails of the users belonging to the Office group.
-        $emails = UserGroup::where('code', 'office')->first()->users->pluck('email')->toArray();
+        $emails = [];
+	// Fetches the emails of the user belonging to the Office group.
+	if ($userGroup = UserGroup::where('code', 'office')->first()) {
+	    $emails = $userGroup->users->pluck('email')->toArray();
+	}
+
 	// Prepares variables.
 	$vars = ['first_name' => $member->profile->first_name,
 		 'last_name' => $member->profile->last_name,
@@ -266,8 +277,11 @@ class EmailHelper
 
 	// Informs the admins about the member's cancellation.
 	if ($status == 'cancellation') {
-	    // Fetches the emails of the users belonging to the Office group.
-	    $emails = UserGroup::where('code', 'office')->first()->users->pluck('email')->toArray();
+	    $emails = [];
+	    // Fetches the emails of the user belonging to the Office group.
+	    if ($userGroup = UserGroup::where('code', 'office')->first()) {
+		$emails = $userGroup->users->pluck('email')->toArray();
+	    }
 
 	    if (!empty($emails)) {
 		Mail::send('codalia.membership::mail.cancellation_admin', $vars, function($message) use($emails) {
@@ -287,8 +301,11 @@ class EmailHelper
 	    $message->subject(Lang::get('codalia.membership::lang.email.cheque_payment'));
 	});
 
-	// Fetches the emails of the users belonging to the Office group.
-        $emails = UserGroup::where('code', 'office')->first()->users->pluck('email')->toArray();
+	$emails = [];
+	// Fetches the emails of the user belonging to the Office group.
+	if ($userGroup = UserGroup::where('code', 'office')->first()) {
+	    $emails = $userGroup->users->pluck('email')->toArray();
+	}
 
 	if (!empty($emails)) {
 	    Mail::send('codalia.membership::mail.alert_cheque_payment', $vars, function($message) use($emails) {
