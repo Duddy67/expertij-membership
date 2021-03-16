@@ -158,8 +158,12 @@ class Member extends Model
 	];
     }
 
-    public static function getRules()
+    public static function getRules($data = [])
     {
+	if (isset($data['profile']['honorary_member'])) {
+	    return [];
+	}
+
 	$rules = [
 	    'membership.pro_status' => 'required',
 	    'membership.since' => 'required',
@@ -173,6 +177,12 @@ class Member extends Model
 	}
 
 	return $rules;
+    }
+
+    public static function getProfileRules($rules, $data = [])
+    {
+        // No changes.
+        return $rules;
     }
 
     public static function getValidationRuleAttributes()
@@ -218,9 +228,9 @@ class Member extends Model
     /*
      * Used by the Profile plugin in the registration form.
      */
-    public static function getHostedFields()
+    public static function getGuestFields()
     {
-	$hostedFields = ['attestation' => 'codalia.membership::lang.professional_status.attestation',
+	$guestFields = ['attestation' => 'codalia.membership::lang.professional_status.attestation',
 			 'pro_status' => 'codalia.membership::lang.professional_status.pro_status',
 			 'pro_status_info' => 'codalia.membership::lang.professional_status.pro_status_info',
 			 'liberal_profession' => 'codalia.membership::lang.professional_status.liberal_profession',
@@ -232,9 +242,9 @@ class Member extends Model
 			 'naf_code' => 'codalia.membership::lang.professional_status.naf_code',
 	];
 
-	$hostedFields['pro_status_options'] = Member::getProStatusOptionData();
+	$guestFields['pro_status_options'] = Member::getProStatusOptionData();
 
-        return $hostedFields;
+        return $guestFields;
     }
 
     /**
