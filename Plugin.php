@@ -8,6 +8,7 @@ use Codalia\Membership\Models\Member as MemberModel;
 use Codalia\Membership\Controllers\Members as MembersController;
 use Codalia\Membership\Helpers\MembershipHelper;
 use Codalia\Membership\Helpers\EmailHelper;
+use Codalia\Membership\Helpers\RenewalHelper;
 use BackendAuth;
 use Event;
 use Input;
@@ -271,5 +272,13 @@ class Plugin extends PluginBase
 	    'codalia.membership::mail.payment_cancelled',
 	    'codalia.membership::mail.payment_cancelled_admin',
 	];
+    }
+
+    public function registerSchedule($schedule)
+    {
+        $schedule->call(function () {
+	    //RenewalHelper::instance()->checkRenewal();
+	    //RenewalHelper::instance()->_testScheduler();
+        })->daily();
     }
 }

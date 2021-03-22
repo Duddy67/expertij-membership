@@ -208,4 +208,12 @@ class RenewalHelper
 
         return 'none';
     }
+
+    /*
+     * For test purpose only.
+     */
+    public function _testScheduler()
+    {
+        file_put_contents('debog_scheduler.txt', print_r('scheduler ', true), FILE_APPEND);
+    }
 }
