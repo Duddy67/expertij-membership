@@ -18,7 +18,7 @@ class Settings extends Model
     public $rules = [
 	'renewal_period' => 'required|numeric',
 	'reminder_renewal' => 'required|numeric',
-	'revocation' => 'required|numeric',
+	//'revocation' => 'required|numeric',
 	'free_period' => 'required|numeric',
 	'subscription_fee' => 'required|regex:/^\d+(\.\d{1,2})?$/',
 	'insurance_fee_f1' => 'required|regex:/^\d+(\.\d{1,2})?$/',
@@ -53,6 +53,10 @@ class Settings extends Model
         if (!$this->checkRenewalDate()) {
 	    throw new \ValidationException(['#Form-field-Settings-renewal_day' => \Lang::get('codalia.membership::lang.global_settings.day_month_not_matching')]);
 	}
+
+        if (!$this->checkReminderDate()) {
+	    throw new \ValidationException(['#Form-field-Settings-reminder_renewal' => \Lang::get('codalia.membership::lang.global_settings.reminder_renewal_too_high')]);
+	}
     }
 
     protected function checkRenewalDate()
@@ -65,6 +69,21 @@ class Settings extends Model
 	}
 	elseif ($data['renewal_day'] > 28 && $data['renewal_month'] == '02') {
 	    return false;
+	}
+
+	return true;
+    }
+
+    protected function checkReminderDate()
+    {
+        $data = post('Settings');
+
+	if (substr($data['reminder_renewal'], 0, 1 ) == '-') {
+	    $daysReminder = ltrim($data['reminder_renewal'], '-');
+
+	    if ($daysReminder >= $data['renewal_period']) {
+		return false;
+	    }
 	}
 
 	return true;

@@ -32,13 +32,6 @@ tabs:
             comment: codalia.membership::lang.global_settings.reminder_renewal_comment
             type: text
 
-        revocation:
-            tab: codalia.membership::lang.global_settings.tab_general
-            span: left
-            label: codalia.membership::lang.global_settings.revocation
-            comment: codalia.membership::lang.global_settings.revocation_comment
-            type: text
-
         free_period:
             tab: codalia.membership::lang.global_settings.tab_general
             span: left

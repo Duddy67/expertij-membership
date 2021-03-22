@@ -88,10 +88,15 @@ class MembershipHelper
     public function checkSettings()
     {
       $fields = ['renewal_day', 'renewal_month', 'renewal_period', 'free_period', 'reminder_renewal',
-		 'revocation', 'subscription_fee', 'insurance_fee_f1', 'insurance_fee_f2'];
+		 'subscription_fee', 'insurance_fee_f1', 'insurance_fee_f2'];
 
       foreach ($fields as $field) {
 	  if (!Settings::get($field, null)) {
+	      // The reminder_renewal field is allowed to be set to zero.
+	      if ($field == 'reminder_renewal' && Settings::get($field, null) == 0) {
+	          continue;
+	      }
+
 	      return false;
 	  }
       }

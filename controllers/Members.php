@@ -108,14 +108,7 @@ class Members extends Controller
     public function index_onCheckRenewal()
     {
 	$result = RenewalHelper::instance()->checkRenewal();
-
-	if (is_string($result)) {
-	    Flash::success(Lang::get('codalia.membership::lang.action.check_renewal_'.$result.'_success'));
-	}
-	// integer
-	else {
-	    Flash::success(Lang::get('codalia.membership::lang.action.revocation_success', ['count' => $result]));
-	}
+	Flash::success(Lang::get('codalia.membership::lang.action.check_renewal_'.$result.'_success'));
     }
 
     public function update_onEditUser($recordId = null)

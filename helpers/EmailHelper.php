@@ -118,8 +118,8 @@ class EmailHelper
 	    $pattern = ($type) ? 'pending_renewal_'.$type : 'pending_renewal';
 
 	    if ($type == 'last_reminder') {
-		$daysRevocation = (int)Settings::get('revocation', 0);
-		$vars['limit_date'] = \Codalia\Membership\Helpers\RenewalHelper::instance()->getRenewalDate($daysRevocation)->format('d/m/Y');
+	        // Possibly...
+		//$vars['limit_date'] = \Codalia\Membership\Helpers\RenewalHelper::instance()->getRenewalDate(false)->format('d/m/Y');
 	    }
 
 	    Mail::send('codalia.membership::mail.'.$pattern, $vars, function($message) use($emails, $pattern) {
