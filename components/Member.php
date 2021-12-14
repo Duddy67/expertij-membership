@@ -288,6 +288,7 @@ class Member extends ComponentBase
 	$messages['pay_cheque_confirmation'] = Lang::get('codalia.membership::lang.action.pay_cheque_confirmation');
 	$messages['pay_paypal_confirmation'] = Lang::get('codalia.membership::lang.action.pay_paypal_confirmation');
 	$messages['pay_sherlocks_confirmation'] = Lang::get('codalia.membership::lang.action.pay_sherlocks_confirmation');
+	$messages['pay_free_period_confirmation'] = Lang::get('codalia.membership::lang.action.pay_free_period_confirmation');
 
 	return json_encode($messages);
     }
