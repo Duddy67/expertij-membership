@@ -18,7 +18,6 @@ secondaryTabs:
             type: fileupload
             mode: file
             attachOnUpload: false
-            required: true
 
         description:
             tab: codalia.membership::lang.attribute.tab_edit
@@ -72,22 +71,26 @@ secondaryTabs:
             label: codalia.membership::lang.attribute.created_at
             span: left
             type: datepicker
+            context: [update]
             mode: datetime
             disabled: true
 
         updated_at:
             tab: codalia.membership::lang.attribute.tab_manage
             type: partial
+            context: [update]
             path: '$/codalia/membership/models/document/_updated_at.htm'
 
         last_email_sending:
             tab: codalia.membership::lang.attribute.tab_manage
             type: partial
+            context: [update]
             path: '$/codalia/membership/models/document/_last_email_sending.htm'
 
         _send_email:
             tab: codalia.membership::lang.attribute.tab_manage
             type: partial
+            context: [update]
             path: '$/codalia/membership/models/document/_send_email.htm'
 
         # Read-only information field for users without other_books access.
@@ -110,4 +113,5 @@ secondaryTabs:
             tab: codalia.membership::lang.attribute.tab_manage
             label: ID
             span: left
+            context: [update]
             disabled: true

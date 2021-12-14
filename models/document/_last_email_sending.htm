@@ -1,5 +1,6 @@
 <div id="partial-lastEmailSending">
-    <div class="form-group  widget-field span-left" data-field-name="last_email_sending" id="Form-field-Document-last_email_sending-group">
+    <div class="form-group  widget-field span-left" data-field-name="last_email_sending"
+	 id="Form-field-Document-last_email_sending-group">
 	<label for="Form-field-Document-last_email_sending"><?= e(trans('codalia.membership::lang.document.last_email_sending')) ?></label>
 	    <!-- Widget -->
 	<div id="DatePicker-formLastEmailSending-last_email_sending" class="field-datepicker"
@@ -14,7 +15,6 @@
 			       disabled="disabled" data-datepicker />
 		    </div>
 		</div>
-
 		<div class="col-md-6">
 			<!-- Time -->
 		    <div class="input-with-icon right-align">
@@ -28,8 +28,7 @@
 	    <!-- Data locker -->
 	    <input type="hidden" name="Document[last_email_sending]"
 		   id="Form-field-Document-last_email_sending"
-		   value="<?php echo $model->last_email_sending; ?>"
-		   data-datetime-value />
+		   value="<?php echo $model->last_email_sending; ?>" data-datetime-value />
 	</div>
     </div>
 </div>

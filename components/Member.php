@@ -131,7 +131,7 @@ class Member extends ComponentBase
 				    $query->whereRaw('FIND_IN_SET(?,licence_types) > 0', [$licence['type']])->orWhereNull('licence_types');
 				})->where(function ($query) use($licence) {
 				    $courtType = ($licence['type'] == 'expert') ? 'appeal_courts' : 'courts';
-				    $query->whereRaw('FIND_IN_SET(?,"'.$courtType.'") > 0', [$licence['court']])->orWhereNull($courtType);
+				    $query->whereRaw('FIND_IN_SET(?,'.$courtType.') > 0', [$licence['court']])->orWhereNull($courtType);
 				})->where(function ($query) use($licence) {
 
 				    foreach ($licence['languages'] as $language) {

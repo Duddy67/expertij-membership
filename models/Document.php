@@ -93,6 +93,8 @@ class Document extends Model
     {
 	$user = BackendAuth::getUser();
 	$this->updated_by = $user->id;
+	// Prevent error when updating.
+	$this->last_email_sending = ($this->last_email_sending) ? $this->last_email_sending : null;
     }
 
     public function getStatusOptions()
@@ -166,5 +168,15 @@ class Document extends Model
 	return ($document->status == 'published' && is_null($document->published_up)) ? Carbon::now() : $document->published_up;
     }
 
+    /**
+     * Switch visibility of some fields.
+     *
+     * @param       $fields
+     * @param  null $context
+     * @return void
+     */
+    public function filterFields($fields, $context = null)
+    {
+    }
 }
 
