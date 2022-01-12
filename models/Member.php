@@ -170,6 +170,10 @@ class Member extends Model
 	    'membership.pro_status_info' => 'required_if:membership.pro_status,other|between:2,30',
 	    'membership.siret_number' => 'required|size:14',
 	    'membership.naf_code' => 'required|size:5',
+	    'membership.linguistic_training' => 'required',
+	    'membership.extra_linguistic_training' => 'required',
+	    'membership.professional_experience' => 'required',
+	    'membership.why_expertij' => 'required',
 	];
 
 	if (\Session::has('registration_context')) {
@@ -240,6 +244,11 @@ class Member extends Model
 			 'siret_number' => 'codalia.membership::lang.professional_status.siret_number',
 			 'since' => 'codalia.membership::lang.professional_status.since',
 			 'naf_code' => 'codalia.membership::lang.professional_status.naf_code',
+			 'linguistic_training' => 'codalia.membership::lang.professional_status.linguistic_training',
+			 'extra_linguistic_training' => 'codalia.membership::lang.professional_status.extra_linguistic_training',
+			 'professional_experience' => 'codalia.membership::lang.professional_status.professional_experience',
+			 'observations' => 'codalia.membership::lang.professional_status.observations',
+			 'why_expertij' => 'codalia.membership::lang.professional_status.why_expertij',
 	];
 
 	$guestFields['pro_status_options'] = Member::getProStatusOptionData();

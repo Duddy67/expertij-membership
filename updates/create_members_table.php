@@ -23,6 +23,11 @@ class CreateMembersTable extends Migration
             $table->smallInteger('since')->unsigned()->nullable();
 	    $table->char('siret_number', 14)->nullable();
 	    $table->char('naf_code', 5)->nullable();
+	    $table->text('linguistic_training')->nullable();
+	    $table->text('extra_linguistic_training')->nullable();
+	    $table->text('professional_experience')->nullable();
+	    $table->text('observations')->nullable();
+	    $table->text('why_expertij')->nullable();
 	    $table->integer('checked_out')->unsigned()->nullable()->index();
 	    $table->timestamp('checked_out_time')->nullable();
             $table->timestamps();

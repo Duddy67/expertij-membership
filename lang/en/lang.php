@@ -251,6 +251,11 @@ return [
       'siret_number' => 'SIRET number',
       'naf_code' => 'NAF code',
       'attestation' => 'Attestation',
+      'linguistic_training' => 'Linguistic training',
+      'extra_linguistic_training' => 'Extra linguistic training',
+      'professional_experience' => 'Professional experience',
+      'observations' => 'Observations',
+      'why_expertij' => 'Why subscribing to Expertij',
     ],
     'profile' => [
       'honorary_member' => 'Honorary Member',
