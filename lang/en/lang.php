@@ -256,6 +256,9 @@ return [
       'professional_experience' => 'Professional experience',
       'observations' => 'Observations',
       'why_expertij' => 'Why subscribing to Expertij',
+      'code_of_ethics' => 'Code of ethics',
+      'statuses' => 'Statuses',
+      'internal_rules' => 'Internal rules',
     ],
     'profile' => [
       'honorary_member' => 'Honorary Member',

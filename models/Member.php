@@ -249,6 +249,9 @@ class Member extends Model
 			 'professional_experience' => 'codalia.membership::lang.professional_status.professional_experience',
 			 'observations' => 'codalia.membership::lang.professional_status.observations',
 			 'why_expertij' => 'codalia.membership::lang.professional_status.why_expertij',
+			 'code_of_ethics' => 'codalia.membership::lang.professional_status.code_of_ethics',
+			 'statuses' => 'codalia.membership::lang.professional_status.statuses',
+			 'internal_rules' => 'codalia.membership::lang.professional_status.internal_rules',
 	];
 
 	$guestFields['pro_status_options'] = Member::getProStatusOptionData();
