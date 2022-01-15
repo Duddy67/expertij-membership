@@ -196,7 +196,7 @@ class Plugin extends PluginBase
     {
         $navigation = [
             'membership' => [
-                'label'       => 'Membership',
+                'label'       => 'codalia.membership::lang.membership.menu_label',
                 'url'         => Backend::url('codalia/membership/members'),
                 'icon'        => 'icon-address-card-o',
                 'permissions' => ['codalia.membership.*'],
@@ -230,7 +230,7 @@ class Plugin extends PluginBase
     {
 	return [
 	    'membership' => [
-		'label'       => 'Membership',
+		'label'       => 'codalia.membership::lang.membership.menu_label',
 		'description' => 'A plugin to manage membership.',
 		'category'    => 'Membership',
 		'icon'        => 'icon-address-card-o',

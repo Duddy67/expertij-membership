@@ -1,12 +1,12 @@
 <?php if ($model->profile->honorary_member) : ?>                
    <div class="panel panel-info">
-       <div class="panel-heading">Information</div>
-       <div class="panel-body">The honorary members have no professional status.</div>
+       <div class="panel-heading"><?= e(trans('codalia.membership::lang.attribute.information')) ?></div>
+       <div class="panel-body"><?= e(trans('codalia.membership::lang.member.honorary_member_info_2')) ?></div>
    </div>
 <?php else : ?>
 
 <div class="form-group  text-field span-left">
-    <label for="Form-field-Member-pro-status">Status</label>
+    <label for="Form-field-Member-pro-status"><?= e(trans('codalia.membership::lang.professional_status.pro_status')) ?></label>
     <input type="text" name="_pro_status" class="form-control" disabled="disabled" value="<?= e(trans('codalia.membership::lang.professional_status.'.$model->pro_status)) ?>">
 </div>
 

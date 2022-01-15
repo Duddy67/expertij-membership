@@ -27,6 +27,8 @@ return [
       'appeal_court' => 'Appeal court',
       'languages_expert' => 'Languages (Expert)',
       'languages_ceseda' => 'Languages (CESEDA)',
+      'honorary_member_info_1' => 'The honorary members have no licences.',
+      'honorary_member_info_2' => 'The honorary members have no professional status.',
     ],
     'members' => [
       'filter_status' => 'Status',
@@ -77,6 +79,7 @@ return [
       'main_category' => 'Main category',
       'parent_category' => 'Parent category',
       'none' => 'None',
+      'information' => 'Information',
     ],
     'status' => [
       'published' => 'Published',
@@ -107,8 +110,10 @@ return [
       'save_and_close' => 'Save and close',
       'create' => 'Create',
       'create_and_close' => 'Create and close',
+      'edit' => 'Edit',
       'cancel' => 'Cancel',
       'check_in' => 'Check-in',
+      'check_renewal' => 'Check renewal',
       'select' => '- Select -',
       'all' => '- All -',
       'pay_now' => 'Pay Now',

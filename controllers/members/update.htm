@@ -23,7 +23,7 @@
                     data-hotkey="ctrl+s, cmd+s"
                     data-load-indicator="Saving Member..."
 		    data-request-success="$.fn.refreshStatus();"
-                    class="btn btn-primary">
+                    class="btn btn-success">
 		    <?= e(trans('codalia.membership::lang.action.save')) ?>
                 </button>
                 <button
@@ -33,7 +33,7 @@
                     data-request-data="close:1"
                     data-hotkey="ctrl+enter, cmd+enter"
                     data-load-indicator="Saving Member..."
-                    class="btn btn-default">
+                    class="btn btn-success">
 		    <?= e(trans('codalia.membership::lang.action.save_and_close')) ?>
                 </button>
 		<?php if ($this->user->hasAccess('codalia.membership.access_delete')): ?>
@@ -60,7 +60,8 @@
 		<?php endif; ?>
 	     <?php endif; ?>	
                 <span class="btn-text">
-                    or <a href="<?= Backend::url('codalia/membership/members') ?>">Cancel</a>
+                    <a href="<?= Backend::url('codalia/membership/members') ?>"
+		    class="btn btn-default cancel-button"><?= e(trans('codalia.membership::lang.action.cancel')) ?></a>
                 </span>
             </div>
         </div>

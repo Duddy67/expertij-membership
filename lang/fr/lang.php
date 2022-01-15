@@ -6,7 +6,8 @@ return [
         'description' => 'Plugin utilisé pour gérer les adhérents de l\'association.'
     ],
     'membership' => [
-      'members' => 'Membres',
+      'menu_label' => 'Adhésion',
+      'members' => 'Adhérents',
       'categories' => 'Catégories',
       'documents' => 'Documents',
     ],
@@ -27,6 +28,8 @@ return [
       'appeal_court' => 'Cour d\'appel',
       'languages_expert' => 'Languages (Expert)',
       'languages_ceseda' => 'Languages (CESEDA)',
+      'honorary_member_info_1' => 'Les membres d\'honneur n\'ont pas de licences.',
+      'honorary_member_info_2' => 'Les membres d\'honneur n\'ont pas de statut professionnel.',
     ],
     'members' => [
       'filter_status' => 'Statut',
@@ -38,7 +41,7 @@ return [
     ],
     'document' => [
       'tab_filters' => 'Filtres',
-      'appeal_courts' => 'Cours d\appel',
+      'appeal_courts' => 'Cours d\'appel',
       'courts' => 'Cours',
       'languages' => 'Languages',
       'licence_types' => 'Licence types',
@@ -77,6 +80,7 @@ return [
       'main_category' => 'Catégorie principale',
       'parent_category' => 'Catégorie parent',
       'none' => 'Aucun',
+      'information' => 'Information',
     ],
     'status' => [
       'published' => 'Publié',
@@ -107,8 +111,10 @@ return [
       'save_and_close' => 'Sauvegarder et fermer',
       'create' => 'Créer',
       'create_and_close' => 'Créer et fermer',
+      'edit' => 'Editer',
       'cancel' => 'Annuler',
       'check_in' => 'Check-in',
+      'check_renewal' => 'Vérifier renouvellement',
       'select' => '- Selectionner -',
       'all' => '- Tout -',
       'pay_now' => 'Payer maintenant',
@@ -148,7 +154,7 @@ return [
       'status_changed_by_system' => 'Le statut a été changé par le système. Vous ne pouvez pas sauvegarder le formulaire. Veuillez rafraîchir la page (touche F5) et le sauvegarder à nouveau.',
       'status_change_confirmation' => 'Le statut de l\'adhérent(e) est sur le point d\'être changé. Etes vous sûr(e) ?',
       'state_change_confirmation' => 'L\'état de l\'item est sur le point d\'être changé. Etes vous sûr(e) ?',
-      'email_sendings_count' => 'Email envoyé (:count)',
+      'email_sendings_count' => 'Emails envoyés (:count)',
       'email_sendings' => 'Envoi d\'emails',
       'email_sending_confirmation' => 'Un email est sur le point d\'être envoyé à un ou plusieurs destinataires. Etes vous sûr(e) ?',
       'email_sendings_success' => 'Les emails ont été envoyés avec succès au(x) destinataire(s)',

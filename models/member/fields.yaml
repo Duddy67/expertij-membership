@@ -4,7 +4,7 @@
 
 fields:
     profile[user][name]:
-        label: Name
+        label: codalia.profile::lang.profile.last_name
         span: left
         type: text
         disabled: true
@@ -46,7 +46,7 @@ secondaryTabs:
 
         profile[last_name]:
             tab: codalia.membership::lang.member.tab_profile
-            label: Last Name
+            label: codalia.profile::lang.profile.last_name
             span: left 
             type: text
             disabled: true
@@ -54,7 +54,7 @@ secondaryTabs:
 
         profile[first_name]:
             tab: codalia.membership::lang.member.tab_profile
-            label: First Name
+            label: codalia.profile::lang.profile.first_name
             span: right
             type: text
             disabled: true
@@ -62,7 +62,7 @@ secondaryTabs:
 
         profile[birth_name]:
             tab: codalia.membership::lang.member.tab_profile
-            label: Birth Name
+            label: codalia.profile::lang.profile.birth_name
             span: left
             type: text
             disabled: true
@@ -70,7 +70,7 @@ secondaryTabs:
 
         profile[civility]:
             tab: codalia.membership::lang.member.tab_profile
-            label: Civility
+            label: codalia.profile::lang.profile.civility
             size: small
             span: right
             type: dropdown
@@ -79,7 +79,7 @@ secondaryTabs:
 
         profile[birth_date]:
             tab: codalia.membership::lang.member.tab_profile
-            label: Birth Date
+            label: codalia.profile::lang.profile.birth_date
             span: left
             type: datepicker
             mode: date
@@ -88,7 +88,7 @@ secondaryTabs:
 
         profile[birth_location]:
             tab: codalia.membership::lang.member.tab_profile
-            label: Birth Location
+            label: codalia.profile::lang.profile.birth_location
             span: right
             type: text
             disabled: true
@@ -96,7 +96,7 @@ secondaryTabs:
 
         profile[citizenship]:
             tab: codalia.membership::lang.member.tab_profile
-            label: Citizenship
+            label: codalia.profile::lang.profile.citizenship
             span: left
             type: dropdown
             disabled: true
@@ -104,14 +104,14 @@ secondaryTabs:
 
         profile[user][email]:
             tab: codalia.membership::lang.member.tab_profile
-            label: Email 
+            label: codalia.profile::lang.profile.email
             span: right
             disabled: true
             cssClass: custom-field-right
 
         profile[street]:
             tab: codalia.membership::lang.member.tab_profile
-            label: Street
+            label: codalia.profile::lang.profile.street
             span: left
             type: text
             disabled: true
@@ -119,7 +119,7 @@ secondaryTabs:
 
         profile[city]:
             tab: codalia.membership::lang.member.tab_profile
-            label: City
+            label: codalia.profile::lang.profile.city
             span: right
             type: text
             disabled: true
@@ -127,7 +127,7 @@ secondaryTabs:
 
         profile[postcode]:
             tab: codalia.membership::lang.member.tab_profile
-            label: Postcode
+            label: codalia.profile::lang.profile.postcode
             span: left
             type: text
             disabled: true
@@ -135,7 +135,7 @@ secondaryTabs:
 
         profile[phone]:
             tab: codalia.membership::lang.member.tab_profile
-            label: Phone
+            label: codalia.profile::lang.profile.phone
             span: right
             type: text
             disabled: true

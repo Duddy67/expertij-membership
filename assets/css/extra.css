@@ -212,3 +212,8 @@ tr.history td {
   margin-left: 32px !important;
 }
 
+.cancel-button {
+  color: white !important;
+  text-decoration: none !important;
+}
+
