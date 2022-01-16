@@ -6,6 +6,7 @@ return [
         'description' => 'A plugin used to manage association members.'
     ],
     'membership' => [
+      'menu_label' => 'Membership',
       'members' => 'Members',
       'categories' => 'Categories',
       'documents' => 'Documents',
