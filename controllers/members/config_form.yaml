@@ -3,7 +3,7 @@
 # ===================================
 
 # Record name
-name: Member
+name: codalia.membership::lang.membership.members
 
 # Model Form Field configuration
 form: $/codalia/membership/models/member/fields.yaml
@@ -16,13 +16,13 @@ defaultRedirect: codalia/membership/members
 
 # Create page
 create:
-    title: Create Member
+    title: codalia.membership::lang.action.create
     redirect: codalia/membership/members/update/:id
     redirectClose: codalia/membership/members
 
 # Update page
 update:
-    title: Edit Member
+    title: codalia.membership::lang.action.edit
     redirect: codalia/membership/members/update/:id
     redirectClose: codalia/membership/members
 

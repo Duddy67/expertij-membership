@@ -1,17 +1,17 @@
 <?php	 if ($this->user->role->code == 'member' || !count($model->payments)) : ?> 
 	     <div class="panel panel-info">
-		 <div class="panel-heading">Information</div>
-		 <div class="panel-body">There is no payment to display.</div>
+		 <div class="panel-heading"><?= e(trans('codalia.membership::lang.attribute.information')) ?></div>
+		 <div class="panel-body"><?= e(trans('codalia.membership::lang.payments.no_payment')) ?></div>
 	     </div>
 <?php    else : ?>
 	    <table class="table payment">
 	        <thead>
 		  <tr>
-		    <th>Status</th>
-		    <th>Mode</th>
-		    <th>Amount</th>
-		    <th>Date</th>
-		    <th>Item</th>
+		    <th><?= e(trans('codalia.membership::lang.attribute.status')) ?></th>
+		    <th><?= e(trans('codalia.membership::lang.payments.payment_mode')) ?></th>
+		    <th><?= e(trans('codalia.membership::lang.payments.amount')) ?></th>
+		    <th><?= e(trans('codalia.membership::lang.attribute.date')) ?></th>
+		    <th><?= e(trans('codalia.membership::lang.attribute.item')) ?></th>
 		    <th></th>
 		  </tr>
 	        </thead>
@@ -63,7 +63,7 @@
 				  data-request-data="close:1"
 				  data-request-success="$.fn.checkPaymentStatus();"
 				  class="btn btn-default">
-				  Save
+				  <?= e(trans('codalia.membership::lang.action.save')) ?>
 			      </button>
 			    </div>
 			  <?php endif; ?>

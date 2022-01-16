@@ -1,6 +1,6 @@
 <?php Block::put('breadcrumb') ?>
     <ul>
-        <li><a href="<?= Backend::url('codalia/membership/documents') ?>">Documents</a></li>
+        <li><a href="<?= Backend::url('codalia/membership/documents') ?>"><?= e(trans('codalia.membership::lang.membership.documents')) ?></a></li>
         <li><?= e($this->pageTitle) ?></li>
     </ul>
 <?php Block::endPut() ?>
@@ -22,7 +22,7 @@
                     data-hotkey="ctrl+s, cmd+s"
                     data-load-indicator="Creating Document..."
                     class="btn btn-primary">
-                    Create
+		    <?= e(trans('codalia.membership::lang.action.create')) ?>
                 </button>
                 <button
                     type="button"
@@ -32,10 +32,10 @@
                     data-hotkey="ctrl+enter, cmd+enter"
                     data-load-indicator="Creating Document..."
                     class="btn btn-default">
-                    Create and Close
+		    <?= e(trans('codalia.membership::lang.action.create_and_close')) ?>
                 </button>
                 <span class="btn-text">
-                    or <a href="<?= Backend::url('codalia/membership/documents') ?>">Cancel</a>
+                    <a class="btn btn-default cancel-button" href="<?= Backend::url('codalia/membership/documents') ?>"><?= e(trans('codalia.membership::lang.action.cancel')) ?></a>
                 </span>
             </div>
         </div>

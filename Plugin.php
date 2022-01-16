@@ -231,8 +231,8 @@ class Plugin extends PluginBase
 	return [
 	    'membership' => [
 		'label'       => 'codalia.membership::lang.membership.menu_label',
-		'description' => 'A plugin to manage membership.',
-		'category'    => 'Membership',
+		'description' => 'codalia.membership::lang.plugin.description',
+		'category'    => 'codalia.membership::lang.membership.menu_label',
 		'icon'        => 'icon-address-card-o',
 		'class' => 'Codalia\Membership\Models\Settings',
 		'order'       => 500,

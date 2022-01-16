@@ -3,7 +3,7 @@
 return [
     'plugin' => [
         'name' => 'Adhésion',
-        'description' => 'Plugin utilisé pour gérer les adhérents de l\'association.'
+        'description' => 'Plugin qui gére les adhérents de l\'association Expertij.'
     ],
     'membership' => [
       'menu_label' => 'Adhésion',
@@ -44,7 +44,7 @@ return [
       'appeal_courts' => 'Cours d\'appel',
       'courts' => 'Cours',
       'languages' => 'Languages',
-      'licence_types' => 'Licence types',
+      'licence_types' => 'Types de licence',
       'last_email_sending' => 'Dernier email envoyé',
     ],
     // Boilerplate attributes.
@@ -54,6 +54,8 @@ return [
       'slug' => 'Slug',
       'type' => 'Type',
       'code' => 'Code',
+      'date' => 'Date',
+      'item' => 'Item',
       'required' => 'Requis',
       'yes' => 'Oui',
       'no' => 'Non',
@@ -107,6 +109,7 @@ return [
       'reset' => 'Réinitialiser',
       'update' => 'Mettre à jour',
       'replace' => 'Remplacer',
+      'validate' => 'Valider',
       'return' => 'Revenir',
       'save_and_close' => 'Sauvegarder et fermer',
       'create' => 'Créer',
@@ -203,9 +206,9 @@ return [
       'tab_prices' => 'Prix',
       'tab_images' => 'Images',
       'renewal_day' => 'Jour de renouvellement',
-      'renewal_day_comment' => 'Jour de renouvellement',
+      'renewal_day_comment' => 'Définit le jour de renouvellement',
       'renewal_month' => 'Mois de renouvellement',
-      'renewal_month_comment' => 'Mois de renouvellement',
+      'renewal_month_comment' => 'Définit le mois de renouvellement',
       'renewal_period' => 'Période de renouvellement',
       'renewal_period_comment' => 'Définit une période de renouvellement (en jours) avant la date de renouvellement',
       'free_period' => 'Période de gratuité',
@@ -264,6 +267,22 @@ return [
       'code_of_ethics' => 'Code de déontologie',
       'statuses' => 'Statuts',
       'internal_rules' => 'Réglement interne',
+    ],
+    'votes' => [
+      'voter' => 'Electeur',
+      'note' => 'Remarques',
+      'choice' => 'Choix',
+      'no_vote' => 'Il n\'y a aucun vote à afficher',
+    ],
+    'payments' => [
+      'payment_mode' => 'Mode de paiement',
+      'amount' => 'Montant',
+      'no_payment' => 'Il n\'y a aucun paiement à afficher',
+    ],
+    'insurance' => [
+      'no_insurance' => 'Cet adhérent n\'a pas encore d\'assurance ou bien son assurance n\'est plus active.',
+      'running_insurance' => 'Cet adhérent souscrit à l\'assurance suivante: ',
+      'finishing_insurance' => 'L\'assurance de cet adhérent est sur le point de se terminer: ',
     ],
     'profile' => [
       'honorary_member' => 'Membre d\'honneur',

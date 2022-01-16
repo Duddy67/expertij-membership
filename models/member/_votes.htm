@@ -1,24 +1,24 @@
 <?php if ($this->vars['vote']) : // The user is a decision maker and they have already voted. ?>
 
 	     <div class="form-group  text-field span-left">
-		  <label for="Form-field-Vote-vote">Vote</label>
+		  <label for="Form-field-Vote-vote"><?= e(trans('codalia.membership::lang.member.tab_votes')) ?></label>
 		  <input type="text" name="_vote" class="form-control" disabled="disabled" value="<?php echo $this->vars['vote']->choice; ?>">
 	     </div>
 	     <div class="form-group  text-field span-left">
-		  <label for="Form-field-Vote-note">Note</label>
+		  <label for="Form-field-Vote-note"><?= e(trans('codalia.membership::lang.votes.note')) ?></label>
 		  <textarea name="_vote_note" id="Form-field-Vote-note" autocomplete="off" disabled="disabled" 
 			    class="form-control field-textarea size-small" placeholder=""><?php echo $this->vars['vote']->note; ?></textarea>
 	     </div>
 <?php elseif ($this->user->role->code == 'decision-maker' && $this->vars['canVote']) : // The user is a decision maker and they still allowed to vote. ?>	
 	     <div class="form-group  text-field span-left">
-		  <label for="Form-field-Vote-choice">Choice</label>
+		  <label for="Form-field-Vote-choice"><?= e(trans('codalia.membership::lang.votes.choice')) ?></label>
 		  <select id="Form-field-Vote-choice" name="Vote[choice]" class="form-control custom-select select2-hidden-accessible" data-disposable="data-disposable" tabindex="-1" aria-hidden="true">
-		      <option value="yes">Yes</option>
-		      <option value="no">No</option>
+		      <option value="yes"><?= e(trans('codalia.membership::lang.attribute.yes')) ?></option>
+		      <option value="no"><?= e(trans('codalia.membership::lang.attribute.no')) ?></option>
 		  </select>
 	     </div>
 	     <div class="form-group  text-field span-left">
-		  <label for="Form-field-Vote-note">Note</label>
+		  <label for="Form-field-Vote-note"><?= e(trans('codalia.membership::lang.votes.note')) ?></label>
 		  <textarea name="Vote[note]" id="Form-field-Vote-note" autocomplete="off" class="form-control field-textarea size-small" placeholder=""></textarea>
 		  <input type="hidden" name="Vote[user_id]" value="<?php echo $this->user->id; ?>">
 	     </div>
@@ -31,28 +31,28 @@
 		      data-request-success="$.fn.disableVotingForm();"
 		      data-request-data="close:1"
 		      class="btn btn-default">
-		      Validate
+		      <?= e(trans('codalia.membership::lang.action.validate')) ?>
 		  </button>
 	     </div>
 <?php elseif ($this->user->role->code != 'decision-maker') : // The user is an administrator.
 	  if (empty($this->vars['votes'])) : ?>
 	     <div class="panel panel-info">
-		 <div class="panel-heading">Information</div>
-		 <div class="panel-body">There is no vote to display.</div>
+		 <div class="panel-heading"><?= e(trans('codalia.membership::lang.attribute.information')) ?></div>
+		 <div class="panel-body"><?= e(trans('codalia.membership::lang.votes.no_vote')) ?></div>
 	     </div>
 <?php     endif;
 
           foreach ($this->vars['votes'] as $vote) : ?>	
 	     <div class="form-group  text-field span-left">
-		<label for="Form-field-Vote-voter">Voter</label>
+		<label for="Form-field-Vote-voter"><?= e(trans('codalia.membership::lang.votes.voter')) ?></label>
 		<input type="text" name="_voter" class="form-control" disabled="disabled" value="<?php echo $vote->first_name.' '.$vote->last_name; ?>">
 	     </div>
 	     <div class="form-group  text-field span-left">
-		<label for="Form-field-Vote-choice">Choice</label>
+		<label for="Form-field-Vote-choice"><?= e(trans('codalia.membership::lang.votes.choice')) ?></label>
 		<input type="text" name="_choice" class="form-control" disabled="disabled" value="<?php echo $vote->choice; ?>">
 	     </div>
 	     <div class="form-group  text-field span-left">
-		<label for="Form-field-Vote-note">Note</label>
+		<label for="Form-field-Vote-note"><?= e(trans('codalia.membership::lang.votes.note')) ?></label>
 		<textarea name="_note" autocomplete="off" disabled="disabled" 
 			  class="form-control field-textarea size-small" placeholder=""><?php echo $vote->note; ?></textarea>
 	     </div>

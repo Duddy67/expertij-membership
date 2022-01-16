@@ -11,22 +11,22 @@
 </div>
 
 <div class="form-group  text-field span-right">
-    <label for="Form-field-Member-since">Since</label>
+    <label for="Form-field-Member-since"><?= e(trans('codalia.membership::lang.professional_status.since')) ?></label>
     <input type="text" name="_since" class="form-control" disabled="disabled" value="<?php echo $model->since; ?>">
 </div>
 
 <div class="form-group  text-field span-left">
-    <label for="Form-field-Member-siret-number">SIRET number</label>
+    <label for="Form-field-Member-siret-number"><?= e(trans('codalia.membership::lang.professional_status.siret_number')) ?></label>
     <input type="text" name="_siret_number" class="form-control" disabled="disabled" value="<?php echo $model->siret_number; ?>">
 </div>
 
 <div class="form-group  text-field span-right">
-    <label for="Form-field-Member-naf-code">NAF code</label>
+    <label for="Form-field-Member-naf-code"><?= e(trans('codalia.membership::lang.professional_status.naf_code')) ?></label>
     <input type="text" name="_naf_code" class="form-control" disabled="disabled" value="<?php echo $model->naf_code; ?>">
 </div>
 
 <div class="form-group  text-field span-left">
-    <label class="" for="">Attestation</label>
+    <label class="" for=""><?= e(trans('codalia.membership::lang.professional_status.attestation')) ?></label>
     <div>
 	<?php if ($model->attestation) : ?>
 	    <a target="_blank" href="<?php echo $model->attestation->path; ?>"><?php echo $model->attestation->file_name; ?></a>
@@ -35,27 +35,27 @@
 </div>
 
 <div class="form-group  text-field span-left">
-    <label for="Form-field-Member-linguistic-training">Linguistic training</label>
+    <label for="Form-field-Member-linguistic-training"><?= e(trans('codalia.membership::lang.professional_status.linguistic_training')) ?></label>
     <textarea name="_linguistic_training" class="form-control" disabled="disabled"><?php echo $model->linguistic_training; ?></textarea>
 </div>
 
 <div class="form-group  text-field span-right">
-    <label for="Form-field-Member-extra-linguistic-training">Extra linguistic training</label>
+    <label for="Form-field-Member-extra-linguistic-training"><?= e(trans('codalia.membership::lang.professional_status.extra_linguistic_training')) ?></label>
     <textarea name="_extra_linguistic_training" class="form-control" disabled="disabled"><?php echo $model->extra_linguistic_training; ?></textarea>
 </div>
 
 <div class="form-group  text-field span-left">
-    <label for="Form-field-Member-professional-experience">Professional experience</label>
+    <label for="Form-field-Member-professional-experience"><?= e(trans('codalia.membership::lang.professional_status.professional_experience')) ?></label>
     <textarea name="_professional_experience" class="form-control" disabled="disabled"><?php echo $model->professional_experience; ?></textarea>
 </div>
 
 <div class="form-group  text-field span-right">
-    <label for="Form-field-Member-observations">Observations</label>
+    <label for="Form-field-Member-observations"><?= e(trans('codalia.membership::lang.professional_status.observations')) ?></label>
     <textarea name="_observations" class="form-control" disabled="disabled"><?php echo $model->observations; ?></textarea>
 </div>
 
 <div class="form-group  text-field span-left">
-    <label for="Form-field-Member-why-expertij">Why subscribing to Expertij</label>
+    <label for="Form-field-Member-why-expertij"><?= e(trans('codalia.membership::lang.professional_status.why_expertij')) ?></label>
     <textarea name="_why_expertij" class="form-control" disabled="disabled"><?php echo $model->why_expertij; ?></textarea>
 </div>
 

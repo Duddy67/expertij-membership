@@ -1,16 +1,16 @@
 <?php	 if ($model->insurance->status == 'running') : ?> 
 	     <div class="panel panel-info">
-		 <div class="panel-heading">Information</div>
-		 <div class="panel-body">This member is running with the following insurance: <?= e(trans('codalia.membership::lang.global_settings.insurance_'.$model->insurance->code)) ?></div>
+		 <div class="panel-heading"><?= e(trans('codalia.membership::lang.attribute.information')) ?></div>
+		 <div class="panel-body"><?= e(trans('codalia.membership::lang.insurance.running_insurance')) ?><?= e(trans('codalia.membership::lang.global_settings.insurance_'.$model->insurance->code)) ?></div>
 	     </div>
 <?php    elseif ($model->insurance->status == 'pending_renewal') : ?>
 	     <div class="panel panel-info">
-		 <div class="panel-heading">Information</div>
-		 <div class="panel-body">This member's insurance is about to come to an end: <?= e(trans('codalia.membership::lang.global_settings.insurance_'.$model->insurance->code)) ?></div> 
+		 <div class="panel-heading"><?= e(trans('codalia.membership::lang.attribute.information')) ?></div>
+		 <div class="panel-body"><?= e(trans('codalia.membership::lang.insurance.finishing_insurance')) ?><?= e(trans('codalia.membership::lang.global_settings.insurance_'.$model->insurance->code)) ?></div> 
 	     </div>
 <?php    else : ?>
 	     <div class="panel panel-info">
-		 <div class="panel-heading">Information</div>
-		 <div class="panel-body">This member has no insurance yet or their insurance is no longer running.</div>
+		 <div class="panel-heading"><?= e(trans('codalia.membership::lang.attribute.information')) ?></div>
+		 <div class="panel-body"><?= e(trans('codalia.membership::lang.insurance.no_insurance')) ?></div>
 	     </div>
 <?php    endif; ?>	
