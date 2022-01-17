@@ -92,7 +92,9 @@ return [
       'pending' => 'En attente',
       'refused' => 'Refusé',
       'pending_subscription' => 'En attente d\'adhésion',
+      'completed' => 'Terminé',
       'cancelled' => 'Annulé',
+      'error' => 'Erreur',
       'member' => 'Membre',
       'pending_renewal' => 'En attente de renouvellement',
       'revoked' => 'Revoqué',
@@ -278,6 +280,16 @@ return [
       'payment_mode' => 'Mode de paiement',
       'amount' => 'Montant',
       'no_payment' => 'Il n\'y a aucun paiement à afficher',
+      'sherlocks' => 'LCI',
+      'cheque' => 'Chèque',
+      'free_period' => 'Période gratuite',
+      'item' => [
+	'subscription' => 'Adhésion',
+	'insurance-f1' => 'Axa (Essentail)',
+	'insurance-f2' => 'Axa (Full)',
+	'subscription-insurance-f1' => 'Adhésion + Axa (Essential)',
+	'subscription-insurance-f2' => 'Adhésion + Axa (Full)',
+      ]
     ],
     'insurance' => [
       'no_insurance' => 'Cet adhérent n\'a pas encore d\'assurance ou bien son assurance n\'est plus active.',

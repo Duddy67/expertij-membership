@@ -22,11 +22,11 @@
 			<td>
 			  <?php $disabled = ($payment->status != 'pending') ? 'disabled' : ''; ?>
 			      <select name="_<?php echo $itemType; ?>_payment_status" id="payment-status" <?php echo $disabled; ?> class="form-control">
-				<option value="pending">Pending</option>
-				<option value="completed" <?php echo ($payment->status == 'completed') ? 'selected="selected"' : ''; ?>>Completed</option>
-				<option value="cancelled" <?php echo ($payment->status == 'cancelled') ? 'selected="selected"' : ''; ?>>Canceled</option>
+				<option value="pending"><?= e(trans('codalia.membership::lang.status.pending')) ?></option>
+				<option value="completed" <?php echo ($payment->status == 'completed') ? 'selected="selected"' : ''; ?>><?= e(trans('codalia.membership::lang.status.completed')) ?></option>
+				<option value="cancelled" <?php echo ($payment->status == 'cancelled') ? 'selected="selected"' : ''; ?>><?= e(trans('codalia.membership::lang.status.cancelled')) ?></option>
 				<?php if ($payment->mode != 'cheque') : ?>
-				    <option value="error" <?php echo ($payment->status == 'error') ? 'selected="selected"' : ''; ?>>Error</option>
+				    <option value="error" <?php echo ($payment->status == 'error') ? 'selected="selected"' : ''; ?>><?= e(trans('codalia.membership::lang.status.error')) ?></option>
 				<?php endif; ?>
 			      </select>
 
@@ -41,16 +41,17 @@
 
 			</td>
 			<td>
-			  <?php echo $payment->mode; ?>
+			  <?= e(trans('codalia.membership::lang.payments.'.$payment->mode)) ?>
 			</td>
 			<td>
-			  <?php echo $payment->amount; ?>
+			  <?php echo $payment->amount.' E'; ?>
 			</td>
 			<td>
-			  <?php echo $payment->created_at; ?>
+			  <?php $date = new \DateTime($payment->created_at); 
+				echo $date->format('d/m/Y H:i'); ?>
 			</td>
 			<td>
-			  <?php echo $payment->item; ?>
+			  <?= e(trans('codalia.membership::lang.payments.item.'.$payment->item)) ?>
 			</td>
 			<td>
 			  <?php if ($payment->status == 'pending' && $model->status != 'cancelled' && $model->status != 'revoked' && $model->status != 'cancellation') : ?>

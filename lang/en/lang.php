@@ -92,7 +92,9 @@ return [
       'pending' => 'Pending',
       'refused' => 'Refused',
       'pending_subscription' => 'Pending subscription',
+      'completed' => 'Completed',
       'cancelled' => 'Cancelled',
+      'error' => 'Error',
       'member' => 'Member',
       'pending_renewal' => 'Pending renewal',
       'revoked' => 'Revoked',
@@ -279,6 +281,16 @@ return [
       'payment_mode' => 'Payment mode',
       'amount' => 'Amount',
       'no_payment' => 'There is no payment to display',
+      'sherlocks' => 'LCI',
+      'cheque' => 'Cheque',
+      'free_period' => 'Free period',
+      'item' => [
+	'subscription' => 'Subscription',
+	'insurance-f1' => 'Axa (Essentail)',
+	'insurance-f2' => 'Axa (Full)',
+	'subscription-insurance-f1' => 'Subscription + Axa (Essential)',
+	'subscription-insurance-f2' => 'Subscription + Axa (Full)',
+      ]
     ],
     'insurance' => [
       'no_insurance' => 'This member has no insurance yet or their insurance is no longer running.',
