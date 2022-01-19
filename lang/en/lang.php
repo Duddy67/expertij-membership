@@ -11,6 +11,7 @@ return [
       'categories' => 'Categories',
       'documents' => 'Documents',
       'member_space' => 'Member space',
+      'member_list' => 'Member list',
     ],
     'member' => [
       'tab_profile' => 'Profile',

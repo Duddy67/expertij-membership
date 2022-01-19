@@ -1,6 +1,6 @@
 <div class="container">
 
-    <p class="h3">Member List</p>
+    <p class="h3">{{ texts['membership.member_list'] }}</p>
 
     {% if(user) %}
 	{{ form_ajax('onExport', {flash: ''}) }}
