@@ -10,6 +10,7 @@ return [
       'members' => 'Members',
       'categories' => 'Categories',
       'documents' => 'Documents',
+      'member_space' => 'Member space',
     ],
     'member' => [
       'tab_profile' => 'Profile',
@@ -30,6 +31,7 @@ return [
       'languages_ceseda' => 'Languages (CESEDA)',
       'honorary_member_info_1' => 'The honorary members have no licences.',
       'honorary_member_info_2' => 'The honorary members have no professional status.',
+      'no_longer_member' => 'You are no longer member.',
     ],
     'members' => [
       'filter_status' => 'Status',

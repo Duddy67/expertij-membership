@@ -170,11 +170,19 @@ class Member extends Model
 	    'membership.pro_status_info' => 'required_if:membership.pro_status,other|between:2,30',
 	    'membership.siret_number' => 'required|size:14',
 	    'membership.naf_code' => 'required|size:5',
-	    'membership.linguistic_training' => 'required',
-	    'membership.extra_linguistic_training' => 'required',
-	    'membership.professional_experience' => 'required',
-	    'membership.why_expertij' => 'required',
+	    //'membership.linguistic_training' => 'required',
+	    //'membership.extra_linguistic_training' => 'required',
+	    //'membership.professional_experience' => 'required',
+	    //'membership.why_expertij' => 'required',
 	];
+
+	// These fields are only used during the registration.
+	if (!empty($data)) {
+	    $rules['membership.linguistic_training'] = 'required';
+	    $rules['membership.extra_linguistic_training'] = 'required';
+	    $rules['membership.professional_experience'] = 'required';
+	    $rules['membership.why_expertij'] = 'required';
+	}
 
 	if (\Session::has('registration_context')) {
 	    $rules['membership__attestation'] = 'required|mimes:pdf';

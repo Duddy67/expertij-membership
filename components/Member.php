@@ -162,7 +162,7 @@ class Member extends ComponentBase
     {
         $langVars = require 'plugins/codalia/membership/lang/en/lang.php';
 	$texts = [];
-	$sections = ['professional_status', 'profile', 'action', 'attribute', 'status', 'member'];
+	$sections = ['professional_status', 'profile', 'action', 'attribute', 'status', 'member', 'membership'];
 
 	foreach ($langVars as $level1 => $section1) {
 	    if (in_array($level1, $sections)) {

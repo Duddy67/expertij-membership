@@ -1,8 +1,8 @@
-<h4>Member Space</h4>
+<h4>{{ texts['membership.member_space'] }}</h4>
 {% if member.status == 'cancelled' or member.status == 'revoked' or member.status == 'cancellation' %}
     <div class="card bg-light mb-3">
-	<div class="card-header">Information</div>
-	<div class="card-body">You are no longer member of this association.</div>
+	<div class="card-header">{{ texts['attribute.information'] }}</div>
+	<div class="card-body">{{ texts['member.no_longer_member'] }}</div>
     </div>
 {% else %}
 
