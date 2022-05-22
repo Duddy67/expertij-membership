@@ -185,7 +185,7 @@ class Member extends Model
 	}
 
 	if (\Session::has('registration_context')) {
-	    $rules['membership__attestation'] = 'required|mimes:pdf';
+	    $rules['membership__attestation'] = 'required|mimes:pdf,doc,docx,png,jpg,jpeg|max:10000';
 	}
 
 	return $rules;

@@ -22,7 +22,7 @@ class Member extends ComponentBase
     public $documents;
 
     /**
-     * @var array Matching between file types and model relationships.
+     * @var array Rules set for file types.
      */
     public $relationships = [
 	'attestation' => 'attestations', 'photo' => 'photo'
@@ -32,7 +32,7 @@ class Member extends ComponentBase
      * @var array Matching between file types and rules.
      */
     public $fileRules = [
-	'attestation' => 'required|mimes:pdf', 'photo' => 'required|mimes:jpg,jpeg,png'
+	'attestation' => 'mimes:pdf,doc,docx,png,jpg,jpeg|max:10000', 'photo' => 'mimes:jpg,jpeg,png|max:10000'
     ];
 
 
@@ -180,6 +180,13 @@ class Member extends ComponentBase
         $file = null;
 
 	if (Input::hasFile('attestation')) {
+
+            $rules = ['attestation' => $this->fileRules['attestation']];
+            $validation = Validator::make(Input::all(), $rules);
+            if ($validation->fails()) {
+                throw new ValidationException($validation);
+            }
+
 	    $file = (new File())->fromPost(Input::file('attestation'));
 	    $member = $this->loadMember();
 
