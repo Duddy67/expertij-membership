@@ -38,7 +38,7 @@
 				    <p class="mb-0"><strong>Language(s)</strong></p>
 				    {% for language in attestation.languages %}
 					<div>
-					    <p class="d-inline">{{ languages[language.alpha_2] }}</p>
+					    <p class="d-inline">{{ languages[language.alpha_3] }}</p>
 					    {% if licence.type == 'expert' %}	
 						<p class="d-inline">: {{ (language.interpreter) ? texts['profile.interpreter'] : '' }}</p>
 						{% if language.interpreter %}	

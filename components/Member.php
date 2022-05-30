@@ -115,7 +115,7 @@ class Member extends ComponentBase
 
 	    foreach ($licence->attestations as $attestation) {
 		foreach ($attestation->languages as $language) {
-		    $data['languages'][] = $language->alpha_2;
+		    $data['languages'][] = $language->alpha_3;
 		}
 	    }
 

@@ -151,7 +151,7 @@ class MemberList extends ComponentBase
 			    }
 
 			    $query->whereHas('languages', function($query) use($data, $language) {
-				$query->where('alpha_2', $language);
+				$query->where('alpha_3', $language);
 
 				if (!empty($data['expert_skill'])) {
 				    // Uses a raw query or the bindings will come in the wrong order.
@@ -178,7 +178,7 @@ class MemberList extends ComponentBase
 
 		    if (isset($data['languages'])) {
 			$query->whereHas('languages', function($query) use($data) {
-			    $query->whereIn('alpha_2', $data['languages']);
+			    $query->whereIn('alpha_3', $data['languages']);
 			});
 		    }
 		});
@@ -260,10 +260,10 @@ class MemberList extends ComponentBase
 		foreach ($licence->attestations as $attestation) {
 		    foreach ($attestation->languages as $language) {
 			if ($licence->type == 'expert') {
-			    $data[13] .= $this->page['languages'][$language->alpha_2].',';
+			    $data[13] .= $this->page['languages'][$language->alpha_3].',';
 			}
 			else {
-			    $data[15] .= $this->page['languages'][$language->alpha_2].',';
+			    $data[15] .= $this->page['languages'][$language->alpha_3].',';
 			}
 		    }
 		}

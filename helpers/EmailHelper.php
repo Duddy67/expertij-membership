@@ -219,7 +219,7 @@ class EmailHelper
 			    //
 			    if (!empty($data['languages'])) {
 				$query->whereHas('languages', function($query) use($data) { 
-					$query->whereIn('alpha_2', $data['languages']);
+					$query->whereIn('alpha_3', $data['languages']);
 				}); 
 			    }
 			});

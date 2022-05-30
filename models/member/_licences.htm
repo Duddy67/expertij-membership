@@ -56,9 +56,9 @@
 	      </div>
 	<?php foreach ($attestation->languages as $key => $language) : ?>    
 		  <div class="form-group  text-field span-left">
-		      <label for="Form-field-Language-type-<?php echo $language->attributes['ordering']; ?>"><?= e(trans('codalia.profile::lang.licences.attestations.languages.alpha_2')) ?></label>
+		      <label for="Form-field-Language-type-<?php echo $language->attributes['ordering']; ?>"><?= e(trans('codalia.profile::lang.licences.attestations.languages.alpha_3')) ?></label>
 		      <input type="text" name="_language_<?php echo $language->attributes['ordering']; ?>" class="form-control"
-			     disabled="disabled" value="<?= e(trans('codalia.profile::lang.language.'.$language->alpha_2)) ?>">
+			     disabled="disabled" value="<?= e(trans('codalia.profile::lang.language.'.$language->alpha_3)) ?>">
 		  </div>
 
 		  <?php if ($licence->type == 'expert') : ?>
