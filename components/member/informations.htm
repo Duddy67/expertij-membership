@@ -7,7 +7,12 @@
     {% if member.insurance.status == 'running' or member.insurance.status == 'pending_renewal' %}
 	<div class="form-group col-sm-6">
 	    <p class="h5">Insurance</p>
-	    <p>{{ texts.member_insurance }}</p>
+            {% for insurance in insurances %}
+                {% if insurance.code == member.insurance.code %}
+                    <p>{{ insurance['formula'] }}</p>
+                    {% set break = true %}
+                {% endif %}
+            {% endfor %}
 	</div>
     {% endif %}
 

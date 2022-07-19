@@ -8,18 +8,15 @@
 	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
       </td>
     </tr>
-    <tr>
-      <td>
-	<input type="radio" id="f1" name="code" value="f1" checked>
-	Insurance (Essential)
-      </td>
-    </tr>
-    <tr>
-      <td>
-	<input type="radio" id="f2" name="code" value="f2">
-	Insurance (Full)
-      </td>
-    </tr>
+    {% for key, insurance in insurances %}
+        <tr>
+          <td>
+            {% set id = key + 1 %}
+            <input type="radio" id="f{{ id }}" name="code" value="f{{ id }}" {{ (key == 0) ? 'checked' : '' }}>
+            {{ insurance['formula'] }} - ({{ insurance['price'] }} E)
+          </td>
+        </tr>
+    {% endfor %}
     <tr>
       <td>
 	Payment description<br />

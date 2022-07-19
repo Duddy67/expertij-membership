@@ -23,6 +23,13 @@ class Settings extends Model
 	'subscription_fee' => 'required|regex:/^\d+(\.\d{1,2})?$/',
 	'insurance_fee_f1' => 'required|regex:/^\d+(\.\d{1,2})?$/',
 	'insurance_fee_f2' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+	'insurance_fee_f3' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+	'insurance_fee_f4' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+	'insurance_fee_f5' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+	'insurance_fee_f6' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+	'insurance_fee_f7' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+	'insurance_fee_f8' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+	'insurance_fee_f9' => 'required|regex:/^\d+(\.\d{1,2})?$/',
     ];
 
 

@@ -83,6 +83,7 @@ class Member extends ComponentBase
 	$this->page['proStatuses'] = $this->getProStatuses();
 	$this->page['texts'] = $this->getTexts();
 	$this->page['javascriptMessages'] = $this->getJavascriptMessages();
+	$this->page['insurances'] = $this->getInsurances();
     }
 
     protected function loadMember()
@@ -156,6 +157,22 @@ class Member extends ComponentBase
 	}
 
 	return $statuses;
+    }
+
+    private function getInsurances()
+    {
+        $insurances = [];
+        $i = 1;
+
+        while (Settings::get('insurance_fee_f'.$i, null)) {
+            $price = Settings::get('insurance_fee_f'.$i);
+            $formula = Lang::get('codalia.membership::lang.payments.item.insurance-f'.$i);
+            $insurance = ['formula' => $formula, 'price' => $price, 'code' => 'f'.$i];
+            $insurances[] = $insurance;
+            $i++;
+        }
+
+        return $insurances;
     }
 
     private function getTexts()

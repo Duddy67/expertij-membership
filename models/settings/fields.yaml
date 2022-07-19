@@ -59,3 +59,52 @@ tabs:
             label: codalia.membership::lang.global_settings.insurance_fee_f2
             comment: codalia.membership::lang.global_settings.insurance_fee_f2_comment
             type: text 
+
+        insurance_fee_f3:
+            tab: codalia.membership::lang.global_settings.tab_prices
+            span: left
+            label: codalia.membership::lang.global_settings.insurance_fee_f3
+            comment: codalia.membership::lang.global_settings.insurance_fee_f3_comment
+            type: text 
+
+        insurance_fee_f4:
+            tab: codalia.membership::lang.global_settings.tab_prices
+            span: left
+            label: codalia.membership::lang.global_settings.insurance_fee_f4
+            comment: codalia.membership::lang.global_settings.insurance_fee_f4_comment
+            type: text 
+
+        insurance_fee_f5:
+            tab: codalia.membership::lang.global_settings.tab_prices
+            span: left
+            label: codalia.membership::lang.global_settings.insurance_fee_f5
+            comment: codalia.membership::lang.global_settings.insurance_fee_f5_comment
+            type: text 
+
+        insurance_fee_f6:
+            tab: codalia.membership::lang.global_settings.tab_prices
+            span: left
+            label: codalia.membership::lang.global_settings.insurance_fee_f6
+            comment: codalia.membership::lang.global_settings.insurance_fee_f6_comment
+            type: text 
+
+        insurance_fee_f7:
+            tab: codalia.membership::lang.global_settings.tab_prices
+            span: left
+            label: codalia.membership::lang.global_settings.insurance_fee_f7
+            comment: codalia.membership::lang.global_settings.insurance_fee_f7_comment
+            type: text 
+
+        insurance_fee_f8:
+            tab: codalia.membership::lang.global_settings.tab_prices
+            span: left
+            label: codalia.membership::lang.global_settings.insurance_fee_f8
+            comment: codalia.membership::lang.global_settings.insurance_fee_f8_comment
+            type: text 
+
+        insurance_fee_f9:
+            tab: codalia.membership::lang.global_settings.tab_prices
+            span: left
+            label: codalia.membership::lang.global_settings.insurance_fee_f9
+            comment: codalia.membership::lang.global_settings.insurance_fee_f9_comment
+            type: text 
