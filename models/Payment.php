@@ -97,23 +97,17 @@ class Payment extends Model
     {
         $amount = 0;
 
-        switch ($item) {
-	    case 'subscription':
-	        $amount = Settings::get('subscription_fee', 0);
-	        break;
-	    case 'subscription-insurance-f1':
-	        $amount = Settings::get('subscription_fee', 0) + Settings::get('insurance_fee_f1', 0);
-	        break;
-	    case 'subscription-insurance-f2':
-	        $amount = Settings::get('subscription_fee', 0) + Settings::get('insurance_fee_f2', 0);
-	        break;
-	    case 'insurance-f1':
-	        $amount = Settings::get('insurance_fee_f1', 0);
-	        break;
-	    case 'insurance-f2':
-	        $amount = Settings::get('insurance_fee_f2', 0);
-	        break;
-	}
+        if ($item == 'subscription') {
+            $amount = Settings::get('subscription_fee', 0);
+        }
+        elseif (substr($item, 0, 24) === 'subscription-insurance-f') {
+            preg_match('#subscription-insurance-f([0-9]*)#', $item, $matches);
+            $amount = Settings::get('subscription_fee', 0) + Settings::get('insurance_fee_f'.$matches[1], 0);
+        }
+        elseif (substr($item, 0, 11) === 'insurance-f') {
+            preg_match('#insurance-f([0-9]*)#', $item, $matches);
+            $amount = Settings::get('insurance_fee_f'.$matches[1], 0);
+        }
 
 	return $amount;
     }
