@@ -21,6 +21,7 @@ class Settings extends Model
 	//'revocation' => 'required|numeric',
 	'free_period' => 'required|numeric',
 	'subscription_fee' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+	'honorary_subscription_fee' => 'required|regex:/^\d+(\.\d{1,2})?$/',
 	'insurance_fee_f1' => 'required|regex:/^\d+(\.\d{1,2})?$/',
 	'insurance_fee_f2' => 'required|regex:/^\d+(\.\d{1,2})?$/',
 	'insurance_fee_f3' => 'required|regex:/^\d+(\.\d{1,2})?$/',

@@ -300,11 +300,27 @@ class EmailHelper
 
     public function alertChequePayment($member, $data)
     {
-	$vars = ['first_name' => $member->profile->first_name, 'last_name' => $member->profile->last_name, 'subscription_fee' => Settings::get('subscription_fee', 0)];
+	$vars = ['first_name' => $member->profile->first_name, 'last_name' => $member->profile->last_name];
+        $type = 'subscription';
 
-	Mail::send('codalia.membership::mail.cheque_payment', $vars, function($message) use($member) {
+        if (substr($data['item'], 0, 12) === 'subscription') {
+            // Check for honorary members.
+            $vars['subscription_fee'] = ($member->profile->honorary_member) ? Settings::get('honorary_subscription_fee', 0) : Settings::get('subscription_fee', 0);
+        }
+        // Insurance or subscription + insurance.
+        elseif (substr($data['item'], 0, 9) === 'insurance' || substr($data['item'], 0, 22) === 'subscription-insurance') {
+            // Gets the insurance code placed after the hyphen (ie: insurance-xx).
+            $code = (substr($data['item'], 0, 9) === 'insurance') ? substr($data['item'], 10) : substr($data['item'], 23);
+            $var['insurance_fee'] = Settings::get('subscription_fee_'.$code, 0);
+            // Set the type accordingly.
+            $type = (substr($data['item'], 0, 9) === 'insurance') ? 'insurance' : 'subscription_insurance';
+            $var['insurance_formula'] = Lang::get('codalia.membership::lang.global_settings.insurance_'.$code);
+        }
+
+
+	Mail::send('codalia.membership::mail.cheque_payment', $vars, function($message) use($member, $type) {
 	    $message->to($member->profile->user->email, 'Admin System');
-	    $message->subject(Lang::get('codalia.membership::lang.email.cheque_payment'));
+	    $message->subject(Lang::get('codalia.membership::lang.email.cheque_payment_'.$type));
 	});
 
 	$emails = [];
@@ -314,9 +330,9 @@ class EmailHelper
 	}
 
 	if (!empty($emails)) {
-	    Mail::send('codalia.membership::mail.alert_cheque_payment', $vars, function($message) use($emails) {
+	    Mail::send('codalia.membership::mail.alert_cheque_payment', $vars, function($message) use($emails, $type) {
 		$message->to($emails, 'Admin System');
-		$message->subject(Lang::get('codalia.membership::lang.email.alert_cheque_payment'));
+		$message->subject(Lang::get('codalia.membership::lang.email.alert_cheque_payment_'.$type));
 	    });
 	}
     }
