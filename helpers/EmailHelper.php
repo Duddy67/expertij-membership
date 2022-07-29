@@ -318,7 +318,7 @@ class EmailHelper
         }
 
 
-	Mail::send('codalia.membership::mail.cheque_payment', $vars, function($message) use($member, $type) {
+	Mail::send('codalia.membership::mail.cheque_payment_'.$type, $vars, function($message) use($member, $type) {
 	    $message->to($member->profile->user->email, 'Admin System');
 	    $message->subject(Lang::get('codalia.membership::lang.email.cheque_payment_'.$type));
 	});
@@ -330,7 +330,7 @@ class EmailHelper
 	}
 
 	if (!empty($emails)) {
-	    Mail::send('codalia.membership::mail.alert_cheque_payment', $vars, function($message) use($emails, $type) {
+	    Mail::send('codalia.membership::mail.alert_cheque_payment_'.$type, $vars, function($message) use($emails, $type) {
 		$message->to($emails, 'Admin System');
 		$message->subject(Lang::get('codalia.membership::lang.email.alert_cheque_payment_'.$type));
 	    });
