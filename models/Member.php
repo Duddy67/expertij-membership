@@ -341,16 +341,18 @@ class Member extends Model
 		$this->insurance()->update(['status' => 'running', 'code' => $code]);
 	    }
 
-	    // Stores the invoice.
-	    if ($tmpFile = $this->payment->getInvoicePDF()) {
-		$this->invoices = $tmpFile;
-		$this->forceSave();
-		@unlink($tmpFile);
+	    // Stores the invoices.
+	    $tmpFiles = $this->payment->getInvoicesPDF();
 
-		$invoice = $this->invoices()->first();
-		$data['invoice_path'] = $invoice->getLocalPath();
-		$data['invoice_name'] = $invoice->file_name;
-	    }
+            foreach ($tmpFiles as $type => $tmpFile) {
+                $this->invoices = $tmpFile;
+                $this->forceSave();
+                @unlink($tmpFile);
+
+                $invoice = $this->invoices()->first();
+                $data[$type.'_invoice_path'] = $invoice->getLocalPath();
+                $data[$type.'_invoice_name'] = $invoice->file_name;
+            }
 
 	    EmailHelper::instance()->alertPayment($this->id, $data);
 	}

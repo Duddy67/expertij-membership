@@ -161,8 +161,14 @@ class EmailHelper
 	    $message->to($member->profile->user->email, 'Admin System');
 	    $message->subject(Lang::get('codalia.membership::lang.email.'.$langVar));
 
-	    if ($data['status'] == 'completed' && isset($data['invoice_path'])) {
-		$message->attach($data['invoice_path'], ['as' => $data['invoice_name']]);
+	    if ($data['status'] == 'completed' && (isset($data['subscription_invoice_path']) || isset($data['insurance_invoice_path']))) {
+                if (isset($data['subscription_invoice_path'])) {
+                    $message->attach($data['subscription_invoice_path'], ['as' => $data['subscription_invoice_name']]);
+                }
+
+                if (isset($data['insurance_invoice_path'])) {
+                    $message->attach($data['insurance_invoice_path'], ['as' => $data['insurance_invoice_name']]);
+                }
 	    }
 	});
 

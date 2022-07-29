@@ -75,8 +75,14 @@ class Member extends ComponentBase
 	    $payment = false;
 	}
 
+        $insurancePendingPayment = false;
+	if ($this->member->payments()->where([['status', 'pending'], ['mode', 'cheque'], ['item', 'like', 'insurance-%'], ['last', 1]])->first()) {
+            $insurancePendingPayment = true; 
+        }
+
 	$this->page['flags'] = ['payment' => $payment, 'candidate' => ($this->member->member_since === null) ? true : false,
-				'freePeriod' => ($this->member->free_period && $this->member->member_since) ? true : false];
+				'freePeriod' => ($this->member->free_period && $this->member->member_since) ? true : false,
+                                'insurancePendingPayment' => $insurancePendingPayment];
 	$this->page['documents'] = $this->loadDocuments();
 	$this->page['years'] = Profile::getYears();
 	$this->page['categoryIds'] = $this->member->categories->pluck('id')->toArray();
@@ -179,7 +185,7 @@ class Member extends ComponentBase
     {
         $langVars = require 'plugins/codalia/membership/lang/en/lang.php';
 	$texts = [];
-	$sections = ['professional_status', 'profile', 'action', 'attribute', 'status', 'member', 'membership'];
+	$sections = ['professional_status', 'profile', 'action', 'attribute', 'status', 'member', 'payments', 'membership'];
 
 	foreach ($langVars as $level1 => $section1) {
 	    if (in_array($level1, $sections)) {

@@ -1,54 +1,58 @@
 <div class="tab-pane fade" id="insurance">
-{{ form_ajax('onPayment', {flash: ''}) }}
-  <div id="payment-modes">
-  <table class="table">
-    <tr>
-      <td>
-	Insurance description</br>
-	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-      </td>
-    </tr>
-    {% for key, insurance in insurances %}
+{% if not flags.insurancePendingPayment %}
+    {{ form_ajax('onPayment', {flash: ''}) }}
+      <div id="payment-modes">
+      <table class="table">
         <tr>
           <td>
-            {% set id = key + 1 %}
-            <input type="radio" id="f{{ id }}" name="code" value="f{{ id }}" {{ (key == 0) ? 'checked' : '' }}>
-            {{ insurance['formula'] }} - ({{ insurance['price'] }} E)
+            Insurance description</br>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
           </td>
         </tr>
-    {% endfor %}
-    <tr>
-      <td>
-	Payment description<br />
-	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-      </td>
-    </tr>
-    <tr>
-      <td>
-	<input type="radio" id="cheque" name="payment_mode" value="cheque" checked>
-	Cheque payment
-      </td>
-    </tr>
-    <tr>
-      <td>
-	<input type="radio" id="paypal" name="payment_mode" value="paypal">
-	Paypal
-      </td>
-    </tr>
-    <tr>
-      <td>
-	<input type="radio" id="sherlocks" name="payment_mode" value="sherlocks">
-	LCL
-      </td>
-    </tr>
-    <tr>
-      <td>
-	<input type="hidden" name="item" value="insurance">
-	<button type="submit" id="btn-payment" class="btn btn-success">{{ texts['action.pay_now'] }}</button>
-      </td>
-    </tr>
-  </table>
-  </div>
-{{ form_close() }}
-</div>
+        {% for key, insurance in insurances %}
+            <tr>
+              <td>
+                {% set id = key + 1 %}
+                <input type="radio" id="f{{ id }}" name="code" value="f{{ id }}" {{ (key == 0) ? 'checked' : '' }}>
+                {{ insurance['formula'] }} - ({{ insurance['price'] }} E)
+              </td>
+            </tr>
+        {% endfor %}
+        <tr>
+          <td>
+            Payment description<br />
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="radio" id="cheque" name="payment_mode" value="cheque" checked>
+            Cheque payment
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="radio" id="paypal" name="payment_mode" value="paypal">
+            Paypal
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="radio" id="sherlocks" name="payment_mode" value="sherlocks">
+            LCL
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="hidden" name="item" value="insurance">
+            <button type="submit" id="btn-payment" class="btn btn-success">{{ texts['action.pay_now'] }}</button>
+          </td>
+        </tr>
+      </table>
+      </div>
+    {{ form_close() }}
+    </div>
+{% else %}
+<div>{{ texts['payments.pending_payment'] }}</div>
+{% endif %}
 

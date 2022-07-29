@@ -319,6 +319,7 @@ return [
       'payment_mode' => 'Payment mode',
       'amount' => 'Amount',
       'no_payment' => 'There is no payment to display',
+      'pending_payment' => 'Your payment is currently pending.',
       'sherlocks' => 'LCI',
       'cheque' => 'Cheque',
       'free_period' => 'Free period',

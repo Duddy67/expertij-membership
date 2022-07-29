@@ -112,13 +112,16 @@ class Payment extends Model
 	return $amount;
     }
 
-    public function getInvoicePDF()
+    public function getInvoicesPDF()
     {
-        $tmpInvoicePDF = null;
+        $tmpInvoicesPDF = $types = [];
 
 	if (PluginManager::instance()->exists('Renatio.DynamicPDF')) {
 	    $vars = ['first_name' => $this->member->profile->first_name,
 		     'last_name' => $this->member->profile->last_name,
+		     'street' => $this->member->profile->street,
+		     'city' => $this->member->profile->city,
+		     'postcode' => $this->member->profile->postcode,
 		     'amount' => $this->amount,
 		     'item' => $this->item,
 		     'item_name' => Lang::get('codalia.membership::lang.payment.'.$this->item),
@@ -129,6 +132,7 @@ class Payment extends Model
 	    // Separates subscription and insurance fees.
 	    if (substr($this->item, 0, 12) === 'subscription') {
 		$vars['subscription_fee'] = ($this->mode == 'free_period') ? 0 : self::getAmount('subscription');
+                $types[] = 'subscription';
 	    }
 
 	    // The user has paid only for insurance or for both subscription and insurance.
@@ -138,13 +142,17 @@ class Payment extends Model
 
 		$vars['insurance_fee'] = self::getAmount($insurance);
 		$vars['insurance_name'] = Lang::get('codalia.membership::lang.payment.'.$insurance);
+                $types[] = 'insurance';
 	    }
 
-	    // TODO: Temporary. Wait for the proper way to compute the invoice id number.
-	    $tmpInvoicePDF = '/tmp/invoice_'.uniqid().'.pdf';
-	    PDF::loadTemplate('invoice-membership', $vars)->save($tmpInvoicePDF);
+            foreach ($types as $type) {
+                // TODO: Temporary. Wait for the proper way to compute the invoice id number.
+                $tmpInvoicePDF = '/tmp/'.$type.'_invoice_'.uniqid().'.pdf';
+                PDF::loadTemplate($type.'-invoice-membership', $vars)->save($tmpInvoicePDF);
+                $tmpInvoicesPDF[$type] = $tmpInvoicePDF;
+            }
 	}
 
-        return $tmpInvoicePDF;
+        return $tmpInvoicesPDF;
     }
 }

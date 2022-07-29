@@ -318,6 +318,7 @@ return [
       'payment_mode' => 'Mode de paiement',
       'amount' => 'Montant',
       'no_payment' => 'Il n\'y a aucun paiement à afficher',
+      'pending_payment' => 'Votre paiement est actuellement en attente de validation.',
       'sherlocks' => 'LCI',
       'cheque' => 'Chèque',
       'free_period' => 'Période gratuite',
