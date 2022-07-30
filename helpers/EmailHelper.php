@@ -152,7 +152,7 @@ class EmailHelper
 		 'item' => $data['item'],
 		 'item_name' => Lang::get('codalia.membership::lang.payment.'.$data['item']),
 		 'payment_mode' => $data['mode'],
-		 'reference' => 'xxxxxxxxxx',
+                 'member_number' => $member->member_number,
         ];
 
 	$langVar = ($data['mode'] == 'free_period') ? 'free_period_validated' : 'payment_'.$data['status'];
@@ -311,10 +311,10 @@ class EmailHelper
         elseif (substr($data['item'], 0, 9) === 'insurance' || substr($data['item'], 0, 22) === 'subscription-insurance') {
             // Gets the insurance code placed after the hyphen (ie: insurance-xx).
             $code = (substr($data['item'], 0, 9) === 'insurance') ? substr($data['item'], 10) : substr($data['item'], 23);
-            $var['insurance_fee'] = Settings::get('subscription_fee_'.$code, 0);
+            $vars['insurance_fee'] = Settings::get('insurance_fee_'.$code, 0);
             // Set the type accordingly.
             $type = (substr($data['item'], 0, 9) === 'insurance') ? 'insurance' : 'subscription_insurance';
-            $var['insurance_formula'] = Lang::get('codalia.membership::lang.global_settings.insurance_'.$code);
+            $vars['insurance_formula'] = Lang::get('codalia.membership::lang.payments.item.insurance-'.$code);
         }
 
 

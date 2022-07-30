@@ -209,6 +209,24 @@ class RenewalHelper
         return 'none';
     }
 
+    public function getSubscriptionStartDate()
+    {
+        $startDate = self::getRenewalDate();
+        $oneYear = new \DateInterval('P1Y');
+        $startDate->sub($oneYear);
+
+        return $startDate;
+    }
+
+    public function getSubscriptionEndDate()
+    {
+        $endDate = self::getRenewalDate();
+        $oneDay = new \DateInterval('P1D');
+        $endDate->sub($oneDay);
+
+        return $endDate;
+    }
+
     /*
      * For test purpose only.
      */

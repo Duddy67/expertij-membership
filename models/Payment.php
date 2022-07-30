@@ -4,6 +4,7 @@ use Model;
 use Codalia\Membership\Models\Settings;
 use Renatio\DynamicPDF\Classes\PDF; // import facade
 use System\Classes\PluginManager;
+use Codalia\Membership\Helpers\RenewalHelper;
 use Lang;
 
 /**
@@ -119,14 +120,19 @@ class Payment extends Model
 	if (PluginManager::instance()->exists('Renatio.DynamicPDF')) {
 	    $vars = ['first_name' => $this->member->profile->first_name,
 		     'last_name' => $this->member->profile->last_name,
+		     'civility' => $this->member->profile->civility,
 		     'street' => $this->member->profile->street,
 		     'city' => $this->member->profile->city,
 		     'postcode' => $this->member->profile->postcode,
 		     'amount' => $this->amount,
 		     'item' => $this->item,
 		     'item_name' => Lang::get('codalia.membership::lang.payment.'.$this->item),
+		     'item_reference' => Lang::get('codalia.membership::lang.payments.item.'.$this->item),
 		     'payment_mode' => $this->mode,
-		     'reference' => 'xxxxxxxxxx',
+		     'member_number' => $this->member->member_number,
+                     'subscription_start_date' => RenewalHelper::instance()->getSubscriptionStartDate()->format('d/m/Y'),
+                     'subscription_end_date' => RenewalHelper::instance()->getSubscriptionEndDate()->format('d/m/Y'),
+                     'current_date' => date('d/m/Y'),
 	    ];
 
 	    // Separates subscription and insurance fees.
