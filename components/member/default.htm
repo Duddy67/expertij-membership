@@ -27,7 +27,7 @@
 	    </li>
 	{% endif %}
 
-	{% if member.status == 'member' and member.insurance.status != 'running' %}
+	{% if member.status == 'member' and member.insurance.status != 'running' and not member.profile.honorary_member %}
 	    <li class="nav-item">
 		<a href="#insurance" class="nav-link" data-toggle="tab">{{ texts['member.tab_insurance'] }}</a>
 	    </li>

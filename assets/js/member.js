@@ -129,6 +129,14 @@
   $.fn.confirmation = function(e, action) {
       let messages = JSON.parse($('#js-messages').val());
 
+      // Do not save on a pending status.
+      if ($('#payment-status').val() == 'pending') {
+	  e.preventDefault();
+	  e.stopPropagation();
+	  return false;
+      }
+      
+
       if (!confirm(messages[action+'_confirmation'])) {
 	  e.preventDefault();
 	  e.stopPropagation();

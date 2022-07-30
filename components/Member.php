@@ -253,7 +253,7 @@ class Member extends ComponentBase
         if (in_array($paymentMode, $offlineModes)) {
 	    // Handles the free period option.
 	    $status = ($paymentMode == 'free_period') ? 'completed' : 'pending';
-	    $amount = ($paymentMode == 'free_period') ? 0 : Payment::getAmount($item);
+	    $amount = ($paymentMode == 'free_period') ? 0 : Payment::getAmount($item, $member->profile->honorary_member);
 
 	    $data = ['mode' => $paymentMode, 'status' => $status, 'item' => $item, 'amount' => $amount,
 		     'currency' => 'EUR', 'transaction_id' => uniqid('OFFL'), 'last' => 1];

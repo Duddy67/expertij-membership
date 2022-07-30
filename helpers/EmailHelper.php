@@ -114,7 +114,7 @@ class EmailHelper
 
 	if (!empty($emails)) {
 	    $renewal = \Codalia\Membership\Helpers\RenewalHelper::instance()->getRenewalDate()->format('d/m/Y');
-	    $vars = ['renewal' => $renewal, 'subscription_fee' => Settings::get('subscription_fee', 0)];
+	    $vars = ['renewal' => $renewal, 'subscription_fee' => Settings::get('subscription_fee', 0), 'honorary_subscription_fee' => Settings::get('honorary_subscription_fee', 0)];
 	    $pattern = ($type) ? 'pending_renewal_'.$type : 'pending_renewal';
 
 	    if ($type == 'last_reminder') {
@@ -263,7 +263,8 @@ class EmailHelper
     public function statusChange($memberId, $newStatus, $isNewMember = false)
     {
         $member = Member::find($memberId);
-	$vars = ['first_name' => $member->profile->first_name, 'last_name' => $member->profile->last_name, 'subscription_fee' => Settings::get('subscription_fee', 0)];
+	$vars = ['first_name' => $member->profile->first_name, 'last_name' => $member->profile->last_name];
+        $vars['subscription_fee'] = ($member->profile->honorary_member) ? Settings::get('honorary_subscription_fee', 0) : Settings::get('subscription_fee', 0);
 
 	if ($newStatus == 'member' && $isNewMember) {
 	    $status = 'new_member';

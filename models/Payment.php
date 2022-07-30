@@ -94,12 +94,12 @@ class Payment extends Model
     /*
      *  return  decimal		The amount for a given item code.
      */
-    public static function getAmount($item)
+    public static function getAmount($item, $honoraryMember = false)
     {
         $amount = 0;
 
         if ($item == 'subscription') {
-            $amount = Settings::get('subscription_fee', 0);
+            $amount = ($honoraryMember) ? Settings::get('honorary_subscription_fee', 0) : Settings::get('subscription_fee', 0);
         }
         elseif (substr($item, 0, 24) === 'subscription-insurance-f') {
             preg_match('#subscription-insurance-f([0-9]*)#', $item, $matches);
@@ -137,7 +137,7 @@ class Payment extends Model
 
 	    // Separates subscription and insurance fees.
 	    if (substr($this->item, 0, 12) === 'subscription') {
-		$vars['subscription_fee'] = ($this->mode == 'free_period') ? 0 : self::getAmount('subscription');
+		$vars['subscription_fee'] = ($this->mode == 'free_period') ? 0 : self::getAmount('subscription', $this->member->profile->honorary_member);
                 $types[] = 'subscription';
 	    }
 
