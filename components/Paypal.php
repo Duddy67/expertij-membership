@@ -52,12 +52,13 @@ class Paypal extends ComponentBase
 	$path = explode('/', $this->currentPageUrl());
 	$item = $path[count($path) - 2];
 	$action = end($path);
+        $user = Auth::getUser();
 
 	$this->page['item'] = $item; 
 	$this->page['action'] = $action; 
 	$this->page['paypalId'] = $this->property('paypal_id'); 
 	$this->page['paypalUrl'] = $this->property('paypal_url'); 
-	$this->page['amount'] = Payment::getAmount($item);
+	$this->page['amount'] = Payment::getAmount($item, $user->profile->honorary_member);
 
 	if ($action == 'notify') {
 	    $this->onNotify();

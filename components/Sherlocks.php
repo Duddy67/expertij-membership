@@ -55,12 +55,13 @@ class Sherlocks extends ComponentBase
 	$path = explode('/', $this->currentPageUrl());
 	$item = $path[count($path) - 2];
 	$action = end($path);
+        $user = Auth::getUser();
 
 	$this->page['item'] = $item; 
 	$this->page['action'] = $action; 
 	$this->page['merchantId'] = $this->property('merchant_id'); 
 	$this->page['paypalUrl'] = $this->property('paypal_url'); 
-	$this->page['amount'] = Payment::getAmount($item);
+	$this->page['amount'] = Payment::getAmount($item, $user->profile->honorary_member);
 
 	if ($action == 'pay-now') {
 	    $this->page['result'] = $this->payNow();
