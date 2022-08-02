@@ -55,13 +55,17 @@ class Sherlocks extends ComponentBase
 	$path = explode('/', $this->currentPageUrl());
 	$item = $path[count($path) - 2];
 	$action = end($path);
-        $user = Auth::getUser();
+
+        // If the user session is still available check for the honorary_member variable. 
+        // If not it doesn't matter as the correct amount has already been sent to the
+        // bank. It can therefore be set to false.
+        $honoraryMember = ($user = Auth::getUser()) ? $user->profile->honorary_member : false;
 
 	$this->page['item'] = $item; 
 	$this->page['action'] = $action; 
 	$this->page['merchantId'] = $this->property('merchant_id'); 
 	$this->page['paypalUrl'] = $this->property('paypal_url'); 
-	$this->page['amount'] = Payment::getAmount($item, $user->profile->honorary_member);
+	$this->page['amount'] = Payment::getAmount($item, $honoraryMember);
 
 	if ($action == 'pay-now') {
 	    $this->page['result'] = $this->payNow();
