@@ -345,13 +345,19 @@ class Member extends Model
 	    $tmpFiles = $this->payment->getInvoicesPDF();
 
             foreach ($tmpFiles as $type => $tmpFile) {
+                //FIXME: Find a way to handle 2 files at the same time.
                 $this->invoices = $tmpFile;
                 $this->forceSave();
+                //$this->invoices()->create(['data' => $tmpFile]);
                 @unlink($tmpFile);
 
-                $invoice = $this->invoices()->first();
-                $data[$type.'_invoice_path'] = $invoice->getLocalPath();
-                $data[$type.'_invoice_name'] = $invoice->file_name;
+                $fileName = substr($tmpFile, 5);
+                $invoice = $this->invoices->where('file_name', $fileName)->first();
+
+                if ($invoice) {
+                    $data[$type.'_invoice_path'] = $invoice->getLocalPath();
+                    $data[$type.'_invoice_name'] = $invoice->file_name;
+                }
             }
 
 	    EmailHelper::instance()->alertPayment($this->id, $data);

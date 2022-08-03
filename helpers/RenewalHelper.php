@@ -76,6 +76,11 @@ class RenewalHelper
 	Db::table('codalia_membership_insurances')->where('status', 'running')
 						  ->update(['status' => 'pending_renewal',
 							    'updated_at' => Carbon::now()]);
+
+        // Cancel all the possible old pending payments. 
+	Db::table('codalia_membership_payments')->where(['status' => 'pending', 'last' => 0])
+                                                ->update(['status' => 'cancelled',
+                                                          'updated_at' => Carbon::now()]);
     }
 
     /*

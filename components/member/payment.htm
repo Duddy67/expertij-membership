@@ -2,7 +2,7 @@
 {{ form_ajax('onPayment', {flash: ''}) }}
   <div id="payment-modes">
   <table class="table">
-  {% if not flags.candidate and not flags.freePeriod %}
+  {% if not flags.candidate and not flags.freePeriod and not member.profile.honorary_member %}
     <tr>
       <td>
 	Insurance description</br>
