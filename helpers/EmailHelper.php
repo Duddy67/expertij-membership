@@ -313,6 +313,8 @@ class EmailHelper
             // Gets the insurance code placed after the hyphen (ie: insurance-xx).
             $code = (substr($data['item'], 0, 9) === 'insurance') ? substr($data['item'], 10) : substr($data['item'], 23);
             $vars['insurance_fee'] = Settings::get('insurance_fee_'.$code, 0);
+            // Don't check for honorary member as they're not allowed to get an insurance.
+            $vars['subscription_fee'] = Settings::get('subscription_fee', 0);
             // Set the type accordingly.
             $type = (substr($data['item'], 0, 9) === 'insurance') ? 'insurance' : 'subscription_insurance';
             $vars['insurance_formula'] = Lang::get('codalia.membership::lang.payments.item.insurance-'.$code);
