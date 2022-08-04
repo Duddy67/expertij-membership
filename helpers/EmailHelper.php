@@ -304,7 +304,7 @@ class EmailHelper
 	$vars = ['first_name' => $member->profile->first_name, 'last_name' => $member->profile->last_name];
         $type = 'subscription';
 
-        if (substr($data['item'], 0, 12) === 'subscription') {
+        if ($data['item'] == 'subscription') {
             // Check for honorary members.
             $vars['subscription_fee'] = ($member->profile->honorary_member) ? Settings::get('honorary_subscription_fee', 0) : Settings::get('subscription_fee', 0);
         }
