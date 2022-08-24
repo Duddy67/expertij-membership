@@ -181,7 +181,7 @@ class Member extends Model
 	    $rules['membership.linguistic_training'] = 'required';
 	    $rules['membership.extra_linguistic_training'] = 'required';
 	    $rules['membership.professional_experience'] = 'required';
-	    $rules['membership.why_expertij'] = 'required';
+	    //$rules['membership.why_expertij'] = 'required';
 	}
 
 	if (\Session::has('registration_context')) {
