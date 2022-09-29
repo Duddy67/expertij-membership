@@ -117,29 +117,37 @@ secondaryTabs:
             disabled: true
             cssClass: custom-field-left
 
-        profile[city]:
+        profile[additional_address]:
             tab: codalia.membership::lang.member.tab_profile
-            label: codalia.profile::lang.profile.city
+            label: codalia.profile::lang.profile.additional_address
             span: right
             type: text
             disabled: true
             cssClass: custom-field-right
 
-        profile[postcode]:
+        profile[city]:
             tab: codalia.membership::lang.member.tab_profile
-            label: codalia.profile::lang.profile.postcode
+            label: codalia.profile::lang.profile.city
             span: left
             type: text
             disabled: true
             cssClass: custom-field-left
 
-        profile[phone]:
+        profile[postcode]:
             tab: codalia.membership::lang.member.tab_profile
-            label: codalia.profile::lang.profile.phone
+            label: codalia.profile::lang.profile.postcode
             span: right
             type: text
             disabled: true
             cssClass: custom-field-right
+
+        profile[phone]:
+            tab: codalia.membership::lang.member.tab_profile
+            label: codalia.profile::lang.profile.phone
+            span: left
+            type: text
+            disabled: true
+            cssClass: custom-field-left
 
         _edit_user:
             tab: codalia.membership::lang.member.tab_profile

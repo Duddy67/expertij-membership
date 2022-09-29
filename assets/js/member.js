@@ -99,7 +99,7 @@
 
   $.fn.setUserEditFields = function(data) {
       let fields = ['civility', 'first_name', 'last_name', 'birth_name', 'birth_date', 'birth_location',
-		    'citizenship', 'street', 'city', 'postcode', 'phone'];
+		    'citizenship', 'street', 'additional_address', 'city', 'postcode', 'phone'];
       let value = true;
 
       if (data.action == 'enable') {
