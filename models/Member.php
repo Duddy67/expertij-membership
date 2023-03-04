@@ -8,6 +8,7 @@ use Codalia\Membership\Helpers\EmailHelper;
 use Codalia\Membership\Helpers\RenewalHelper;
 use Codalia\Profile\Models\Profile;
 use Carbon\Carbon;
+use Db;
 
 /**
  * Member Model
@@ -380,11 +381,40 @@ class Member extends Model
     }
 
     /*
-     * TODO: Temporary. Wait for the proper way to compute the member numbers.
+     * Compute a new member number.
      */
     public function getMemberNumber()
     {
-        return uniqid('MB');
+        // Get the highest member number.
+        $lastNumber = Db::table('codalia_membership_members')->max('member_number');
+        // Initialise final letter as ceseda.
+        $letter = 'C';
+
+        // Check for honorary member.
+        if ($this->profile->honorary_member) {
+            $letter = 'MA';
+        }
+        // then check for expert.
+        else {
+            foreach ($this->profile->licences as $licence) {
+                if ($licence->type == 'expert') {
+                    $letter = 'E';
+                    break;
+                }
+            }
+        }
+
+        if ($lastNumber === null) {
+            return date('Y').'-1-'.$letter;
+        }
+
+        // Extract the highest member number.
+        preg_match('#^[0-9]{4}-([0-9]*)-#', $lastNumber, $matches);
+        // Increase the member number by one.
+        $lastNumber = $matches[1];
+        $newNumber = $lastNumber + 1;
+
+        return date('Y').'-'.$newNumber.'-'.$letter;
     }
 
     /*
