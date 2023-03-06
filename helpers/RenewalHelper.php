@@ -14,7 +14,7 @@ class RenewalHelper
     use Singleton;
 
 
-    public function isRenewalPeriod()
+    /*public function isRenewalPeriod()
     {
         $renewalDay = Settings::get('renewal_day', null);
         $renewalMonth = Settings::get('renewal_month', null);
@@ -36,7 +36,7 @@ class RenewalHelper
 	$period = clone $renewal;
 	// Subtracts x days to get the begining of the renewal period as well as the reminder sending.
 	$period->sub(new \DateInterval('P'.$daysPeriod.'D'));
-    }
+    }*/
 
     public function jobDone($jobName)
     {

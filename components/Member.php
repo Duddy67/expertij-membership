@@ -285,6 +285,7 @@ class Member extends ComponentBase
 	// or from the information form.
 	else {
 	    $update = ['member_list' => $data['member_list']];
+	    $rules = [];
 	}
 
 	$validation = Validator::make($data, $rules);
