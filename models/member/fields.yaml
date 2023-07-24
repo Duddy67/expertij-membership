@@ -25,6 +25,12 @@ secondaryTabs:
             span: left
             disabled: true
 
+        member_number:
+            tab: codalia.membership::lang.attribute.tab_manage
+            label: codalia.membership::lang.member.member_number
+            span: left
+            disabled: true
+
         created_at:
             tab: codalia.membership::lang.attribute.tab_manage
             label: codalia.membership::lang.attribute.created_at

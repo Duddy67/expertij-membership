@@ -27,6 +27,7 @@ return [
       'first_name' => 'First name',
       'last_name' => 'Last name',
       'email' => 'Email',
+      'member_number' => 'Member number',
       'appeal_court' => 'Appeal court',
       'languages_expert' => 'Languages (Expert)',
       'languages_ceseda' => 'Languages (CESEDA)',

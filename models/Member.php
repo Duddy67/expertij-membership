@@ -323,6 +323,16 @@ class Member extends Model
 		    // The privilege of the free period stops after the first renewal.
 		    $update['free_period'] = 0;
 		}
+                // It's a brand new member.
+                else {
+                    $update['member_since'] = Carbon::now();
+                    $update['member_number'] = $this->getMemberNumber();
+
+                    // The first subscription fee must be paid during the free period as well to be valid.
+                    if (!RenewalHelper::instance()->isFreePeriod()) {
+                        $update['free_period'] = 0;
+                    }   
+                }   
 
 		// Becomes member again or new member.
 		$this->update($update);
@@ -415,21 +425,5 @@ class Member extends Model
         $newNumber = $lastNumber + 1;
 
         return date('Y').'-'.$newNumber.'-'.$letter;
-    }
-
-    /*
-     * N.B: Called only if one or more values have been modified.
-     */ 
-    public function afterUpdate()
-    {
-        // It's a brand new member.
-        if ($this->status == 'member' && $this->member_since === null) {
-	    Member::where('id', $this->id)->update(['member_since' => Carbon::now(), 'member_number' => $this->getMemberNumber()]);
-
-	    // The first subscription fee must be paid during the free period as well to be valid.
-	    if (!RenewalHelper::instance()->isFreePeriod()) {
-		Member::where('id', $this->id)->update(['free_period' => 0]);
-	    }
-	}
     }
 }
