@@ -108,7 +108,9 @@ class MemberList extends ComponentBase
 				$query->orWhere('status', 'pending_renewal');
 			    }
 			});
-		     })->paginate($membersPerPage, $pageNumber);
+		     })->where('honorary_member', 0) // Do not show honorary members.
+                       ->orderBy('last_name')
+                       ->paginate($membersPerPage, $pageNumber);
     }
 
     public function onFilterMembers()
