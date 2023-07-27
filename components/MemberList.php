@@ -28,12 +28,19 @@ class MemberList extends ComponentBase
     {
 	return [
             'membersPerPage' => [
-                'title'             => 'codalia.membership::lang.settings.members_per_page',
+                'title'             => 'Members per page',
                 'default'           => 5,
                 'type'              => 'string',
                 'validationPattern' => '^[0-9]+$',
                 'validationMessage' => 'codalia.membership::lang.settings.members_per_page_validation',
                 'showExternalParam' => false
+            ],
+            'memberType' => [
+                'title'       => 'Member type',
+                'type'        => 'dropdown',
+                'default'     => 'regular',
+                'placeholder' => 'Select type',
+                'options'     => ['honorary' => 'Honorary', 'regular' => 'Regular']
             ],
 	];
     }
@@ -56,6 +63,7 @@ class MemberList extends ComponentBase
 	$this->page['appealCourts'] = Profile::getAppealCourts();
 	$this->page['courts'] = Profile::getCourts();
 	$this->page['texts'] = $this->getTexts();
+	$this->page['memberType'] = $this->property('memberType');
     }
 
     protected function loadMember()
@@ -95,6 +103,7 @@ class MemberList extends ComponentBase
     {
         $pageNumber = ($pageNumber !== null) ? $pageNumber : 0;
 	$membersPerPage = $this->property('membersPerPage');
+	$memberType = ($this->property('memberType') == 'regular') ? 0 : 1;
 
 	// Loads members from the Profile relationship as it contained most of the relevant data to search for.
 	$this->page['members'] = $this->profiles = Profile::whereHas('member', function($query) {  
@@ -108,7 +117,7 @@ class MemberList extends ComponentBase
 				$query->orWhere('status', 'pending_renewal');
 			    }
 			});
-		     })->where('honorary_member', 0) // Do not show honorary members.
+		     })->where('honorary_member', $memberType)  
                        ->orderBy('last_name')
                        ->paginate($membersPerPage, $pageNumber);
     }

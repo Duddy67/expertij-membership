@@ -12,6 +12,7 @@ return [
       'documents' => 'Documents',
       'member_space' => 'Espace adhérent',
       'member_list' => 'Liste des adhérents',
+      'honorary_member_list' => 'Liste des membres d\'honneur',
     ],
     'member' => [
       'tab_profile' => 'Profil',
@@ -289,6 +290,7 @@ return [
       'day_month_not_matching' => 'Le jour de renouvellement ne correspond pas au mois de renouvellement. Assurez vous que le mois choisi a 31 jours.',
       'reminder_renewal_too_high' => 'Le nombre de jours pour le rappel est supérieur ou égale au nombre de jour pour la période de renouvellement.',
       'settings_not_correctly_set' => 'Avertissement: Un ou plusieurs champs dans les paramètres généraux ne sont pas correctement définis.',
+      'members_per_page' => 'Membres par page',
     ],
     'filter' => [
       'languages' => 'Languages',

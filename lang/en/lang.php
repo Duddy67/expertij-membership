@@ -12,6 +12,7 @@ return [
       'documents' => 'Documents',
       'member_space' => 'Member space',
       'member_list' => 'Member list',
+      'honorary_member_list' => 'Honorary member list',
     ],
     'member' => [
       'tab_profile' => 'Profile',
@@ -290,6 +291,7 @@ return [
       'day_month_not_matching' => 'The renewal day doesn\'t match the renewal month. Ensure the chosen month has 31 days.',
       'reminder_renewal_too_high' => 'The number of reminder days is higher or equal to the number of the period days.',
       'settings_not_correctly_set' => 'Warning: One or more fields in the global settings are not correctly set.',
+      'members_per_page' => 'Members per page',
     ],
     'filter' => [
       'languages' => 'Languages',
