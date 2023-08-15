@@ -153,7 +153,9 @@ class Payment extends Model
 
             foreach ($types as $type) {
                 // TODO: Temporary. Wait for the proper way to compute the invoice id number.
-                $tmpInvoicePDF = '/tmp/'.$type.'_invoice_'.uniqid().'.pdf';
+                $invoiceName = ($type == 'subscription') ? 'recu_cotisation' : 'attestation_assurance';
+                $tmpInvoicePDF = '/tmp/'.$invoiceName.'_'.uniqid().'.pdf';
+                //$tmpInvoicePDF = '/tmp/'.$type.'_invoice_'.uniqid().'.pdf'; // Old file name pattern.
                 PDF::loadTemplate($type.'-invoice-membership', $vars)->save($tmpInvoicePDF);
                 $tmpInvoicesPDF[$type] = $tmpInvoicePDF;
             }
