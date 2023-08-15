@@ -190,6 +190,11 @@ class MemberList extends ComponentBase
 		    if (isset($data['languages'])) {
 			$query->whereHas('languages', function($query) use($data) {
 			    $query->whereIn('alpha_3', $data['languages']);
+
+                            if (!empty($data['expert_skill'])) {
+                                // Uses a raw query or the bindings will come in the wrong order.
+                                $query->whereRaw($data['expert_skill'].' = 1');
+                            }
 			});
 		    }
 		});
