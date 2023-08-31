@@ -6,7 +6,7 @@
 	<p>Executable request not found</p>
     {% elseif code != 0 %}
         <p>Error payment API:</p>
-	<p>{{ error }}</p>
+	{{ error | raw }}
     {% else %}
 	<div class="alert alert-primary col-sm-12 mt-5 mb-5" role="alert">
 	    Payer un montant de {{ amount }} E via la plateforme de paiement LCL.
