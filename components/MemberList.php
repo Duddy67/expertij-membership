@@ -214,6 +214,9 @@ class MemberList extends ComponentBase
 		});
 	    });
 
+            // Rule out the honorary members from the results.
+            $query->where('honorary_member', 0);
+
 	    $this->page['members'] = $this->profiles = $query->paginate($membersPerPage, $pageNumber);
 	}
 

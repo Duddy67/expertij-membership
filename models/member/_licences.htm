@@ -3,96 +3,97 @@
        <div class="panel-heading"><?= e(trans('codalia.membership::lang.attribute.information')) ?></div>
        <div class="panel-body"><?= e(trans('codalia.membership::lang.member.honorary_member_info_1')) ?></div>
    </div>
-<?php endif; ?>
+<?php else : ?>
 
-<?php $appealCourts = $model->getAppealCourts(); 
-      $courts = $model->getCourts(); ?>
+    <?php $appealCourts = $model->getAppealCourts(); 
+          $courts = $model->getCourts(); ?>
 
-<?php foreach ($model->profile->licences as $licence) : ?>                
+    <?php foreach ($model->profile->licences as $licence) : ?>                
 
-    <div class="form-group  text-field span-left">
-	<label for="Form-field-Licence-type"><?= e(trans('codalia.profile::lang.licences.type')) ?></label>
-	<input type="text" name="_type" class="form-control" disabled="disabled"
-	       value="<?= e(trans('codalia.profile::lang.licence.'.$licence->type)) ?>">
-    </div>
+        <div class="form-group  text-field span-left">
+            <label for="Form-field-Licence-type"><?= e(trans('codalia.profile::lang.licences.type')) ?></label>
+            <input type="text" name="_type" class="form-control" disabled="disabled"
+                   value="<?= e(trans('codalia.profile::lang.licence.'.$licence->type)) ?>">
+        </div>
 
-    <?php if ($licence->type == 'expert') : ?> 
-	<div class="form-group  text-field span-left">
-	    <label for="Form-field-Licence-appeal-court"><?= e(trans('codalia.profile::lang.licences.appeal_court_id')) ?></label>
-	    <input type="text" name="_appeal_court" class="form-control" disabled="disabled" value="<?php echo $appealCourts[$licence->appeal_court_id]; ?>">
-	</div>
-    <?php else : ?>
-	<div class="form-group  text-field span-left">
-	    <label for="Form-field-Licence-appeal-court"><?= e(trans('codalia.profile::lang.licences.court_id')) ?></label>
-	    <input type="text" name="_court" class="form-control" disabled="disabled" value="<?php echo $courts[$licence->court_id]; ?>">
-	</div>
-    <?php endif; ?>
+        <?php if ($licence->type == 'expert') : ?> 
+            <div class="form-group  text-field span-left">
+                <label for="Form-field-Licence-appeal-court"><?= e(trans('codalia.profile::lang.licences.appeal_court_id')) ?></label>
+                <input type="text" name="_appeal_court" class="form-control" disabled="disabled" value="<?php echo $appealCourts[$licence->appeal_court_id]; ?>">
+            </div>
+        <?php else : ?>
+            <div class="form-group  text-field span-left">
+                <label for="Form-field-Licence-appeal-court"><?= e(trans('codalia.profile::lang.licences.court_id')) ?></label>
+                <input type="text" name="_court" class="form-control" disabled="disabled" value="<?php echo $courts[$licence->court_id]; ?>">
+            </div>
+        <?php endif; ?>
 
-    <div class="col-sm-6">
-	<div class="form-group text-field span-left">
-	    <label for="Form-field-Licence-since"><?= e(trans('codalia.profile::lang.licences.since')) ?></label>
-	    <input type="text" name="_since" class="form-control" disabled="disabled" value="<?php echo $licence->since; ?>">
-	</div>
-    </div>
-    <?php foreach ($licence->attestations as $key => $attestation) : ?>    
-	      <div class="form-group  text-field span-left">
-		  <label for="Form-field-Attestation-expiry-date"><?= e(trans('codalia.profile::lang.licences.attestations.expiry_date')) ?></label>
-		  <?php
-			 $date = new DateTime($attestation->expiry_date);
-			 $expiryDate = $date->format('m/d/Y');
-		   ?>
-		  <div class="input-with-icon right-align">
-		      <i class="icon icon-calendar-o"></i>
-		      <input type="text" name="_expiry_date" class="form-control align-right" disabled="disabled" value="<?php echo $expiryDate; ?>">
-		  </div>
-	      </div>
-	      <div class="form-group  text-field span-right">
-		  <label class="" for=""><?= e(trans('codalia.profile::lang.licences.attestations.file')) ?></label>
-		  <div>
-		      <?php if ($attestation->file) : ?>
-			  <a target="_blank" href="<?php echo $attestation->file->path; ?>"><?php echo $attestation->file->file_name; ?></a>
-		      <?php endif; ?>
-		  </div>
-	      </div>
-	<?php foreach ($attestation->languages as $key => $language) : ?>    
-		  <div class="form-group  text-field span-left">
-		      <label for="Form-field-Language-type-<?php echo $language->attributes['ordering']; ?>"><?= e(trans('codalia.profile::lang.licences.attestations.languages.alpha_3')) ?></label>
-		      <input type="text" name="_language_<?php echo $language->attributes['ordering']; ?>" class="form-control"
-			     disabled="disabled" value="<?= e(trans('codalia.profile::lang.language.'.$language->alpha_3)) ?>">
-		  </div>
+        <div class="col-sm-6">
+            <div class="form-group text-field span-left">
+                <label for="Form-field-Licence-since"><?= e(trans('codalia.profile::lang.licences.since')) ?></label>
+                <input type="text" name="_since" class="form-control" disabled="disabled" value="<?php echo $licence->since; ?>">
+            </div>
+        </div>
+        <?php foreach ($licence->attestations as $key => $attestation) : ?>    
+                  <div class="form-group  text-field span-left">
+                      <label for="Form-field-Attestation-expiry-date"><?= e(trans('codalia.profile::lang.licences.attestations.expiry_date')) ?></label>
+                      <?php
+                             $date = new DateTime($attestation->expiry_date);
+                             $expiryDate = $date->format('m/d/Y');
+                       ?>
+                      <div class="input-with-icon right-align">
+                          <i class="icon icon-calendar-o"></i>
+                          <input type="text" name="_expiry_date" class="form-control align-right" disabled="disabled" value="<?php echo $expiryDate; ?>">
+                      </div>
+                  </div>
+                  <div class="form-group  text-field span-right">
+                      <label class="" for=""><?= e(trans('codalia.profile::lang.licences.attestations.file')) ?></label>
+                      <div>
+                          <?php if ($attestation->file) : ?>
+                              <a target="_blank" href="<?php echo $attestation->file->path; ?>"><?php echo $attestation->file->file_name; ?></a>
+                          <?php endif; ?>
+                      </div>
+                  </div>
+            <?php foreach ($attestation->languages as $key => $language) : ?>    
+                      <div class="form-group  text-field span-left">
+                          <label for="Form-field-Language-type-<?php echo $language->attributes['ordering']; ?>"><?= e(trans('codalia.profile::lang.licences.attestations.languages.alpha_3')) ?></label>
+                          <input type="text" name="_language_<?php echo $language->attributes['ordering']; ?>" class="form-control"
+                                 disabled="disabled" value="<?= e(trans('codalia.profile::lang.language.'.$language->alpha_3)) ?>">
+                      </div>
 
-		  <?php if ($licence->type == 'expert') : ?>
-		      <div class="col-sm-6">
-			  <div class="form-group text-field span-left">
-			      <label for="Form-field-Language-interpreter-<?php echo $language->id; ?>"><?= e(trans('codalia.profile::lang.licences.attestations.languages.interpreter')) ?></label>
-			      <?php $interpreter = ($language->interpreter) ?  e(trans('codalia.membership::lang.attribute.yes')) : e(trans('codalia.membership::lang.attribute.no')); ?>
-			      <input type="text" name="_interpreter_<?php echo $language->id; ?>" class="form-control" disabled="disabled" value="<?php echo $interpreter; ?>">
-			  </div>
-			  <?php if ($language->interpreter) : ?>
-			      <div class="form-group text-field span-right">
-				  <label
-				  for="Form-field-Language-interpreter-cassation-<?php echo $language->id; ?>"><?= e(trans('codalia.profile::lang.licences.attestations.languages.cassation')) ?></label>
-				  <?php $cassation = ($language->interpreter_cassation) ?  e(trans('codalia.membership::lang.attribute.yes')) : e(trans('codalia.membership::lang.attribute.no')); ?>
-				  <input type="text" name="_interpreter_cassation_<?php echo $language->id; ?>" class="form-control" disabled="disabled" value="<?php echo $cassation; ?>">
-			      </div>
-			  <?php endif; ?>
-			  <div class="form-group text-field span-left">
-			      <label for="Form-field-Language-translator-<?php echo $language->id; ?>"><?= e(trans('codalia.profile::lang.licences.attestations.languages.translator')) ?></label>
-			      <?php $translator = ($language->translator) ?  e(trans('codalia.membership::lang.attribute.yes')) : e(trans('codalia.membership::lang.attribute.no')); ?>
-			      <input type="text" name="_translator_<?php echo $language->id; ?>" class="form-control" disabled="disabled" value="<?php echo $translator; ?>">
-			  </div>
-			  <?php if ($language->translator) : ?>
-			      <div class="form-group text-field span-right">
-				  <label for="Form-field-Language-translator-cassation-<?php echo $language->id; ?>"><?= e(trans('codalia.profile::lang.licences.attestations.languages.cassation')) ?></label>
-				  <?php $cassation = ($language->translator_cassation) ?  e(trans('codalia.membership::lang.attribute.yes')) : e(trans('codalia.membership::lang.attribute.no')); ?>
-				  <input type="text" name="_translator_cassation_<?php echo $language->id; ?>" class="form-control" disabled="disabled" value="<?php echo $cassation; ?>">
-			      </div>
-			  <?php endif; ?>
-		      </div>
-		  <?php endif; ?>
-	<?php endforeach; ?>
+                      <?php if ($licence->type == 'expert') : ?>
+                          <div class="col-sm-6">
+                              <div class="form-group text-field span-left">
+                                  <label for="Form-field-Language-interpreter-<?php echo $language->id; ?>"><?= e(trans('codalia.profile::lang.licences.attestations.languages.interpreter')) ?></label>
+                                  <?php $interpreter = ($language->interpreter) ?  e(trans('codalia.membership::lang.attribute.yes')) : e(trans('codalia.membership::lang.attribute.no')); ?>
+                                  <input type="text" name="_interpreter_<?php echo $language->id; ?>" class="form-control" disabled="disabled" value="<?php echo $interpreter; ?>">
+                              </div>
+                              <?php if ($language->interpreter) : ?>
+                                  <div class="form-group text-field span-right">
+                                      <label
+                                      for="Form-field-Language-interpreter-cassation-<?php echo $language->id; ?>"><?= e(trans('codalia.profile::lang.licences.attestations.languages.cassation')) ?></label>
+                                      <?php $cassation = ($language->interpreter_cassation) ?  e(trans('codalia.membership::lang.attribute.yes')) : e(trans('codalia.membership::lang.attribute.no')); ?>
+                                      <input type="text" name="_interpreter_cassation_<?php echo $language->id; ?>" class="form-control" disabled="disabled" value="<?php echo $cassation; ?>">
+                                  </div>
+                              <?php endif; ?>
+                              <div class="form-group text-field span-left">
+                                  <label for="Form-field-Language-translator-<?php echo $language->id; ?>"><?= e(trans('codalia.profile::lang.licences.attestations.languages.translator')) ?></label>
+                                  <?php $translator = ($language->translator) ?  e(trans('codalia.membership::lang.attribute.yes')) : e(trans('codalia.membership::lang.attribute.no')); ?>
+                                  <input type="text" name="_translator_<?php echo $language->id; ?>" class="form-control" disabled="disabled" value="<?php echo $translator; ?>">
+                              </div>
+                              <?php if ($language->translator) : ?>
+                                  <div class="form-group text-field span-right">
+                                      <label for="Form-field-Language-translator-cassation-<?php echo $language->id; ?>"><?= e(trans('codalia.profile::lang.licences.attestations.languages.cassation')) ?></label>
+                                      <?php $cassation = ($language->translator_cassation) ?  e(trans('codalia.membership::lang.attribute.yes')) : e(trans('codalia.membership::lang.attribute.no')); ?>
+                                      <input type="text" name="_translator_cassation_<?php echo $language->id; ?>" class="form-control" disabled="disabled" value="<?php echo $cassation; ?>">
+                                  </div>
+                              <?php endif; ?>
+                          </div>
+                      <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
+        <div class="form-group col-sm-12">
+            <hr class="my-12">
+        </div>
     <?php endforeach; ?>
-    <div class="form-group col-sm-12">
-	<hr class="my-12">
-    </div>
-<?php endforeach; ?>
+<?php endif; ?>
