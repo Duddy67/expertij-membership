@@ -60,7 +60,10 @@ class Member extends ComponentBase
     public function prepareVars()
     {
 	if (!$this->member = $this->page['member'] = $this->loadMember()) {
-	    return Redirect::to('403');
+            // Use redirection in pure PHP as it seems that the framework redirection
+            // doesn't work anymore. 
+            header('Location: '.url('/').'signin');
+            exit();
 	}
 
 	// Sets the payment flag.
@@ -96,6 +99,11 @@ class Member extends ComponentBase
     {
         // Gets the current user.
         $user = Auth::getUser();
+
+        if (!$user) {
+	    return null;
+        }
+
 	// Loads the corresponding member through the profile_id attribute.
 	$profileId = Profile::where('user_id', $user->id)->pluck('id');
 	$member = new MemberModel;
