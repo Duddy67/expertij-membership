@@ -132,6 +132,7 @@ return [
       'pay_paypal_confirmation' => 'Vous avez choisi de payer via PayPal. Vous allez être redirigé(e) vers PayPal. Souhaitez vous continuer ?',
       'pay_sherlocks_confirmation' => 'Vous avez choisi de payer via LCL. Une carte de credit va vous être proposée. Souhaitez vous continuer ?',
       'pay_free_period_confirmation' => 'Compte tenu de votre adhésion tardive pour cette année, l\'adhésion pour l\'année suivante est gratuite. Souhaitez vous continuer ?',
+      'cancellation_confirmation' => 'Vous êtes sur le point de révoquer votre adhésion chez Expertij. Etes vous sûr(e) ?',
       'subscribe' => 'Devenir adhérent',
       'export' => 'Exporter',
       'publish_success' => ':count item(s) publié(s) avec succès.',

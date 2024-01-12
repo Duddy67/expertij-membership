@@ -12,8 +12,14 @@
   $.fn.confirmation = function(e, action) {
       let paymentMode = $('[name="payment_mode"]:checked').val();
       let messages = JSON.parse($('#js-messages').val());
+      // Set the index message by default to the chosen payment mode confirmation.
+      let index = 'pay_'+paymentMode+'_confirmation';
 
-      if (!confirm(messages['pay_'+paymentMode+'_confirmation'])) {
+      if (action == 'cancellation') {
+          index = 'cancellation_confirmation';
+      }
+
+      if (!confirm(messages[index])) {
 	  e.preventDefault();
 	  e.stopPropagation();
 	  return false;

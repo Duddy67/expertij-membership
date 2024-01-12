@@ -132,6 +132,7 @@ return [
       'pay_paypal_confirmation' => 'You have chosen to pay with PayPal. You\'re going to get redirect to the PayPal platform. Do you wish to continue ?',
       'pay_sherlocks_confirmation' => 'You have chosen to pay with LCL. It will ask you to choose a credit card. Do you wish to continue ?',
       'pay_free_period_confirmation' => 'Due to your late subscription in the current year, the subscription for the next year is free. Do you wish to continue ?',
+      'cancellation_confirmation' => 'Vous êtes sur le point de révoquer votre adhésion chez Expertij. Etes vous sûr(e) ?',
       'subscribe' => 'Subscribe',
       'export' => 'Export',
       'publish_success' => ':count item(s) successfully published.',
