@@ -16,7 +16,7 @@ return [
     ],
     'member' => [
       'tab_profile' => 'Profil',
-      'tab_licences' => 'Licences',
+      'tab_licences' => 'Habilitations',
       'tab_pro_status' => 'Statut professionnel',
       'tab_votes' => 'Votes',
       'tab_payments' => 'Paiements',
@@ -32,7 +32,7 @@ return [
       'appeal_court' => 'Cour d\'appel',
       'languages_expert' => 'Languages (Expert)',
       'languages_ceseda' => 'Languages (CESEDA)',
-      'honorary_member_info_1' => 'Les membres d\'honneur n\'ont pas de licences.',
+      'honorary_member_info_1' => 'Les membres d\'honneur n\'ont pas d\'habilitations.',
       'honorary_member_info_2' => 'Les membres d\'honneur n\'ont pas de statut professionnel.',
       'no_longer_member' => 'Vous n\'êtes plus adhérent(e).',
     ],
@@ -49,7 +49,7 @@ return [
       'appeal_courts' => 'Cours d\'appel',
       'courts' => 'Cours',
       'languages' => 'Languages',
-      'licence_types' => 'Types de licence',
+      'licence_types' => 'Types d\'habilitation',
       'last_email_sending' => 'Dernier email envoyé',
     ],
     // Boilerplate attributes.
