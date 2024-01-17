@@ -39,6 +39,11 @@
 	  class="btn btn-default">
 	  <?= e(trans('codalia.membership::lang.action.cancel')) ?>
       </button>
+
+      <span class="btn-text">
+          <a href="<?= Backend::url('codalia/membership/members') ?>"
+          class="btn btn-default cancel-button"><?= e(trans('codalia.membership::lang.action.return')) ?></a>
+      </span>
   </div>
 <?php endif; ?>	
 

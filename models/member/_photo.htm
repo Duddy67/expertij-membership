@@ -1,8 +1,16 @@
 <?php $path = ($model->profile->photo) ? $model->profile->photo->getThumb(100, 100) : $model->getBlankProfileUrl(); ?>                
 <div class="form-group  span-left">
     <div>
-	<?php $size = ($model->profile->photo) ? '' : 'width="'.$model->getThumbnailSize()['width'].'" height="'.$model->getThumbnailSize()['height'].'"'; ?>
-	<img src="<?php echo $path; ?>" <?php echo $size; ?> />
+        <?php if ($model->profile->photo) : ?>                
+            <a href="<?php echo $model->profile->photo->path; ?>" target="_blank">
+        <?php endif; ?>                
+
+            <?php $size = ($model->profile->photo) ? '' : 'width="'.$model->getThumbnailSize()['width'].'" height="'.$model->getThumbnailSize()['height'].'"'; ?>
+            <img src="<?php echo $path; ?>" <?php echo $size; ?> />
+
+        <?php if ($model->profile->photo) : ?>                
+        </a>
+        <?php endif; ?>                
     </div>
 </div>
 
