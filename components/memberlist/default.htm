@@ -2,18 +2,6 @@
 
     <p class="h3">{{ texts['membership.member_list'] }}</p>
 
-    {% if(memberType == 'regular') %}
-        {% if(user) %}
-            {{ form_ajax('onExport', {flash: ''}) }}
-                <div class="row">
-                    <div class="form-group col-sm-3">
-                        <button type="submit" id="export" class="btn btn-info">{{ texts['action.export'] }}</button>
-                    </div>
-                </div>
-            {{ form_close() }}
-        {% endif %}
-    {% endif %}
-
     {{ form_ajax('onFilterMembers', {flash: ''}) }}
 
     {% if(memberType == 'regular') %}
@@ -67,6 +55,14 @@
 
 	<button type="button" data-request-data="reset_filters: 1" data-request="onFilterMembers" data-request-success="$.fn.resetFilters();" 
 		id="reset-filters" class="btn btn-success">{{ texts['action.reset'] }}</button>
+
+        {% if(user) %}
+            <div class="row">
+                <div class="form-group col-sm-3">
+                    <button type="button" data-request="onExport" id="export" class="btn btn-primary">{{ texts['action.export'] }}</button>
+                </div>
+            </div>
+        {% endif %}
     {% endif %}
 
 	<div id="members">

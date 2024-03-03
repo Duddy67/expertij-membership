@@ -105,8 +105,9 @@ class MemberList extends ComponentBase
 	$membersPerPage = $this->property('membersPerPage');
 	$memberType = ($this->property('memberType') == 'regular') ? 0 : 1;
 
+        $query = Profile::query();
 	// Loads members from the Profile relationship as it contained most of the relevant data to search for.
-	$this->page['members'] = $this->profiles = Profile::whereHas('member', function($query) {  
+	$query->whereHas('member', function($query) {  
 		        $query->where('member_list', 1)->where(function ($query) {
 			    $query->where('status', 'member');
 
@@ -118,8 +119,15 @@ class MemberList extends ComponentBase
 			    }
 			});
 		     })->where('honorary_member', $memberType)  
-                       ->orderBy('last_name')
-                       ->paginate($membersPerPage, $pageNumber);
+                       ->orderBy('last_name');
+
+        if ($pageNumber == -1) {
+            // Get all of the results. (no pagination).
+            $this->page['members'] = $this->profiles = $query->get();
+        }
+        else {
+            $this->page['members'] = $this->profiles = $query->paginate($membersPerPage, $pageNumber);
+        }
     }
 
     public function onFilterMembers()
@@ -217,7 +225,13 @@ class MemberList extends ComponentBase
             // Rule out the honorary members from the results.
             $query->where('honorary_member', 0);
 
-	    $this->page['members'] = $this->profiles = $query->paginate($membersPerPage, $pageNumber);
+            if ($pageNumber == -1) {
+                // Get all of the results. (no pagination).
+                $this->page['members'] = $this->profiles = $query->get();
+            }
+            else {
+                $this->page['members'] = $this->profiles = $query->paginate($membersPerPage, $pageNumber);
+            }
 	}
 
 	return [
@@ -228,6 +242,10 @@ class MemberList extends ComponentBase
 
     public function onExport()
     {
+        $data = request();
+        // Set the page number to -1 in order to get the all list of results. (ie: no pagination).
+        $data->merge(['page_number' => -1]);
+
 	$this->onFilterMembers();
 
 	$columns = [
